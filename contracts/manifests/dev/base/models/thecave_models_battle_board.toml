@@ -1,0 +1,40 @@
+kind = "DojoModel"
+class_hash = "0x877faa02c203c1ea3fd48f9df5ae3513501897c4d6b9fb47410ccebe7a6b58"
+original_class_hash = "0x877faa02c203c1ea3fd48f9df5ae3513501897c4d6b9fb47410ccebe7a6b58"
+abi = "manifests/dev/abis/base/models/darkshuffle_models_battle_board.json"
+name = "darkshuffle::models::battle::board"
+
+[[members]]
+name = "battle_id"
+type = "usize"
+key = true
+
+[[members]]
+name = "creature1"
+type = "u16"
+key = false
+
+[[members]]
+name = "creature2"
+type = "u16"
+key = false
+
+[[members]]
+name = "creature3"
+type = "u16"
+key = false
+
+[[members]]
+name = "creature4"
+type = "u16"
+key = false
+
+[[members]]
+name = "creature5"
+type = "u16"
+key = false
+
+[[members]]
+name = "creature6"
+type = "u16"
+key = false

@@ -1,0 +1,9 @@
+kind = "DojoContract"
+class_hash = "0x5ccc80eda6a06cf5b2dc88ecfe16784a28002665e7f3309c8a68476b8a5500f"
+original_class_hash = "0x5ccc80eda6a06cf5b2dc88ecfe16784a28002665e7f3309c8a68476b8a5500f"
+base_class_hash = "0x0"
+abi = "manifests/dev/abis/base/contracts/darkshuffle_systems_game_contracts_game_systems.json"
+reads = []
+writes = []
+computed = []
+name = "darkshuffle::systems::game::contracts::game_systems"

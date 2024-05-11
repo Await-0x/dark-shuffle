@@ -1,0 +1,70 @@
+import { motion, useAnimationControls } from "framer-motion";
+import { Box, Typography } from "@mui/material"
+import { AnimationContext } from "../../contexts/animationHandler"
+import { useContext, useEffect } from "react"
+import splatter from "../../assets/images/splatter.png"
+
+function DamageAnimation(props) {
+  const { id, damage, small, mini } = props
+
+  const animationHandler = useContext(AnimationContext)
+
+  const controls = useAnimationControls()
+
+  useEffect(() => {
+    startAnimation()
+
+    return () => {
+      animationHandler.damageFinished(id);
+    }
+  }, [damage])
+
+  async function startAnimation() {
+    try {
+      await controls.set({ opacity: 1 })
+
+      await controls.start({
+        opacity: 0,
+        transition: { duration: 1, delay: 2 }
+      })
+
+      animationHandler.damageFinished(id)
+    } catch (ex) { }
+  }
+
+  let position = mini ? { position: 'absolute', left: '70px', top: '35px' } : small ? { position: 'absolute', left: '15px', top: '15px' } : { position: 'absolute', left: '25px', top: '25px' }
+  let size = mini ? { width: '60px', height: '60px' } : small ? { width: '90px', height: '90px' } : { width: '150px', height: '150px' }
+
+  return <motion.div
+    style={position}
+    animate={controls}
+    key={id}
+  >
+
+    <Box sx={size} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+      <img alt='' src={splatter} height={'100%'} width={'100%'} style={{ position: 'absolute' }} />
+      {small
+        ? <Typography variant='h6' sx={styles.smallDamageText}>
+          -{damage}
+        </Typography>
+        : <Typography variant='h4' sx={styles.damageText}>
+          -{damage}
+        </Typography>
+      }
+    </Box>
+
+  </motion.div>
+}
+
+export default DamageAnimation
+
+const styles = {
+  damageText: {
+    textShadow: '1px 1px 2px black',
+    zIndex: 2
+  },
+  smallDamageText: {
+    textShadow: '1px 1px 2px black',
+    zIndex: 2
+  }
+}

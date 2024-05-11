@@ -1,0 +1,76 @@
+import { Box, Button, Typography } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import { GameContext } from "../../contexts/gameContext";
+import { motion, useAnimationControls } from "framer-motion";
+
+function DeathDialog(props) {
+  const game = useContext(GameContext)
+  const controls = useAnimationControls()
+  const [text, showText] = useState(false)
+
+  useEffect(() => {
+    startAnimation()
+  }, [])
+
+  const backToMenu = () => {
+    game.endGame()
+  }
+
+  async function startAnimation() {
+    await controls.start({
+      opacity: 1,
+      transition: { duration: 3, delay: 1 }
+    })
+
+    showText(true)
+  }
+
+  return <motion.div style={styles.container} animate={controls}>
+
+    {text && <Box width={'800px'}>
+      <Typography variant="h2" color={'primary'}>
+        An adventurer has fallen
+      </Typography>
+
+      <Typography variant="h6" mt={4}>
+        Your journey ends here, brave adventurer, swallowed by the unforgiving darkness of The Cave.
+        In this silent tomb, your valor and strife are sealed away, a whisper lost among the echoes of countless others who dared to challenge the abyss.
+      </Typography>
+
+      <Typography variant="h6" mt={4}>
+        The Cave remains, eternal and unyielding, its secrets forever guarded by shadows.
+      </Typography>
+
+      {(!game.values.scoreSubmitted && !game.clientOnly) && <Typography variant="h6" mt={4} color='red'>
+        Your score needs to be submitted. This can be done in the 'History' tab.
+      </Typography>}
+
+      <Box mt={6}>
+        <Button variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '1px' }} onClick={backToMenu}>
+          Play again
+        </Button>
+      </Box>
+    </Box>}
+
+  </motion.div>
+}
+
+export default DeathDialog
+
+const styles = {
+  container: {
+    position: 'absolute',
+    top: '55px',
+    opacity: 0,
+    background: 'rgb(0, 0, 0)',
+    zIndex: 99,
+    boxSizing: 'border-box',
+    width: '100%',
+    height: 'calc(100% - 55px)',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center'
+  },
+}

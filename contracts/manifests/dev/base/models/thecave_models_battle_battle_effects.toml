@@ -1,0 +1,40 @@
+kind = "DojoModel"
+class_hash = "0x7b02bb22e94653cc9695423010285ad528cd57fb57e055e7cade399374661ea"
+original_class_hash = "0x7b02bb22e94653cc9695423010285ad528cd57fb57e055e7cade399374661ea"
+abi = "manifests/dev/abis/base/models/darkshuffle_models_battle_battle_effects.json"
+name = "darkshuffle::models::battle::battle_effects"
+
+[[members]]
+name = "battle_id"
+type = "usize"
+key = true
+
+[[members]]
+name = "cards_discarded"
+type = "u16"
+key = false
+
+[[members]]
+name = "creatures_played"
+type = "u16"
+key = false
+
+[[members]]
+name = "spells_played"
+type = "u16"
+key = false
+
+[[members]]
+name = "demons_played"
+type = "u16"
+key = false
+
+[[members]]
+name = "next_spell_reduction"
+type = "u16"
+key = false
+
+[[members]]
+name = "dead_creatures"
+type = "u16"
+key = false

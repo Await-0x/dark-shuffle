@@ -1,0 +1,15 @@
+runtime: nodejs20
+
+handlers:
+  - url: /(.*\..+)$
+    static_files: dist/\1
+    upload: dist/.*\..+$
+
+  - url: /.*
+    static_files: dist/index.html
+    upload: dist/index.html
+    secure: always
+
+env_variables:
+  GENERATE_SOURCEMAP: false
+  NODE_ENV: 'production'

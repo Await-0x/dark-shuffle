@@ -1,0 +1,120 @@
+import { Box, CircularProgress, Typography } from '@mui/material'
+import React, { useContext } from 'react'
+import Card from '../components/card'
+import DraftStats from '../components/draft/draftStats'
+import Overview from '../components/draft/overview'
+import { DraftContext } from '../contexts/draftContext'
+import { CardSize } from '../helpers/cards'
+import BlockRevealAnimation from '../components/animations/blockRevealAnimation'
+import { GameContext } from '../contexts/gameContext'
+import { motion } from "framer-motion";
+import { fadeChildrenContainer, fadeChildrenItem } from '../helpers/variants'
+
+function DraftContainer() {
+  const game = useContext(GameContext)
+  const draft = useContext(DraftContext)
+
+  const selectCard = (card) => {
+    if (game.entropy.blockHash) {
+      draft.selectCard(card)
+    }
+  }
+
+  return (
+    <Box sx={styles.container}>
+
+      <Box sx={styles.draftContainer}>
+
+        <Box sx={styles.mainContainer}>
+          {draft.pendingTx
+            ? <CircularProgress sx={{ height: '45px' }} />
+            : <>
+              {!game.entropy.blockHash
+                ? <BlockRevealAnimation />
+                : <Typography variant='h2' color='primary' sx={{ height: '40px' }}>
+                  Select Card
+                </Typography>
+              }
+            </>
+          }
+
+
+          <motion.div key={draft.cards.length} style={styles.cards} variants={fadeChildrenContainer} initial="hidden" animate="visible">
+            {React.Children.toArray(
+              draft.options.map(card =>
+                <motion.div style={styles.cardContainer} onClick={() => selectCard(card)} variants={fadeChildrenItem}>
+                  <Card card={card} />
+                </motion.div>
+              ))}
+          </motion.div>
+
+        </Box>
+
+        <Box sx={styles.draftInfo}>
+          <DraftStats />
+        </Box>
+
+      </Box>
+
+      <Box sx={styles.overview}>
+
+        <Overview />
+
+      </Box>
+
+    </Box>
+  )
+}
+
+export default DraftContainer
+
+const styles = {
+  container: {
+    width: '100%',
+    height: '100%',
+    display: 'flex'
+  },
+
+  overview: {
+    width: '300px',
+    height: '100%'
+  },
+
+  draftContainer: {
+    height: '100%',
+    width: 'calc(100% - 300px)',
+    borderRight: '1px solid rgba(255, 255, 255, 0.12)'
+  },
+
+  mainContainer: {
+    width: '100%',
+    height: 'calc(100% - 285px)',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 5,
+    alignItems: 'center',
+    pt: 5,
+    pb: '150px',
+    boxSizing: 'border-box'
+  },
+
+  cards: {
+    display: 'flex',
+    gap: 3,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  draftInfo: {
+    minHeight: '230px',
+    height: '230px',
+    width: '100%'
+  },
+
+  cardContainer: {
+    height: CardSize.big.height,
+    width: CardSize.big.width,
+    margin: '0 12px'
+  }
+}

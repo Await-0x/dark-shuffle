@@ -1,0 +1,57 @@
+version: 2.1
+orbs:
+  gcp-cli: circleci/gcp-cli@2.4.0
+
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: cimg/node:20.11.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package.json" }}
+      - run: yarn install --production=false
+      - save_cache:
+          key: dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: yarn build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+
+  deploy:
+    working_directory: ~/repo
+    docker:
+      - image: google/cloud-sdk:latest
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - gcp-cli/initialize
+      - run:
+          name: copy app.yaml
+          command: cp .gcloud/app.yaml app.yaml
+      - run:
+          name: copy .gcloudignore
+          command: cp .gcloud/.gcloudignore .gcloudignore
+      - run:
+          name: gcloud deploy
+          command: |
+            gcloud app deploy --quiet app.yaml
+          no_output_timeout: 20m
+
+workflows:
+  version: 2
+  "master pipeline":
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - build

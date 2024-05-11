@@ -1,0 +1,20 @@
+kind = "DojoModel"
+class_hash = "0x29106dffb662a6d9047d222ca8261d1ef375a80135fcb863f67940b9e027594"
+original_class_hash = "0x29106dffb662a6d9047d222ca8261d1ef375a80135fcb863f67940b9e027594"
+abi = "manifests/dev/abis/base/models/darkshuffle_models_draft_draft_card.json"
+name = "darkshuffle::models::draft::draft_card"
+
+[[members]]
+name = "game_id"
+type = "usize"
+key = true
+
+[[members]]
+name = "number"
+type = "u8"
+key = true
+
+[[members]]
+name = "card_id"
+type = "u16"
+key = false

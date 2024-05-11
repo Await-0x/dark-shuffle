@@ -1,0 +1,45 @@
+kind = "DojoModel"
+class_hash = "0x4ec101aee477ede07236a44a90b2b2b05c855bf8ed5a8215ed7550270775ff"
+original_class_hash = "0x4ec101aee477ede07236a44a90b2b2b05c855bf8ed5a8215ed7550270775ff"
+abi = "manifests/dev/abis/base/models/darkshuffle_models_battle_creature.json"
+name = "darkshuffle::models::battle::creature"
+
+[[members]]
+name = "battle_id"
+type = "usize"
+key = true
+
+[[members]]
+name = "creature_id"
+type = "u16"
+key = true
+
+[[members]]
+name = "card_id"
+type = "u16"
+key = false
+
+[[members]]
+name = "cost"
+type = "u16"
+key = false
+
+[[members]]
+name = "attack"
+type = "u16"
+key = false
+
+[[members]]
+name = "health"
+type = "u16"
+key = false
+
+[[members]]
+name = "shield"
+type = "bool"
+key = false
+
+[[members]]
+name = "resting_round"
+type = "u16"
+key = false

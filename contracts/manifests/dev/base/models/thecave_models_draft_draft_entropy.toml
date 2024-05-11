@@ -1,0 +1,25 @@
+kind = "DojoModel"
+class_hash = "0x14eed31634dbd8e68a60624d18f70c074bd7ff42193051e2f491e2417d1c382"
+original_class_hash = "0x14eed31634dbd8e68a60624d18f70c074bd7ff42193051e2f491e2417d1c382"
+abi = "manifests/dev/abis/base/models/darkshuffle_models_draft_draft_entropy.json"
+name = "darkshuffle::models::draft::draft_entropy"
+
+[[members]]
+name = "game_id"
+type = "usize"
+key = true
+
+[[members]]
+name = "number"
+type = "u8"
+key = true
+
+[[members]]
+name = "block_number"
+type = "u64"
+key = false
+
+[[members]]
+name = "block_hash"
+type = "felt252"
+key = false
