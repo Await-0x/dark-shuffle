@@ -1,9 +1,0 @@
-kind = "DojoContract"
-class_hash = "0x463884205c62ebef141a74ee1a823bedac828cf5722dcf0ea7c663ddce661af"
-original_class_hash = "0x463884205c62ebef141a74ee1a823bedac828cf5722dcf0ea7c663ddce661af"
-base_class_hash = "0x0"
-abi = "manifests/dev/abis/base/contracts/darkshuffle_systems_battle_contracts_battle_systems.json"
-reads = []
-writes = []
-computed = []
-name = "darkshuffle::systems::battle::contracts::battle_systems"

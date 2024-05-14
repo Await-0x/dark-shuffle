@@ -10,10 +10,8 @@ struct Battle {
     round: u16,
     deck_iteration: u16,
     card_index: u16,
-
     hero_health: u16,
     hero_energy: u16,
-    
     monster_id: u16,
     monster_attack: u16,
     monster_health: u16
