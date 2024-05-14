@@ -7,29 +7,24 @@ import { Account } from "starknet";
 import AccountDialog from "../components/dialogs/account";
 import OnboardingWizard from '../components/header/onboardingWizard';
 import { translateEvent } from "../helpers/events";
-import MANIFEST from '../manifest.json';
+import { dojoConfig } from "../../dojo.config";
 
 export const DojoContext = createContext()
 
 export const DojoProvider = ({ children, showConnectWallet }) => {
-  const ENVIRONMENT = import.meta.env.VITE_NODE_ENV;
-  const MASTER_ADDRESS = import.meta.env.VITE_PUBLIC_MASTER_ADDRESS;
-  const MASTER_PRIVATE_KEY = import.meta.env.VITE_PUBLIC_MASTER_PRIVATE_KEY;
-  const NODE_URL = import.meta.env.VITE_PUBLIC_NODE_URL;
-
   const { enqueueSnackbar } = useSnackbar()
 
-  const dojoProvider = new _dojoProvider(MANIFEST, NODE_URL);
-  const [devAccount] = useState(new Account(dojoProvider.provider, MASTER_ADDRESS, MASTER_PRIVATE_KEY, "1"))
+  const dojoProvider = new _dojoProvider(dojoConfig.manifest, dojoConfig.rpcUrl);
+  const [devAccount] = useState(new Account(dojoProvider.provider, dojoConfig.masterAddress, dojoConfig.masterPrivateKey, "1"))
   const { account } = useAccount()
 
   const executeTx = async (contract_name, system, call_data) => {
-    if (ENVIRONMENT !== 'development' && !account) {
+    if (!account) {
       showConnectWallet(true)
       return
     }
 
-    let _account = ENVIRONMENT === 'development' ? devAccount : account;
+    let _account = account;
 
     try {
       const tx = await dojoProvider.execute(_account, contract_name, system, call_data)

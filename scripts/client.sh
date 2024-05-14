@@ -3,6 +3,9 @@
 # Navigate to the root of the repo to install dependencies
 echo "Installing dependencies..."
 
-pnpm i && pnpm build-packages
+# Change directory to client
+cd client
+
+pnpm i
 
 pnpm dev

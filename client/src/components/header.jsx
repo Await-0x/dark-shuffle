@@ -12,7 +12,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 
 const menuItems = [
   {
-    name: 'Play demo',
+    name: 'Play Season',
     path: '/',
     icon: <InfoIcon />
   },
@@ -64,7 +64,7 @@ function Header(props) {
         })}
       </Box>
 
-      <Box display={'flex'} gap={4}>
+      <Box display={'flex'} gap={4} alignItems={'center'}>
         {address
           ? <Button onClick={handleClick} endIcon={<PersonIcon fontSize='large' />} size='large'>
             <Typography color='primary' sx={{ fontSize: '12px' }}>
@@ -79,7 +79,7 @@ function Header(props) {
           </Button>
         }
 
-        <a href="https://github.com/Await-0x/the-cave-dojo" target='_blank'>
+        <a href="https://github.com/Await-0x/dark-shuffle" target='_blank'>
           <GitHubIcon color='primary' fontSize='large' />
         </a>
       </Box>

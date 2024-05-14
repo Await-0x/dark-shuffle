@@ -27,14 +27,13 @@ function StartDraft() {
   return (
     <Box sx={styles.container}>
 
-      <Box width={'100%'} display={'flex'} justifyContent={'space-between'}>
+      <Box width={'100%'} display={'flex'} justifyContent={'space-between'} gap={2}>
         <Box>
           <Typography variant='h5' color='primary' mb={1}>
-            Playable Demo
+            Season Of Discovery
           </Typography>
           <Typography>
             New deck-building game coming to starknet, powered by Realms L3 and $Lords. <br />
-            Seize this unique opportunity to pioneer strategies, uncover hidden synergies, and contribute to the creation of a new gaming era. <br />
             Your feedback and in-game decisions will be instrumental in refining and balancing the game.
           </Typography>
         </Box>

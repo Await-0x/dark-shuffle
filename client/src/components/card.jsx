@@ -1,14 +1,21 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import { afflixExplainer, fetch_image, types } from "../helpers/cards";
+import { CardSize, afflixExplainer, fetch_image, types } from "../helpers/cards";
 import sword from '../assets/images/sword.png'
 import { CustomTooltip } from '../helpers/styles';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 function Card(props) {
   const { card } = props
+  const [tooltip, showTooltip] = useState(false)
 
-  return <CustomTooltip position={'bottom'} title={card.afflix ?
+  useEffect(() => {
+    setTimeout(() => showTooltip(true), 1000);
+  }, [])
+
+  return <CustomTooltip position={'bottom'} title={card.afflix && tooltip ?
     <Box>
       <Typography color="primary">{card.afflix}</Typography>
       <Typography mt={0.5} fontSize={'13px'}>{afflixExplainer(card.afflix)}</Typography>
@@ -16,7 +23,6 @@ function Card(props) {
     : false
   }>
     <Box sx={styles.container}>
-
 
       <Box sx={styles.header}>
         <Box sx={styles.circle} border={'1px solid #FFE97F'}>
@@ -154,5 +160,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: '100px'
+  },
+  tooltip: {
+    
   }
 }
