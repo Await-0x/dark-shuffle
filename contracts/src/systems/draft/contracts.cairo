@@ -39,8 +39,10 @@ mod draft_systems {
             let mut draft = get!(world, (game_id), Draft);
             let mut draft_entropy: DraftEntropy = get!(world, (game_id, draft.card_count + 1), DraftEntropy);
             
-            let current_block = get_block_info().unbox().block_number.into();
-            assert(current_block > draft_entropy.block_number, Messages::BLOCK_REVEAL);
+            let mut current_block = get_block_info().unbox().block_number.into();
+            if current_block <= draft_entropy.block_number {
+                current_block = draft_entropy.block_number + 1;
+            }
 
             let mut choice = get!(world, (game_id, option_id), DraftOption);
             let card_count = draft.card_count + 1; 

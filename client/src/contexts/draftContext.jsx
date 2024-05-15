@@ -70,16 +70,24 @@ export const DraftProvider = ({ children }) => {
       return startDraftClientOnly()
     }
 
-    const res = await dojo.executeTx("darkshuffle::actions::game::game_actions", "start_draft", [])
+    const res = await dojo.executeTx("darkshuffle::systems::game::contracts::game_systems", "start_game", [])
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
-      const action = res.find(e => e.componentName === 'Action')
+      const entropy = res.find(e => e.componentName === 'DraftEntropy')
+
+      game.setDraftEntropy(entropy)
+      game.setGame(gameValues)
+    }
+  }
+
+  const getDraftOptions = async () => {
+    const res = await dojo.executeTx("darkshuffle::systems::draft::contracts::draft_systems", "get_draft_options", [game.values.gameId, game.entropy.blockHash])
+
+    if (res) {
       const draftOptions = res.filter(e => e.componentName === 'DraftOption')
 
-      game.setAction(action)
-      game.setGame(gameValues)
-      setOptions(draftOptions.map(option => fetchCard(option.cardId, 1, 0)))
+      setOptions(draftOptions.map(option => fetchCard(option.cardId, 1, option.optionId)))
     }
   }
 
@@ -90,13 +98,13 @@ export const DraftProvider = ({ children }) => {
 
     setPendingTx(true)
 
-    const res = await dojo.executeTx("darkshuffle::actions::draft::draft_actions", "pick_card", [game.values.gameId, card.optionId, game.entropy.blockHash])
+    const res = await dojo.executeTx("darkshuffle::systems::draft::contracts::draft_systems", "pick_card", [game.values.gameId, card.id])
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
-      const action = res.find(e => e.componentName === 'Action')
-      const draftOptions = res.filter(e => e.componentName === 'DraftOption')
+      const entropy = res.find(e => e.componentName === 'DraftEntropy')
 
+      setOptions([])
       setCards(prev => [...prev, card].sort((a, b) => a.cost - b.cost))
       updateDraftStats(card)
 
@@ -104,11 +112,7 @@ export const DraftProvider = ({ children }) => {
         game.setGame(gameValues)
       }
 
-      if (draftOptions) {
-        setOptions(draftOptions.map(option => fetchCard(option.cardId, 1, 0)))
-      }
-
-      game.setAction(action)
+      game.setDraftEntropy(entropy)
     }
 
     setPendingTx(false)
@@ -124,7 +128,8 @@ export const DraftProvider = ({ children }) => {
         manaCurve,
         tagCount,
         startDraft,
-        pendingTx
+        pendingTx,
+        getDraftOptions
       }}
     >
       {children}

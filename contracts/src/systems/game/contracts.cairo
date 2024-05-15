@@ -46,10 +46,6 @@ mod game_systems {
                     block_hash: 0
                 }
             ));
-
-            let mut seed = 1;
-            let (option_1, option_2, option_3) = draft_utils::get_draft_options(game_id, seed); 
-            set!(world, (option_1, option_2, option_3));
         }
 
         fn start_battle(world: IWorldDispatcher, game_id: usize) {

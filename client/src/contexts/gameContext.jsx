@@ -20,7 +20,7 @@ export const GameProvider = ({ children }) => {
   })
 
   // Client only states
-  const [clientOnly, setClientOnly] = useState(true)
+  const [clientOnly, setClientOnly] = useState(false)
 
   const setGame = (values) => {
     setValues(prev => ({ ...prev, ...values }))
@@ -30,15 +30,15 @@ export const GameProvider = ({ children }) => {
     setValues({ ...GAME_VALUES })
   }
 
-  const setAction = (action) => {
-    if (!action) return;
+  const setDraftEntropy = (draftEntropy) => {
+    if (!draftEntropy) return;
 
     setEntropy({
-      blockNumber: action.blockNumber,
+      blockNumber: draftEntropy.blockNumber,
       blockHash: null
     })
 
-    fetchBlockHash(action.blockNumber);
+    fetchBlockHash(draftEntropy.blockNumber);
   }
 
   const fetchBlockHash = async (blockNumber) => {
@@ -55,7 +55,7 @@ export const GameProvider = ({ children }) => {
       return specificBlockHash(blockNumber)
     }
 
-    await delay(2000);
+    await delay(1000);
     return fetchBlockHash(blockNumber);
   }
 
@@ -65,7 +65,7 @@ export const GameProvider = ({ children }) => {
     if (block?.block_hash) {
       return setEntropy(prev => ({
         ...prev,
-        blockHash: latestBlock.block_hash
+        blockHash: block.block_hash
       }))
     }
 
@@ -81,7 +81,7 @@ export const GameProvider = ({ children }) => {
         endGame,
         clientOnly,
         setClientOnly,
-        setAction,
+        setDraftEntropy,
         entropy,
         setEntropy
       }}

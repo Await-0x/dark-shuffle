@@ -24,7 +24,7 @@ export function translateEvent(event) {
   if (!components[name]) return;
 
   const component = components[name]
-  const values = [...event.slice(2, 2 + keysNumber), ...event.slice(keysNumber + 4)]
+  const values = [...event.slice(2, 2 + keysNumber), ...event.slice(keysNumber + 3)]
 
   const parsedFields = Object.keys(component).reduce((acc, key, index) => {
     return { ...acc, [key]: parseData(values[index], component[key]) }

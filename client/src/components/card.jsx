@@ -1,11 +1,9 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Typography } from "@mui/material";
-import React from "react";
-import { CardSize, afflixExplainer, fetch_image, types } from "../helpers/cards";
-import sword from '../assets/images/sword.png'
+import React, { useEffect, useState } from "react";
+import sword from '../assets/images/sword.png';
+import { afflixExplainer, fetch_image, types } from "../helpers/cards";
 import { CustomTooltip } from '../helpers/styles';
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 function Card(props) {
   const { card } = props

@@ -24,7 +24,7 @@ export const DojoProvider = ({ children, showConnectWallet }) => {
       return
     }
 
-    let _account = account;
+    let _account = dojoConfig.development ? devAccount : account;
 
     try {
       const tx = await dojoProvider.execute(_account, contract_name, system, call_data)
@@ -37,9 +37,9 @@ export const DojoProvider = ({ children, showConnectWallet }) => {
       }
 
       const events = getEvents(receipt)
-
+      console.log(events)
       const translatedEvents = events.map(event => translateEvent(event.data))
-
+      console.log(translatedEvents)
       return translatedEvents
     } catch (ex) {
       console.log(ex)

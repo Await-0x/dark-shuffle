@@ -9,16 +9,21 @@ import BlockRevealAnimation from '../components/animations/blockRevealAnimation'
 import { GameContext } from '../contexts/gameContext'
 import { motion } from "framer-motion";
 import { fadeChildrenContainer, fadeChildrenItem } from '../helpers/variants'
+import { useEffect } from 'react'
 
 function DraftContainer() {
   const game = useContext(GameContext)
   const draft = useContext(DraftContext)
 
   const selectCard = (card) => {
-    if (game.entropy.blockHash) {
-      draft.selectCard(card)
-    }
+    draft.selectCard(card)
   }
+
+  useEffect(() => {
+    if (game.entropy.blockHash) {
+      draft.getDraftOptions()
+    }
+  }, [game.entropy.blockHash])
 
   return (
     <Box sx={styles.container}>
@@ -26,28 +31,23 @@ function DraftContainer() {
       <Box sx={styles.draftContainer}>
 
         <Box sx={styles.mainContainer}>
-          {draft.pendingTx
-            ? <CircularProgress sx={{ height: '45px' }} />
-            : <>
-              {!game.entropy.blockHash
-                ? <BlockRevealAnimation />
-                : <Typography variant='h2' color='primary' sx={{ height: '40px' }}>
-                  Select Card
-                </Typography>
-              }
+          {draft.options.length > 0
+            ? <>
+              <Typography variant='h2' color='primary' sx={{ height: '40px' }}>
+                Select Card
+              </Typography>
+
+              <motion.div key={draft.cards.length} style={styles.cards} variants={fadeChildrenContainer} initial="hidden" animate="visible">
+                {React.Children.toArray(
+                  draft.options.map(card =>
+                    <motion.div style={styles.cardContainer} onClick={() => selectCard(card)} variants={fadeChildrenItem}>
+                      <Card card={card} />
+                    </motion.div>
+                  ))}
+              </motion.div>
             </>
+            : <BlockRevealAnimation icon />
           }
-
-
-          <motion.div key={draft.cards.length} style={styles.cards} variants={fadeChildrenContainer} initial="hidden" animate="visible">
-            {React.Children.toArray(
-              draft.options.map(card =>
-                <motion.div style={styles.cardContainer} onClick={() => selectCard(card)} variants={fadeChildrenItem}>
-                  <Card card={card} />
-                </motion.div>
-              ))}
-          </motion.div>
-
         </Box>
 
         <Box sx={styles.draftInfo}>
