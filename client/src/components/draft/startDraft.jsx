@@ -69,7 +69,7 @@ function StartDraft() {
           </Typography>
 
           <Typography color={'primary'} mt={4}>
-            Assemble a team of 10 mighty creatures and warriors, each with their unique abilities and powers.
+            Assemble a team of mighty creatures and mystical spells, each with their unique abilities and powers.
           </Typography>
 
           <Typography color={'primary'} mt={1.5}>

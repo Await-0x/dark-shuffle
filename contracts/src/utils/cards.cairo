@@ -18,22 +18,22 @@ mod card_utils {
         else if id == 2 {
             return Card {
                 card_id: 2,
-                name: 'Jackal',
+                name: "Wisdom Bringer",
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
+                card_tag: CardTags::PRIEST,
                 cost: 1,
-                attack: 5,
-                health: 5,
+                attack: 2,
+                health: 2,
             };
         }
         
         else if id == 3 {
             return Card {
                 card_id: 3,
-                name: 'Coyote',
+                name: 'Fiery Demon',
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 5,
+                card_tag: CardTags::DEMON,
+                cost: 1,
                 attack: 5,
                 health: 5,
             };
@@ -42,167 +42,167 @@ mod card_utils {
         else if id == 4 {
             return Card {
                 card_id: 4,
-                name: 'Kite',
+                name: 'Zarthos',
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 3,
-                attack: 3,
-                health: 3,
+                card_tag: CardTags::DEMON,
+                cost: 4,
+                attack: 4,
+                health: 4,
             };
         }
         
         else if id == 5 {
             return Card {
                 card_id: 5,
-                name: 'Rat',
+                name: 'Faith Guardian',
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 4,
-                attack: 4,
-                health: 4,
+                card_tag: CardTags::DEMON,
+                cost: 3,
+                attack: 1,
+                health: 1,
             };
         }
         
         else if id == 6 {
             return Card {
                 card_id: 6,
-                name: 'Magpie',
+                name: 'Grim Marauder',
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 2,
-                attack: 6,
-                health: 6,
+                card_tag: CardTags::DEMON,
+                cost: 4,
+                attack: 0,
+                health: 4,
             };
         }
         
         else if id == 7 {
             return Card {
                 card_id: 7,
-                name: 'Seagull',
+                name: 'Blessing Caster',
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
+                card_tag: CardTags::PRIEST,
                 cost: 3,
-                attack: 7,
-                health: 7,
+                attack: 4,
+                health: 2,
             };
         }
         
         else if id == 8 {
             return Card {
                 card_id: 8,
-                name: 'Condor',
+                name: 'Tasmanian Devil',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCAVENGER,
-                cost: 1,
-                attack: 3,
-                health: 3,
+                cost: 5,
+                attack: 2,
+                health: 2,
             };
         }
         
         else if id == 9 {
             return Card {
                 card_id: 9,
-                name: 'Fox',
+                name: 'Jackal',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCAVENGER,
-                cost: 2,
-                attack: 4,
-                health: 4,
+                cost: 3,
+                attack: 3,
+                health: 2,
             };
         }
         
         else if id == 10 {
             return Card {
                 card_id: 10,
-                name: 'Opossum',
+                name: 'Ghoul Ravager',
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 3,
-                attack: 5,
-                health: 5,
+                card_tag: CardTags::DEMON,
+                cost: 4,
+                attack: 1,
+                health: 1,
             };
         }
         
         else if id == 11 {
             return Card {
                 card_id: 11,
-                name: 'Tasmanian Devil',
+                name: 'Gospel Scribe',
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 4,
-                attack: 6,
-                health: 6,
+                card_tag: CardTags::PRIEST,
+                cost: 6,
+                attack: 3,
+                health: 3,
             };
         }
         
         else if id == 12 {
             return Card {
                 card_id: 12,
-                name: 'Bald Eagle',
+                name: 'Eden Priest',
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 5,
-                attack: 7,
-                health: 7,
+                card_tag: CardTags::PRIEST,
+                cost: 4,
+                attack: 2,
+                health: 2,
             };
         }
         
         else if id == 13 {
             return Card {
                 card_id: 13,
-                name: 'King Vulture',
+                name: 'Coyote',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCAVENGER,
-                cost: 1,
-                attack: 4,
-                health: 2,
+                cost: 5,
+                attack: 2,
+                health: 3,
             };
         }
         
         else if id == 14 {
             return Card {
                 card_id: 14,
-                name: 'Griffon',
+                name: 'Virtue Curate',
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 2,
-                attack: 3,
-                health: 5,
+                card_tag: CardTags::PRIEST,
+                cost: 4,
+                attack: 4,
+                health: 4,
             };
         }
         
         else if id == 15 {
             return Card   {
                 card_id: 15,
-                name: 'Binturong',
+                name: 'Solace Bringer',
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
+                card_tag: CardTags::PRIEST,
                 cost: 3,
-                attack: 7,
-                health: 3,
+                attack: 2,
+                health: 1,
             };
         }
         
         else if id == 16 {
             return Card {
                 card_id: 16,
-                name: 'Skunk',
+                name: 'Zephyr',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCAVENGER,
                 cost: 4,
                 attack: 3,
-                health: 9,
+                health: 3,
             };
         }
         
         else if id == 17 {
             return Card {
                 card_id: 17,
-                name: 'Caterpillar',
+                name: 'Divine Speaker',
                 card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 1,
-                attack: 2,
+                card_tag: CardTags::PRIEST,
+                cost: 4,
+                attack: 4,
                 health: 4,
             };
         }
@@ -210,84 +210,84 @@ mod card_utils {
         else if id == 18 {
             return Card {
                 card_id: 18,
-                name: 'Grub Worm',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 5,
-                attack: 8,
-                health: 3,
+                name: 'Fireball',
+                card_type: CardTypes::SPELL,
+                card_tag: CardTags::SPELL,
+                cost: 2,
+                attack: 0,
+                health: 0,
             };
         }
         
         else if id == 19 {
             return Card {
                 card_id: 19,
-                name: 'Beetle',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 6,
-                attack: 8,
-                health: 7,
+                name: 'Flash Heal',
+                card_type: CardTypes::SPELL,
+                card_tag: CardTags::SPELL,
+                cost: 2,
+                attack: 0,
+                health: 0,
             };
         }
         
         else if id == 20 {
             return Card {
                 card_id: 20,
-                name: 'Weasel',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCAVENGER,
-                cost: 7,
-                attack: 10,
-                health: 7,
+                name: 'Greater Heal',
+                card_type: CardTypes::SPELL,
+                card_tag: CardTags::SPELL,
+                cost: 6,
+                attack: 0,
+                health: 0,
             };
         }
         
         else if id == 21 {
             return Card {
                 card_id: 21,
-                name: 'Impling',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::DEMON,
-                cost: 1,
-                attack: 2,
-                health: 1,
+                name: 'Lava Wave',
+                card_type: CardTypes::SPELL,
+                card_tag: CardTags::SPELL,
+                cost: 2,
+                attack: 0,
+                health: 0,
             };
         }
         
         else if id == 22 {
             return Card {
                 card_id: 22,
-                name: 'Ghoul Ravager',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::DEMON,
-                cost: 2,
-                attack: 2,
-                health: 2,
+                name: 'Temporal Shift',
+                card_type: CardTypes::SPELL,
+                card_tag: CardTags::SPELL,
+                cost: 3,
+                attack: 0,
+                health: 0,
             };
         }
         
         else if id == 23 {
             return Card {
                 card_id: 23,
-                name: 'Fiery Demon',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::DEMON,
-                cost: 3,
-                attack: 4,
-                health: 2,
+                name: 'Power Injection',
+                card_type: CardTypes::SPELL,
+                card_tag: CardTags::SPELL,
+                cost: 1,
+                attack: 0,
+                health: 0,
             };
         }
         
         else if id == 24 {
             return Card {
                 card_id: 24,
-                name: 'Grim Marauder',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::DEMON,
-                cost: 4,
-                attack: 4,
-                health: 4,
+                name: 'Blessed Barrier',
+                card_type: CardTypes::SPELL,
+                card_tag: CardTags::SPELL,
+                cost: 1,
+                attack: 0,
+                health: 0,
             };
         }
 

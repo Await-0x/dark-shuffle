@@ -38,6 +38,7 @@ export const BattleProvider = ({ children }) => {
 
   const [round, setRound] = useState(0)
   const [deckIteration, setDeckIteration] = useState(0)
+  const [creatureIndex, setCreatureIndex] = useState(0)
 
   const [battleEffects, setBattleEffects] = useState({ ...EFFECTS })
   const [roundEffects, setRoundEffects] = useState({ ...EFFECTS })
@@ -145,6 +146,7 @@ export const BattleProvider = ({ children }) => {
       setAdventurer({ id: ADVENTURER_ID, health: battle.heroHealth, energy: battle.heroEnergy })
       setMonster({ ...MONSTER_LIST.find(monster => monster.id === battle.monsterId), attack: battle.monsterAttack, health: battle.monsterHealth })
       setDeckIteration(battle.deckIteration)
+      setCreatureIndex(battle.cardIndex)
       setHand(handCards.map((card) => fetchCard(card.cardId, battle.deckIteration, card.handCardNumber)))
 
       game.setGame(gameValues)
@@ -380,6 +382,8 @@ export const BattleProvider = ({ children }) => {
       return enqueueSnackbar('Board is full', { variant: 'warning' })
     }
 
+    dojo.executeTx("darkshuffle::systems::battle::contracts::battle_systems", "summon_creature", [battleId, creature.id, target?.id || 0])
+
     animationHandler.addAnimation('monster', { type: 'intimidate' })
 
     setHand(prev => prev.filter((_, i) => (i !== hand.findIndex(card => card.id === creature.id))))
@@ -391,9 +395,11 @@ export const BattleProvider = ({ children }) => {
       roundEffects, setRoundEffects, battleEffects, setBattleEffects, hand
     })
 
-    setBoard(prev => [...prev, creature])
+    let creatureId = creatureIndex + 1;
+    creature.id = creatureId;
 
-    dojo.addTxToQueue("darkshuffle::systems::battle::contracts::battle_systems", "summon_creature", [battleId, creature.id, target?.id || 0])
+    setBoard(prev => [...prev, creature])
+    setCreatureIndex(prev => prev + 1)
   }
 
   const castSpell = (spell, target) => {

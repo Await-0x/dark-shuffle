@@ -92,9 +92,7 @@ export const DraftProvider = ({ children }) => {
   }
 
   const selectCard = async (card) => {
-    if (game.clientOnly) {
-      return selectCardClientOnly(card)
-    }
+    if (pendingTx) return;
 
     setPendingTx(true)
 
@@ -102,16 +100,17 @@ export const DraftProvider = ({ children }) => {
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
-      const entropy = res.find(e => e.componentName === 'DraftEntropy')
-
+      
       setOptions([])
       setCards(prev => [...prev, card].sort((a, b) => a.cost - b.cost))
       updateDraftStats(card)
-
+      
       if (gameValues) {
         game.setGame(gameValues)
+        return
       }
-
+      
+      const entropy = res.find(e => e.componentName === 'DraftEntropy')
       game.setDraftEntropy(entropy)
     }
 
