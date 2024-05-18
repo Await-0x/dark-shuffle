@@ -2,7 +2,7 @@ import { useSnackbar } from "notistack";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { adventurerHealedEffect, adventurerSelfDamagedEffect } from "../battle/adventurerUtils";
 import { deathEffect } from "../battle/deathUtils";
-import { fecthMonster } from "../battle/monsterUtils";
+import { MONSTER_LIST, fecthMonster } from "../battle/monsterUtils";
 import { endOfTurnMonsterEffect, isAdventurerDead } from "../battle/phaseUtils";
 import { spellEffect } from "../battle/spellUtils";
 import { summonEffect } from "../battle/summonUtils";
@@ -24,6 +24,7 @@ export const BattleProvider = ({ children }) => {
   const { enqueueSnackbar } = useSnackbar()
   const [pendingTx, setPendingTx] = useState(false)
 
+  const [battleId, setBattleId] = useState()
   const [gameOver, setGameOver] = useState(false)
   const [phase, setPhase] = useState(1)
 
@@ -40,7 +41,7 @@ export const BattleProvider = ({ children }) => {
   const [battleEffects, setBattleEffects] = useState({ ...EFFECTS })
   const [roundEffects, setRoundEffects] = useState({ ...EFFECTS })
 
-  const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(true)
+  const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(false)
   const [actions, setActions] = useState([])
 
   useEffect(() => {
@@ -102,18 +103,42 @@ export const BattleProvider = ({ children }) => {
   }, [round])
 
   const startBattle = async () => {
-    setRound(1)
     setBoard([])
-
-    setAdventurer({ id: ADVENTURER_ID, health: START_HEALTH, energy: START_ENERGY })
-    setMonster(fecthMonster(game.values.battlesWon))
-
-    setHand(draft.cards.map((card, i) => fetchCard(card.cardId, deckIteration + 1, i + 1)));
-    setDeckIteration(prev => prev + 1)
-
-    setActions([])
     animationHandler.resetAnimationHandler()
-    game.setGame({ inBattle: true });
+
+    if (game.clientOnly) {
+      setRound(1)
+
+      setAdventurer({ id: ADVENTURER_ID, health: START_HEALTH, energy: START_ENERGY })
+      setMonster(fecthMonster(game.values.battlesWon))
+
+      setHand(draft.cards.map((card, i) => fetchCard(card.cardId, deckIteration + 1, i + 1)));
+      setDeckIteration(prev => prev + 1);
+
+      game.setGame({ inBattle: true });
+      return
+    }
+
+    setPendingTx(true)
+
+    const res = await dojo.executeTx("darkshuffle::systems::game::contracts::game_systems", "start_battle", [game.values.gameId])
+
+    if (res) {
+      const gameValues = res.find(e => e.componentName === 'Game')
+      const battle = res.find(e => e.componentName === 'Battle')
+      const handCards = res.filter(e => e.componentName === 'HandCard')
+
+      setBattleId(battle.battleId)
+      setRound(battle.round)
+      setAdventurer({ id: ADVENTURER_ID, health: battle.heroHealth, energy: battle.heroEnergy })
+      setMonster({ ...MONSTER_LIST.find(monster => monster.id === battle.monsterId), attack: battle.monsterAttack, health: battle.monsterHealth })
+      setDeckIteration(battle.deckIteration)
+      setHand(handCards.map((card) => fetchCard(card.cardId, battle.deckIteration, card.handCardNumber)))
+
+      game.setGame(gameValues)
+    }
+
+    setPendingTx(false)
   }
 
   const beginTurn = () => {
@@ -356,8 +381,7 @@ export const BattleProvider = ({ children }) => {
 
     setBoard(prev => [...prev, creature])
 
-    setActions(prev => [...prev, ['summon_creature', creature.id, target?.id || 0]])
-    setTargetFriendlyCreature()
+    dojo.executeTx("darkshuffle::systems::battle::contracts::battle_systems", "summon_creature", [battleId, creature.id, target?.id || 0])
   }
 
   const castSpell = (spell, target) => {

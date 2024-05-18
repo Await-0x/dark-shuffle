@@ -131,7 +131,7 @@ mod battle_systems {
 
                 if hand_utils::count_cards(world, battle_id) == 0 {
                     battle.deck_iteration += 1;
-                    hand_utils::draw_cards(world, battle_id);
+                    hand_utils::draw_cards(world, battle_id, battle.game_id);
                 }
 
                 set!(world, (

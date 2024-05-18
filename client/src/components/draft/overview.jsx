@@ -93,6 +93,6 @@ const styles = {
     height: CardSize.big.height,
     width: CardSize.big.width,
     position: 'absolute',
-    right: '300px'
+    right: '305px'
   }
 }

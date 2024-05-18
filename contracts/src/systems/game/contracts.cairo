@@ -59,10 +59,12 @@ mod game_systems {
             let monster: Monster = monster_utils::get_monster(game.battles_won);
             let battle_id = world.uuid();
 
-            hand_utils::draw_cards(world, battle_id);
+            game.in_battle = true;
+            hand_utils::draw_cards(world, battle_id, game_id);
+
             set!(world, (
                 Battle {
-                    battle_id: world.uuid(),
+                    battle_id: battle_id,
                     game_id: game_id,
                     round: 1,
                     deck_iteration: 1,
@@ -74,7 +76,8 @@ mod game_systems {
                     monster_id: monster.monster_id,
                     monster_attack: monster.attack,
                     monster_health: monster.health
-                }
+                },
+                game
             ));
         }
     }

@@ -1,15 +1,14 @@
-import { Box, CircularProgress, Typography } from '@mui/material'
-import React, { useContext } from 'react'
+import { Box, Typography } from '@mui/material'
+import { motion } from "framer-motion"
+import React, { useContext, useEffect } from 'react'
+import BlockRevealAnimation from '../components/animations/blockRevealAnimation'
 import Card from '../components/card'
 import DraftStats from '../components/draft/draftStats'
 import Overview from '../components/draft/overview'
 import { DraftContext } from '../contexts/draftContext'
-import { CardSize } from '../helpers/cards'
-import BlockRevealAnimation from '../components/animations/blockRevealAnimation'
 import { GameContext } from '../contexts/gameContext'
-import { motion } from "framer-motion";
+import { CardSize } from '../helpers/cards'
 import { fadeChildrenContainer, fadeChildrenItem } from '../helpers/variants'
-import { useEffect } from 'react'
 
 function DraftContainer() {
   const game = useContext(GameContext)

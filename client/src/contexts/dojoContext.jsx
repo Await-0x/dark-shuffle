@@ -4,10 +4,8 @@ import { useAccount } from "@starknet-react/core";
 import { useSnackbar } from "notistack";
 import React, { createContext, useState } from "react";
 import { Account } from "starknet";
-import AccountDialog from "../components/dialogs/account";
-import OnboardingWizard from '../components/header/onboardingWizard';
-import { translateEvent } from "../helpers/events";
 import { dojoConfig } from "../../dojo.config";
+import { translateEvent } from "../helpers/events";
 
 export const DojoContext = createContext()
 

@@ -1,9 +1,8 @@
-import { Box, Typography } from "@mui/material"
-import React, { useContext, useEffect, useState } from "react"
-import { DraftContext } from "../../contexts/draftContext"
-import { tags, types } from "../../helpers/cards"
+import { Box, Typography } from "@mui/material";
 import { BarChart } from '@mui/x-charts';
-import { addArrays } from "../../helpers/utilities";
+import React, { useContext } from "react";
+import { DraftContext } from "../../contexts/draftContext";
+import { tags, types } from "../../helpers/cards";
 import { DECK_SIZE } from "../../helpers/constants";
 
 function DraftStats() {
@@ -15,7 +14,7 @@ function DraftStats() {
   return <Box sx={styles.container}>
 
     <Box>
-      <Typography variant="h4" color='primary' mb={1}>
+      <Typography variant="h2" color='primary' mb={1}>
         {creatures + spells}/{DECK_SIZE}
       </Typography>
     </Box>

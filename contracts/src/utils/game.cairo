@@ -48,6 +48,8 @@ mod game_utils {
             let draft_entropy = get!(world, (game_id, i), DraftEntropy);
 
             assert(draft_entropy.block_hash == starknet::get_block_hash_syscall(draft_entropy.block_number).unwrap(), 'Entropy failed');
+
+            i += 1;
         };
     }
 
