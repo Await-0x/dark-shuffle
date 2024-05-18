@@ -23,6 +23,7 @@ export const BattleProvider = ({ children }) => {
 
   const { enqueueSnackbar } = useSnackbar()
   const [pendingTx, setPendingTx] = useState(false)
+  const [resettingState, setResettingState] = useState(false)
 
   const [battleId, setBattleId] = useState()
   const [gameOver, setGameOver] = useState(false)
@@ -102,22 +103,33 @@ export const BattleProvider = ({ children }) => {
     setRoundEffects({ ...EFFECTS })
   }, [round])
 
+  useEffect(() => {
+    if (dojo.txStatus === 'fail') {
+      console.log('Reset state...')
+    }
+  }, [dojo.txStatus])
+
+  const fetchBattleState = async () => {
+    setResettingState(true)
+
+    const [phase, setPhase] = useState(1)
+    const [deck, setDeck] = useState([])
+    const [hand, setHand] = useState([])
+    const [board, setBoard] = useState([])
+    const [monster, setMonster] = useState({})
+    const [adventurer, setAdventurer] = useState({})
+    const [round, setRound] = useState(0)
+    const [deckIteration, setDeckIteration] = useState(0)
+    const [battleEffects, setBattleEffects] = useState({ ...EFFECTS })
+    const [roundEffects, setRoundEffects] = useState({ ...EFFECTS })
+    const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(false)
+
+    setResettingState(false)
+  }
+
   const startBattle = async () => {
     setBoard([])
     animationHandler.resetAnimationHandler()
-
-    if (game.clientOnly) {
-      setRound(1)
-
-      setAdventurer({ id: ADVENTURER_ID, health: START_HEALTH, energy: START_ENERGY })
-      setMonster(fecthMonster(game.values.battlesWon))
-
-      setHand(draft.cards.map((card, i) => fetchCard(card.cardId, deckIteration + 1, i + 1)));
-      setDeckIteration(prev => prev + 1);
-
-      game.setGame({ inBattle: true });
-      return
-    }
 
     setPendingTx(true)
 
@@ -381,7 +393,7 @@ export const BattleProvider = ({ children }) => {
 
     setBoard(prev => [...prev, creature])
 
-    dojo.executeTx("darkshuffle::systems::battle::contracts::battle_systems", "summon_creature", [battleId, creature.id, target?.id || 0])
+    dojo.addTxToQueue("darkshuffle::systems::battle::contracts::battle_systems", "summon_creature", [battleId, creature.id, target?.id || 0])
   }
 
   const castSpell = (spell, target) => {
