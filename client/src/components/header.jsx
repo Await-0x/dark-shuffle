@@ -26,6 +26,7 @@ const menuItems = [
 function Header(props) {
   const { connectWallet, showConnectWallet } = props
   const { address } = useAccount()
+  
   const [accountDialog, openAccountDialog] = useState(false)
 
   const [anchorEl, setAnchorEl] = useState(null);

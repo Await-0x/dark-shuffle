@@ -57,7 +57,7 @@ export default function Adventurer(props) {
       }>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant="h3">
-            {battle.adventurer.energy}
+            {battle.state.adventurer.energy}
           </Typography>
 
           <img alt='' src={bolt} height={25} />
@@ -76,7 +76,7 @@ export default function Adventurer(props) {
       }>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant="h3">
-            {battle.adventurer.health}
+            {battle.state.adventurer.health}
           </Typography>
 
           <FavoriteIcon htmlColor="red" />

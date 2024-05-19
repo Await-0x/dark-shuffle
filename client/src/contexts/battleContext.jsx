@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { adventurerHealedEffect, adventurerSelfDamagedEffect } from "../battle/adventurerUtils";
 import { deathEffect } from "../battle/deathUtils";
 import { MONSTER_LIST, fecthMonster } from "../battle/monsterUtils";
-import { endOfTurnMonsterEffect, isAdventurerDead } from "../battle/phaseUtils";
+import { endOfTurnMonsterEffect } from "../battle/phaseUtils";
 import { spellEffect } from "../battle/spellUtils";
 import { summonEffect } from "../battle/summonUtils";
 import { fetchCard } from "../helpers/cards";
@@ -26,8 +26,6 @@ export const BattleProvider = ({ children }) => {
   const [resettingState, setResettingState] = useState(false)
 
   const [battleId, setBattleId] = useState()
-  const [gameOver, setGameOver] = useState(false)
-  const [phase, setPhase] = useState(1)
 
   const [deck, setDeck] = useState([])
   const [hand, setHand] = useState([])
@@ -44,18 +42,6 @@ export const BattleProvider = ({ children }) => {
   const [roundEffects, setRoundEffects] = useState({ ...EFFECTS })
 
   const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(false)
-  const [actions, setActions] = useState([])
-
-  useEffect(() => {
-    if (phase === 1 && round && adventurer.health > 0) {
-      beginTurn()
-    }
-
-    if (phase === 2) {
-      endTurn()
-    }
-    // eslint-ignore-next-line react-hooks/exhaustive-deps
-  }, [phase])
 
   useEffect(() => {
     if (animationHandler.completed.length < 1) {
@@ -92,40 +78,47 @@ export const BattleProvider = ({ children }) => {
   }, [animationHandler.completed])
 
   useEffect(() => {
-    let deck = draft.cards.map((card, i) => {
-      let id = deckIteration * DECK_SIZE + i
-      return fetchCard(card.cardId, deckIteration, id)
-    });
-
-    setDeck(deck)
+    setHand(draft.cards.map(card => fetchCard(card.cardId, deckIteration, card.number)))
   }, [deckIteration])
 
   useEffect(() => {
     setRoundEffects({ ...EFFECTS })
   }, [round])
 
-  useEffect(() => {
-    if (dojo.txStatus === 'fail') {
-      console.log('Reset state...')
-    }
-  }, [dojo.txStatus])
-
   const fetchBattleState = async () => {
     setResettingState(true)
 
-    const [phase, setPhase] = useState(1)
-    const [deck, setDeck] = useState([])
-    const [hand, setHand] = useState([])
-    const [board, setBoard] = useState([])
-    const [monster, setMonster] = useState({})
-    const [adventurer, setAdventurer] = useState({})
-    const [round, setRound] = useState(0)
-    const [deckIteration, setDeckIteration] = useState(0)
-    const [battleEffects, setBattleEffects] = useState({ ...EFFECTS })
-    const [roundEffects, setRoundEffects] = useState({ ...EFFECTS })
-    const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(false)
+    // const [deck, setDeck] = useState([])
+    // const [hand, setHand] = useState([])
+    // const [board, setBoard] = useState([])
+    // const [monster, setMonster] = useState({})
+    // const [adventurer, setAdventurer] = useState({})
+    // const [round, setRound] = useState(0)
+    // const [deckIteration, setDeckIteration] = useState(0)
+    // const [battleEffects, setBattleEffects] = useState({ ...EFFECTS })
+    // const [roundEffects, setRoundEffects] = useState({ ...EFFECTS })
+    // const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(false)
 
     setResettingState(false)
+  }
+
+  const submitBattleAction = async (contract, name, data) => {
+    const res = await dojo.executeTx(contract, name, data)
+
+    if (!res) {
+      return fetchBattleState()
+    }
+
+    const gameValues = res.find(e => e.componentName === 'Game')
+    const leaderboard = res.find(e => e.componentName === 'Leaderboard')
+
+    if (leaderboard) {
+      return game.setScore(leaderboard.score)
+    }
+
+    if (gameValues) {
+      return game.setGame(gameValues)
+    }
   }
 
   const startBattle = async () => {
@@ -139,7 +132,6 @@ export const BattleProvider = ({ children }) => {
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
       const battle = res.find(e => e.componentName === 'Battle')
-      const handCards = res.filter(e => e.componentName === 'HandCard')
 
       setBattleId(battle.battleId)
       setRound(battle.round)
@@ -147,12 +139,97 @@ export const BattleProvider = ({ children }) => {
       setMonster({ ...MONSTER_LIST.find(monster => monster.id === battle.monsterId), attack: battle.monsterAttack, health: battle.monsterHealth })
       setDeckIteration(battle.deckIteration)
       setCreatureIndex(battle.cardIndex)
-      setHand(handCards.map((card) => fetchCard(card.cardId, battle.deckIteration, card.handCardNumber)))
 
       game.setGame(gameValues)
     }
 
     setPendingTx(false)
+  }
+
+  const summonCreature = (creature, target) => {
+    if (creature.cost > adventurer.energy) {
+      return enqueueSnackbar('Not enough energy', { variant: 'warning' })
+    }
+
+    if (board.length > 5) {
+      return enqueueSnackbar('Board is full', { variant: 'warning' })
+    }
+
+    submitBattleAction("darkshuffle::systems::battle::contracts::battle_systems", "summon_creature", [battleId, creature.id, target?.id || 0])
+
+    animationHandler.addAnimation('monster', { type: 'intimidate' })
+
+    setHand(prev => prev.filter((_, i) => (i !== hand.findIndex(card => card.id === creature.id))))
+    decreaseEnergy(creature.cost)
+
+    summonEffect({
+      creature, board, healAdventurer, deckIteration, target: target, damageMonster,
+      setBoard, animationHandler, increaseEnergy, monster, damageAdventurer,
+      roundEffects, setRoundEffects, battleEffects, setBattleEffects, hand
+    })
+
+    let creatureId = creatureIndex + 1;
+    creature.id = creatureId;
+
+    setBoard(prev => [...prev, creature])
+    setCreatureIndex(prev => prev + 1)
+    setTargetFriendlyCreature()
+  }
+
+  const castSpell = (spell, target) => {
+    let cost = Math.max(0, spell.cost - battleEffects.nextSpellReduction)
+
+    if (cost > adventurer.energy) {
+      return enqueueSnackbar('Not enough energy', { variant: 'warning' })
+    }
+
+    setHand(prev => prev.filter((_, i) => (i !== hand.findIndex(card => card.id === spell.id))))
+    decreaseEnergy(cost)
+
+    spellEffect({
+      spell, board, healAdventurer, deckIteration, target: target, damageMonster,
+      setBoard, animationHandler, increaseEnergy, monster, damageAdventurer,
+      roundEffects, setRoundEffects, battleEffects, setBattleEffects, hand
+    })
+
+    submitBattleAction("darkshuffle::systems::battle::contracts::battle_systems", "cast_spell", [battleId, spell.id, target?.id || 0])
+    setTargetFriendlyCreature()
+  }
+
+  const discardCard = (card) => {
+    if (adventurer.energy < 1) {
+      return enqueueSnackbar('Not enough energy', { variant: 'warning' })
+    }
+
+    decreaseEnergy(1);
+
+    setBattleEffects(prev => ({ ...prev, cardsDiscarded: prev.cardsDiscarded + 1 }))
+    setRoundEffects(prev => ({ ...prev, cardsDiscarded: prev.cardsDiscarded + 1 }))
+
+    setHand(prev => prev.filter(handCard => (handCard.id !== card.id)))
+
+    submitBattleAction("darkshuffle::systems::battle::contracts::battle_systems", "discard", [battleId, card.id])
+  }
+
+  const attack = (creature) => {
+    submitBattleAction("darkshuffle::systems::battle::contracts::battle_systems", "attack", [battleId, creature.id])
+
+    animationHandler.addAnimation('creature', {
+      type: 'attack',
+      creatureId: creature.id,
+      creature,
+      position: getCreaturePosition(creature.id),
+      targetPosition: getMonsterPosition()
+    })
+  }
+
+  const endTurn = () => {
+    submitBattleAction("darkshuffle::systems::battle::contracts::battle_systems", "end_turn", [battleId])
+
+    animationHandler.addAnimation('monster', {
+      type: 'ability',
+      position: getMonsterPosition(),
+    })
   }
 
   const beginTurn = () => {
@@ -161,52 +238,8 @@ export const BattleProvider = ({ children }) => {
     setAdventurer(prev => ({ ...prev, energy: START_ENERGY }));
 
     if (hand.length === 0) {
-      setHand(deck)
       setDeckIteration(prev => prev + 1)
     }
-  }
-
-  const endTurn = () => {
-    animationHandler.addAnimation('monster', {
-      type: 'ability',
-      position: getMonsterPosition(),
-    })
-  }
-
-  const submitBattle = async (victory) => {
-    if (game.clientOnly) {
-      if (victory) {
-        game.setGame({
-          inBattle: false,
-          battlesWon: game.values.battlesWon + 1
-        })
-      }
-
-      return;
-    }
-
-    setPendingTx(true)
-    const res = await dojo.executeTx("darkshuffle::actions::battle::game_actions", "submit_battle", [game.values.gameId, actions])
-
-    if (res) {
-      const gameValues = res.find(e => e.componentName === 'Game')
-      game.setGame(gameValues)
-    }
-
-    setPendingTx(false)
-  }
-
-  const submitActions = async () => {
-    if (monster.health <= 0) {
-      return submitBattle(true)
-    }
-
-    if (isAdventurerDead({ monster, adventurer })) {
-      submitBattle();
-    }
-
-    setActions(prev => [...prev, ['end_turn', 0]])
-    setPhase(2)
   }
 
   const monsterAttack = () => {
@@ -301,7 +334,7 @@ export const BattleProvider = ({ children }) => {
   const monsterAttackResult = () => {
     damageAdventurer(monster.attack)
 
-    setPhase(1)
+    beginTurn()
   }
 
   const increaseEnergy = (amount) => {
@@ -333,19 +366,8 @@ export const BattleProvider = ({ children }) => {
       return;
     }
 
-    if (amount >= adventurer.health) {
-      setGameOver(true)
-    }
-
     animationHandler.addAnimation('damage', { targetId: ADVENTURER_ID, damage: amount })
     setAdventurer(prev => ({ ...prev, health: prev.health - amount }))
-
-    if (phase === 1) {
-      adventurerSelfDamagedEffect({
-        damage: amount, board, setBoard, hand, damageMonster,
-        setHand, increaseEnergy
-      })
-    }
   }
 
   const damageMonster = (amount, cardId) => {
@@ -371,82 +393,6 @@ export const BattleProvider = ({ children }) => {
 
   const setTargetFriendly = (card) => {
     setTargetFriendlyCreature(card)
-  }
-
-  const summonCreature = (creature, target) => {
-    if (creature.cost > adventurer.energy) {
-      return enqueueSnackbar('Not enough energy', { variant: 'warning' })
-    }
-
-    if (board.length > 5) {
-      return enqueueSnackbar('Board is full', { variant: 'warning' })
-    }
-
-    dojo.executeTx("darkshuffle::systems::battle::contracts::battle_systems", "summon_creature", [battleId, creature.id, target?.id || 0])
-
-    animationHandler.addAnimation('monster', { type: 'intimidate' })
-
-    setHand(prev => prev.filter((_, i) => (i !== hand.findIndex(card => card.id === creature.id))))
-    decreaseEnergy(creature.cost)
-
-    summonEffect({
-      creature, board, healAdventurer, deckIteration, target: target, damageMonster,
-      setBoard, animationHandler, increaseEnergy, monster, damageAdventurer,
-      roundEffects, setRoundEffects, battleEffects, setBattleEffects, hand
-    })
-
-    let creatureId = creatureIndex + 1;
-    creature.id = creatureId;
-
-    setBoard(prev => [...prev, creature])
-    setCreatureIndex(prev => prev + 1)
-  }
-
-  const castSpell = (spell, target) => {
-    let cost = Math.max(0, spell.cost - battleEffects.nextSpellReduction)
-
-    if (cost > adventurer.energy) {
-      return enqueueSnackbar('Not enough energy', { variant: 'warning' })
-    }
-
-    setHand(prev => prev.filter((_, i) => (i !== hand.findIndex(card => card.id === spell.id))))
-    decreaseEnergy(cost)
-
-    spellEffect({
-      spell, board, healAdventurer, deckIteration, target: target, damageMonster,
-      setBoard, animationHandler, increaseEnergy, monster, damageAdventurer,
-      roundEffects, setRoundEffects, battleEffects, setBattleEffects, hand
-    })
-
-    setActions(prev => [...prev, ['cast_spell', spell.id, target?.id || 0]])
-    setTargetFriendlyCreature()
-  }
-
-  const discardCard = (card) => {
-    if (adventurer.energy < 1) {
-      return enqueueSnackbar('Not enough energy', { variant: 'warning' })
-    }
-
-    decreaseEnergy(1);
-
-    setBattleEffects(prev => ({ ...prev, cardsDiscarded: prev.cardsDiscarded + 1 }))
-    setRoundEffects(prev => ({ ...prev, cardsDiscarded: prev.cardsDiscarded + 1 }))
-
-    setHand(prev => prev.filter(handCard => (handCard.id !== card.id)))
-
-    setActions(prev => [...prev, ['discard', card.id]])
-  }
-
-  const attack = (creature) => {
-    setActions(prev => [...prev, ['attack_monster', creature.id]])
-
-    animationHandler.addAnimation('creature', {
-      type: 'attack',
-      creatureId: creature.id,
-      creature,
-      position: getCreaturePosition(creature.id),
-      targetPosition: getMonsterPosition()
-    })
   }
 
   const getMonsterPosition = () => {
@@ -476,30 +422,33 @@ export const BattleProvider = ({ children }) => {
   return (
     <BattleContext.Provider
       value={{
-        startBattle,
-        submitActions,
-        pendingTx,
-        round,
-        deck,
-        hand,
-        board,
-        summonCreature,
-        actions,
-        attack,
-        monster,
-        getMonsterPosition,
-        getCreaturePosition,
-        adventurer,
-        castSpell,
-        setPhase,
-        discardCard,
-        gameOver,
-        damageBoard,
-        damageAdventurer,
-        deckIteration,
-        battleEffects,
-        setTargetFriendly,
-        targetFriendlyCreature
+        actions: {
+          startBattle,
+          summonCreature,
+          castSpell,
+          attack,
+          discardCard,
+          endTurn
+        },
+
+        utils: {
+          getMonsterPosition,
+          getCreaturePosition,
+          damageBoard,
+          damageAdventurer,
+          setTargetFriendly
+        },
+
+        state: {
+          pendingTx,
+          hand,
+          board,
+          monster,
+          adventurer,
+          deckIteration,
+          battleEffects,
+          targetFriendlyCreature
+        }
       }}
     >
       {children}

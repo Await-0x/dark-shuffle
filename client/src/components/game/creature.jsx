@@ -113,7 +113,7 @@ function Creature(props) {
   }
 
   const mouseUpHandler = (event) => {
-    const card = battle.targetFriendlyCreature
+    const card = battle.state.targetFriendlyCreature
 
     if (!card) {
       return
@@ -121,11 +121,11 @@ function Creature(props) {
 
 
     if (card.type === types.CREATURE) {
-      battle.summonCreature(card, creature)
+      battle.actions.summonCreature(card, creature)
     }
 
     if (card.type === types.SPELL) {
-      battle.castSpell(card, creature)
+      battle.actions.castSpell(card, creature)
     }
   }
 
@@ -140,7 +140,7 @@ function Creature(props) {
       onMouseUp={(event) => mouseUpHandler(event)}
     >
 
-      <Box sx={[styles.container, attacking?.id === creature.id && styles.highlight, creature.resting && styles.faded, battle.targetFriendlyCreature && styles.targetable]}>
+      <Box sx={[styles.container, attacking?.id === creature.id && styles.highlight, creature.resting && styles.faded, battle.state.targetFriendlyCreature && styles.targetable]}>
 
         {creature.resting && <SleepAnimation />}
 

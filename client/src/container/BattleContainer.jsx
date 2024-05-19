@@ -12,7 +12,7 @@ import { fadeVariant } from "../helpers/variants";
 import graveyardIcon from '../assets/images/graveyard.png';
 
 function BattleContainer() {
-  const battleState = useContext(BattleContext)
+  const battle = useContext(BattleContext)
 
   const vortex = useLottie({
     animationData: vortexAnim,
@@ -20,9 +20,9 @@ function BattleContainer() {
   });
 
   const mouseUpHandler = (event) => {
-    if (battleState.targetFriendlyCreature) {
+    if (battle.state.targetFriendlyCreature) {
       if (event.button === 2) {
-        battleState.setTargetFriendly()
+        battle.utils.setTargetFriendly()
         event.preventDefault()
       }
     }
@@ -36,21 +36,16 @@ function BattleContainer() {
           <Battlefield />
 
           <Box sx={{ position: 'absolute', right: '20px' }}>
-            <CustomTooltip title={
-              battleState.monster.health <= 0
-                ? <Typography color="primary" variant='h6'>Submit battle result</Typography>
-                : <Box mb={1}>
-                  <Typography color="primary" variant='h6'>End Turn</Typography>
-                  <Typography mt={0.5}>Your actions will be submitted. Monster perform its attack. Draw cards and gain energy.</Typography>
-                </Box>
+            <CustomTooltip title={<Box mb={1}>
+              <Typography color="primary" variant='h6'>End Turn</Typography>
+              <Typography mt={0.5}>Monster perform its ability and attack. Replenish energy and draw cards if your hand is empty.</Typography>
+            </Box>
             }>
               <LoadingButton variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '1px' }}
-                loading={battleState.pendingTx}
-                onClick={() => battleState.submitActions()}
+                loading={battle.state.pendingTx}
+                onClick={() => battle.actions.endTurn()}
               >
-
-                {battleState.monster.health <= 0 ? 'END BATTLE' : 'END TURN'}
-
+                END TURN
               </LoadingButton>
             </CustomTooltip>
           </Box>
@@ -62,14 +57,14 @@ function BattleContainer() {
 
             <CustomTooltip title={
               <Box mb={1}>
-                <Typography color="primary" variant='h6'>Deck ({battleState.deckIteration})</Typography>
+                <Typography color="primary" variant='h6'>Deck ({battle.state.deckIteration})</Typography>
                 <Typography mt={0.5}>At the start of your turn, draw your deck if your hand is empty.</Typography>
               </Box>
             }>
               <Box sx={styles.deck}>
                 <Box sx={styles.cardCount}>
                   <Typography>
-                    {battleState.deckIteration}
+                    {battle.state.deckIteration}
                   </Typography>
                 </Box>
               </Box>
@@ -90,15 +85,15 @@ function BattleContainer() {
                 <Typography color="primary" variant='h6' mb={1}>Graveyard</Typography>
 
                 <Typography variant='h6'>
-                  {`Discarded: ${battleState.battleEffects.cardsDiscarded}`}
+                  {`Discarded: ${battle.state.battleEffects.cardsDiscarded}`}
                 </Typography>
 
                 <Typography variant='h6'>
-                  {`Creatures: ${battleState.battleEffects.deadCreatures}`}
+                  {`Creatures: ${battle.state.battleEffects.deadCreatures}`}
                 </Typography>
 
                 <Typography variant='h6'>
-                  {`Spells: ${battleState.battleEffects.spellsPlayed}`}
+                  {`Spells: ${battle.state.battleEffects.spellsPlayed}`}
                 </Typography>
               </Box>
             }>

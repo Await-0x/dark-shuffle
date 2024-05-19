@@ -8,8 +8,8 @@ import SmallCard from "../smallCard";
 import DraggableCard from "./draggableCard";
 
 function Hand() {
-  const gameState = useContext(BattleContext)
-  const { hand, targetFriendlyCreature } = gameState
+  const battle = useContext(BattleContext)
+  const { hand, targetFriendlyCreature } = battle.state
 
   const [displayCard, setDisplayCard] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)

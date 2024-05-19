@@ -8,8 +8,7 @@ const GAME_VALUES = {
   gameId: null,
   inDraft: false,
   inBattle: false,
-  battlesWon: 0,
-  scoreSubmitted: false
+  battlesWon: 0
 }
 
 export const GameProvider = ({ children }) => {
@@ -18,6 +17,8 @@ export const GameProvider = ({ children }) => {
     blockNumber: null,
     blockHash: null
   })
+
+  const [score, setScore] = useState()
 
   // Client only states
   const [clientOnly, setClientOnly] = useState(false)
@@ -28,6 +29,7 @@ export const GameProvider = ({ children }) => {
 
   const endGame = () => {
     setValues({ ...GAME_VALUES })
+    setScore()
   }
 
   const setDraftEntropy = (draftEntropy) => {
@@ -83,7 +85,9 @@ export const GameProvider = ({ children }) => {
         setClientOnly,
         setDraftEntropy,
         entropy,
-        setEntropy
+        setEntropy,
+        score,
+        setScore
       }}
     >
       {children}

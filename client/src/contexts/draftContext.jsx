@@ -12,6 +12,7 @@ export const DraftProvider = ({ children }) => {
   const game = useContext(GameContext)
   const [pendingTx, setPendingTx] = useState()
 
+  const [playerName, setPlayerName] = useState(localStorage.getItem('playerName') || '')
   const [options, setOptions] = useState([])
   const [cards, setCards] = useState([])
 
@@ -70,7 +71,7 @@ export const DraftProvider = ({ children }) => {
       return startDraftClientOnly()
     }
 
-    const res = await dojo.executeTx("darkshuffle::systems::game::contracts::game_systems", "start_game", [])
+    const res = await dojo.executeTx("darkshuffle::systems::game::contracts::game_systems", "start_game", [playerName])
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -100,8 +101,11 @@ export const DraftProvider = ({ children }) => {
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
+      const draftCard = res.find(e => e.componentName === 'DraftCard')
       
       setOptions([])
+
+      card.number = draftCard.number;
       setCards(prev => [...prev, card].sort((a, b) => a.cost - b.cost))
       updateDraftStats(card)
       
@@ -128,7 +132,9 @@ export const DraftProvider = ({ children }) => {
         tagCount,
         startDraft,
         pendingTx,
-        getDraftOptions
+        getDraftOptions,
+        setPlayerName,
+        playerName
       }}
     >
       {children}

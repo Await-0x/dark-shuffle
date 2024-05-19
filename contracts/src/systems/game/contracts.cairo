@@ -1,6 +1,6 @@
 #[dojo::interface]
 trait IGameContract<TContractState> {
-    fn start_game();
+    fn start_game(name: felt252);
     fn start_battle(game_id: usize);
 }
 
@@ -23,13 +23,14 @@ mod game_systems {
 
     #[abi(embed_v0)]
     impl GameContractImpl of IGameContract<ContractState> {
-        fn start_game(world: IWorldDispatcher) {
+        fn start_game(world: IWorldDispatcher, name: felt252) {
             let game_id = world.uuid();
 
             set!(world, (
                 Game {
                     game_id: game_id,
                     player: get_caller_address(),
+                    player_name: name,
                     active: true,
                     in_draft: true,
                     in_battle: false,

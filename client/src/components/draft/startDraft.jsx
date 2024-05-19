@@ -6,11 +6,14 @@ import { _styles } from '../../helpers/styles'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
 import DraftHistory from './history'
+import TestNet from '../header/testnet'
 
 function StartDraft() {
   const draft = useContext(DraftContext)
   const [loading, setLoading] = useState(false)
   const [history, showHistory] = useState(false)
+
+  const [nameDialog, showNameDialog] = useState(false)
 
   async function beginDraft() {
     setLoading(true)
@@ -105,6 +108,7 @@ function StartDraft() {
 
       </Box>
 
+      <TestNet open={nameDialog !== false} close={showNameDialog} />
     </Box >
   )
 }

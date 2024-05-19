@@ -6,6 +6,7 @@ struct Game {
     #[key]
     game_id: usize,
     player: ContractAddress,
+    player_name: felt252,
     active: bool,
     in_draft: bool,
     in_battle: bool,
@@ -17,6 +18,7 @@ struct Leaderboard {
     #[key]
     game_id: usize,
     player: ContractAddress,
+    player_name: felt252,
     score: u16,
 }
 

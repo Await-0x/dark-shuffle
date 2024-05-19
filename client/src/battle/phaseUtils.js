@@ -2,9 +2,7 @@ export const endOfTurnMonsterEffect = ({
   monster,
   setMonster,
   board,
-  damageBoard,
-  damageAdventurer,
-  animationHandler
+  damageBoard
 }) => {
   if (monster.id === 401) {
     setMonster(prev => ({ ...prev, attack: prev.attack + 1 }));

@@ -31,7 +31,8 @@ function StartBattleContainer() {
 
               {monster.image}
 
-              <LoadingButton loading={battle.pendingTx} variant='outlined' sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }} onClick={() => battle.startBattle()}>
+              <LoadingButton loading={battle.state.pendingTx} variant='outlined' sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}
+                onClick={() => battle.actions.startBattle()}>
                 Start Battle
               </LoadingButton>
             </Box>

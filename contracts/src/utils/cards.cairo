@@ -18,7 +18,7 @@ mod card_utils {
         else if id == 2 {
             return Card {
                 card_id: 2,
-                name: "Wisdom Bringer",
+                name: 'Wisdom Bringer',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::PRIEST,
                 cost: 1,

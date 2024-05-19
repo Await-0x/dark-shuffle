@@ -62,6 +62,7 @@ mod game_utils {
             Leaderboard {
                 game_id: game.game_id,
                 player: starknet::get_caller_address(),
+                player_name: game.player_name,
                 score
             }
         ))

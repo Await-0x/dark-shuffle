@@ -15,6 +15,7 @@ import { mainTheme } from './helpers/themes';
 import { StarknetProvider } from "./contexts/starknet";
 import { AnimationHandler } from "./contexts/animationHandler";
 import { useState } from 'react';
+import { AccountProvider } from './contexts/accountContext';
 
 function Main() {
   const [connectWallet, showConnectWallet] = useState(false)
@@ -30,29 +31,31 @@ function Main() {
                 <AnimationHandler>
 
                   <StarknetProvider>
-                    <DojoProvider showConnectWallet={showConnectWallet}>
-                      <GameProvider>
-                        <DraftProvider>
-                          <BattleProvider>
+                    <AccountProvider>
+                      <DojoProvider showConnectWallet={showConnectWallet}>
+                        <GameProvider>
+                          <DraftProvider>
+                            <BattleProvider>
 
-                            <Box className='main'>
-                              <AnimatePresence mode="wait">
-
+                              <Box className='main'>
                                 <Header connectWallet={connectWallet} showConnectWallet={showConnectWallet} />
+                                
+                                <AnimatePresence mode="wait">
 
-                                <Routes>
-                                  {routes.map((route, index) => {
-                                    return <Route key={index} path={route.path} element={route.content} />
-                                  })}
-                                </Routes>
+                                  <Routes>
+                                    {routes.map((route, index) => {
+                                      return <Route key={index} path={route.path} element={route.content} />
+                                    })}
+                                  </Routes>
 
-                              </AnimatePresence>
-                            </Box>
+                                </AnimatePresence>
+                              </Box>
 
-                          </BattleProvider>
-                        </DraftProvider>
-                      </GameProvider>
-                    </DojoProvider>
+                            </BattleProvider>
+                          </DraftProvider>
+                        </GameProvider>
+                      </DojoProvider>
+                    </AccountProvider>
                   </StarknetProvider>
 
                 </AnimationHandler>

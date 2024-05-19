@@ -2,23 +2,21 @@ import { Box } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
+import { GameContext } from "../../contexts/gameContext";
 import DamageEffectAnimation from '../animations/damageEffectAnimation';
+import PoisonSprayAnimation from "../animations/poisonSprayAnimation";
 import StarAnimation from '../animations/starAnimation';
-import TutorialDialog from '../dialogs/tutorial';
 import Adventurer from './adventurer';
 import Arrow from "./arrow";
 import Creature from "./creature";
 import DeathDialog from './death';
 import Monster from "./monster";
-import { GameContext } from "../../contexts/gameContext";
-import PoisonSprayAnimation from "../animations/poisonSprayAnimation";
 
 function Battlefield(props) {
   const animationHandler = useContext(AnimationContext)
   const game = useContext(GameContext)
   const battle = useContext(BattleContext)
   const [arrow, showArrow] = useState(false)
-  const [tutorial, showTutorial] = useState(game.values.battlesWon < 1)
 
   const [attackingCreature, setAttackingCreature] = useState()
 
@@ -36,22 +34,20 @@ function Battlefield(props) {
 
   return <Box sx={styles.container}>
 
-    <TutorialDialog open={tutorial} close={showTutorial} />
-
-    {battle.gameOver && <DeathDialog />}
+    {game.score && <DeathDialog />}
 
     {arrow && <Arrow arrow={arrow} cancel={cancelAttack} />}
 
     <Box sx={styles.enemyContainer}>
 
-      <Monster monster={battle.monster} attackingCreature={attackingCreature} />
+      <Monster monster={battle.state.monster} attackingCreature={attackingCreature} />
 
     </Box>
 
     <Box sx={styles.myContainer}>
 
       {React.Children.toArray(
-        battle.board.map((creature, i) => {
+        battle.state.board.map((creature, i) => {
           return <Creature
             pos={i}
             creature={creature}

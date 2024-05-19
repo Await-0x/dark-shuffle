@@ -42,9 +42,9 @@ function DraggableCard(props) {
       return
     }
 
-    if (values.card.requiresTarget && battle.board.length < 1) {
+    if (values.card.requiresTarget && battle.state.board.length < 1) {
       if (values.card.type === types.CREATURE) {
-        battle.summonCreature(values.card)
+        battle.actions.summonCreature(values.card)
       }
 
       else if (values.card.type === types.SPELL) {
@@ -55,15 +55,15 @@ function DraggableCard(props) {
 
     else if (values.card.requiresTarget) {
       enqueueSnackbar('Select target', { variant: 'info', anchorOrigin: { vertical: 'top', horizontal: 'center' } })
-      battle.setTargetFriendly(values.card)
+      battle.utils.setTargetFriendly(values.card)
     }
 
     else if (values.card.type === types.CREATURE) {
-      battle.summonCreature(values.card)
+      battle.actions.summonCreature(values.card)
     }
 
     else if (values.card.type === types.SPELL) {
-      battle.castSpell(values.card)
+      battle.actions.castSpell(values.card)
     }
 
     dragEnd()
@@ -78,7 +78,7 @@ function DraggableCard(props) {
       ref.current.style.opacity = 1
     }
 
-    if (values.card.type === types.CREATURE && values.card.cost <= battle.adventurer.energy) {
+    if (values.card.type === types.CREATURE && values.card.cost <= battle.state.adventurer.energy) {
       if (event.pageY < play_threshold) {
         ref.current.style.border = '1px solid #FFE97F'
       } else {
@@ -106,7 +106,7 @@ function DraggableCard(props) {
   }
 
   const discardCard = (event, card) => {
-    battle.discardCard(card)
+    battle.actions.discardCard(card)
 
     controls.start({
       x: [`${relX + event.pageX - values.pageX}px`],

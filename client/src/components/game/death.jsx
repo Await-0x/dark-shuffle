@@ -27,23 +27,41 @@ function DeathDialog(props) {
 
   return <motion.div style={styles.container} animate={controls}>
 
-    {text && <Box width={'800px'}>
-      <Typography variant="h2" color={'primary'}>
-        An adventurer has fallen
+    {text && <Box width={'800px'} sx={{ display: 'flex', flexDirection: 'column', 'alignItems': 'center' }}>
+      <Typography variant="h2" color={'red'}>
+        A Hero Has Fallen
       </Typography>
 
-      <Typography variant="h6" mt={4}>
+      <Box display={'flex'} mt={6}>
+        <Box mr={10}>
+          <Typography variant="h4" color='primary'>
+            Monsters Slain
+          </Typography>
+
+          <Typography variant="h1" mt={1} color='primary'>
+            {game.values.battlesWon}
+          </Typography>
+        </Box>
+
+        <Box>
+          <Typography variant="h4" color='primary'>
+            Final Score
+          </Typography>
+
+          <Typography variant="h1" mt={1} color='primary'>
+            {game.score}
+          </Typography>
+        </Box>
+      </Box>
+
+      <Typography mt={6}>
         Your journey ends here, brave adventurer, swallowed by the unforgiving darkness of The Cave.
         In this silent tomb, your valor and strife are sealed away, a whisper lost among the echoes of countless others who dared to challenge the abyss.
       </Typography>
 
-      <Typography variant="h6" mt={4}>
+      <Typography mt={4}>
         The Cave remains, eternal and unyielding, its secrets forever guarded by shadows.
       </Typography>
-
-      {(!game.values.scoreSubmitted && !game.clientOnly) && <Typography variant="h6" mt={4} color='red'>
-        Your score needs to be submitted. This can be done in the 'History' tab.
-      </Typography>}
 
       <Box mt={6}>
         <Button variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '1px' }} onClick={backToMenu}>

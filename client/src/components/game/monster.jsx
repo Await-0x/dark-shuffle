@@ -87,7 +87,7 @@ function Monster(props) {
     animationHandler.addAnimation('monster', { type: 'defend' })
 
     if (attackingCreature) {
-      return battle.attack(attackingCreature)
+      return battle.actions.attack(attackingCreature)
     }
   }
 
