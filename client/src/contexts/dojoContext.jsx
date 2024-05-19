@@ -1,3 +1,4 @@
+import { Account, constants, ec, json, stark, Provider, hash, CallData } from 'starknet';
 import { DojoProvider as _dojoProvider } from "@dojoengine/core";
 import { useBurner } from "@dojoengine/create-burner";
 import { getEvents } from "@dojoengine/utils";
@@ -5,6 +6,7 @@ import { useSnackbar } from "notistack";
 import React, { createContext, useState } from "react";
 import { dojoConfig } from "../../dojo.config";
 import { translateEvent } from "../helpers/events";
+import { Account, RpcProvider } from "starknet";
 
 export const DojoContext = createContext()
 
@@ -14,8 +16,29 @@ export const DojoProvider = ({ children, showConnectWallet }) => {
   const { enqueueSnackbar } = useSnackbar()
   const [account, setAccount] = useState()
 
-  const { create, list, get, select, isDeploying, clear } = useBurner();
-  create();
+  const createBurner = async () => {
+    const privateKey = stark.randomAddress();
+    const publicKey = ec.starkCurve.getStarkKey(privateKey);
+    const constructorCallData = CallData.compile({ publicKey: publicKey });
+    const contractAddress = hash.calculateContractAddressFromHash(
+      publicKey,
+      dojoConfig.accountClassHash,
+      constructorCallData,
+      0
+    );
+
+    const account = new Account(dojoProvider, contractAddress, privateKey, "1");
+    await account.deployAccount({
+      classHash: dojoConfig.accountClassHash,
+      constructorCalldata: constructorCallData,
+      addressSalt: publicKey,
+    })
+
+    await dojoProvider.waitForTransaction(transaction_hash);
+    console.log('✅ New OpenZeppelin account created.\n   address =', contractAddress);
+  }
+
+  createBurner()
 
   const executeTx = async (contract_name, system, call_data) => {
     if (!dojoConfig.development && !account) {
