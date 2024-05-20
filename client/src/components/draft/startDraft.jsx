@@ -108,7 +108,7 @@ function StartDraft() {
 
       </Box>
 
-      <TestNet open={nameDialog !== false} close={showNameDialog} />
+      {nameDialog && <TestNet open={nameDialog} close={showNameDialog} />}
     </Box >
   )
 }

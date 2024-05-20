@@ -1,6 +1,6 @@
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import { AnimatePresence } from "framer-motion";
 import { BrowserRouter, Route, Routes, } from "react-router-dom";
-import { AnimatePresence } from "framer-motion"
 
 import Box from '@mui/material/Box';
 import { SnackbarProvider } from 'notistack';
@@ -12,10 +12,9 @@ import { GameProvider } from "./contexts/gameContext";
 import { routes } from './helpers/routes';
 import { mainTheme } from './helpers/themes';
 
-import { StarknetProvider } from "./contexts/starknet";
-import { AnimationHandler } from "./contexts/animationHandler";
 import { useState } from 'react';
-import { AccountProvider } from './contexts/accountContext';
+import { AnimationHandler } from "./contexts/animationHandler";
+import { StarknetProvider } from "./contexts/starknet";
 
 function Main() {
   const [connectWallet, showConnectWallet] = useState(false)
@@ -31,31 +30,29 @@ function Main() {
                 <AnimationHandler>
 
                   <StarknetProvider>
-                    <AccountProvider>
-                      <DojoProvider showConnectWallet={showConnectWallet}>
-                        <GameProvider>
-                          <DraftProvider>
-                            <BattleProvider>
+                    <DojoProvider showConnectWallet={showConnectWallet}>
+                      <GameProvider>
+                        <DraftProvider>
+                          <BattleProvider>
 
-                              <Box className='main'>
-                                <Header connectWallet={connectWallet} showConnectWallet={showConnectWallet} />
-                                
-                                <AnimatePresence mode="wait">
+                            <Box className='main'>
+                              <Header connectWallet={connectWallet} showConnectWallet={showConnectWallet} />
 
-                                  <Routes>
-                                    {routes.map((route, index) => {
-                                      return <Route key={index} path={route.path} element={route.content} />
-                                    })}
-                                  </Routes>
+                              <AnimatePresence mode="wait">
 
-                                </AnimatePresence>
-                              </Box>
+                                <Routes>
+                                  {routes.map((route, index) => {
+                                    return <Route key={index} path={route.path} element={route.content} />
+                                  })}
+                                </Routes>
 
-                            </BattleProvider>
-                          </DraftProvider>
-                        </GameProvider>
-                      </DojoProvider>
-                    </AccountProvider>
+                              </AnimatePresence>
+                            </Box>
+
+                          </BattleProvider>
+                        </DraftProvider>
+                      </GameProvider>
+                    </DojoProvider>
                   </StarknetProvider>
 
                 </AnimationHandler>
