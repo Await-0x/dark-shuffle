@@ -2,6 +2,7 @@ export const components = {
   'Game': {
     gameId: null,
     player: null,
+    player_name: String(),
     active: Boolean(),
     inDraft: Boolean(),
     inBattle: Boolean(),
@@ -10,6 +11,7 @@ export const components = {
   'Leaderboard': {
     gameId: null,
     player: null,
+    player_name: String(),
     score: Number()
   },
   'Draft': {

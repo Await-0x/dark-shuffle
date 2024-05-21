@@ -27,7 +27,6 @@ export const BattleProvider = ({ children }) => {
 
   const [battleId, setBattleId] = useState()
 
-  const [deck, setDeck] = useState([])
   const [hand, setHand] = useState([])
   const [board, setBoard] = useState([])
 

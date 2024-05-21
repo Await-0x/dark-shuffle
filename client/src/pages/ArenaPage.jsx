@@ -9,7 +9,7 @@ import StartBattleContainer from '../container/StartBattleContainer'
 function ArenaPage() {
   const gameState = useContext(GameContext)
   const { gameId, inDraft, inBattle } = gameState.values
-
+  
   return (
     <Box sx={styles.container}>
       {gameId === null && <StartDraft />}

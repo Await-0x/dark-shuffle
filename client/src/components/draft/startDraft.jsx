@@ -16,6 +16,10 @@ function StartDraft() {
   const [nameDialog, showNameDialog] = useState(false)
 
   async function beginDraft() {
+    if (!draft.playerName) {
+      return showNameDialog(true)
+    }
+
     setLoading(true)
 
     await draft.startDraft()
@@ -108,7 +112,7 @@ function StartDraft() {
 
       </Box>
 
-      {nameDialog && <TestNet open={nameDialog} close={showNameDialog} />}
+      {nameDialog && <TestNet open={nameDialog} close={() => { showNameDialog(false); beginDraft(); }} />}
     </Box >
   )
 }

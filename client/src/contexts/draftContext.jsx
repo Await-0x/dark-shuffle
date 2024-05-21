@@ -1,9 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
-import { CARD_LIST, fetchCard, tags, types } from "../helpers/cards";
+import { fetchCard, tags, types } from "../helpers/cards";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
-import { shuffle } from "../helpers/utilities";
-import { DECK_SIZE } from "../helpers/constants";
 
 export const DraftContext = createContext()
 
@@ -46,24 +44,6 @@ export const DraftProvider = ({ children }) => {
     setTagCount(currentTagCount)
   }
 
-  const startDraftClientOnly = async () => {
-    game.setGame({ gameId: 1, inDraft: true })
-    game.setEntropy({ blockNumber: 0, blockHash: 1 })
-
-    setOptions(shuffle(CARD_LIST).slice(0, 3).map(card => fetchCard(card.cardId, 1, 0)))
-  }
-
-  const selectCardClientOnly = async (card) => {
-    if (cards.length === DECK_SIZE - 1) {
-      game.setGame({ inDraft: false })
-    } else {
-      setOptions(shuffle(CARD_LIST).slice(0, 3).map(card => fetchCard(card.cardId, 1, 0)))
-    }
-
-    setCards(prev => [...prev, card].sort((a, b) => a.cost - b.cost))
-    updateDraftStats(card)
-  }
-
   const startDraft = async () => {
     initializeState()
 
@@ -71,7 +51,7 @@ export const DraftProvider = ({ children }) => {
       return startDraftClientOnly()
     }
 
-    const res = await dojo.executeTx("darkshuffle::systems::game::contracts::game_systems", "start_game", [playerName])
+    const res = await dojo.executeTx("darkshuffle::systems::game::contracts::game_systems", "start_game", [playerName || 'Anonymous'])
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')

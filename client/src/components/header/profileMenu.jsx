@@ -3,12 +3,21 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import { Box, Divider, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, Divider, IconButton, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
 import React from 'react';
-
+import { useContext } from 'react';
+import { DojoContext } from '../../contexts/dojoContext';
+import { DraftContext } from '../../contexts/draftContext';
+import { ellipseAddress } from '../../helpers/utilities';
+import PersonIcon from '@mui/icons-material/Person';
+import EditIcon from '@mui/icons-material/Edit';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 function ProfileMenu(props) {
-  const { handleClose, anchorEl, openAccountDialog } = props
+  const { handleClose, anchorEl, openAccountDialog, openNameDialog } = props
+
+  const dojo = useContext(DojoContext)
+  const draft = useContext(DraftContext)
 
   return (
     <>
@@ -27,14 +36,35 @@ function ProfileMenu(props) {
             </Box>
           </Box>
 
-          <MenuItem onClick={() => { }}>
-            <ListItemIcon>
+          <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} px={2}>
+            <Box display={'flex'} alignItems={'center'} gap={2}>
+              <PersonIcon fontSize='small' />
+
+              <Typography>
+                {draft.playerName || 'Anonymous'}
+              </Typography>
+            </Box>
+
+
+            <IconButton onClick={() => { openNameDialog(true); handleClose() }}>
+              <EditIcon fontSize='small' />
+            </IconButton>
+          </Box>
+
+          <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} px={2}>
+            <Box display={'flex'} alignItems={'center'} gap={2}>
               <AccountBalanceWalletIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>
-              Create Account
-            </ListItemText>
-          </MenuItem>
+
+              <Typography sx={{ fontSize: '12px' }}>
+                {dojo.address && ellipseAddress(dojo.address, 4, 8)}
+              </Typography>
+            </Box>
+
+
+            <IconButton>
+              <RefreshIcon fontSize='small' />
+            </IconButton>
+          </Box>
 
           {/* <MenuItem onClick={() => { openAccountDialog(2); handleClose() }}>
             <ListItemIcon>

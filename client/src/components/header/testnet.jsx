@@ -1,7 +1,7 @@
 import { Box, Button, Dialog, TextField, Typography } from '@mui/material';
 import { motion } from "framer-motion";
 import { useContext, useState } from "react";
-import background from "../../assets/images/cards/impling.png";
+import background from "../../assets/images/cards/gospel_scribe.png";
 import { DraftContext } from '../../contexts/draftContext';
 import { fadeVariant } from "../../helpers/variants";
 import { useEffect } from 'react';
@@ -18,7 +18,7 @@ function TestNet(props) {
   }
 
   useEffect(() => {
-    close();
+    close(false);
   }, [draft.playerName])
 
   return (

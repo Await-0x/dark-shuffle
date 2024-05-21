@@ -1,14 +1,18 @@
+import GitHubIcon from '@mui/icons-material/GitHub';
 import InfoIcon from '@mui/icons-material/Info';
 import PersonIcon from '@mui/icons-material/Person';
+import { LoadingButton } from '@mui/lab';
 import { Box, Button, Typography } from '@mui/material';
-import { useAccount } from "@starknet-react/core";
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
+import { dojoConfig } from '../../dojo.config';
 import logo from '../assets/images/logo.png';
+import { DojoContext } from '../contexts/dojoContext';
 import { ellipseAddress } from '../helpers/utilities';
 import OnboardingWizard from './header/onboardingWizard';
 import ProfileMenu from './header/profileMenu';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import { DraftContext } from '../contexts/draftContext';
+import TestNet from './header/testnet';
 
 const menuItems = [
   {
@@ -25,9 +29,12 @@ const menuItems = [
 
 function Header(props) {
   const { connectWallet, showConnectWallet } = props
-  const { address } = useAccount()
-  
+
+  const dojo = useContext(DojoContext)
+  const draft = useContext(DraftContext)
+
   const [accountDialog, openAccountDialog] = useState(false)
+  const [nameDialog, openNameDialog] = useState(false)
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -65,11 +72,30 @@ function Header(props) {
         })}
       </Box>
 
-      <Box display={'flex'} gap={4} alignItems={'center'}>
-        {address
+      {dojoConfig.development && <Box>
+        {dojo.address
+          ? <Button onClick={handleClick} endIcon={<PersonIcon fontSize='large' />} size='large'>
+
+            {draft.playerName
+              ? <Typography color='primary'>
+                {draft.playerName}
+              </Typography>
+
+              : <Typography color='primary' sx={{ fontSize: '12px' }}>
+                {ellipseAddress(dojo.address, 4, 4)}
+              </Typography>}
+          </Button>
+
+          : <LoadingButton loading={dojo.creatingBurner} variant='outlined' sx={{ width: '130px', height: '32px' }}>
+          </LoadingButton>
+        }
+      </Box>}
+
+      {!dojoConfig.development && <Box display={'flex'} gap={4} alignItems={'center'}>
+        {dojo.address
           ? <Button onClick={handleClick} endIcon={<PersonIcon fontSize='large' />} size='large'>
             <Typography color='primary' sx={{ fontSize: '12px' }}>
-              {ellipseAddress(address, 4, 4)}
+              {ellipseAddress(dojo.address, 4, 4)}
             </Typography>
           </Button>
 
@@ -83,10 +109,11 @@ function Header(props) {
         <a href="https://github.com/Await-0x/dark-shuffle" target='_blank'>
           <GitHubIcon color='primary' fontSize='large' />
         </a>
-      </Box>
+      </Box>}
 
-      <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openAccountDialog={openAccountDialog} />
+      <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openAccountDialog={openAccountDialog} openNameDialog={openNameDialog} />
       <OnboardingWizard open={accountDialog !== false} close={openAccountDialog} step={accountDialog || 0} />
+      <TestNet open={nameDialog} close={openNameDialog} />
     </Box>
   );
 }
