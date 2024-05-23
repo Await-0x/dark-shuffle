@@ -14,4 +14,4 @@ export BATTLE_SYSTEMS=$(get_contract_address "darkshuffle::systems::battle::cont
 
 export DRAFT_SYSTEMS=$(get_contract_address "darkshuffle::systems::draft::contracts::draft_systems")
 
-export GAME_SYSTEMS=$(get_contract_address "darkshuffle::systems::draft::contracts::game_systems")
+export GAME_SYSTEMS=$(get_contract_address "darkshuffle::systems::game::contracts::game_systems")

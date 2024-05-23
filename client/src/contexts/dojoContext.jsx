@@ -23,7 +23,7 @@ export const DojoProvider = ({ children, showConnectWallet }) => {
   useEffect(() => {
     if (!dojoConfig.development) return;
 
-    if (localStorage.getItem('burner')) {
+    if (localStorage.getItem('burner') && false) {
       let burner = JSON.parse(localStorage.getItem('burner'))
       setAccount(new Account(rpcProvider, burner.address, burner.privateKey, "1"))
     } else {
