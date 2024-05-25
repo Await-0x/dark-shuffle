@@ -13,7 +13,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={minotaur} height={'100%'} />,
     abilities: [],
     attack: 1,
-    health: 50,
+    health: 60,
   },
   {
     id: 402,
@@ -21,7 +21,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={troll} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 50,
+    health: 60,
   },
   {
     id: 403,
@@ -29,7 +29,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={bigfoot} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 50,
+    health: 60,
   },
   {
     id: 404,
@@ -37,7 +37,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={chimera} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 50,
+    health: 60,
   },
   {
     id: 405,
@@ -45,7 +45,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={kappa} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 50,
+    health: 60,
   },
   {
     id: 406,
@@ -53,7 +53,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={spider} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 50,
+    health: 60,
   },
   {
     id: 407,
@@ -61,7 +61,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={lich} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 50,
+    health: 60,
   },
 ]
 

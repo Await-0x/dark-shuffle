@@ -44,6 +44,11 @@ function Bigfoot(props) {
       <Typography color="primary" variant='h6'>Bigfoot</Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+        <Typography color="primary">★ Rage</Typography>
+      </Box>
+      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
         <Typography color="primary">★ Thick Skin</Typography>
       </Box>
       <Typography mt={0.5}>Takes (1) less damage from all sources.</Typography>

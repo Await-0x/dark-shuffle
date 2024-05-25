@@ -1,50 +1,66 @@
-import { request, gql } from 'graphql-request'
-import { API_ENDPOINT } from '.';
+import { gql, request } from 'graphql-request';
+import { dojoConfig } from '../../dojo.config';
 
-export async function getActiveDraft(address) {
+export async function getActiveGame(address) {
   const document = gql`
   {
-    draftComponents(where:{player:"${address}", active: 1}) {
+    gameModels (where:{
+      active:true,
+      player:"${address}"
+    }) {
       edges {
         node {
-          id
-          player
-          card_count
-          entity {
-            createdAt
-            updatedAt
-          }
+          game_id,
+          player,
+          active,
+          in_draft,
+          in_battle,
+          battles_won
         }
       }
     }
   }
   `
-  const res = await request(API_ENDPOINT, document)
+  const res = await request(dojoConfig.toriiUrl, document)
 
-  return res?.data?.draftComponents?.edges[0]
+  return res?.data?.gameModels?.edges[0]?.node
 }
 
-export async function getDraftOptions(draftId, count) {
+export async function getDraftCards(game_id) {
   const document = gql`
   {
-    draftoptionaComponents(where:{draft_id:${draftId}, numberGTE: ${count}}) {
+    draftCardModels(where:{game_id:${game_id}}) {
       edges {
         node {
-          draft_id
+          game_id,
+          card_id,
           number
-          card {
-            id
-            name
-            cost
-            attack
-            health
-          }
         }
       }
     }
   }
   `
-  const res = await request(API_ENDPOINT, document)
+  const res = await request(dojoConfig.toriiUrl, document)
 
-  return res?.data?.draftComponents?.edges
+  return res?.data?.draftCardModels?.edges.map(edge => edge.node)
+}
+
+export async function getLeaderboard(page) {
+  let pageSize = 10
+
+  const document = gql`
+    {
+      leaderboardModels (order:{field:SCORE, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+        edges {
+          node {
+            player_name,
+            score
+          }
+        }
+      }
+    }
+  `
+  const res = await request(dojoConfig.toriiUrl, document)
+  console.log(res)
+  return res?.leaderboardModels?.edges.map(edge => edge.node)
 }

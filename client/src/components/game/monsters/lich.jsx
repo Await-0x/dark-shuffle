@@ -65,6 +65,11 @@ function Lich(props) {
       <Typography color="primary" variant='h6'>Lich</Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+        <Typography color="primary">★ Rage</Typography>
+      </Box>
+      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
         <Typography color="primary">★ Drain Life</Typography>
       </Box>
       <Typography mt={0.5}>Drains (1) life from each entity.</Typography>

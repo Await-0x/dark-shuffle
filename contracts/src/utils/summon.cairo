@@ -81,7 +81,6 @@ mod summon_utils {
         
         else if card.card_id == 10 {
             creature.attack += battle_effects.cards_discarded;
-            creature.health += battle_effects.cards_discarded;
         }
         
         else if card.card_id == 11 {
@@ -94,7 +93,7 @@ mod summon_utils {
         }
 
         else if card.card_id == 13 {
-            creature.attack += round_effects.creatures_played;
+            creature.attack += round_effects.creatures_played * battle.deck_iteration;
         }
         
         else if card.card_id == 14 {

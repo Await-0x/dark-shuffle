@@ -117,9 +117,9 @@ mod card_utils {
                 name: 'Ghoul Ravager',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::DEMON,
-                cost: 4,
+                cost: 6,
                 attack: 1,
-                health: 1,
+                health: 2,
             };
         }
         
@@ -249,7 +249,7 @@ mod card_utils {
                 name: 'Lava Wave',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::SPELL,
-                cost: 2,
+                cost: 6,
                 attack: 0,
                 health: 0,
             };

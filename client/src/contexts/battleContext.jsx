@@ -1,13 +1,13 @@
 import { useSnackbar } from "notistack";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { adventurerHealedEffect, adventurerSelfDamagedEffect } from "../battle/adventurerUtils";
+import { adventurerHealedEffect } from "../battle/adventurerUtils";
 import { deathEffect } from "../battle/deathUtils";
-import { MONSTER_LIST, fecthMonster } from "../battle/monsterUtils";
+import { MONSTER_LIST } from "../battle/monsterUtils";
 import { endOfTurnMonsterEffect } from "../battle/phaseUtils";
 import { spellEffect } from "../battle/spellUtils";
 import { summonEffect } from "../battle/summonUtils";
 import { fetchCard } from "../helpers/cards";
-import { ADVENTURER_ID, DECK_SIZE, EFFECTS, START_ENERGY, START_HEALTH } from "../helpers/constants";
+import { ADVENTURER_ID, EFFECTS, START_ENERGY } from "../helpers/constants";
 import { AnimationContext } from "./animationHandler";
 import { DojoContext } from "./dojoContext";
 import { DraftContext } from "./draftContext";
@@ -102,6 +102,7 @@ export const BattleProvider = ({ children }) => {
   }
 
   const submitBattleAction = async (contract, name, data) => {
+    const startTime = Date.now();
     const res = await dojo.executeTx(contract, name, data)
 
     if (!res) {
@@ -116,7 +117,10 @@ export const BattleProvider = ({ children }) => {
     }
 
     if (gameValues) {
-      return game.setGame(gameValues)
+      const remainingTime = Math.max(0, 2000 - (Date.now() - startTime));
+      setTimeout(() => {
+        game.setGame(gameValues);
+      }, remainingTime);
     }
   }
 

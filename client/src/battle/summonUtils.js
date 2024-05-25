@@ -1,5 +1,4 @@
-import { afflixes, tags, types } from "../helpers/cards"
-import { updateTypeStats } from "./boardUtils";
+import { tags, types } from "../helpers/cards";
 
 export const summonEffect = ({
   creature,
@@ -61,7 +60,6 @@ export const summonEffect = ({
 
   else if (creature.cardId === 10) {
     creature.attack += battleEffects.cardsDiscarded
-    creature.health += battleEffects.cardsDiscarded
   }
 
   else if (creature.cardId === 11) {
@@ -73,7 +71,7 @@ export const summonEffect = ({
   }
 
   else if (creature.cardId === 13) {
-    creature.attack += roundEffects.creaturesPlayed
+    creature.attack += roundEffects.creaturesPlayed * deckIteration
   }
 
   else if (creature.cardId === 14) {

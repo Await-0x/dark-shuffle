@@ -19,7 +19,7 @@ mod monster_utils {
             return Monster {
                 monster_id: 401,
                 attack: 1 + bonus_attack,
-                health: 50 + bonus_health,
+                health: 60 + bonus_health,
             };
         }
 
@@ -27,7 +27,7 @@ mod monster_utils {
             return Monster {
                 monster_id: 402,
                 attack: 4 + bonus_attack,
-                health: 50 + bonus_health
+                health: 60 + bonus_health
             };
         }
 
@@ -35,7 +35,7 @@ mod monster_utils {
             return Monster {
                 monster_id: 403,
                 attack: 4 + bonus_attack,
-                health: 50 + bonus_health
+                health: 60 + bonus_health
             };
         }
 
@@ -43,7 +43,7 @@ mod monster_utils {
             return Monster {
                 monster_id: 404,
                 attack: 4 + bonus_attack,
-                health: 50 + bonus_health
+                health: 60 + bonus_health
             };
         }
 
@@ -51,7 +51,7 @@ mod monster_utils {
             return Monster {
                 monster_id: 405,
                 attack: 4 + bonus_attack,
-                health: 50 + bonus_health
+                health: 60 + bonus_health
             };
         }
 
@@ -59,7 +59,7 @@ mod monster_utils {
             return Monster {
                 monster_id: 406,
                 attack: 4 + bonus_attack,
-                health: 50 + bonus_health
+                health: 60 + bonus_health
             };
         }
 
@@ -67,7 +67,7 @@ mod monster_utils {
             return Monster {
                 monster_id: 407,
                 attack: 4 + bonus_attack,
-                health: 50 + bonus_health
+                health: 60 + bonus_health
             };
         }
 
@@ -80,6 +80,8 @@ mod monster_utils {
 
     fn monster_ability(world: IWorldDispatcher, ref battle: Battle) {
         if battle.monster_id == 401 {
+            battle.monster_attack += 2;
+        } else {
             battle.monster_attack += 1;
         }
 

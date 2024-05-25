@@ -45,6 +45,11 @@ function Troll(props) {
       <Typography color="primary" variant='h6'>Troll</Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+        <Typography color="primary">★ Rage</Typography>
+      </Box>
+      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
         <Typography color="primary">★ Regeneration</Typography>
       </Box>
       <Typography mt={0.5}>Restores (4) health each turn.</Typography>

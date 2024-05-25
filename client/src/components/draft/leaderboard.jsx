@@ -1,55 +1,27 @@
 import { Box, Tab, Tabs, Typography } from '@mui/material'
 import React, { useState } from 'react'
-
-const players = [
-  {
-    rank: 1,
-    name: 'feeble.stark',
-    score: 16
-  },
-  {
-    rank: 2,
-    name: 'feeble.stark',
-    score: 15
-  },
-  {
-    rank: 3,
-    name: 'feeble.stark',
-    score: 14
-  },
-  {
-    rank: 4,
-    name: 'feeble.stark',
-    score: 13
-  },
-  {
-    rank: 5,
-    name: 'feeble.stark',
-    score: 13
-  },
-  {
-    rank: 6,
-    name: 'feeble.stark',
-    score: 13
-  },
-  {
-    rank: 7,
-    name: 'feeble.stark',
-    score: 13
-  },
-  {
-    rank: 8,
-    name: 'feeble.stark',
-    score: 13
-  }
-]
+import { useEffect } from 'react';
+import { getLeaderboard } from '../../api/indexer';
+import { hexToAscii } from '@dojoengine/utils';
 
 function Leaderboard() {
   const [value, setValue] = useState('one');
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [page, setPage] = useState(0)
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    async function fetchLeaderboard() {
+      const data = await getLeaderboard(page)
+      console.log(data)
+      setLeaderboard(data || [])
+    }
+
+    fetchLeaderboard()
+  }, [])
 
   return (
     <Box sx={styles.container}>
@@ -60,8 +32,7 @@ function Leaderboard() {
         indicatorColor="primary"
         variant='fullWidth'
       >
-        <Tab value="one" label="Players" />
-        <Tab value="two" label="Monsters" />
+        <Tab value="one" label="Leaderboard" />
       </Tabs>
 
       <Box sx={styles.header}>
@@ -74,19 +45,19 @@ function Leaderboard() {
         </Box>
 
         <Box width='100px' textAlign={'center'}>
-          <Typography>Top Streak</Typography>
+          <Typography>Score</Typography>
         </Box>
       </Box>
 
       {React.Children.toArray(
-        players.map(player => {
+        leaderboard.map((player, i) => {
           return <Box sx={styles.row}>
             <Box width='50px' textAlign={'center'}>
-              <Typography>{player.rank}</Typography>
+              <Typography>{page * 10 + i + 1}</Typography>
             </Box>
 
             <Box width='250px'>
-              <Typography>{player.name}</Typography>
+              <Typography>{hexToAscii(player.player_name)}</Typography>
             </Box>
 
             <Box width='100px' textAlign={'center'}>

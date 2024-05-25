@@ -30,6 +30,11 @@ function Kappa(props) {
       <Typography color="primary" variant='h6'>Kappa</Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+        <Typography color="primary">★ Rage</Typography>
+      </Box>
+      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
         <Typography color="primary">★ Mind Vision</Typography>
       </Box>
       <Typography mt={0.5}>Creatures cost (1) more.</Typography>

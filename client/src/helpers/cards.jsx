@@ -138,9 +138,9 @@ export const CARD_LIST = [
     name: "Ghoul Ravager",
     type: types.CREATURE,
     tag: tags.DEMON,
-    cost: 4,
+    cost: 6,
     attack: 1,
-    health: 1,
+    health: 2,
   },
   {
     cardId: 11,
@@ -243,7 +243,7 @@ export const CARD_LIST = [
     cardId: 21,
     name: 'Lava Wave',
     type: types.SPELL,
-    cost: 2,
+    cost: 6,
     attack: 0,
     health: 0,
     afflix: afflixes.SCALABLE,
@@ -301,7 +301,7 @@ function getCardText(cardId, iteration) {
     case 9:
       return `Play: Gain ${iteration} energy`
     case 10:
-      return `Play: Gain attack and health equal to the number of cards discarded`
+      return `Play: Gain attack equal to the number of cards discarded`
     case 11:
       return `Play: Deal damage to the monster equal to the number of creatures you control`
     case 12:

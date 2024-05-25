@@ -61,7 +61,7 @@ function ProfileMenu(props) {
             </Box>
 
 
-            <IconButton>
+            <IconButton onClick={() => { dojo.createBurner() }}>
               <RefreshIcon fontSize='small' />
             </IconButton>
           </Box>

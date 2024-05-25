@@ -46,9 +46,9 @@ function Minotaur(props) {
       <Typography color="primary" variant='h6'>Minotaur</Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-        <Typography color="primary">★ Rage</Typography>
+        <Typography color="primary">★ Super Rage</Typography>
       </Box>
-      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+      <Typography mt={0.5}>Gains +2 attack each round.</Typography>
     </Box>
 
   }>

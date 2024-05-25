@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import React from 'react'
-import { CardSize, CARD_LIST } from '../helpers/cards'
+import { CardSize, CARD_LIST, fetchCard } from '../helpers/cards'
 import Card from '../components/card'
 
 function CollectionPage() {
@@ -10,9 +10,9 @@ function CollectionPage() {
 
       <Box sx={styles.cards}>
         {React.Children.toArray(
-          CARD_LIST.sort((a, b) => a.id - b.id).map(card =>
+          CARD_LIST.sort((a, b) => a.id - b.id).map((card, i) =>
             <Box sx={styles.cardContainer}>
-              <Card card={card} />
+              <Card card={fetchCard(card.cardId, 1, i + 1)} />
             </Box>
           ))}
       </Box>

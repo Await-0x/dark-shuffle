@@ -108,10 +108,13 @@ mod battle_systems {
             battle.assert_energy(1);
             battle.hero_energy -= 1;
 
+            let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
+            battle_effects.cards_discarded += 1;
+
             if game_utils::is_battle_over(battle) {
                 game_utils::end_battle(ref battle, world);
             } else {
-                set!(world, (battle));
+                set!(world, (battle, battle_effects));
                 delete!(world, (hand_card));
             }
         }

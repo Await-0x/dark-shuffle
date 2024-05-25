@@ -39,6 +39,11 @@ function Spider(props) {
       <Typography color="primary" variant='h6'>Spider</Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+        <Typography color="primary">★ Rage</Typography>
+      </Box>
+      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
         <Typography color="primary">★ Poison Spray</Typography>
       </Box>
       <Typography mt={0.5}>Deals (2) damage to each creature.</Typography>
