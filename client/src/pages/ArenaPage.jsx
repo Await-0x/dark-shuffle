@@ -7,15 +7,34 @@ import { GameContext } from '../contexts/gameContext'
 import StartBattleContainer from '../container/StartBattleContainer'
 import { useEffect } from 'react'
 import { getActiveGame } from '../api/indexer'
+import { DraftContext } from '../contexts/draftContext'
 
 function ArenaPage() {
   const gameState = useContext(GameContext)
+  const draft = useContext(DraftContext)
+
   const { gameId, inDraft, inBattle } = gameState.values
 
   useEffect(() => {
     async function checkActiveGame(address) {
       let data = await getActiveGame(address)
-      if (data) { console.log('Active game!!') }
+      if (data) {
+        await draft.fetchDraftCards(data.game_id, data.in_draft)
+
+        if (data.in_battle) {
+          
+        }
+
+        gameState.setGame({
+          gameId: data.game_id,
+          player: data.player,
+          active: data.active,
+          inDraft: data.in_draft,
+          inBattle: data.in_battle,
+          battlesWon: data.battles_won,
+          activeBattleId: data.active_battle_id
+        })
+      }
     }
 
     if (localStorage.getItem('burner')) {
@@ -33,7 +52,7 @@ function ArenaPage() {
       {inBattle && <BattleContainer />}
 
       {(gameId !== null && !inDraft && !inBattle) && <StartBattleContainer />}
-    </Box >
+    </Box>
   )
 }
 

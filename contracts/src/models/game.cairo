@@ -11,6 +11,7 @@ struct Game {
     in_draft: bool,
     in_battle: bool,
     battles_won: u16,
+    active_battle_id: usize
 }
 
 #[derive(Model, Copy, Drop, Serde)]

@@ -6,7 +6,8 @@ export const components = {
     active: Boolean(),
     inDraft: Boolean(),
     inBattle: Boolean(),
-    battlesWon: Number()
+    battlesWon: Number(),
+    activeBattleId: null
   },
   'Leaderboard': {
     gameId: null,

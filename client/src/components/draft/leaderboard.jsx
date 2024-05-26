@@ -16,7 +16,7 @@ function Leaderboard() {
   useEffect(() => {
     async function fetchLeaderboard() {
       const data = await getLeaderboard(page)
-      console.log(data)
+
       setLeaderboard(data || [])
     }
 

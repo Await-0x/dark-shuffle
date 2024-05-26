@@ -12,6 +12,7 @@ import { AnimationContext } from "./animationHandler";
 import { DojoContext } from "./dojoContext";
 import { DraftContext } from "./draftContext";
 import { GameContext } from "./gameContext";
+import { getBattleState } from "../api/indexer";
 
 export const BattleContext = createContext()
 
@@ -83,23 +84,6 @@ export const BattleProvider = ({ children }) => {
   useEffect(() => {
     setRoundEffects({ ...EFFECTS })
   }, [round])
-
-  const fetchBattleState = async () => {
-    setResettingState(true)
-
-    // const [deck, setDeck] = useState([])
-    // const [hand, setHand] = useState([])
-    // const [board, setBoard] = useState([])
-    // const [monster, setMonster] = useState({})
-    // const [adventurer, setAdventurer] = useState({})
-    // const [round, setRound] = useState(0)
-    // const [deckIteration, setDeckIteration] = useState(0)
-    // const [battleEffects, setBattleEffects] = useState({ ...EFFECTS })
-    // const [roundEffects, setRoundEffects] = useState({ ...EFFECTS })
-    // const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(false)
-
-    setResettingState(false)
-  }
 
   const submitBattleAction = async (contract, name, data) => {
     const startTime = Date.now();
@@ -422,6 +406,24 @@ export const BattleProvider = ({ children }) => {
     }
   }
 
+  const fetchBattleState = async (battleId) => {
+    setResettingState(true)
+    let data = await getBattleState(battleId)
+
+    // const [deck, setDeck] = useState([])
+    // const [hand, setHand] = useState([])
+    // const [board, setBoard] = useState([])
+    // const [monster, setMonster] = useState({})
+    // const [adventurer, setAdventurer] = useState({})
+    // const [round, setRound] = useState(0)
+    // const [deckIteration, setDeckIteration] = useState(0)
+    // const [battleEffects, setBattleEffects] = useState({ ...EFFECTS })
+    // const [roundEffects, setRoundEffects] = useState({ ...EFFECTS })
+    // const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(false)
+
+    setResettingState(false)
+  }
+
   return (
     <BattleContext.Provider
       value={{
@@ -439,7 +441,8 @@ export const BattleProvider = ({ children }) => {
           getCreaturePosition,
           damageBoard,
           damageAdventurer,
-          setTargetFriendly
+          setTargetFriendly,
+          fetchBattleState
         },
 
         state: {
@@ -450,7 +453,8 @@ export const BattleProvider = ({ children }) => {
           adventurer,
           deckIteration,
           battleEffects,
-          targetFriendlyCreature
+          targetFriendlyCreature,
+          resettingState
         }
       }}
     >

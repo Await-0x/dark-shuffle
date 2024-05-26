@@ -35,6 +35,7 @@ mod game_systems {
                     in_draft: true,
                     in_battle: false,
                     battles_won: 0,
+                    active_battle_id: 0
                 },
                 Draft {
                     game_id,
@@ -61,6 +62,8 @@ mod game_systems {
             let battle_id = world.uuid();
 
             game.in_battle = true;
+            game.active_battle_id = battle_id;
+            
             hand_utils::draw_cards(world, battle_id, game_id);
 
             set!(world, (

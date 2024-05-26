@@ -50,7 +50,7 @@ mod draft_systems {
             set!(world, (
                 Draft { game_id, card_count },
                 DraftCard { game_id, card_id: choice.card_id, number: card_count },
-                DraftEntropy { game_id, number: card_count, block_number: current_block, block_hash: 0 }
+                DraftEntropy { game_id, number: card_count + 1, block_number: current_block, block_hash: 0 }
             ));
 
             if card_count == DECK_SIZE {

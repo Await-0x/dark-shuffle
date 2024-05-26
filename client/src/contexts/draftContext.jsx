@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { fetchCard, tags, types } from "../helpers/cards";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
+import { getDraftCards, getDraftEntropy } from "../api/indexer";
 
 export const DraftContext = createContext()
 
@@ -25,6 +26,24 @@ export const DraftProvider = ({ children }) => {
       [types.CREATURE]: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [types.SPELL]: [0, 0, 0, 0, 0, 0, 0, 0, 0]
     })
+  }
+
+  const setDraftStats = (cards) => {
+    let copy = JSON.parse(JSON.stringify(manaCurve))
+    let currentTagCount = [...tagCount]
+
+    cards.map(card => {
+      if (card.cost > 7) {
+        copy[card.type][8] += 1;
+      } else {
+        copy[card.type][card.cost] += 1;
+      }
+
+      currentTagCount[Object.values(tags).indexOf(card.tag)] += 1
+    })
+
+    setManaCurve(copy)
+    setTagCount(currentTagCount)
   }
 
   const updateDraftStats = (card) => {
@@ -82,23 +101,42 @@ export const DraftProvider = ({ children }) => {
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
       const draftCard = res.find(e => e.componentName === 'DraftCard')
-      
+
       setOptions([])
 
       card.number = draftCard.number;
       setCards(prev => [...prev, card].sort((a, b) => a.cost - b.cost))
       updateDraftStats(card)
-      
+
       if (gameValues) {
         game.setGame(gameValues)
         return
       }
-      
+
       const entropy = res.find(e => e.componentName === 'DraftEntropy')
       game.setDraftEntropy(entropy)
     }
 
     setPendingTx(false)
+  }
+
+  const fetchDraftCards = async (gameId, inDraft) => {
+    let data = await getDraftCards(gameId)
+    let cards = data.map((card, i) => {
+      let _card = fetchCard(card.card_id, 1, i + 1)
+      _card.number = card.number
+      return _card
+    })
+
+    setDraftStats(cards)
+    setCards(cards.sort((a, b) => a.cost - b.cost))
+
+    if (inDraft) {
+      const entropy = await getDraftEntropy(gameId, data.length + 1)
+      game.setDraftEntropy({
+        blockNumber: entropy.block_number
+      })
+    }
   }
 
   return (
@@ -114,7 +152,8 @@ export const DraftProvider = ({ children }) => {
         pendingTx,
         getDraftOptions,
         setPlayerName,
-        playerName
+        playerName,
+        fetchDraftCards
       }}
     >
       {children}
