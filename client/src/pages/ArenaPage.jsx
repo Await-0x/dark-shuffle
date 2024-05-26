@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import StartDraft from '../components/draft/startDraft'
 import BattleContainer from '../container/BattleContainer'
 import DraftContainer from '../container/DraftContainer'
@@ -8,21 +8,28 @@ import StartBattleContainer from '../container/StartBattleContainer'
 import { useEffect } from 'react'
 import { getActiveGame } from '../api/indexer'
 import { DraftContext } from '../contexts/draftContext'
+import { BattleContext } from '../contexts/battleContext'
+import ReconnectDialog from '../components/dialogs/reconnecting'
 
 function ArenaPage() {
   const gameState = useContext(GameContext)
   const draft = useContext(DraftContext)
+  const battle = useContext(BattleContext)
 
   const { gameId, inDraft, inBattle } = gameState.values
+
+  const [reconnecting, setReconnecting] = useState(true)
 
   useEffect(() => {
     async function checkActiveGame(address) {
       let data = await getActiveGame(address)
       if (data) {
+        setReconnecting(true)
+
         await draft.fetchDraftCards(data.game_id, data.in_draft)
 
         if (data.in_battle) {
-          
+          await battle.fetchBattleState(data.active_battle_id)
         }
 
         gameState.setGame({
@@ -34,6 +41,8 @@ function ArenaPage() {
           battlesWon: data.battles_won,
           activeBattleId: data.active_battle_id
         })
+
+        setReconnecting(false)
       }
     }
 
@@ -52,6 +61,8 @@ function ArenaPage() {
       {inBattle && <BattleContainer />}
 
       {(gameId !== null && !inDraft && !inBattle) && <StartBattleContainer />}
+
+      {reconnecting && <ReconnectDialog />}
     </Box>
   )
 }

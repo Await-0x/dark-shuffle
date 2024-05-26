@@ -78,10 +78,14 @@ export const BattleProvider = ({ children }) => {
   }, [animationHandler.completed])
 
   useEffect(() => {
+    if (resettingState) return;
+
     setHand(draft.cards.map(card => fetchCard(card.cardId, deckIteration, card.number)))
   }, [deckIteration])
 
   useEffect(() => {
+    if (resettingState) return;
+
     setRoundEffects({ ...EFFECTS })
   }, [round])
 
@@ -410,16 +414,46 @@ export const BattleProvider = ({ children }) => {
     setResettingState(true)
     let data = await getBattleState(battleId)
 
-    // const [deck, setDeck] = useState([])
-    // const [hand, setHand] = useState([])
-    // const [board, setBoard] = useState([])
-    // const [monster, setMonster] = useState({})
-    // const [adventurer, setAdventurer] = useState({})
-    // const [round, setRound] = useState(0)
-    // const [deckIteration, setDeckIteration] = useState(0)
-    // const [battleEffects, setBattleEffects] = useState({ ...EFFECTS })
-    // const [roundEffects, setRoundEffects] = useState({ ...EFFECTS })
-    // const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(false)
+    setBattleId(data.battle.battle_id)
+    setHand(data.handCards.map(card => fetchCard(card.card_id, data.battle.deck_iteration, card.hand_card_number)))
+    setBoard(data.creatures.map(card => ({
+      id: card.creature_id,
+      cardId: card.card_id,
+      cost: card.cost,
+      attack: card.attack,
+      health: card.health,
+      shield: card.shield,
+      resting: card.resting_round >= data.battle.round
+    })))
+
+    setMonster({
+      ...MONSTER_LIST.find(monster => monster.id === data.battle.monster_id),
+      attack: data.battle.monster_attack,
+      health: data.battle.monster_health
+    })
+
+    setAdventurer({
+      id: ADVENTURER_ID,
+      health: data.battle.hero_health,
+      energy: data.battle.hero_energy
+    })
+
+    setRound(data.battle.round)
+    setDeckIteration(data.battle.deck_iteration)
+    setCreatureIndex(data.battle.card_index)
+    setBattleEffects({
+      cardsDiscarded: data.battleEffects.cards_discarded,
+      creaturesPlayed: data.battleEffects.creatures_played,
+      spellsPlayed: data.battleEffects.spells_played,
+      demonsPlayed: data.battleEffects.demons_played,
+      nextSpellReduction: data.battleEffects.next_spell_reduction,
+      deadCreatures: data.battleEffects.dead_creatures
+    })
+    setRoundEffects({
+      ...EFFECTS,
+      creaturesPlayed: data.roundEffects.creatures_played
+    })
+    setTargetFriendlyCreature(false)
 
     setResettingState(false)
   }

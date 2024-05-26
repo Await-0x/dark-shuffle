@@ -84,7 +84,7 @@ export async function getBattleState(battle_id) {
           monster_health
         }
       }
-    },
+    }
 
     creatureModels(where:{battle_id:${battle_id}}) {
       edges {
@@ -99,7 +99,7 @@ export async function getBattleState(battle_id) {
           resting_round
         }
       }
-    },
+    }
 
     handCardModels(where:{battle_id:${battle_id}}) {
       edges {
@@ -109,7 +109,7 @@ export async function getBattleState(battle_id) {
           card_id,
         }
       }
-    },
+    }
 
     battleEffectsModels(where:{battle_id:${battle_id}}) {
       edges {
@@ -123,21 +123,29 @@ export async function getBattleState(battle_id) {
           dead_creatures,
         }
       }
-    },
+    }
 
-    RoundEffects(where:{battle_id:${battle_id}}) {
+    roundEffectsModels(where:{battle_id:${battle_id}}) {
       edges {
         node {
           battle_id,
           creatures_played,
         }
       }
-    },
+    }
   }
   `
   const res = await request(dojoConfig.toriiUrl, document)
 
-  return res
+  const result = {
+    battle: res?.battleModels?.edges[0]?.node,
+    creatures: res?.creatureModels?.edges.map(edge => edge.node),
+    handCards: res?.handCardModels?.edges.map(edge => edge.node),
+    battleEffects: res?.battleModels?.edges[0]?.node,
+    roundEffects: res?.battleModels?.edges[0]?.node
+  }
+
+  return result
 }
 
 export async function getLeaderboard(page) {
