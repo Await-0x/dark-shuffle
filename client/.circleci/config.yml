@@ -4,7 +4,7 @@ orbs:
 
 jobs:
   build:
-    working_directory: ~/repo
+    working_directory: ~/repo/client
     docker:
       - image: cimg/node:20.11.0
     steps:
@@ -12,19 +12,19 @@ jobs:
       - restore_cache:
           keys:
             - dependencies-{{ checksum "package.json" }}
-      - run: yarn install --production=false
+      - run: pnpm i
       - save_cache:
           key: dependencies-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: yarn build
+      - run: pnpm build
       - persist_to_workspace:
           root: .
           paths:
             - dist
 
   deploy:
-    working_directory: ~/repo
+    working_directory: ~/repo/client
     docker:
       - image: google/cloud-sdk:latest
     steps:
@@ -46,12 +46,12 @@ jobs:
 
 workflows:
   version: 2
-  "master pipeline":
+  "main pipeline":
     jobs:
       - build:
           filters:
             branches:
-              only: master
+              only: main
       - deploy:
           requires:
             - build
