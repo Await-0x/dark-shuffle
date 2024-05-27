@@ -29,7 +29,7 @@ private_key = "0x157fff457b7e678cced53b7fccdd86030a8598541902ec672b9cb8dcd17db6"
 [tool.dojo.world]
 name = "Dark Shuffle"
 description = "Enter the darkness"
-website = "https:/darkshuffle.monster/"
+website = "https:/darkshuffle.dev/"
 
 [tool.fmt]
 sort-module-level-items = true
