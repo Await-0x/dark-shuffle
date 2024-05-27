@@ -18,9 +18,10 @@ account_address = "0x6162896d1d7ab204c7ccac6dd5f8e9e7c25ecd5ae4fcb4ad32e57786bb4
 private_key = "0x1800000000300000180000000000030000000000003006001800006600"
 
 [profile.prod.tool.dojo.env]
-rpc_url = "https://api.cartridge.gg/x/darkshuffle/katana"
-account_address = "0x7df39d39e72fb6534bce8176b4be470c7ad34b7126e7f5fe02b9c7d37aa5d20"
-private_key = "0x157fff457b7e678cced53b7fccdd86030a8598541902ec672b9cb8dcd17db6"
+rpc_url = "https://api.cartridge.gg/x/realms/katana"
+account_address = "0x1ac9ffb92ef2b848b6b9feb8a06b9c3311077007e9075517fe629165f8c111"
+private_key = "0x4aa974632b58a8946752d559f2b061b8fc9949c2006c8ca2429e27a2584341c"
+world_address = "0x1ea1b9ecad1655ffba513fc73818ce42fbbb36175151ead4a822c0aabb05eab"
 
 [[target.dojo]]
 
