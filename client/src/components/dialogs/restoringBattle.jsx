@@ -1,6 +1,6 @@
 import { Box, Dialog, Typography } from '@mui/material';
 
-function ReconnectDialog(props) {
+function RestoringBattleDialog(props) {
   return (
     <Dialog
       open={true}
@@ -12,9 +12,9 @@ function ReconnectDialog(props) {
 
       <Box sx={styles.container}>
 
-        <Typography variant='h3' color={'primary'}>Game in Progress</Typography>
+        <Typography variant='h3' color={'error'}>Transaction failed</Typography>
         <Box display={'flex'} alignItems={'baseline'}>
-          <Typography variant='h6' color={'primary'}>Reconnecting</Typography>
+          <Typography variant='h6' color={'primary'}>Restoring state</Typography>
           <div className='dotLoader' />
         </Box>
 
@@ -24,7 +24,7 @@ function ReconnectDialog(props) {
   )
 }
 
-export default ReconnectDialog
+export default RestoringBattleDialog
 
 const styles = {
   container: {

@@ -10,6 +10,7 @@ import { BattleContext } from '../contexts/battleContext';
 import { CustomTooltip } from '../helpers/styles';
 import { fadeVariant } from "../helpers/variants";
 import graveyardIcon from '../assets/images/graveyard.png';
+import RestoringBattleDialog from '../components/dialogs/restoringBattle';
 
 function BattleContainer() {
   const battle = useContext(BattleContext)
@@ -116,6 +117,8 @@ function BattleContainer() {
         </Box>
 
       </Box >
+
+      {battle.state.resettingState && <RestoringBattleDialog />}
     </motion.div>
   )
 }

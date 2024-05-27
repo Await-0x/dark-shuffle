@@ -18,7 +18,7 @@ function ArenaPage() {
 
   const { gameId, inDraft, inBattle } = gameState.values
 
-  const [reconnecting, setReconnecting] = useState(true)
+  const [reconnecting, setReconnecting] = useState(false)
 
   useEffect(() => {
     async function checkActiveGame(address) {

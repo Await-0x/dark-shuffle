@@ -29,7 +29,10 @@ export const DraftProvider = ({ children }) => {
   }
 
   const setDraftStats = (cards) => {
-    let copy = JSON.parse(JSON.stringify(manaCurve))
+    let copy = {
+      [types.CREATURE]: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [types.SPELL]: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    }
     let currentTagCount = [...tagCount]
 
     cards.map(card => {
@@ -122,6 +125,7 @@ export const DraftProvider = ({ children }) => {
 
   const fetchDraftCards = async (gameId, inDraft) => {
     let data = await getDraftCards(gameId)
+
     let cards = data.map((card, i) => {
       let _card = fetchCard(card.card_id, 1, i + 1)
       _card.number = card.number
@@ -134,7 +138,7 @@ export const DraftProvider = ({ children }) => {
     if (inDraft) {
       const entropy = await getDraftEntropy(gameId, data.length + 1)
       game.setDraftEntropy({
-        blockNumber: entropy.block_number
+        blockNumber: parseInt(entropy.block_number)
       })
     }
   }

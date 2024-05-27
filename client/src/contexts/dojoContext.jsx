@@ -11,7 +11,7 @@ import { useState } from "react";
 
 export const DojoContext = createContext()
 
-export const DojoProvider = ({ children, showConnectWallet }) => {
+export const DojoProvider = ({ children }) => {
   const { enqueueSnackbar } = useSnackbar()
 
   const dojoProvider = new _dojoProvider(dojoConfig.manifest, dojoConfig.rpcUrl);
@@ -33,7 +33,6 @@ export const DojoProvider = ({ children, showConnectWallet }) => {
 
   const executeTx = async (contract_name, system, call_data) => {
     if (!account) {
-      // showConnectWallet(true)
       return
     }
 
