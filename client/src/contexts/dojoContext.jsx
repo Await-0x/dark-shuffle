@@ -58,6 +58,7 @@ export const DojoProvider = ({ children }) => {
 
   const createBurner = async () => {
     setCreatingBurner(true)
+    console.log('creating burner...')
 
     let account = await createBurnerAccount(rpcProvider)
     if (account) {

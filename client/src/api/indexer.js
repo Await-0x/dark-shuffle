@@ -151,7 +151,8 @@ export async function getBattleState(battle_id) {
 export async function getLeaderboard(page) {
   let pageSize = 10
 
-  const document = gql`
+  try {
+    const document = gql`
     {
       leaderboardModels (order:{field:SCORE, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
         edges {
@@ -163,7 +164,10 @@ export async function getLeaderboard(page) {
       }
     }
   `
-  const res = await request(dojoConfig.toriiUrl, document)
+    const res = await request(dojoConfig.toriiUrl, document)
 
-  return res?.leaderboardModels?.edges.map(edge => edge.node)
+    return res?.leaderboardModels?.edges.map(edge => edge.node)
+  } catch (ex) {
+    console.log(ex)
+  }
 }
