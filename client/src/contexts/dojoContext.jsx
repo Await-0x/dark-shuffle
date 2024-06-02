@@ -21,8 +21,6 @@ export const DojoProvider = ({ children }) => {
   const [creatingBurner, setCreatingBurner] = useState();
 
   useEffect(() => {
-    if (!dojoConfig.development) return;
-
     if (localStorage.getItem('burner')) {
       let burner = JSON.parse(localStorage.getItem('burner'))
       setAccount(new Account(rpcProvider, burner.address, burner.privateKey, "1"))
@@ -58,7 +56,6 @@ export const DojoProvider = ({ children }) => {
 
   const createBurner = async () => {
     setCreatingBurner(true)
-    console.log('creating burner...')
 
     let account = await createBurnerAccount(rpcProvider)
     if (account) {

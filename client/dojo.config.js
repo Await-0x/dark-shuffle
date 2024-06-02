@@ -1,5 +1,5 @@
-import devManifest from "../contracts/manifests/dev/manifest.json";
-import prodManifest from "../contracts/manifests/prod/manifest.json";
+import devManifest from "./manifest.json";
+import prodManifest from "./prod-manifest.json";
 
 const {
   VITE_PUBLIC_NODE_URL,
