@@ -1,17 +1,15 @@
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import EditIcon from '@mui/icons-material/Edit';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import LogoutIcon from '@mui/icons-material/Logout';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import PersonIcon from '@mui/icons-material/Person';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import { Box, Divider, IconButton, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
-import React from 'react';
-import { useContext } from 'react';
+import { Box, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
+import React, { useContext } from 'react';
 import { DojoContext } from '../../contexts/dojoContext';
 import { DraftContext } from '../../contexts/draftContext';
 import { ellipseAddress } from '../../helpers/utilities';
-import PersonIcon from '@mui/icons-material/Person';
-import EditIcon from '@mui/icons-material/Edit';
-import RefreshIcon from '@mui/icons-material/Refresh';
 
 function ProfileMenu(props) {
   const { handleClose, anchorEl, openAccountDialog, openNameDialog } = props
@@ -87,16 +85,16 @@ function ProfileMenu(props) {
 
         <Divider sx={{ my: 1 }} />
 
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => { window.open("https://github.com/Await-0x/dark-shuffle", "_blank"); handleClose; }}>
           <ListItemIcon>
-            <MenuBookIcon fontSize="small" />
+            <GitHubIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>
-            Docs
+            Github
           </ListItemText>
         </MenuItem>
 
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => { window.open("https://discord.gg/v534GSTf9p", "_blank"); handleClose; }}>
           <ListItemIcon>
             <SportsEsportsIcon fontSize="small" />
           </ListItemIcon>

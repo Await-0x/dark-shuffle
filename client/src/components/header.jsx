@@ -1,17 +1,15 @@
-import GitHubIcon from '@mui/icons-material/GitHub';
 import InfoIcon from '@mui/icons-material/Info';
 import PersonIcon from '@mui/icons-material/Person';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Typography } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import { dojoConfig } from '../../dojo.config';
 import logo from '../assets/images/logo.png';
 import { DojoContext } from '../contexts/dojoContext';
+import { DraftContext } from '../contexts/draftContext';
 import { ellipseAddress } from '../helpers/utilities';
 import OnboardingWizard from './header/onboardingWizard';
 import ProfileMenu from './header/profileMenu';
-import { DraftContext } from '../contexts/draftContext';
 import TestNet from './header/testnet';
 
 const menuItems = [
@@ -72,7 +70,7 @@ function Header(props) {
         })}
       </Box>
 
-      {dojoConfig.development && <Box>
+      <Box>
         {dojo.address
           ? <Button onClick={handleClick} endIcon={<PersonIcon fontSize='large' />} size='large'>
 
@@ -89,27 +87,7 @@ function Header(props) {
           : <LoadingButton loading={dojo.creatingBurner} variant='outlined' sx={{ width: '130px', height: '32px' }}>
           </LoadingButton>
         }
-      </Box>}
-
-      {!dojoConfig.development && <Box display={'flex'} gap={4} alignItems={'center'}>
-        {dojo.address
-          ? <Button onClick={handleClick} endIcon={<PersonIcon fontSize='large' />} size='large'>
-            <Typography color='primary' sx={{ fontSize: '12px' }}>
-              {ellipseAddress(dojo.address, 4, 4)}
-            </Typography>
-          </Button>
-
-          : <Button variant='outlined' onClick={() => openAccountDialog(0)} sx={{ width: '130px', height: '32px' }}>
-            <Typography color='primary' sx={{ fontSize: '13px', letterSpacing: '1px' }}>
-              CONNECT
-            </Typography>
-          </Button>
-        }
-
-        <a href="https://github.com/Await-0x/dark-shuffle" target='_blank'>
-          <GitHubIcon color='primary' fontSize='large' />
-        </a>
-      </Box>}
+      </Box>
 
       <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openAccountDialog={openAccountDialog} openNameDialog={openNameDialog} />
       <OnboardingWizard open={accountDialog !== false} close={openAccountDialog} step={accountDialog || 0} />
