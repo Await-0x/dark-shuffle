@@ -1,6 +1,7 @@
 mod game_utils {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use starknet::{get_block_hash_syscall};
+    use starknet::syscalls::get_block_hash_syscall;
+    use starknet::SyscallResultTrait;
 
     use darkshuffle::constants::{DECK_SIZE, MONSTER_KILL_SCORE};
     use darkshuffle::models::game::{Game, Leaderboard};
@@ -47,14 +48,14 @@ mod game_utils {
         while (i <= DECK_SIZE) {
             let draft_entropy = get!(world, (game_id, i), DraftEntropy);
 
-            assert(draft_entropy.block_hash == starknet::get_block_hash_syscall(draft_entropy.block_number).unwrap(), 'Entropy failed');
+            assert(draft_entropy.block_hash == get_block_hash_syscall(draft_entropy.block_number).unwrap_syscall(), 'Entropy failed');
 
             i += 1;
         };
     }
 
     fn update_leaderboard(ref game: Game, ref battle: Battle, world: IWorldDispatcher) {
-        verify_draft(game.game_id, world);
+        // verify_draft(game.game_id, world);
         
         let score = score_game(ref game, ref battle);
 

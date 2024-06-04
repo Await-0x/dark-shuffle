@@ -6,7 +6,7 @@ import { afflixExplainer, fetch_image, types } from "../helpers/cards";
 import { CustomTooltip } from '../helpers/styles';
 
 function Card(props) {
-  const { card } = props
+  const { card, pendingCard } = props
   const [tooltip, showTooltip] = useState(false)
 
   useEffect(() => {
@@ -20,7 +20,7 @@ function Card(props) {
     </Box>
     : false
   }>
-    <Box sx={styles.container}>
+    <Box sx={[styles.container, { opacity: (pendingCard && pendingCard !== card.id) ? 0.3 : 1 }]}>
 
       <Box sx={styles.header}>
         <Box sx={styles.circle} border={'1px solid #FFE97F'}>
@@ -160,6 +160,6 @@ const styles = {
     borderRadius: '100px'
   },
   tooltip: {
-    
+
   }
 }

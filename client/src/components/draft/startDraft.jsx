@@ -51,7 +51,7 @@ function StartDraft() {
               Season ends in
             </Typography>
             <Typography variant='h6' color='primary'>
-              1532 Blocks
+              0 Blocks
             </Typography>
           </Box>
 
@@ -98,9 +98,9 @@ function StartDraft() {
               Start draft
             </LoadingButton>
 
-            <Button variant='outlined' color='secondary' sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }} onClick={() => showHistory(true)}>
+            {/* <Button variant='outlined' color='secondary' sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }} onClick={() => showHistory(true)}>
               History
-            </Button>
+            </Button> */}
           </Box>
         </Box>
 

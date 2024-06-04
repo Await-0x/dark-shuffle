@@ -4,7 +4,7 @@ export const DECK_SIZE = 8;
 export const DISCARD_COST = 1;
 export const MAX_BOARD = 6;
 
-export const START_ENERGY = 8;
+export const START_ENERGY = 7;
 export const START_HEALTH = 30;
 
 export const U128_MAX = BigInt(340282366920938463463374607431768211455);

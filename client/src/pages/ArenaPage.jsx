@@ -29,7 +29,7 @@ function ArenaPage() {
         await draft.fetchDraftCards(data.game_id, data.in_draft)
 
         if (data.in_battle) {
-          await battle.fetchBattleState(data.active_battle_id)
+          await battle.utils.fetchBattleState(data.active_battle_id)
         }
 
         gameState.setGame({

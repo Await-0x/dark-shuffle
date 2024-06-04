@@ -20,8 +20,29 @@ function TutorialDialog(props) {
       <Box sx={styles.container}>
 
         <Typography color='primary' variant='h2'>
-          Quick guide
+          Tutorial
         </Typography>
+
+        <Box sx={styles.guideRow}>
+          <Box width='40%'>
+            <Typography variant='h5' color='primary'>
+              Deck iterations
+            </Typography>
+            <Typography mt={1}>
+              Play / Discard all cards in your hand to get a new set of improved cards. Your hand must be empty when you end your turn.
+            </Typography>
+          </Box>
+
+          <Box width='40%' display={'flex'} alignItems={'center'} justifyContent={'center'}>
+            <Box sx={styles.deck}>
+              <Box sx={styles.cardCount}>
+                <Typography>
+                  1
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
 
         <Box sx={styles.guideRow}>
 
@@ -33,7 +54,7 @@ function TutorialDialog(props) {
               Cards cost energy to play.
             </Typography>
             <Typography>
-              Your energy increases each round.
+              Your energy replenish each round.
             </Typography>
           </Box>
 
@@ -43,7 +64,7 @@ function TutorialDialog(props) {
             <Box sx={styles.card}>
               <Box sx={styles.circle} border={'1px solid #FFE97F'}>
                 <Typography>
-                  4
+                  1
                 </Typography>
               </Box>
 
@@ -61,7 +82,7 @@ function TutorialDialog(props) {
               Discard cards for (1) energy
             </Typography>
             <Typography mt={1}>
-              Drag cards to the vortex to discard them. At the beginning of each round, you draw cards until you have 5 in your hand.
+              Drag cards to the vortex to discard them.
             </Typography>
           </Box>
 
@@ -78,7 +99,7 @@ function TutorialDialog(props) {
               Attack Monster
             </Typography>
             <Typography mt={1}>
-              Use your creatures to attack the monster. Dead creatures goes to the bottom of your deck.
+              Use your creatures or spells to damage the monster.
             </Typography>
           </Box>
 
@@ -95,12 +116,6 @@ function TutorialDialog(props) {
           </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Button variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '2px' }} onClick={() => close(false)}>
-            START GAME
-          </Button>
-        </Box>
-
       </Box>
 
     </Dialog>
@@ -114,8 +129,8 @@ const styles = {
     boxSizing: 'border-box',
     width: '800px',
     height: '660px',
-    p: 3,
-    gap: 5,
+    py: 4,
+    gap: 2,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -146,5 +161,27 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: '100px'
+  },
+  deck: {
+    background: '#141920',
+    border: '1px solid rgba(255, 255, 255, 0.6)',
+    height: '80px',
+    width: '60px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '4px',
+    boxShadow: `rgba(255, 233, 127, 0.35) 0px 5px 15px`,
+    animation: 'animateGlow 2.5s linear infinite',
+    cursor: 'pointer'
+  },
+  cardCount: {
+    width: '32px',
+    height: '32px',
+    borderRadius: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
   }
 }

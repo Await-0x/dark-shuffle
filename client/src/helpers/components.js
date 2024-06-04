@@ -33,7 +33,7 @@ export const components = {
     gameId: null,
     number: Number(),
     blockNumber: Number(),
-    blockHash: Number()
+    blockHash: null
   },
   'Battle': {
     battleId: null,

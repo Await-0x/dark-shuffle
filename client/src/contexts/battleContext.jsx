@@ -101,7 +101,7 @@ export const BattleProvider = ({ children }) => {
     const leaderboard = res.find(e => e.componentName === 'Leaderboard')
 
     if (leaderboard) {
-      return game.setScore(leaderboard.score)
+      return game.setScore(Math.max(1, leaderboard.score))
     }
 
     if (gameValues) {

@@ -11,6 +11,7 @@ import { ellipseAddress } from '../helpers/utilities';
 import OnboardingWizard from './header/onboardingWizard';
 import ProfileMenu from './header/profileMenu';
 import TestNet from './header/testnet';
+import TutorialDialog from './dialogs/tutorial';
 
 const menuItems = [
   {
@@ -33,6 +34,7 @@ function Header(props) {
 
   const [accountDialog, openAccountDialog] = useState(false)
   const [nameDialog, openNameDialog] = useState(false)
+  const [tutorial, openTutorial] = useState(false)
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -68,6 +70,8 @@ function Header(props) {
             </Box>
           </Link>
         })}
+
+        <Button onClick={() => { openTutorial(true) }}>Tutorial</Button>
       </Box>
 
       <Box>
@@ -92,6 +96,7 @@ function Header(props) {
       <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openAccountDialog={openAccountDialog} openNameDialog={openNameDialog} />
       <OnboardingWizard open={accountDialog !== false} close={openAccountDialog} step={accountDialog || 0} />
       <TestNet open={nameDialog} close={openNameDialog} />
+      <TutorialDialog open={tutorial} close={openTutorial} />
     </Box>
   );
 }

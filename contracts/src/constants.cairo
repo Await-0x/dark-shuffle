@@ -4,7 +4,7 @@ const DECK_SIZE: u8 = 8;
 const DISCARD_COST: u8 = 1;
 const MAX_BOARD: u8 = 6;
 
-const START_ENERGY: u16 = 8;
+const START_ENERGY: u16 = 7;
 const START_HEALTH: u16 = 30;
 
 const MONSTER_KILL_SCORE: u16 = 100;

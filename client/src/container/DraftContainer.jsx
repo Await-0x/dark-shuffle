@@ -32,15 +32,25 @@ function DraftContainer() {
         <Box sx={styles.mainContainer}>
           {draft.options.length > 0
             ? <>
-              <Typography variant='h2' color='primary' sx={{ height: '40px' }}>
-                Select Card
-              </Typography>
+              {draft.pendingCard
+                ? <Box display={'flex'} alignItems={'baseline'}>
+                  <Typography variant='h2' color='primary'>
+                    Selecting card
+                  </Typography>
+                  <div className='dotLoader' style={{ width: '24px' }} />
+                </Box>
+                : <Typography variant='h2' color='primary'>
+                  Select Card
+                </Typography>
+              }
 
               <motion.div key={draft.cards.length} style={styles.cards} variants={fadeChildrenContainer} initial="hidden" animate="visible">
                 {React.Children.toArray(
                   draft.options.map(card =>
-                    <motion.div style={styles.cardContainer} onClick={() => selectCard(card)} variants={fadeChildrenItem}>
-                      <Card card={card} />
+                    <motion.div style={styles.cardContainer}
+                      onClick={() => selectCard(card)}
+                      variants={fadeChildrenItem}>
+                      <Card card={card} pendingCard={draft.pendingCard} />
                     </motion.div>
                   ))}
               </motion.div>

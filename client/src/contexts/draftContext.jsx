@@ -10,6 +10,7 @@ export const DraftProvider = ({ children }) => {
   const dojo = useContext(DojoContext)
   const game = useContext(GameContext)
   const [pendingTx, setPendingTx] = useState()
+  const [pendingCard, setPendingCard] = useState()
 
   const [playerName, setPlayerName] = useState(localStorage.getItem('playerName') || '')
   const [options, setOptions] = useState([])
@@ -97,7 +98,7 @@ export const DraftProvider = ({ children }) => {
   const selectCard = async (card) => {
     if (pendingTx) return;
 
-    setPendingTx(true)
+    setPendingCard(card.id)
 
     const res = await dojo.executeTx("darkshuffle::systems::draft::contracts::draft_systems", "pick_card", [game.values.gameId, card.id])
 
@@ -120,7 +121,7 @@ export const DraftProvider = ({ children }) => {
       game.setDraftEntropy(entropy)
     }
 
-    setPendingTx(false)
+    setPendingCard()
   }
 
   const fetchDraftCards = async (gameId, inDraft) => {
@@ -154,6 +155,7 @@ export const DraftProvider = ({ children }) => {
         tagCount,
         startDraft,
         pendingTx,
+        pendingCard,
         getDraftOptions,
         setPlayerName,
         playerName,
