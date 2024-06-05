@@ -660,10 +660,10 @@
         ]
       }
     ],
-    "address": "0x1ea1b9ecad1655ffba513fc73818ce42fbbb36175151ead4a822c0aabb05eab",
-    "transaction_hash": "0x5dd7be41f4b40a0e5c4f2899ba36180ee9977854612a5513e7396b5098590b5",
-    "block_number": 1669,
-    "seed": "darkshuffle",
+    "address": "0xecd1baf5ec3d3263a0db42846a132ca831143adf52211d6fb415c15703e40d",
+    "transaction_hash": "0x1434a03c82652fb2435f5986210267c20c441453075b84d55d9c5faac2808f7",
+    "block_number": 2755,
+    "seed": "darkshuffle1",
     "name": "dojo::world::world"
   },
   "base": {
@@ -676,7 +676,7 @@
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": "0x66de595f5ad23430f9c93c7038843e78b220f22348eb49e300b71f74bcac9ac",
+      "address": "0x2e3bad152b015938ae1b182ca477d9d33c2eb023d5a9725694cb8da9c5b3cd0",
       "class_hash": "0x2f2c0b8a3e1297d71043b916da1e12cde554ecfc295b8935c8cbfe8843a7a4f",
       "original_class_hash": "0x2f2c0b8a3e1297d71043b916da1e12cde554ecfc295b8935c8cbfe8843a7a4f",
       "base_class_hash": "0x679177a2cb757694ac4f326d01052ff0963eac0bc2a17116a2b87badcdf6f76",
@@ -897,7 +897,7 @@
     },
     {
       "kind": "DojoContract",
-      "address": "0x6aa3eb92010020deda1a762cde983ac126c3976ca24620e72c603e48e4c3ef",
+      "address": "0x53fc77fc05e44312819f028159470a282eb642c655271d1da9f5e263a030e07",
       "class_hash": "0x5bd7c268f84842cab925212f843ebe785ff7c2d28e8fef3483c60ef85a8bc6a",
       "original_class_hash": "0x5bd7c268f84842cab925212f843ebe785ff7c2d28e8fef3483c60ef85a8bc6a",
       "base_class_hash": "0x679177a2cb757694ac4f326d01052ff0963eac0bc2a17116a2b87badcdf6f76",
@@ -1066,7 +1066,7 @@
     },
     {
       "kind": "DojoContract",
-      "address": null,
+      "address": "0x10729cb72b23989b02ecbc14bc0fd8b563af5cac99ad5e1719e03c0baf5abfe",
       "class_hash": "0x95768b02b1ffa889cdad5f3a1da5e3a9f6e438a4adf197b4043a5687de9b38",
       "original_class_hash": "0x95768b02b1ffa889cdad5f3a1da5e3a9f6e438a4adf197b4043a5687de9b38",
       "base_class_hash": "0x679177a2cb757694ac4f326d01052ff0963eac0bc2a17116a2b87badcdf6f76",

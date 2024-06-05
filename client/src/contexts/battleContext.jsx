@@ -94,7 +94,7 @@ export const BattleProvider = ({ children }) => {
     const res = await dojo.executeTx(contract, name, data)
 
     if (!res) {
-      return fetchBattleState()
+      return fetchBattleState(battleId)
     }
 
     const gameValues = res.find(e => e.componentName === 'Game')

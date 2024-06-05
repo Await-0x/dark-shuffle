@@ -86,7 +86,7 @@ export async function getBattleState(battle_id) {
       }
     }
 
-    creatureModels(where:{battle_id:${battle_id}}) {
+    creatureModels(where:{battle_id:${battle_id}, creature_idNEQ:0}) {
       edges {
         node {
           battle_id
