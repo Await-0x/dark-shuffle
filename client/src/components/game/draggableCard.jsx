@@ -54,7 +54,6 @@ function DraggableCard(props) {
     }
 
     else if (values.card.requiresTarget) {
-      enqueueSnackbar('Select target', { variant: 'info', anchorOrigin: { vertical: 'top', horizontal: 'center' } })
       battle.utils.setTargetFriendly(values.card)
     }
 

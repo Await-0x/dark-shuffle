@@ -7,7 +7,8 @@ export const components = {
     inDraft: Boolean(),
     inBattle: Boolean(),
     battlesWon: Number(),
-    activeBattleId: null
+    activeBattleId: null,
+    heroHealth: Number(),
   },
   'Leaderboard': {
     gameId: null,
@@ -43,6 +44,7 @@ export const components = {
     cardIndex: Number(),
     heroHealth: Number(),
     heroEnergy: Number(),
+    heroArmor: Number(),
     monsterId: Number(),
     monsterAttack: Number(),
     monsterHealth: Number()

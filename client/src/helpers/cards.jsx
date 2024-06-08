@@ -18,20 +18,26 @@ export const afflixes = {
 export const afflixExplainer = (afflix) => {
   switch (afflix) {
     case afflixes.SCALABLE:
-      return "Cost one less energy each iteration."
+      return "Cost one less energy each iteration"
     case afflixes.ESCALATING:
-      return "Effect improves each iteration."
+      return "Effect improves each iteration"
     case afflixes.SHIELD:
-      return "Prevents the first source of damage."
+      return "Prevents the first source of damage"
   }
 }
 
 export const fetch_image = (name) => {
-  return new URL(`../assets/images/cards/${name.replace(" ", "_").toLowerCase()}.png`, import.meta.url).href
+  if (name) {
+    return new URL(`../assets/images/cards/${name.replace(" ", "_").toLowerCase()}.png`, import.meta.url).href
+  }
 }
 
-export const fetchCard = (cardId, iteration, id) => {
-  let card = CARD_LIST.find(card => card.cardId === cardId)
+export const fetchCard = (cardId, iteration, id, monsterId) => {
+  let card = { ...CARD_LIST.find(card => card.cardId === cardId) }
+
+  if (monsterId === 405 && card.type === types.CREATURE) {
+    card.cost += 1;
+  }
 
   return {
     ...card,
@@ -41,13 +47,27 @@ export const fetchCard = (cardId, iteration, id) => {
   }
 }
 
+export const fetchBoardCreatures = (data) => {
+  return data.creatures.map(card => ({
+    id: card.creature_id,
+    cardId: card.card_id,
+    cost: card.cost,
+    attack: card.attack,
+    health: card.health,
+    shield: card.shield,
+    resting: card.resting_round >= data.battle.round,
+    text: getCardText(card.card_id, data.battle.deck_iteration),
+    name: CARD_LIST.find(_card => _card.cardId === card.card_id).name
+  }))
+}
+
 export const CARD_LIST = [
   {
     cardId: 1,
     name: 'Wild Dog',
     type: types.CREATURE,
     tag: tags.SCAVENGER,
-    cost: 1,
+    cost: 2,
     attack: 1,
     health: 1,
     afflix: afflixes.ESCALATING
@@ -57,7 +77,7 @@ export const CARD_LIST = [
     name: "Wisdom Bringer",
     type: types.CREATURE,
     tag: tags.PRIEST,
-    cost: 1,
+    cost: 2,
     attack: 2,
     health: 2,
     afflix: afflixes.ESCALATING
@@ -98,7 +118,7 @@ export const CARD_LIST = [
     name: "Grim Marauder",
     type: types.CREATURE,
     tag: tags.DEMON,
-    cost: 4,
+    cost: 2,
     attack: 0,
     health: 4,
   },
@@ -118,20 +138,18 @@ export const CARD_LIST = [
     name: 'Tasmanian Devil',
     type: types.CREATURE,
     tag: tags.SCAVENGER,
-    cost: 5,
-    attack: 2,
-    health: 2,
-    afflix: afflixes.SCALABLE,
+    cost: 3,
+    attack: 4,
+    health: 3,
   },
   {
     cardId: 9,
     name: 'Jackal',
     type: types.CREATURE,
     tag: tags.SCAVENGER,
-    cost: 3,
-    attack: 3,
+    cost: 1,
+    attack: 2,
     health: 2,
-    afflix: afflixes.ESCALATING,
   },
   {
     cardId: 10,
@@ -147,7 +165,7 @@ export const CARD_LIST = [
     name: "Gospel Scribe",
     type: types.CREATURE,
     tag: tags.PRIEST,
-    cost: 6,
+    cost: 5,
     attack: 3,
     health: 3,
     afflix: afflixes.SCALABLE,
@@ -167,7 +185,7 @@ export const CARD_LIST = [
     name: 'Coyote',
     type: types.CREATURE,
     tag: tags.SCAVENGER,
-    cost: 5,
+    cost: 3,
     attack: 2,
     health: 3,
     afflix: afflixes.ESCALATING,
@@ -177,7 +195,7 @@ export const CARD_LIST = [
     name: "Virtue Curate",
     type: types.CREATURE,
     tag: tags.PRIEST,
-    cost: 4,
+    cost: 3,
     attack: 4,
     health: 4,
     afflix: afflixes.ESCALATING,
@@ -188,8 +206,8 @@ export const CARD_LIST = [
     type: types.CREATURE,
     tag: tags.PRIEST,
     cost: 3,
-    attack: 2,
-    health: 1,
+    attack: 4,
+    health: 4,
     afflix: afflixes.ESCALATING,
   },
   {
@@ -208,7 +226,7 @@ export const CARD_LIST = [
     type: types.CREATURE,
     tag: tags.PRIEST,
     cost: 4,
-    attack: 4,
+    attack: 1,
     health: 4,
     afflix: afflixes.ESCALATING,
   },
@@ -243,7 +261,7 @@ export const CARD_LIST = [
     cardId: 21,
     name: 'Lava Wave',
     type: types.SPELL,
-    cost: 6,
+    cost: 7,
     attack: 0,
     health: 0,
     afflix: afflixes.SCALABLE,
@@ -252,7 +270,7 @@ export const CARD_LIST = [
     cardId: 22,
     name: 'Temporal Shift',
     type: types.SPELL,
-    cost: 3,
+    cost: 1,
     attack: 0,
     health: 0,
     afflix: afflixes.SCALABLE,
@@ -285,7 +303,7 @@ function getCardText(cardId, iteration) {
     case 1:
       return `Play: Gain +${iteration}/+${iteration}`
     case 2:
-      return `Play: Your hero gains ${iteration} health`
+      return `Play: Your hero gains ${iteration} armor`
     case 3:
       return `Play: Deal ${Math.max(0, 4 - iteration)} damage to your hero`
     case 4:
@@ -299,13 +317,13 @@ function getCardText(cardId, iteration) {
     case 8:
       return `Play: Gain 3 energy`
     case 9:
-      return `Play: Gain ${iteration} energy`
+      return `Play: Gain 1 energy`
     case 10:
       return `Play: Gain attack equal to the number of cards discarded`
     case 11:
       return `Play: Deal damage to the monster equal to the number of creatures you control`
     case 12:
-      return `Play: Your hero gains ${iteration + 3} health`
+      return `Play: Your hero gains ${iteration + 3} armor`
     case 13:
       return `Play: Gain ${iteration} attack for each creature played this turn`
     case 14:
@@ -319,9 +337,9 @@ function getCardText(cardId, iteration) {
     case 18:
       return `Deal ${iteration + 2} damage to the enemy monster`
     case 19:
-      return `Restore ${iteration + 2} health to your hero`
+      return `Your hero gains ${iteration + 2} armor`
     case 20:
-      return `Restore 8 health to your hero`
+      return `Your hero gains 8 armor`
     case 21:
       return `Deal 10 damage to the enemy monster`
     case 22:

@@ -8,7 +8,8 @@ const GAME_VALUES = {
   gameId: null,
   inDraft: false,
   inBattle: false,
-  battlesWon: 0
+  battlesWon: 0,
+  heroHealth: 0
 }
 
 export const GameProvider = ({ children }) => {

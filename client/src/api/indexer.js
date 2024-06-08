@@ -16,7 +16,8 @@ export async function getActiveGame(address) {
           in_draft,
           in_battle,
           battles_won,
-          active_battle_id
+          active_battle_id,
+          hero_health
         }
       }
     }
@@ -79,6 +80,7 @@ export async function getBattleState(battle_id) {
           card_index,
           hero_health,
           hero_energy,
+          hero_armor,
           monster_id,
           monster_attack,
           monster_health
@@ -141,8 +143,8 @@ export async function getBattleState(battle_id) {
     battle: res?.battleModels?.edges[0]?.node,
     creatures: res?.creatureModels?.edges.map(edge => edge.node),
     handCards: res?.handCardModels?.edges.map(edge => edge.node),
-    battleEffects: res?.battleModels?.edges[0]?.node,
-    roundEffects: res?.battleModels?.edges[0]?.node
+    battleEffects: res?.battleEffectsModels?.edges[0]?.node,
+    roundEffects: res?.roundEffectsModels?.edges[0]?.node
   }
 
   return result

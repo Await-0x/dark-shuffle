@@ -30,16 +30,21 @@ mod game_utils {
         let mut game: Game = get!(world, (battle.game_id), Game);
         game.battles_won += 1;
         game.in_battle = false;
-        set!(world, (game));
+        game.active_battle_id = 0;
+        game.hero_health = battle.hero_health;
+
+        set!(world, (game, battle));
     }
     
     fn battle_lost(ref battle: Battle, world: IWorldDispatcher) {
         let mut game: Game = get!(world, (battle.game_id), Game);
         game.in_battle = false;
         game.active = false;
+        game.active_battle_id = 0;
+        game.hero_health = 0;
 
         update_leaderboard(ref game, ref battle, world);
-        set!(world, (game));
+        set!(world, (game, battle));
     }
 
     fn verify_draft(game_id: usize, world: IWorldDispatcher) {

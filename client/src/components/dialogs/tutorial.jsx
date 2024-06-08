@@ -29,7 +29,7 @@ function TutorialDialog(props) {
               Deck iterations
             </Typography>
             <Typography mt={1}>
-              Play / Discard all cards in your hand to get a new set of improved cards. Your hand must be empty when you end your turn.
+              Play / Discard all cards in your hand to get a new set of improved cards.
             </Typography>
           </Box>
 

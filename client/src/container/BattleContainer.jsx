@@ -39,7 +39,7 @@ function BattleContainer() {
           <Box sx={{ position: 'absolute', right: '20px' }}>
             <CustomTooltip title={<Box mb={1}>
               <Typography color="primary" variant='h6'>End Turn</Typography>
-              <Typography mt={0.5}>Monster perform its ability and attack. Replenish energy and draw cards if your hand is empty.</Typography>
+              <Typography mt={0.5}>Monster perform its ability and attack. Replenish energy.</Typography>
             </Box>
             }>
               <LoadingButton variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '1px' }}
@@ -59,7 +59,7 @@ function BattleContainer() {
             <CustomTooltip title={
               <Box mb={1}>
                 <Typography color="primary" variant='h6'>Deck ({battle.state.deckIteration})</Typography>
-                <Typography mt={0.5}>At the start of your turn, draw your deck if your hand is empty.</Typography>
+                <Typography mt={0.5}>Draw new set of cards if your hand is empty.</Typography>
               </Box>
             }>
               <Box sx={styles.deck}>

@@ -11,7 +11,8 @@ struct Game {
     in_draft: bool,
     in_battle: bool,
     battles_won: u16,
-    active_battle_id: usize
+    active_battle_id: usize,
+    hero_health: u16
 }
 
 #[derive(Model, Copy, Drop, Serde)]

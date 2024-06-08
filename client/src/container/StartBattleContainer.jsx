@@ -1,13 +1,15 @@
-import { motion } from "framer-motion"
-import { fadeVariant } from "../helpers/variants"
-import { LoadingButton } from '@mui/lab'
-import { Box, Button, Typography } from '@mui/material'
-import React, { useContext } from 'react'
-import { fetchIntroduction, fetchZoneName } from '../battle/monsterUtils'
-import Overview from '../components/draft/overview'
-import { BattleContext } from '../contexts/battleContext'
-import { GameContext } from '../contexts/gameContext'
-import { CardSize } from '../helpers/cards'
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { LoadingButton } from '@mui/lab';
+import { Box, Typography } from '@mui/material';
+import { motion } from "framer-motion";
+import React, { useContext } from 'react';
+import monarch from "../assets/images/monarch.png";
+import { fetchIntroduction, fetchZoneName } from '../battle/monsterUtils';
+import Overview from '../components/draft/overview';
+import { BattleContext } from '../contexts/battleContext';
+import { GameContext } from '../contexts/gameContext';
+import { CardSize } from '../helpers/cards';
+import { fadeVariant } from "../helpers/variants";
 
 function StartBattleContainer() {
   const game = useContext(GameContext)
@@ -41,7 +43,17 @@ function StartBattleContainer() {
 
           <Box sx={styles.draftInfo}>
 
-            <Box width='151px'>
+            <Box width='151px' display={'flex'} flexDirection={'column'} alignItems={'center'} gap={1}>
+              <img alt='' src={monarch} height={'80px'} />
+
+              <Box sx={{ display: 'flex', alignItems: 'center',  }}>
+                <Typography variant="h2">
+                  {game.values.heroHealth}
+                </Typography>
+
+                <FavoriteIcon htmlColor="red" sx={{ fontSize: '40px' }} />
+              </Box>
+
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
@@ -58,10 +70,16 @@ function StartBattleContainer() {
               </Typography>
             </Box>
 
-            <Box display={'flex'} alignItems={'flex-end'} height={'100%'}>
-              <Button color='error' variant='outlined' sx={{ textTransform: 'none', mt: 2, fontSize: '16px' }}>
-                Abandon Cave
-              </Button>
+            <Box width='151px' textAlign={'center'}>
+
+              <Typography variant='h4'>
+                Score
+              </Typography>
+
+              <Typography variant='h3' color='primary' sx={{ fontSize: '32px', mt: 2 }}>
+                {game.values.battlesWon * 100}
+              </Typography>
+
             </Box>
 
           </Box>
@@ -108,7 +126,7 @@ const styles = {
     gap: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    py: 10,
+    py: 5,
     boxSizing: 'border-box'
   },
 
@@ -128,6 +146,7 @@ const styles = {
     justifyContent: 'space-between',
     gap: 2,
     p: 2,
+    px: 5,
     boxSizing: 'border-box'
   },
 

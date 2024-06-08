@@ -35,7 +35,8 @@ mod game_systems {
                     in_draft: true,
                     in_battle: false,
                     battles_won: 0,
-                    active_battle_id: 0
+                    active_battle_id: 0,
+                    hero_health: START_HEALTH
                 },
                 Draft {
                     game_id,
@@ -74,8 +75,9 @@ mod game_systems {
                     deck_iteration: 1,
                     card_index: 1,
                 
-                    hero_health: START_HEALTH,
+                    hero_health: game.hero_health,
                     hero_energy: START_ENERGY,
+                    hero_armor: 0,
                     
                     monster_id: monster.monster_id,
                     monster_attack: monster.attack,

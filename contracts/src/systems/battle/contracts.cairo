@@ -45,8 +45,14 @@ mod battle_systems {
             if game_utils::is_battle_over(battle) {
                 game_utils::end_battle(ref battle, world);
             } else {
-                set!(world, (battle));
                 delete!(world, (hand_card));
+
+                if hand_utils::count_cards(world, battle_id) == 0 {
+                    battle.deck_iteration += 1;
+                    hand_utils::draw_cards(world, battle_id, battle.game_id);
+                }
+                
+                set!(world, (battle));
             }
         }
 
@@ -67,8 +73,14 @@ mod battle_systems {
             if game_utils::is_battle_over(battle) {
                 game_utils::end_battle(ref battle, world);
             } else {
-                set!(world, (battle));
                 delete!(world, (hand_card));
+
+                if hand_utils::count_cards(world, battle_id) == 0 {
+                    battle.deck_iteration += 1;
+                    hand_utils::draw_cards(world, battle_id, battle.game_id);
+                }
+
+                set!(world, (battle));
             }
 
         }
@@ -114,8 +126,14 @@ mod battle_systems {
             if game_utils::is_battle_over(battle) {
                 game_utils::end_battle(ref battle, world);
             } else {
-                set!(world, (battle, battle_effects));
                 delete!(world, (hand_card));
+
+                if hand_utils::count_cards(world, battle_id) == 0 {
+                    battle.deck_iteration += 1;
+                    hand_utils::draw_cards(world, battle_id, battle.game_id);
+                }
+                
+                set!(world, (battle, battle_effects));
             }
         }
 
@@ -131,11 +149,6 @@ mod battle_systems {
             } else {
                 battle.round += 1;
                 battle.hero_energy = START_ENERGY;
-
-                if hand_utils::count_cards(world, battle_id) == 0 {
-                    battle.deck_iteration += 1;
-                    hand_utils::draw_cards(world, battle_id, battle.game_id);
-                }
 
                 set!(world, (
                     battle,

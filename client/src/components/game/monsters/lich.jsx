@@ -36,6 +36,7 @@ function Lich(props) {
   const endLifeDrain = () => {
     swirl.stop()
 
+    battle.utils.healMonster(battle.state.board.length + 1)
     battle.utils.damageBoard(1);
     battle.utils.damageAdventurer(1);
 

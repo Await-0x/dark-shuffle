@@ -15,11 +15,11 @@ mod spell_utils {
         }
         
         if card.card_id == 19 {
-            battle.hero_health += battle.deck_iteration + 2;
+            battle.hero_armor += battle.deck_iteration + 2;
         }
         
         if card.card_id == 20 {
-            battle.hero_health += 8;
+            battle.hero_armor += 8;
         }
         
         if card.card_id == 21 {

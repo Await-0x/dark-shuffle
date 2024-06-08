@@ -39,7 +39,8 @@ function ArenaPage() {
           inDraft: data.in_draft,
           inBattle: data.in_battle,
           battlesWon: data.battles_won,
-          activeBattleId: data.active_battle_id
+          activeBattleId: data.active_battle_id,
+          heroHealth: data.hero_health
         })
 
         setReconnecting(false)
@@ -73,6 +74,7 @@ const styles = {
   container: {
     width: '100%',
     height: '100%',
+    overflow: 'scroll'
   },
 
   board: {

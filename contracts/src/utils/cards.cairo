@@ -9,7 +9,7 @@ mod card_utils {
                 name: 'Wild Dog',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCAVENGER,
-                cost: 1,
+                cost: 2,
                 attack: 1,
                 health: 1,
             };
@@ -21,7 +21,7 @@ mod card_utils {
                 name: 'Wisdom Bringer',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::PRIEST,
-                cost: 1,
+                cost: 2,
                 attack: 2,
                 health: 2,
             };
@@ -69,7 +69,7 @@ mod card_utils {
                 name: 'Grim Marauder',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::DEMON,
-                cost: 4,
+                cost: 2,
                 attack: 0,
                 health: 4,
             };
@@ -93,9 +93,9 @@ mod card_utils {
                 name: 'Tasmanian Devil',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCAVENGER,
-                cost: 5,
-                attack: 2,
-                health: 2,
+                cost: 3,
+                attack: 4,
+                health: 3,
             };
         }
         
@@ -105,8 +105,8 @@ mod card_utils {
                 name: 'Jackal',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCAVENGER,
-                cost: 3,
-                attack: 3,
+                cost: 1,
+                attack: 2,
                 health: 2,
             };
         }
@@ -129,7 +129,7 @@ mod card_utils {
                 name: 'Gospel Scribe',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::PRIEST,
-                cost: 6,
+                cost: 5,
                 attack: 3,
                 health: 3,
             };
@@ -153,7 +153,7 @@ mod card_utils {
                 name: 'Coyote',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCAVENGER,
-                cost: 5,
+                cost: 3,
                 attack: 2,
                 health: 3,
             };
@@ -165,7 +165,7 @@ mod card_utils {
                 name: 'Virtue Curate',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::PRIEST,
-                cost: 4,
+                cost: 3,
                 attack: 4,
                 health: 4,
             };
@@ -178,8 +178,8 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::PRIEST,
                 cost: 3,
-                attack: 2,
-                health: 1,
+                attack: 4,
+                health: 4,
             };
         }
         
@@ -202,7 +202,7 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::PRIEST,
                 cost: 4,
-                attack: 4,
+                attack: 1,
                 health: 4,
             };
         }
@@ -249,7 +249,7 @@ mod card_utils {
                 name: 'Lava Wave',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::SPELL,
-                cost: 6,
+                cost: 7,
                 attack: 0,
                 health: 0,
             };
@@ -261,7 +261,7 @@ mod card_utils {
                 name: 'Temporal Shift',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::SPELL,
-                cost: 3,
+                cost: 1,
                 attack: 0,
                 health: 0,
             };

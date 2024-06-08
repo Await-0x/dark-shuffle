@@ -40,7 +40,7 @@ mod summon_utils {
         }
 
         else if card.card_id == 2 {
-            battle.hero_health += battle.deck_iteration;
+            battle.hero_armor += battle.deck_iteration;
         }
         
         else if card.card_id == 3 {
@@ -76,7 +76,7 @@ mod summon_utils {
         }
         
         else if card.card_id == 9 {
-            battle.hero_energy += battle.deck_iteration;
+            battle.hero_energy += 1;
         }
         
         else if card.card_id == 10 {
@@ -89,7 +89,7 @@ mod summon_utils {
         }
 
         else if card.card_id == 12 {
-            battle.hero_health += battle.deck_iteration + 3;
+            battle.hero_armor += battle.deck_iteration + 3;
         }
 
         else if card.card_id == 13 {

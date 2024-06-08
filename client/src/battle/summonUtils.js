@@ -2,7 +2,7 @@ import { tags, types } from "../helpers/cards";
 
 export const summonEffect = ({
   creature,
-  healAdventurer,
+  shieldHero,
   deckIteration,
   target,
   board,
@@ -27,7 +27,7 @@ export const summonEffect = ({
   }
 
   else if (creature.cardId === 2) {
-    healAdventurer(deckIteration)
+    shieldHero(deckIteration)
   }
 
   else if (creature.cardId === 3) {
@@ -55,7 +55,7 @@ export const summonEffect = ({
   }
 
   else if (creature.cardId === 9) {
-    increaseEnergy(deckIteration)
+    increaseEnergy(1)
   }
 
   else if (creature.cardId === 10) {
@@ -67,7 +67,7 @@ export const summonEffect = ({
   }
 
   else if (creature.cardId === 12) {
-    healAdventurer(deckIteration + 3)
+    shieldHero(deckIteration + 3)
   }
 
   else if (creature.cardId === 13) {

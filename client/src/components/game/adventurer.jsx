@@ -2,9 +2,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Typography } from "@mui/material";
 import { useLottie } from 'lottie-react';
 import React, { useContext, useEffect } from "react";
-import healAnim from "../../assets/animations/heal.json";
+import shieldAnim from "../../assets/animations/shield.json";
 import bolt from "../../assets/images/bolt.png";
 import monarch from "../../assets/images/monarch.png";
+import shield from "../../assets/images/shield.png";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
 import { ADVENTURER_ID } from '../../helpers/constants';
@@ -16,12 +17,12 @@ export default function Adventurer(props) {
   const battle = useContext(BattleContext)
   const damage = animationHandler.damageAnimations.find(x => x.targetId === ADVENTURER_ID)
 
-  const heal = useLottie({
-    animationData: healAnim,
+  const _shield = useLottie({
+    animationData: shieldAnim,
     loop: false,
     autoplay: false,
-    style: { position: 'absolute', width: '100px', left: '50px', top: '20px' },
-    onComplete: () => heal.stop()
+    style: { position: 'absolute', width: '65px', height: '65px', top: '30px', left: '67px' },
+    onComplete: () => _shield.stop()
   });
 
   useEffect(() => {
@@ -30,17 +31,16 @@ export default function Adventurer(props) {
     }
     const animation = animationHandler.heroAnimations[0]
 
-    if (animation.type === 'heal') {
-      heal.play()
-      animationHandler.setHeroAnimations(prev => prev.filter(x => x.type !== 'heal'))
+    if (animation.type === 'shield') {
+      _shield.play()
+      animationHandler.setHeroAnimations(prev => prev.filter(x => x.type !== 'shield'))
     }
   }, [animationHandler.heroAnimations])
 
   return <Box sx={styles.king}>
     {damage && <DamageAnimation id={damage.id} damage={damage.damage} mini={true} />}
 
-    {heal.View}
-
+    {_shield.View}
 
     <img alt='' src={monarch} height={'70%'} />
 
@@ -52,7 +52,7 @@ export default function Adventurer(props) {
             <Typography color="primary" variant='h6'>Energy</Typography>
           </Box>
           <Typography mt={0.5}>Cards require energy to play.</Typography>
-          <Typography>You get more energy each turn, up to 10.</Typography>
+          <Typography>Your energy replenish each turn.</Typography>
         </Box>
       }>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -71,7 +71,6 @@ export default function Adventurer(props) {
             <Typography color="primary" variant='h6'>Health</Typography>
           </Box>
           <Typography mt={0.5}>If your health reaches 0, you die.</Typography>
-          <Typography>You cannot have more than 30 health.</Typography>
         </Box>
       }>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -82,6 +81,14 @@ export default function Adventurer(props) {
           <FavoriteIcon htmlColor="red" />
         </Box>
       </CustomTooltip>
+
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant="h3">
+          {battle.state.adventurer.armor}
+        </Typography>
+
+        <img alt='' src={shield} height={24} width={24} />
+      </Box>
     </Box>
 
   </Box>

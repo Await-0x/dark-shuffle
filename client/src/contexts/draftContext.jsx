@@ -21,8 +21,10 @@ export const DraftProvider = ({ children }) => {
   const [tagCount, setTagCount] = useState(Object.keys(tags).map(_ => 0))
 
   const initializeState = () => {
+    setPendingCard(false)
     setOptions([])
     setCards([])
+    setTagCount(Object.keys(tags).map(_ => 0))
     setManaCurve({
       [types.CREATURE]: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [types.SPELL]: [0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -128,7 +130,7 @@ export const DraftProvider = ({ children }) => {
     let data = await getDraftCards(gameId)
 
     let cards = data.map((card, i) => {
-      let _card = fetchCard(card.card_id, 1, i + 1)
+      let _card = fetchCard(card.card_id, 0, i + 1)
       _card.number = card.number
       return _card
     })

@@ -13,7 +13,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={minotaur} height={'100%'} />,
     abilities: [],
     attack: 1,
-    health: 60,
+    health: 20,
   },
   {
     id: 402,
@@ -21,7 +21,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={troll} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 60,
+    health: 20,
   },
   {
     id: 403,
@@ -29,7 +29,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={bigfoot} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 60,
+    health: 20,
   },
   {
     id: 404,
@@ -37,7 +37,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={chimera} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 60,
+    health: 20,
   },
   {
     id: 405,
@@ -45,7 +45,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={kappa} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 60,
+    health: 20,
   },
   {
     id: 406,
@@ -53,7 +53,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={spider} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 60,
+    health: 20,
   },
   {
     id: 407,
@@ -61,7 +61,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={lich} height={'100%'} />,
     abilities: [],
     attack: 4,
-    health: 60,
+    health: 20,
   },
 ]
 
@@ -72,7 +72,7 @@ export const fecthMonster = (battlesWon) => {
   let bonus_health = 0;
 
   bonus_attack += Math.floor(battlesWon / 7) * 2
-  bonus_health += Math.floor(battlesWon / 7) * 20
+  bonus_health += Math.floor(battlesWon / 7) * 10
 
   let monster = { ...MONSTER_LIST[id] }
 
