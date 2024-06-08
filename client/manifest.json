@@ -677,8 +677,8 @@
     {
       "kind": "DojoContract",
       "address": "0x66de595f5ad23430f9c93c7038843e78b220f22348eb49e300b71f74bcac9ac",
-      "class_hash": "0x2f2c0b8a3e1297d71043b916da1e12cde554ecfc295b8935c8cbfe8843a7a4f",
-      "original_class_hash": "0x2f2c0b8a3e1297d71043b916da1e12cde554ecfc295b8935c8cbfe8843a7a4f",
+      "class_hash": "0x26d85bb3e44465b12a60f7ba88cd0224e4d65f396d8f229d95dba8756e01826",
+      "original_class_hash": "0x26d85bb3e44465b12a60f7ba88cd0224e4d65f396d8f229d95dba8756e01826",
       "base_class_hash": "0x679177a2cb757694ac4f326d01052ff0963eac0bc2a17116a2b87badcdf6f76",
       "abi": [
         {
@@ -898,8 +898,8 @@
     {
       "kind": "DojoContract",
       "address": "0x6aa3eb92010020deda1a762cde983ac126c3976ca24620e72c603e48e4c3ef",
-      "class_hash": "0x5bd7c268f84842cab925212f843ebe785ff7c2d28e8fef3483c60ef85a8bc6a",
-      "original_class_hash": "0x5bd7c268f84842cab925212f843ebe785ff7c2d28e8fef3483c60ef85a8bc6a",
+      "class_hash": "0x1634c3e734edebc0167c6701e5d40db56aeff1a45dabd247c93bf11c716f89",
+      "original_class_hash": "0x1634c3e734edebc0167c6701e5d40db56aeff1a45dabd247c93bf11c716f89",
       "base_class_hash": "0x679177a2cb757694ac4f326d01052ff0963eac0bc2a17116a2b87badcdf6f76",
       "abi": [
         {
@@ -1067,8 +1067,8 @@
     {
       "kind": "DojoContract",
       "address": "0x3b6c78d3946a5d7de318dbc3bf03247e0ae5fb0804dc3c8698606e76d3047d9",
-      "class_hash": "0x95768b02b1ffa889cdad5f3a1da5e3a9f6e438a4adf197b4043a5687de9b38",
-      "original_class_hash": "0x95768b02b1ffa889cdad5f3a1da5e3a9f6e438a4adf197b4043a5687de9b38",
+      "class_hash": "0x3fd2f2b87ad225ab53f5414b802ae26ebdf48210d3bba14d73c917ac17aefb1",
+      "original_class_hash": "0x3fd2f2b87ad225ab53f5414b802ae26ebdf48210d3bba14d73c917ac17aefb1",
       "base_class_hash": "0x679177a2cb757694ac4f326d01052ff0963eac0bc2a17116a2b87badcdf6f76",
       "abi": [
         {
@@ -1266,6 +1266,11 @@
           "key": false
         },
         {
+          "name": "hero_armor",
+          "type": "u16",
+          "key": false
+        },
+        {
           "name": "monster_id",
           "type": "u16",
           "key": false
@@ -1281,8 +1286,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x36f53a336b0c29fa74790a933a63ae066a843b0f6abb9b1cbc4541ee87587c9",
-      "original_class_hash": "0x36f53a336b0c29fa74790a933a63ae066a843b0f6abb9b1cbc4541ee87587c9",
+      "class_hash": "0x23b9383e65524d7fe6fa6f992cd6b3c0b3fda67f486bb3a2339d57c04e9e53a",
+      "original_class_hash": "0x23b9383e65524d7fe6fa6f992cd6b3c0b3fda67f486bb3a2339d57c04e9e53a",
       "abi": [
         {
           "type": "impl",
@@ -1487,6 +1492,10 @@
             },
             {
               "name": "hero_energy",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "hero_armor",
               "type": "core::integer::u16"
             },
             {
@@ -3854,10 +3863,15 @@
           "name": "active_battle_id",
           "type": "usize",
           "key": false
+        },
+        {
+          "name": "hero_health",
+          "type": "u16",
+          "key": false
         }
       ],
-      "class_hash": "0x23fbf5b019db022df7f614e66943e1c6052a6a26f054c8e24ebb677edb7657d",
-      "original_class_hash": "0x23fbf5b019db022df7f614e66943e1c6052a6a26f054c8e24ebb677edb7657d",
+      "class_hash": "0x29b2454650bfb7f46585a9fab9a82e32eeed03f31f84a8680732fae89e92ae8",
+      "original_class_hash": "0x29b2454650bfb7f46585a9fab9a82e32eeed03f31f84a8680732fae89e92ae8",
       "abi": [
         {
           "type": "impl",
@@ -4081,6 +4095,10 @@
             {
               "name": "active_battle_id",
               "type": "core::integer::u32"
+            },
+            {
+              "name": "hero_health",
+              "type": "core::integer::u16"
             }
           ]
         },
