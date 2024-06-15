@@ -23,7 +23,7 @@ mod draft_systems {
             game.assert_draft();
 
             let mut draft = get!(world, (game_id), Draft);
-            let mut draft_entropy: DraftEntropy = get!(world, (game_id, draft.card_count + 1), DraftEntropy);
+            let mut draft_entropy: DraftEntropy = get!(world, (game_id, draft.entropy_count), DraftEntropy);
             draft_entropy.block_hash = entropy_hash;
             
             let entropy: u128 = random::get_entropy(entropy_hash);
@@ -37,25 +37,30 @@ mod draft_systems {
             game.assert_draft();
 
             let mut draft = get!(world, (game_id), Draft);
-            let mut draft_entropy: DraftEntropy = get!(world, (game_id, draft.card_count + 1), DraftEntropy);
+            let mut draft_entropy: DraftEntropy = get!(world, (game_id, draft.entropy_count), DraftEntropy);
             
-            let mut current_block = get_block_info().unbox().block_number.into();
-            if current_block <= draft_entropy.block_number {
-                current_block = draft_entropy.block_number + 1;
+            let mut next_block = get_block_info().unbox().block_number.into();
+            if next_block <= draft_entropy.block_number {
+                next_block = draft_entropy.block_number + 1;
             }
 
             let mut choice = get!(world, (game_id, option_id), DraftOption);
-            let card_count = draft.card_count + 1; 
             
+            draft.card_count += 1;
+            draft.entropy_count += 1;
+
             set!(world, (
-                Draft { game_id, card_count },
-                DraftCard { game_id, card_id: choice.card_id, number: card_count },
-                DraftEntropy { game_id, number: card_count + 1, block_number: current_block, block_hash: 0 }
+                draft,
+                DraftCard { game_id, card_id: choice.card_id, number: draft.card_count }
             ));
 
-            if card_count == DECK_SIZE {
+            if draft.card_count == DECK_SIZE {
                 game.in_draft = false;
                 set!(world, (game));
+            } else {
+                set!(world, (
+                    DraftEntropy { game_id, number: draft.entropy_count, block_number: next_block, block_hash: 0 }
+                ));
             }
         }
     }

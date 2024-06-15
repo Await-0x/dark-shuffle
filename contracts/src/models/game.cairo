@@ -12,7 +12,21 @@ struct Game {
     in_battle: bool,
     battles_won: u16,
     active_battle_id: usize,
-    hero_health: u16
+    hero_health: u16,
+    hero_energy: u16,
+    deck_iteration: u16,
+}
+
+#[derive(Model, Copy, Drop, Serde)]
+struct GameEffects {   
+    #[key]
+    game_id: usize,
+    cards_discarded: u16,
+    creatures_played: u16,
+    spells_played: u16,
+    demons_played: u16,
+    next_spell_reduction: u16,
+    dead_creatures: u16
 }
 
 #[derive(Model, Copy, Drop, Serde)]

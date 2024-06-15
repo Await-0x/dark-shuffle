@@ -5,7 +5,7 @@ mod game_utils {
 
     use darkshuffle::constants::{DECK_SIZE, MONSTER_KILL_SCORE};
     use darkshuffle::models::game::{Game, Leaderboard};
-    use darkshuffle::models::battle::{Battle, BattleEffects, Monster};
+    use darkshuffle::models::battle::{Battle, Monster};
     use darkshuffle::models::draft::{DraftEntropy};
 
     use darkshuffle::utils::{monsters::monster_utils};
@@ -32,6 +32,7 @@ mod game_utils {
         game.in_battle = false;
         game.active_battle_id = 0;
         game.hero_health = battle.hero_health;
+        game.deck_iteration = battle.deck_iteration;
 
         set!(world, (game, battle));
     }
@@ -42,6 +43,7 @@ mod game_utils {
         game.active = false;
         game.active_battle_id = 0;
         game.hero_health = 0;
+        game.deck_iteration = battle.deck_iteration;
 
         update_leaderboard(ref game, ref battle, world);
         set!(world, (game, battle));

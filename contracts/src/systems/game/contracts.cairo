@@ -28,7 +28,7 @@ mod game_systems {
 
             set!(world, (
                 Game {
-                    game_id: game_id,
+                    game_id,
                     player: get_caller_address(),
                     player_name: name,
                     active: true,
@@ -36,16 +36,28 @@ mod game_systems {
                     in_battle: false,
                     battles_won: 0,
                     active_battle_id: 0,
-                    hero_health: START_HEALTH
+                    hero_health: START_HEALTH,
+                    hero_energy: START_ENERGY,
+                    deck_iteration: 1
+                },
+                GameEffects {
+                    game_id,
+                    cards_discarded: 0,
+                    creatures_played: 0,
+                    spells_played: 0,
+                    demons_played: 0,
+                    next_spell_reduction: 0,
+                    dead_creatures: 0
                 },
                 Draft {
                     game_id,
-                    card_count: 0
+                    card_count: 0,
+                    entropy_count: 1
                 },
                 DraftEntropy {
                     game_id,
                     number: 1,
-                    block_number: get_block_info().unbox().block_number.into(),
+                    block_number: get_block_info().unbox().block_number.into() + 1,
                     block_hash: 0
                 }
             ));
@@ -65,18 +77,18 @@ mod game_systems {
             game.in_battle = true;
             game.active_battle_id = battle_id;
             
-            hand_utils::draw_cards(world, battle_id, game_id);
+            hand_utils::draw_cards(world, battle_id, game.game_id);
 
             set!(world, (
                 Battle {
                     battle_id: battle_id,
-                    game_id: game_id,
+                    game_id: game.game_id,
                     round: 1,
-                    deck_iteration: 1,
                     card_index: 1,
                 
                     hero_health: game.hero_health,
-                    hero_energy: START_ENERGY,
+                    hero_energy: game.hero_energy,
+                    deck_iteration: game.deck_iteration,
                     hero_armor: 0,
                     
                     monster_id: monster.monster_id,

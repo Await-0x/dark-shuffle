@@ -3,6 +3,7 @@ struct Draft {
     #[key]
     game_id: usize,
     card_count: u8,
+    entropy_count: u16,
 }
 
 #[derive(Model, Copy, Drop, Serde)]
@@ -28,7 +29,7 @@ struct DraftEntropy {
     #[key]
     game_id: usize,
     #[key]
-    number: u8,
+    number: u16,
     block_number: u64,
     block_hash: felt252
 }

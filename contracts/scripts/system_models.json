@@ -1,5 +1,5 @@
 {
-  "BATTLE_SYSTEMS": ["Game", "Battle", "HandCard", "BattleEffects", "RoundEffects", "Creature", "Board", "Leaderboard", "DraftEntropy", "DraftCard"],
+  "BATTLE_SYSTEMS": ["Game", "Battle", "HandCard", "GameEffects", "Creature", "Board", "Leaderboard", "DraftEntropy", "DraftCard"],
   "DRAFT_SYSTEMS": ["Game", "Draft", "DraftEntropy", "DraftOption", "DraftCard"],
-  "GAME_SYSTEMS": ["Game", "Draft", "DraftEntropy", "Battle", "HandCard"]
+  "GAME_SYSTEMS": ["Game", "Draft", "DraftEntropy", "Battle", "HandCard", "GameEffects"]
 }

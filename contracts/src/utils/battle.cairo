@@ -1,8 +1,9 @@
 mod battle_utils {
     use darkshuffle::constants::{CardTypes};
-    use darkshuffle::models::battle::{Battle, BattleEffects, Creature, Card};
+    use darkshuffle::models::battle::{Battle, Creature, Card};
+    use darkshuffle::models::game::{GameEffects};
 
-    fn energy_cost(ref battle: Battle, battle_effects: BattleEffects, card: Card) {
+    fn energy_cost(ref battle: Battle, game_effects: GameEffects, card: Card) {
         let mut cost = card.cost;
         
         if battle.monster_id == 405 && card.card_type == CardTypes::CREATURE {
@@ -10,11 +11,11 @@ mod battle_utils {
         }
 
         if card.card_type == CardTypes::SPELL {
-            if battle_effects.next_spell_reduction >= cost {
+            if game_effects.next_spell_reduction >= cost {
                 return;
             }
             
-            cost -= battle_effects.next_spell_reduction;
+            cost -= game_effects.next_spell_reduction;
         }
         
         let id = card.card_id;

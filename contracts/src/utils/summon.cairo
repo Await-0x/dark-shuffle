@@ -1,6 +1,7 @@
 mod summon_utils {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects, RoundEffects};
+    use darkshuffle::models::battle::{Battle, Creature, Card};
+    use darkshuffle::models::game::{GameEffects};
     use darkshuffle::constants::{CardTags};
     use darkshuffle::utils::{
         battle::battle_utils,
@@ -16,8 +17,7 @@ mod summon_utils {
         card: Card,
     ) {
         let mut target: Creature = get!(world, (battle.battle_id, target_id), Creature);
-        let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
-        let mut round_effects: RoundEffects = get!(world, (battle.battle_id), RoundEffects);
+        let mut game_effects: GameEffects = get!(world, (battle.game_id), GameEffects);
 
         let mut creature: Creature = Creature {
             battle_id: battle.battle_id,
@@ -64,7 +64,7 @@ mod summon_utils {
         }
 
         else if card.card_id == 6 {
-            creature.attack += battle_effects.demons_played;
+            creature.attack += game_effects.demons_played;
         }
 
         else if card.card_id == 7 && target.card_id != 0 {
@@ -80,7 +80,7 @@ mod summon_utils {
         }
         
         else if card.card_id == 10 {
-            creature.attack += battle_effects.cards_discarded;
+            creature.attack += game_effects.cards_discarded;
         }
         
         else if card.card_id == 11 {
@@ -97,7 +97,7 @@ mod summon_utils {
         }
         
         else if card.card_id == 14 {
-            battle_effects.next_spell_reduction = battle.deck_iteration;
+            game_effects.next_spell_reduction = battle.deck_iteration;
         }
 
         else if card.card_id == 15 {
@@ -115,12 +115,11 @@ mod summon_utils {
         }
 
         if card.card_tag == CardTags::DEMON {
-            battle_effects.demons_played += 1;
+            game_effects.demons_played += 1;
         }
 
-        battle_effects.creatures_played += 1;
-        round_effects.creatures_played += 1;
+        game_effects.creatures_played += 1;
         
-        set!(world, (creature, battle_effects, round_effects, target));
+        set!(world, (creature, game_effects, target));
     }
 }

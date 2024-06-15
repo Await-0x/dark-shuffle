@@ -53,25 +53,6 @@ struct HandCard {
     card_id: u16
 }
 
-#[derive(Model, Copy, Drop, Serde)]
-struct BattleEffects {   
-    #[key]
-    battle_id: usize,
-    cards_discarded: u16,
-    creatures_played: u16,
-    spells_played: u16,
-    demons_played: u16,
-    next_spell_reduction: u16,
-    dead_creatures: u16
-}
-
-#[derive(Model, Copy, Drop, Serde)]
-struct RoundEffects {   
-    #[key]
-    battle_id: usize,
-    creatures_played: u16,
-}
-
 #[derive(Copy, Drop)]
 struct Monster {
     monster_id: u16,

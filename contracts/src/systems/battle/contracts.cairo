@@ -12,7 +12,8 @@ mod battle_systems {
     use super::IBattleContract;
 
     use darkshuffle::constants::{START_ENERGY};
-    use darkshuffle::models::battle::{Battle, BattleOwnerTrait, HandCard, Card, BattleEffects, RoundEffects, Creature};
+    use darkshuffle::models::battle::{Battle, BattleOwnerTrait, HandCard, Card, Creature};
+    use darkshuffle::models::game::{GameEffects};
     use darkshuffle::utils::{
         summon::summon_utils,
         cards::card_utils,
@@ -35,8 +36,8 @@ mod battle_systems {
 
             let card: Card = card_utils::get_card(hand_card.card_id);
             
-            let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
-            battle_utils::energy_cost(ref battle, battle_effects, card);
+            let mut game_effects: GameEffects = get!(world, (battle.game_id), GameEffects);
+            battle_utils::energy_cost(ref battle, game_effects, card);
 
             battle.card_index += 1;
             board_utils::add_creature_to_board(battle.card_index, battle_id, world);
@@ -65,9 +66,9 @@ mod battle_systems {
 
             let card: Card = card_utils::get_card(hand_card.card_id);
             
-            let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
+            let mut game_effects: GameEffects = get!(world, (battle.game_id), GameEffects);
             
-            battle_utils::energy_cost(ref battle, battle_effects, card);
+            battle_utils::energy_cost(ref battle, game_effects, card);
             spell_utils::cast_spell(world, target_id, ref battle, card);
 
             if game_utils::is_battle_over(battle) {
@@ -120,8 +121,8 @@ mod battle_systems {
             battle.assert_energy(1);
             battle.hero_energy -= 1;
 
-            let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
-            battle_effects.cards_discarded += 1;
+            let mut game_effects: GameEffects = get!(world, (battle.game_id), GameEffects);
+            game_effects.cards_discarded += 1;
 
             if game_utils::is_battle_over(battle) {
                 game_utils::end_battle(ref battle, world);
@@ -133,7 +134,7 @@ mod battle_systems {
                     hand_utils::draw_cards(world, battle_id, battle.game_id);
                 }
                 
-                set!(world, (battle, battle_effects));
+                set!(world, (battle, game_effects));
             }
         }
 
@@ -151,8 +152,7 @@ mod battle_systems {
                 battle.hero_energy = START_ENERGY;
 
                 set!(world, (
-                    battle,
-                    RoundEffects { battle_id, creatures_played: 0 }
+                    battle
                 ));
             }
         }
