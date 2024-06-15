@@ -162,26 +162,26 @@ const styles = {
     justifyContent: 'center',
     borderRadius: '100px'
   },
-  deck: {
-    background: '#141920',
-    border: '1px solid rgba(255, 255, 255, 0.6)',
-    height: '80px',
-    width: '60px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: '4px',
-    boxShadow: `rgba(255, 233, 127, 0.35) 0px 5px 15px`,
-    animation: 'animateGlow 2.5s linear infinite',
-    cursor: 'pointer'
-  },
-  cardCount: {
-    width: '32px',
-    height: '32px',
-    borderRadius: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    border: '1px solid rgba(255, 255, 255, 0.3)',
-  }
+    deck: {
+      background: '#141920',
+      border: '1px solid rgba(255, 255, 255, 0.6)',
+      height: '80px',
+      width: '60px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: '4px',
+      boxShadow: `rgba(255, 233, 127, 0.35) 0px 5px 15px`,
+      animation: 'animateGlow 2.5s linear infinite',
+      cursor: 'pointer'
+    },
+    cardCount: {
+      width: '32px',
+      height: '32px',
+      borderRadius: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      border: '1px solid rgba(255, 255, 255, 0.3)',
+    }
 }

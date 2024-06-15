@@ -10,6 +10,7 @@ import { BattleContext } from '../contexts/battleContext';
 import { GameContext } from '../contexts/gameContext';
 import { CardSize } from '../helpers/cards';
 import { fadeVariant } from "../helpers/variants";
+import bolt from "../assets/images/bolt.png";
 
 function StartBattleContainer() {
   const game = useContext(GameContext)
@@ -27,16 +28,23 @@ function StartBattleContainer() {
 
             <Box sx={styles.battleContainer}>
 
-              <Typography color='primary'>
-                {monster.description}
-              </Typography>
+              <Box sx={{ width: '212px' }}></Box>
 
-              {monster.image}
+              <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+                <Typography color='primary' variant='h2'>
+                  {monster.name}
+                </Typography>
 
-              <LoadingButton loading={battle.state.pendingTx} variant='outlined' sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}
-                onClick={() => battle.actions.startBattle()}>
-                Start Battle
-              </LoadingButton>
+                {monster.image}
+
+                <LoadingButton loading={battle.state.pendingTx} variant='outlined' sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}
+                  onClick={() => battle.actions.startBattle()}>
+                  Start Battle
+                </LoadingButton>
+              </Box>
+
+              {monster.abilities}
+
             </Box>
 
           </Box>
@@ -46,12 +54,19 @@ function StartBattleContainer() {
             <Box width='151px' display={'flex'} flexDirection={'column'} alignItems={'center'} gap={1}>
               <img alt='' src={monarch} height={'80px'} />
 
-              <Box sx={{ display: 'flex', alignItems: 'center',  }}>
-                <Typography variant="h2">
+
+              <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                <Typography variant="h3">
+                  7
+                </Typography>
+
+                <img alt='' src={bolt} height={25} />
+
+                <Typography variant="h3" ml={2}>
                   {game.values.heroHealth}
                 </Typography>
 
-                <FavoriteIcon htmlColor="red" sx={{ fontSize: '40px' }} />
+                <FavoriteIcon htmlColor="red" sx={{ fontSize: '32px' }} />
               </Box>
 
             </Box>
@@ -62,23 +77,23 @@ function StartBattleContainer() {
               </Typography>
 
               <Typography variant='h2' color='primary'>
-                Monsters Slain
+                Score
               </Typography>
 
-              <Typography variant='h1' color='primary' sx={{ fontSize: '50px', mt: 2 }}>
+              <Typography variant='h1' color='primary' sx={{ fontSize: '50px', mt: 1 }}>
                 {game.values.battlesWon}
               </Typography>
             </Box>
 
-            <Box width='151px' textAlign={'center'}>
+            <Box width='151px' display={'flex'} justifyContent={'center'}>
 
-              <Typography variant='h4'>
-                Score
-              </Typography>
-
-              <Typography variant='h3' color='primary' sx={{ fontSize: '32px', mt: 2 }}>
-                {game.values.battlesWon * 100}
-              </Typography>
+              <Box sx={styles.deck}>
+                <Box sx={styles.cardCount}>
+                  <Typography>
+                    1
+                  </Typography>
+                </Box>
+              </Box>
 
             </Box>
 
@@ -157,15 +172,37 @@ const styles = {
 
   battleContainer: {
     background: 'rgba(0, 0, 0, 0.3)',
-    width: '800px',
+    width: '100%',
     height: '100%',
     p: 2,
     pb: 4,
+    gap: 8,
     boxSizing: 'border-box',
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
     textAlign: 'center'
+  },
+  deck: {
+    background: '#141920',
+    border: '1px solid rgba(255, 255, 255, 0.6)',
+    height: '80px',
+    width: '60px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '4px',
+    boxShadow: `rgba(255, 233, 127, 0.35) 0px 5px 15px`,
+    animation: 'animateGlow 2.5s linear infinite',
+    cursor: 'pointer'
+  },
+  cardCount: {
+    width: '32px',
+    height: '32px',
+    borderRadius: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
   }
 }

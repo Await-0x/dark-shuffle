@@ -5,6 +5,7 @@ import chimera from "../assets/images/monsters/chimera.png"
 import kappa from "../assets/images/monsters/kappa.png"
 import spider from "../assets/images/monsters/spider.png"
 import lich from "../assets/images/monsters/lich.png"
+import { Box, Typography } from '@mui/material'
 
 export const MONSTER_LIST = [
   {
@@ -98,71 +99,125 @@ export const fetchIntroduction = (battlesWon) => {
   switch (battlesWon % 7) {
     case 0:
       return {
-        description: `
-          As you navigate the twisting passages of the cave, the ominous silence is shattered by a guttural snarl.
-          Before you can react, a massive creature emerges from the shadows, its eyes ablaze with predatory hunger.
-          It stands, hulking and formidable, with sharp spines lining its back and lethal claws ready to strike.
-        `,
-        image: <img alt='' src={minotaur} height={'50%'} />
+        name: 'Minotaur',
+        image: <img alt='' src={minotaur} height={'60%'} />,
+        abilities: <Box width={'180px'} textAlign={'left'} sx={{ background: '#141920', p: 2, borderRadius: '5px', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
+          <Typography color="primary" variant='h6'>Abilities</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Super Rage</Typography>
+          </Box>
+
+          <Typography mt={0.5}>Gains +2 attack each round.</Typography>
+        </Box>
       }
     case 1:
       return {
-        description: `
-          In the flickering shadows of the cavern, a hulking figure lumbers into your path.
-          A troll, grotesque and towering, blocks your advance with its immense bulk.
-          Its skin is a patchwork of warts and scars, a testament to countless battles.
-          Small, beady eyes peer out from under a heavy brow, sizing you up with a mix of curiosity and malice.
-          The air grows thick with the stench of damp moss and foul breath as it prepares to charge.
-          `,
-        image: <img alt='' src={troll} height={'50%'} />
+        name: 'Troll',
+        image: <img alt='' src={troll} height={'60%'} />,
+        abilities: <Box width={'180px'} textAlign={'left'} sx={{ background: '#141920', p: 2, borderRadius: '5px', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
+          <Typography color="primary" variant='h6'>Abilities</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Rage</Typography>
+          </Box>
+          <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Regeneration</Typography>
+          </Box>
+          <Typography mt={0.5}>Restores (4) health each turn.</Typography>
+        </Box>
       }
     case 2:
       return {
-        description: `
-          As you carefully tread through the dense underbrush of the cave's more verdant section, a sudden rustling stops you in your tracks.
-          Emerging from the shadows, a towering Bigfoot-like creature blocks your path.
-          Its muscular frame looms large, eyes glinting with intelligence and strength.
-          With a deep, resonant growl, it challenges you, its presence demanding a battle of both power and wit.
-          `,
-        image: <img alt='' src={bigfoot} height={'50%'} />
+        name: 'Bigfoot',
+        image: <img alt='' src={bigfoot} height={'60%'} />,
+        abilities: <Box width={'180px'} textAlign={'left'} sx={{ background: '#141920', p: 2, borderRadius: '5px', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
+          <Typography color="primary" variant='h6'>Abilities</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Rage</Typography>
+          </Box>
+          <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Thick Skin</Typography>
+          </Box>
+          <Typography mt={0.5}>Takes (1) less damage from all sources.</Typography>
+        </Box>
       }
     case 3:
       return {
-        description: `
-          In the dim light, a fearsome shape materializes, a mighty beast of legend.
-          With the head of a roaring lion, the body of a powerful goat, and a serpent for a tail, its presence is overwhelming.
-          Each breath it takes sparks fear, its mixed growl, bleat, and hiss echoing off the cave walls.
-          Flames flicker at the corners of the lion's mouth, promising a fiery demise to those who dare challenge it.
-          `,
-        image: <img alt='' src={chimera} height={'50%'} />
+        name: 'Chimera',
+        image: <img alt='' src={chimera} height={'60%'} />,
+        abilities: <Box width={'180px'} textAlign={'left'} sx={{ background: '#141920', p: 2, borderRadius: '5px', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
+          <Typography color="primary" variant='h6'>Abilities</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Rage</Typography>
+          </Box>
+          <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Intimidation</Typography>
+          </Box>
+          <Typography mt={0.5}>Creatures can't attack the same turn they're summoned.</Typography>
+        </Box>
       }
     case 4:
       return {
-        description: `
-          In the cavern's quiet, a small figure seated with crossed legs near a tranquil pool captures your attention.
-          Its scaly skin and the mysterious, water-filled depression atop its head hint at deep, mystical powers.
-          Despite its peaceful pose, a palpable, ominous aura surrounds it. Those deep, watchful eyes challenge you,
-          promising a test of wit and spirit beyond mere physical confrontation.
-          `,
-        image: <img alt='' src={kappa} height={'50%'} />
+        name: 'Kappa',
+        image: <img alt='' src={kappa} height={'60%'} />,
+        abilities: <Box width={'180px'} textAlign={'left'} sx={{ background: '#141920', p: 2, borderRadius: '5px', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
+          <Typography color="primary" variant='h6'>Abilities</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Rage</Typography>
+          </Box>
+          <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Mind Vision</Typography>
+          </Box>
+          <Typography mt={0.5}>Creatures cost (1) more.</Typography>
+        </Box>
       }
     case 5:
       return {
-        description: `
-          In the shadowy recesses of the cave, your path is suddenly barred by a giant spider.
-          Its massive, hairy legs stretch out, encircling you, while its multiple, gleaming eyes fixate with predatory focus.
-          The air thickens with the scent of ancient webbing and prey long captured. Poised above, it prepares to strike, promising a swift, entangling battle.
-          `,
-        image: <img alt='' src={spider} height={'50%'} />
+        name: 'Spider',
+        image: <img alt='' src={spider} height={'60%'} />,
+        abilities: <Box width={'180px'} textAlign={'left'} sx={{ background: '#141920', p: 2, borderRadius: '5px', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
+          <Typography color="primary" variant='h6'>Abilities</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Rage</Typography>
+          </Box>
+          <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Poison Spray</Typography>
+          </Box>
+          <Typography mt={0.5}>Deals (2) damage to each creature.</Typography>
+        </Box>
       }
     case 6:
       return {
-        description: `
-          In the chilling silence of the cave, you encounter a Lich, its skeletal form crouched amidst ancient debris, draped in the remnants of its once grand attire.
-          Sinister light emanates from its hollow eye sockets, illuminating the surroundings with an otherworldly glow.
-          Dark magic swirls around its outstretched fingers, ready to unleash spells of formidable power.
-          `,
-        image: <img alt='' src={lich} height={'50%'} />
+        name: 'Lich',
+        image: <img alt='' src={lich} height={'60%'} />,
+        abilities: <Box width={'180px'} textAlign={'left'} sx={{ background: '#141920', p: 2, borderRadius: '5px', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
+          <Typography color="primary" variant='h6'>Abilities</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Rage</Typography>
+          </Box>
+          <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <Typography color="primary">★ Drain Life</Typography>
+          </Box>
+          <Typography mt={0.5}>Drains (1) life from each character.</Typography>
+        </Box>
       }
     default:
       return {}
