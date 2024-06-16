@@ -1,12 +1,11 @@
 #[dojo::interface]
-trait IDraftContract<TContractState> {
-    fn get_draft_options(game_id: usize, entropy_hash: felt252);
-    fn pick_card(game_id: usize, option_id: u8);
+trait IDraftContract {
+    fn get_draft_options(ref world: IWorldDispatcher, game_id: usize, entropy_hash: felt252);
+    fn pick_card(ref world: IWorldDispatcher, game_id: usize, option_id: u8);
 }
 
 #[dojo::contract]
 mod draft_systems {
-    use super::IDraftContract;
     use starknet::{get_caller_address, get_block_info};
     use darkshuffle::models::game::{Game, GameOwnerTrait};
     use darkshuffle::models::draft::{Draft, DraftOption, DraftCard, DraftEntropy};
@@ -17,8 +16,8 @@ mod draft_systems {
     use darkshuffle::constants::{Messages, DECK_SIZE};
 
     #[abi(embed_v0)]
-    impl DraftContractImpl of IDraftContract<ContractState> {
-        fn get_draft_options(world: IWorldDispatcher, game_id: usize, entropy_hash: felt252) {
+    impl DraftContractImpl of super::IDraftContract<ContractState> {
+        fn get_draft_options(ref world: IWorldDispatcher, game_id: usize, entropy_hash: felt252) {
             let mut game = get!(world, (game_id), Game);
             game.assert_draft();
 
@@ -32,7 +31,7 @@ mod draft_systems {
             set!(world, (option_1, option_2, option_3, draft_entropy));
         }
 
-        fn pick_card(world: IWorldDispatcher, game_id: usize, option_id: u8) {
+        fn pick_card(ref world: IWorldDispatcher, game_id: usize, option_id: u8) {
             let mut game = get!(world, (game_id), Game);
             game.assert_draft();
 

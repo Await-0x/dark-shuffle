@@ -1,18 +1,16 @@
 #[dojo::interface]
-trait IGameContract<TContractState> {
-    fn start_game(name: felt252);
-    fn start_battle(game_id: usize);
+trait IGameContract {
+    fn start_game(ref world: IWorldDispatcher, name: felt252);
+    fn start_battle(ref world: IWorldDispatcher, game_id: usize);
 }
 
 #[dojo::contract]
 mod game_systems {
-    use super::IGameContract;
-
     use starknet::{get_caller_address, get_block_info};
 
     use darkshuffle::constants::{DECK_SIZE, START_ENERGY, START_HEALTH};
     use darkshuffle::models::battle::{Battle, Monster};
-    use darkshuffle::models::game::{Game};
+    use darkshuffle::models::game::{Game, GameEffects};
     use darkshuffle::models::draft::{Draft, DraftEntropy};
 
     use darkshuffle::utils::{
@@ -22,8 +20,8 @@ mod game_systems {
     };
 
     #[abi(embed_v0)]
-    impl GameContractImpl of IGameContract<ContractState> {
-        fn start_game(world: IWorldDispatcher, name: felt252) {
+    impl GameContractImpl of super::IGameContract<ContractState> {
+        fn start_game(ref world: IWorldDispatcher, name: felt252) {
             let game_id = world.uuid();
 
             set!(world, (
@@ -63,7 +61,7 @@ mod game_systems {
             ));
         }
 
-        fn start_battle(world: IWorldDispatcher, game_id: usize) {
+        fn start_battle(ref world: IWorldDispatcher, game_id: usize) {
             let mut game: Game = get!(world, (game_id), Game);
 
             assert(game.player == get_caller_address(), 'Not Owner');

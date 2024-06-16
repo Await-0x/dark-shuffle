@@ -1,16 +1,14 @@
 #[dojo::interface]
-trait IBattleContract<TContractState> {
-    fn summon_creature(battle_id: usize, hand_card_number: u8, target_id: u16);
-    fn cast_spell(battle_id: usize, hand_card_number: u8, target_id: u16);
-    fn attack(battle_id: usize, creature_id: u16);
-    fn discard(battle_id: usize, hand_card_number: u8);
-    fn end_turn(battle_id: usize);
+trait IBattleContract {
+    fn summon_creature(ref world: IWorldDispatcher, battle_id: usize, hand_card_number: u8, target_id: u16);
+    fn cast_spell(ref world: IWorldDispatcher, battle_id: usize, hand_card_number: u8, target_id: u16);
+    fn attack(ref world: IWorldDispatcher, battle_id: usize, creature_id: u16);
+    fn discard(ref world: IWorldDispatcher, battle_id: usize, hand_card_number: u8);
+    fn end_turn(ref world: IWorldDispatcher, battle_id: usize);
 }
 
 #[dojo::contract]
 mod battle_systems {
-    use super::IBattleContract;
-
     use darkshuffle::constants::{START_ENERGY};
     use darkshuffle::models::battle::{Battle, BattleOwnerTrait, HandCard, Card, Creature};
     use darkshuffle::models::game::{GameEffects};
@@ -26,8 +24,8 @@ mod battle_systems {
     };
 
     #[abi(embed_v0)]
-    impl BattleContractImpl of IBattleContract<ContractState> {
-        fn summon_creature(world: IWorldDispatcher, battle_id: usize, hand_card_number: u8, target_id: u16) {
+    impl BattleContractImpl of super::IBattleContract<ContractState> {
+        fn summon_creature(ref world: IWorldDispatcher, battle_id: usize, hand_card_number: u8, target_id: u16) {
             let mut battle: Battle = get!(world, battle_id, Battle); 
             battle.assert_battle(world);
 
@@ -57,7 +55,7 @@ mod battle_systems {
             }
         }
 
-        fn cast_spell(world: IWorldDispatcher, battle_id: usize, hand_card_number: u8, target_id: u16) {
+        fn cast_spell(ref world: IWorldDispatcher, battle_id: usize, hand_card_number: u8, target_id: u16) {
             let mut battle: Battle = get!(world, battle_id, Battle); 
             battle.assert_battle(world);
 
@@ -86,7 +84,7 @@ mod battle_systems {
 
         }
 
-        fn attack(world: IWorldDispatcher, battle_id: usize, creature_id: u16) {
+        fn attack(ref world: IWorldDispatcher, battle_id: usize, creature_id: u16) {
             let mut battle: Battle = get!(world, battle_id, Battle); 
             battle.assert_battle(world);
 
@@ -111,7 +109,7 @@ mod battle_systems {
             }
         }
 
-        fn discard(world: IWorldDispatcher, battle_id: usize, hand_card_number: u8) {
+        fn discard(ref world: IWorldDispatcher, battle_id: usize, hand_card_number: u8) {
             let mut battle: Battle = get!(world, battle_id, Battle); 
             battle.assert_battle(world);
 
@@ -138,7 +136,7 @@ mod battle_systems {
             }
         }
 
-        fn end_turn(world: IWorldDispatcher, battle_id: usize) {
+        fn end_turn(ref world: IWorldDispatcher, battle_id: usize) {
             let mut battle: Battle = get!(world, battle_id, Battle);
             battle.assert_battle(world);
 

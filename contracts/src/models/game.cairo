@@ -31,7 +31,8 @@ struct GameEffects {
     dead_creatures: u16
 }
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct Leaderboard {
     #[key]
     game_id: usize,
