@@ -91,10 +91,6 @@ mod summon_utils {
         else if card.card_id == 12 {
             battle.hero_armor += battle.deck_iteration + 3;
         }
-
-        else if card.card_id == 13 {
-            creature.attack += round_effects.creatures_played * battle.deck_iteration;
-        }
         
         else if card.card_id == 14 {
             game_effects.next_spell_reduction = battle.deck_iteration;

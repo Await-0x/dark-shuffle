@@ -7,7 +7,7 @@ version = "0.1.0"
 sierra-replace-ids = true
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v0.6.0" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v0.7.0" }
 
 [tool.dojo]
 initializer_class_hash = "0xbeef"

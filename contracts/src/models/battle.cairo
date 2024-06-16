@@ -2,7 +2,8 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use starknet::{ContractAddress, get_caller_address};
 use darkshuffle::models::game::Game;
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct Battle {
     #[key]
     battle_id: usize,
@@ -18,7 +19,8 @@ struct Battle {
     monster_health: u16
 }
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct Creature {
     #[key]
     battle_id: usize,
@@ -32,7 +34,8 @@ struct Creature {
     resting_round: u16,
 }
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct Board {   
     #[key]
     battle_id: usize,
@@ -44,7 +47,8 @@ struct Board {
     creature6: u16,
 }
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct HandCard {   
     #[key]
     battle_id: usize,

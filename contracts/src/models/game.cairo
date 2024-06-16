@@ -1,7 +1,8 @@
 use starknet::{ContractAddress, get_caller_address};
 use darkshuffle::models::battle::Battle;
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct Game {
     #[key]
     game_id: usize,
@@ -17,7 +18,8 @@ struct Game {
     deck_iteration: u16,
 }
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct GameEffects {   
     #[key]
     game_id: usize,

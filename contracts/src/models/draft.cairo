@@ -1,4 +1,5 @@
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct Draft {
     #[key]
     game_id: usize,
@@ -6,7 +7,8 @@ struct Draft {
     entropy_count: u16,
 }
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct DraftOption {
     #[key]
     game_id: usize,
@@ -15,7 +17,8 @@ struct DraftOption {
     card_id: u16,
 }
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct DraftCard {
     #[key]
     game_id: usize,
@@ -24,7 +27,8 @@ struct DraftCard {
     card_id: u16,
 }
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct DraftEntropy {
     #[key]
     game_id: usize,
