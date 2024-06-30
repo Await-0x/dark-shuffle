@@ -31,7 +31,6 @@ function Leaderboard() {
     <Box sx={styles.container}>
       <Tabs
         value={'one'}
-        textColor="primary"
         indicatorColor="primary"
       >
         <Tab value={'one'} label="Leaderboard" />

@@ -2,9 +2,9 @@
 
 # Default values (dev)
 STARKNET_RPC_URL="http://localhost:5050"
-DOJO_ACCOUNT_ADDRESS="0x6162896d1d7ab204c7ccac6dd5f8e9e7c25ecd5ae4fcb4ad32e57786bb46e03"
-DOJO_PRIVATE_KEY="0x1800000000300000180000000000030000000000003006001800006600"
-SOZO_WORLD="0x1ea1b9ecad1655ffba513fc73818ce42fbbb36175151ead4a822c0aabb05eab"
+DOJO_ACCOUNT_ADDRESS="0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
+DOJO_PRIVATE_KEY="0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
+SOZO_WORLD="0x02579a62f7c4a0f63e556370fad4d110ba8a63eeae6014cfb6ba2a739b14820f"
 KATANA_TOML_PATH="./manifests/dev/manifest.toml"
 
 # Check if the first argument is provided and set it to "dev" or "prod"

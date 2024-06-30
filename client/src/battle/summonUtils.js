@@ -12,10 +12,8 @@ export const summonEffect = ({
   monster,
   damageAdventurer,
   damageMonster,
-  roundEffects,
-  setRoundEffects,
-  battleEffects,
-  setBattleEffects
+  gameEffects,
+  setGameEffects
 }) => {
   if (monster.id === 404) {
     creature.resting = true
@@ -43,7 +41,7 @@ export const summonEffect = ({
   }
 
   else if (creature.cardId === 6) {
-    creature.attack += battleEffects.demonsPlayed
+    creature.attack += gameEffects.demonsPlayed
   }
 
   else if (creature.cardId === 7 && target) {
@@ -59,7 +57,7 @@ export const summonEffect = ({
   }
 
   else if (creature.cardId === 10) {
-    creature.attack += battleEffects.cardsDiscarded
+    creature.attack += gameEffects.cardsDiscarded
   }
 
   else if (creature.cardId === 11) {
@@ -71,11 +69,10 @@ export const summonEffect = ({
   }
 
   else if (creature.cardId === 13) {
-    creature.attack += roundEffects.creaturesPlayed * deckIteration
   }
 
   else if (creature.cardId === 14) {
-    battleEffects.nextSpellReduction = deckIteration
+    gameEffects.nextSpellReduction = deckIteration
   }
 
   else if (creature.cardId === 15) {
@@ -92,17 +89,11 @@ export const summonEffect = ({
     setBoard(prev => prev.map(creature => ({ ...creature, attack: creature.attack + deckIteration })))
   }
 
-  let updatedBattleEffects = {
-    ...battleEffects,
-    creaturesPlayed: battleEffects.creaturesPlayed + 1,
-    demonsPlayed: creature.tag === tags.DEMON ? battleEffects.demonsPlayed + 1 : battleEffects.demonsPlayed
+  let updatedGameEffects = {
+    ...gameEffects,
+    creaturesPlayed: gameEffects.creaturesPlayed + 1,
+    demonsPlayed: creature.tag === tags.DEMON ? gameEffects.demonsPlayed + 1 : gameEffects.demonsPlayed
   }
 
-  let updatedRoundEffects = {
-    ...roundEffects,
-    creaturesPlayed: roundEffects.creaturesPlayed + 1
-  }
-
-  setBattleEffects(updatedBattleEffects)
-  setRoundEffects(updatedRoundEffects)
+  setGameEffects(updatedGameEffects)
 }

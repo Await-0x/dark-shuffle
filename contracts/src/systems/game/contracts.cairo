@@ -36,7 +36,7 @@ mod game_systems {
                     active_battle_id: 0,
                     hero_health: START_HEALTH,
                     hero_energy: START_ENERGY,
-                    deck_iteration: 1
+                    deck_iteration: 0
                 },
                 GameEffects {
                     game_id,

@@ -11,8 +11,10 @@ import { CustomTooltip } from '../helpers/styles';
 import { fadeVariant } from "../helpers/variants";
 import graveyardIcon from '../assets/images/graveyard.png';
 import RestoringBattleDialog from '../components/dialogs/restoringBattle';
+import { GameContext } from '../contexts/gameContext';
 
 function BattleContainer() {
+  const game = useContext(GameContext)
   const battle = useContext(BattleContext)
 
   const vortex = useLottie({
@@ -86,15 +88,15 @@ function BattleContainer() {
                 <Typography color="primary" variant='h6' mb={1}>Graveyard</Typography>
 
                 <Typography variant='h6'>
-                  {`Discarded: ${battle.state.battleEffects.cardsDiscarded}`}
+                  {`Discarded: ${game.gameEffects.cardsDiscarded}`}
                 </Typography>
 
                 <Typography variant='h6'>
-                  {`Creatures: ${battle.state.battleEffects.deadCreatures}`}
+                  {`Creatures: ${game.gameEffects.deadCreatures}`}
                 </Typography>
 
                 <Typography variant='h6'>
-                  {`Spells: ${battle.state.battleEffects.spellsPlayed}`}
+                  {`Spells: ${game.gameEffects.spellsPlayed}`}
                 </Typography>
               </Box>
             }>

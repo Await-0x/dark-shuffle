@@ -45,10 +45,10 @@ mod summon_utils {
         
         else if card.card_id == 3 {
             let mut amount = 0;
-            if battle.deck_iteration > 3 {
+            if battle.deck_iteration > 2 {
                 amount = 0;
             } else {
-                amount = 4 - battle.deck_iteration;
+                amount = 3 - battle.deck_iteration;
             }
 
             battle_utils::damage_hero(ref battle, amount);

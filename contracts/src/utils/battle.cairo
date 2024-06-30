@@ -20,7 +20,7 @@ mod battle_utils {
         
         let id = card.card_id;
         if id == 5 || id == 11 || id == 12 || id == 20 || id == 21 || id == 22 || id == 24 {
-            let reduction = battle.deck_iteration - 1;
+            let reduction = battle.deck_iteration;
 
             if reduction >= cost {
                 return;

@@ -21,3 +21,11 @@ export const EFFECTS = {
   nextSpellReduction: 0,
   deadCreatures: 0
 }
+
+export const levelColors = [
+  { bg: '#90EE90', star: '#000' },
+  { bg: '#FFFF00', star: '#000' },
+  { bg: '#FFA500', star: '#000' },
+  { bg: '#FF0000', star: '#000' },
+  { bg: '#800080', star: '#FFD700' },
+]

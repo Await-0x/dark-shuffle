@@ -65,7 +65,7 @@ export const createBurnerAccount = async (rpcProvider) => {
   );
 
   const account = new Account(rpcProvider, contractAddress, privateKey, "1");
-
+  console.log(rpcProvider)
   const { transaction_hash, contract_address } = await account.deployAccount({
     classHash: accountClassHash,
     constructorCalldata: constructorCalldata,

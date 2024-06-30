@@ -90,7 +90,7 @@ function StartBattleContainer() {
               <Box sx={styles.deck}>
                 <Box sx={styles.cardCount}>
                   <Typography>
-                    1
+                    {game.values.deckIteration}
                   </Typography>
                 </Box>
               </Box>

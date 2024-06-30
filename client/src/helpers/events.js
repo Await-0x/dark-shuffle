@@ -1,6 +1,6 @@
 /* global BigInt */
-import { getEntityIdFromKeys, hexToAscii } from "@dojoengine/utils";
-import { components } from "./components.js";
+import { getEntityIdFromKeys, hexToAscii, setComponentFromEvent } from "@dojoengine/utils";
+import { components, translateName } from "./components.js";
 
 function parseData(value, type) {
   switch (typeof type) {
@@ -16,7 +16,7 @@ function parseData(value, type) {
 }
 
 export function translateEvent(event) {
-  const name = hexToAscii(event[0])
+  const name = translateName(event[0]);
   const keysNumber = parseInt(event[1]);
   const keys = event.slice(2, 2 + keysNumber).map((key) => BigInt(key));
   const entityId = getEntityIdFromKeys(keys);

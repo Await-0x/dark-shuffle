@@ -6,7 +6,7 @@ import DraftContainer from '../container/DraftContainer'
 import { GameContext } from '../contexts/gameContext'
 import StartBattleContainer from '../container/StartBattleContainer'
 import { useEffect } from 'react'
-import { getActiveGame } from '../api/indexer'
+import { getActiveGame, getGameEffects } from '../api/indexer'
 import { DraftContext } from '../contexts/draftContext'
 import { BattleContext } from '../contexts/battleContext'
 import ReconnectDialog from '../components/dialogs/reconnecting'
@@ -40,7 +40,20 @@ function ArenaPage() {
           inBattle: data.in_battle,
           battlesWon: data.battles_won,
           activeBattleId: data.active_battle_id,
-          heroHealth: data.hero_health
+          heroHealth: data.hero_health,
+          heroEnergy: data.hero_energy,
+          deckIteration: data.deck_iteration
+        })
+
+        let gameEffects = await getGameEffects(data.game_id);
+        
+        gameState.setGameEffects({
+          cardsDiscarded: gameEffects?.cards_discarded || 0,
+          creaturesPlayed: gameEffects?.creatures_played || 0,
+          spellsPlayed: gameEffects?.spells_played || 0,
+          demonsPlayed: gameEffects?.demons_played || 0,
+          nextSpellReduction: gameEffects?.next_spell_reduction || 0,
+          deadCreatures: gameEffects?.dead_creatures || 0
         })
 
         setReconnecting(false)

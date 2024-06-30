@@ -2,14 +2,14 @@ import { ADVENTURER_ID } from "../helpers/constants"
 
 export const spellEffect = ({ spell, board, shieldHero, deckIteration, target,
   damageMonster, setBoard, animationHandler, increaseEnergy, monster, damageAdventurer,
-  roundEffects, setRoundEffects, battleEffects, setBattleEffects, hand, creatureDead }) => {
+  gameEffects, setGameEffects, hand, creatureDead }) => {
 
   if (spell.cardId === 18) {
-    damageMonster(deckIteration + 2)
+    damageMonster(deckIteration + 3)
   }
 
   if (spell.cardId === 19) {
-    shieldHero(deckIteration + 2)
+    shieldHero(deckIteration + 3)
   }
 
   if (spell.cardId === 20) {
@@ -37,18 +37,11 @@ export const spellEffect = ({ spell, board, shieldHero, deckIteration, target,
     target.shield = true;
   }
 
-  let updatedBattleEffects = {
-    ...battleEffects,
-    spellsPlayed: battleEffects.spellsPlayed + 1,
+  let updatedGameEffects = {
+    ...gameEffects,
+    spellsPlayed: gameEffects.spellsPlayed + 1,
     nextSpellReduction: 0
   }
 
-  let updatedRoundEffects = {
-    ...roundEffects,
-    spellsPlayed: roundEffects.spellsPlayed + 1,
-    nextSpellReduction: 0
-  }
-
-  setBattleEffects(updatedBattleEffects)
-  setRoundEffects(updatedRoundEffects)
+  setGameEffects(updatedGameEffects)
 }

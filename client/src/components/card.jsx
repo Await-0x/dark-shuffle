@@ -1,9 +1,14 @@
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import sword from '../assets/images/sword.png';
 import { afflixExplainer, fetch_image, types } from "../helpers/cards";
 import { CustomTooltip } from '../helpers/styles';
+import bolt from "../assets/images/bolt.png";
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import StarIcon from '@mui/icons-material/Star';
+import { levelColors } from '../helpers/constants';
 
 function Card(props) {
   const { card, pendingCard } = props
@@ -12,6 +17,9 @@ function Card(props) {
   useEffect(() => {
     setTimeout(() => showTooltip(true), 1000);
   }, [])
+
+  let level = card.level || 14
+  let levelColor = levelColors[Math.floor(level / 3)]
 
   return <CustomTooltip position={'bottom'} title={card.afflix && tooltip ?
     <Box>
@@ -23,15 +31,31 @@ function Card(props) {
     <Box sx={[styles.container, { opacity: (pendingCard && pendingCard !== card.id) ? 0.3 : 1 }]}>
 
       <Box sx={styles.header}>
-        <Box sx={styles.circle} border={'1px solid #FFE97F'}>
-          <Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', }}>
+          <Typography variant="h5">
             {card.cost}
           </Typography>
+
+          <img alt='' src={bolt} height={20} style={{ marginLeft: '-1px' }} />
         </Box>
 
-        <Typography variant="h6" noWrap>
+        <Typography noWrap>
           {card.name}
         </Typography>
+
+        <Box sx={styles.levelContainer}>
+          <BookmarkIcon htmlColor={levelColor.bg} fontSize='large' />
+
+          {level % 3 > 0
+            ? <StarIcon htmlColor={levelColor.star} sx={{ position: 'absolute', top: '6px', left: '12px', fontSize: '10px' }} />
+            : <StarOutlineIcon htmlColor={levelColor.star} sx={{ position: 'absolute', top: '6px', left: '12px', fontSize: '10px', opacity: 0.7 }} />
+          }
+
+          {level % 3 > 1
+            ? <StarIcon htmlColor={levelColor.star} sx={{ position: 'absolute', top: '15px', left: '12px', fontSize: '10px' }} />
+            : <StarOutlineIcon htmlColor={levelColor.star} sx={{ position: 'absolute', top: '15px', left: '12px', fontSize: '10px', opacity: 0.7 }} />
+          }
+        </Box>
       </Box>
 
       <Box sx={styles.imageContainer}>
@@ -94,7 +118,7 @@ const styles = {
     height: '100%',
     background: '#141920',
     border: '1px solid rgba(255, 255, 255, 0.24)',
-    p: 2,
+    p: 1.5,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -142,7 +166,7 @@ const styles = {
   },
   header: {
     display: 'flex',
-    gap: 2,
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
   bottomContainer: {
@@ -159,7 +183,9 @@ const styles = {
     justifyContent: 'center',
     borderRadius: '100px'
   },
-  tooltip: {
-
+  levelContainer: {
+    marginTop: '-20px',
+    marginRight: '-10px',
+    position: 'relative'
   }
 }

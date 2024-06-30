@@ -45,6 +45,7 @@ export const DojoProvider = ({ children }) => {
       }
 
       const events = getEvents(receipt)
+      console.log(events)
       const translatedEvents = events.map(event => translateEvent(event.data))
       console.log(translatedEvents)
       return translatedEvents

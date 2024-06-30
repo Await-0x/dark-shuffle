@@ -17,7 +17,9 @@ export async function getActiveGame(address) {
           in_battle,
           battles_won,
           active_battle_id,
-          hero_health
+          hero_health,
+          hero_energy,
+          deck_iteration
         }
       }
     }
@@ -45,6 +47,29 @@ export async function getDraftCards(game_id) {
   const res = await request(dojoConfig.toriiUrl, document)
 
   return res?.draftCardModels?.edges.map(edge => edge.node)
+}
+
+export async function getGameEffects(game_id) {
+  const document = gql`
+  {
+    gameEffectsModels(where:{game_id:${game_id}}) {
+      edges {
+        node {
+          game_id
+          cards_discarded,
+          creatures_played,
+          spells_played,
+          demons_played,
+          next_spell_reduction,
+          dead_creatures,
+        }
+      }
+    }
+  }
+  `
+  const res = await request(dojoConfig.toriiUrl, document)
+
+  return res?.gameEffectsModels?.edges[0]?.node
 }
 
 export async function getDraftEntropy(game_id, number) {
@@ -112,29 +137,6 @@ export async function getBattleState(battle_id) {
         }
       }
     }
-
-    battleEffectsModels(where:{battle_id:${battle_id}}) {
-      edges {
-        node {
-          battle_id
-          cards_discarded,
-          creatures_played,
-          spells_played,
-          demons_played,
-          next_spell_reduction,
-          dead_creatures,
-        }
-      }
-    }
-
-    roundEffectsModels(where:{battle_id:${battle_id}}) {
-      edges {
-        node {
-          battle_id,
-          creatures_played,
-        }
-      }
-    }
   }
   `
   const res = await request(dojoConfig.toriiUrl, document)
@@ -142,9 +144,7 @@ export async function getBattleState(battle_id) {
   const result = {
     battle: res?.battleModels?.edges[0]?.node,
     creatures: res?.creatureModels?.edges.map(edge => edge.node),
-    handCards: res?.handCardModels?.edges.map(edge => edge.node),
-    battleEffects: res?.battleEffectsModels?.edges[0]?.node,
-    roundEffects: res?.roundEffectsModels?.edges[0]?.node
+    handCards: res?.handCardModels?.edges.map(edge => edge.node)
   }
 
   return result

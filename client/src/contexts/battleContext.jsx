@@ -1,6 +1,6 @@
-import { useSnackbar } from "notistack";
+import { closeSnackbar, useSnackbar } from "notistack";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { adventurerHealedEffect } from "../battle/adventurerUtils";
+import { getBattleState } from "../api/indexer";
 import { deathEffect } from "../battle/deathUtils";
 import { MONSTER_LIST } from "../battle/monsterUtils";
 import { endOfTurnMonsterEffect } from "../battle/phaseUtils";
@@ -12,8 +12,6 @@ import { AnimationContext } from "./animationHandler";
 import { DojoContext } from "./dojoContext";
 import { DraftContext } from "./draftContext";
 import { GameContext } from "./gameContext";
-import { getBattleState } from "../api/indexer";
-import { closeSnackbar } from "notistack";
 
 export const BattleContext = createContext()
 
@@ -35,11 +33,10 @@ export const BattleProvider = ({ children }) => {
   const [monster, setMonster] = useState({})
   const [adventurer, setAdventurer] = useState({})
 
-  const [deckIteration, setDeckIteration] = useState(0)
+  const [deckIteration, setDeckIteration] = useState()
   const [creatureIndex, setCreatureIndex] = useState(0)
 
-  const [battleEffects, setBattleEffects] = useState({ ...EFFECTS })
-  const [roundEffects, setRoundEffects] = useState({ ...EFFECTS })
+  const [gameEffects, setGameEffects] = useState({ ...EFFECTS })
 
   const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(false)
 
@@ -52,11 +49,11 @@ export const BattleProvider = ({ children }) => {
   }, [targetFriendlyCreature])
 
   useEffect(() => {
-    if (hand.length === 0 && monster.id) {
-      setHand(draft.cards.map(card => fetchCard(card.cardId, deckIteration + 1, card.number, monster.id)))
+    if (hand.length === 0 && monster.id && deckIteration) {
+      setHand(draft.cards.map(card => fetchCard(card.cardId, deckIteration, card.number, monster.id)))
       setDeckIteration(prev => prev + 1)
     }
-  }, [hand, monster])
+  }, [hand, monster, deckIteration])
 
   useEffect(() => {
     if (animationHandler.completed.length < 1) {
@@ -138,10 +135,10 @@ export const BattleProvider = ({ children }) => {
 
       setHand([])
       setBattleId(battle.battleId)
-      setRoundEffects({ ...EFFECTS })
       setAdventurer({ id: ADVENTURER_ID, health: battle.heroHealth, energy: battle.heroEnergy, armor: battle.heroArmor })
       setMonster({ ...MONSTER_LIST.find(monster => monster.id === battle.monsterId), attack: battle.monsterAttack, health: battle.monsterHealth })
       setCreatureIndex(battle.cardIndex)
+      setDeckIteration(battle.deckIteration)
 
       game.setGame(gameValues)
     }
@@ -168,7 +165,7 @@ export const BattleProvider = ({ children }) => {
     summonEffect({
       creature, board, shieldHero, deckIteration, target: target, damageMonster,
       setBoard, animationHandler, increaseEnergy, monster, damageAdventurer,
-      roundEffects, setRoundEffects, battleEffects, setBattleEffects, hand
+      gameEffects: game.gameEffects, setGameEffects: game.setGameEffects, hand
     })
 
     let creatureId = creatureIndex + 1;
@@ -180,7 +177,7 @@ export const BattleProvider = ({ children }) => {
   }
 
   const castSpell = (spell, target) => {
-    let cost = Math.max(0, spell.cost - battleEffects.nextSpellReduction)
+    let cost = Math.max(0, spell.cost - game.gameEffects.nextSpellReduction)
 
     if (cost > adventurer.energy) {
       return enqueueSnackbar('Not enough energy', { variant: 'warning' })
@@ -192,7 +189,7 @@ export const BattleProvider = ({ children }) => {
     spellEffect({
       spell, board, shieldHero, deckIteration, target: target, damageMonster,
       setBoard, animationHandler, increaseEnergy, monster, damageAdventurer,
-      roundEffects, setRoundEffects, battleEffects, setBattleEffects, hand, creatureDead
+       gameEffects: game.gameEffects, setGameEffects: game.setGameEffects, hand, creatureDead
     })
 
     submitBattleAction("darkshuffle::systems::battle::contracts::battle_systems", "cast_spell", [battleId, spell.id, target?.id || 0])
@@ -206,8 +203,7 @@ export const BattleProvider = ({ children }) => {
 
     decreaseEnergy(1);
 
-    setBattleEffects(prev => ({ ...prev, cardsDiscarded: prev.cardsDiscarded + 1 }))
-    setRoundEffects(prev => ({ ...prev, cardsDiscarded: prev.cardsDiscarded + 1 }))
+    game.setGameEffects(prev => ({ ...prev, cardsDiscarded: prev.cardsDiscarded + 1 }))
 
     setHand(prev => prev.filter(handCard => (handCard.id !== card.id)))
 
@@ -236,8 +232,6 @@ export const BattleProvider = ({ children }) => {
   }
 
   const beginTurn = () => {
-    setRoundEffects({ ...EFFECTS })
-
     setBoard(prev => prev.map(creature => ({ ...creature, resting: false })));
     setAdventurer(prev => ({ ...prev, energy: START_ENERGY }));
   }
@@ -275,7 +269,7 @@ export const BattleProvider = ({ children }) => {
 
     setBoard(prev => prev.filter(x => x.id !== creature.id))
 
-    setBattleEffects(prev => ({ ...prev, deadCreatures: prev.deadCreatures + 1 }))
+    game.setGameEffects(prev => ({ ...prev, deadCreatures: prev.deadCreatures + 1 }))
     deathEffect({ creature, hand, setHand, updateHandCard, board, setBoard })
   }
 
@@ -446,21 +440,8 @@ export const BattleProvider = ({ children }) => {
       armor: data.battle.hero_armor
     })
 
-    setRoundEffects({ ...EFFECTS })
     setDeckIteration(data.battle.deck_iteration)
     setCreatureIndex(data.battle.card_index)
-    setBattleEffects({
-      cardsDiscarded: data.battleEffects?.cards_discarded || 0,
-      creaturesPlayed: data.battleEffects?.creatures_played || 0,
-      spellsPlayed: data.battleEffects?.spells_played || 0,
-      demonsPlayed: data.battleEffects?.demons_played || 0,
-      nextSpellReduction: data.battleEffects?.next_spell_reduction || 0,
-      deadCreatures: data.battleEffects?.dead_creatures || 0
-    })
-    setRoundEffects({
-      ...EFFECTS,
-      creaturesPlayed: data.roundEffects?.creatures_played || 0
-    })
     setTargetFriendlyCreature()
 
     setResettingState(false)
@@ -495,7 +476,7 @@ export const BattleProvider = ({ children }) => {
           monster,
           adventurer,
           deckIteration,
-          battleEffects,
+          gameEffects,
           targetFriendlyCreature,
           resettingState
         }

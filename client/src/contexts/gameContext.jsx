@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import { getBlockWithTxs, getLatestBlock } from "../api/starknet";
 import { delay } from "../helpers/utilities";
+import { EFFECTS } from "../helpers/constants";
 
 export const GameContext = createContext()
 
@@ -9,11 +10,15 @@ const GAME_VALUES = {
   inDraft: false,
   inBattle: false,
   battlesWon: 0,
-  heroHealth: 0
+  heroHealth: 0,
+  heroEnergy: 0,
+  deckIteration: 0
 }
 
 export const GameProvider = ({ children }) => {
   const [values, setValues] = useState({ ...GAME_VALUES })
+  const [gameEffects, setGameEffects] = useState({ ...EFFECTS })
+
   const [entropy, setEntropy] = useState({
     blockNumber: null,
     blockHash: null
@@ -88,7 +93,9 @@ export const GameProvider = ({ children }) => {
         entropy,
         setEntropy,
         score,
-        setScore
+        setScore,
+        gameEffects,
+        setGameEffects
       }}
     >
       {children}

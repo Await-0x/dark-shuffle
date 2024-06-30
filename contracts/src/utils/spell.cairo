@@ -12,11 +12,11 @@ mod spell_utils {
         let mut game_effects: GameEffects = get!(world, (battle.game_id), GameEffects);
 
         if card.card_id == 18 {
-            battle_utils::damage_monster(ref battle, battle.deck_iteration + 2);
+            battle_utils::damage_monster(ref battle, battle.deck_iteration + 1);
         }
         
         if card.card_id == 19 {
-            battle.hero_armor += battle.deck_iteration + 2;
+            battle.hero_armor += battle.deck_iteration + 1;
         }
         
         if card.card_id == 20 {
@@ -34,7 +34,7 @@ mod spell_utils {
         }
         
         if card.card_id == 23 {
-            target.attack += battle.deck_iteration + 1;
+            target.attack += battle.deck_iteration;
         }
         
         if card.card_id == 24 {
