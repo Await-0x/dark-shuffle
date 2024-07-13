@@ -11,16 +11,22 @@ export const tags = {
 
 export const afflixes = {
   SCALABLE: 'Scalable',
-  ESCALATING: 'Escalating',
+  RENEWABLE: 'Renewable',
+  CUMULATING: 'Cumulating',
+  UNSTABLE: 'Unstable',
   SHIELD: 'Shield',
 }
 
 export const afflixExplainer = (afflix) => {
   switch (afflix) {
+    case afflixes.CUMULATING:
+      return "Effect increases each tier"
     case afflixes.SCALABLE:
-      return "Cost one less energy each iteration"
-    case afflixes.ESCALATING:
-      return "Effect improves each iteration"
+      return "Stats increases each tier"
+    case afflixes.RENEWABLE:
+      return "Cost decreases each tier"
+    case afflixes.UNSTABLE:
+      return "Cost increases each tier"
     case afflixes.SHIELD:
       return "Prevents the first source of damage"
   }
@@ -70,7 +76,8 @@ export const CARD_LIST = [
     cost: 2,
     attack: 1,
     health: 1,
-    afflix: afflixes.ESCALATING
+    afflix: afflixes.RENEWABLE,
+    level: 4
   },
   {
     cardId: 2,
@@ -80,7 +87,8 @@ export const CARD_LIST = [
     cost: 2,
     attack: 2,
     health: 2,
-    afflix: afflixes.ESCALATING
+    afflix: afflixes.RENEWABLE,
+    level: 6
   },
   {
     cardId: 3,
@@ -90,7 +98,8 @@ export const CARD_LIST = [
     cost: 1,
     attack: 5,
     health: 5,
-    afflix: afflixes.ESCALATING
+    afflix: afflixes.RENEWABLE,
+    level: 11
   },
   {
     cardId: 4,
@@ -100,7 +109,8 @@ export const CARD_LIST = [
     cost: 4,
     attack: 4,
     health: 4,
-    afflix: afflixes.ESCALATING
+    afflix: afflixes.RENEWABLE,
+    level: 8
   },
   {
     cardId: 5,
@@ -111,7 +121,8 @@ export const CARD_LIST = [
     attack: 1,
     health: 1,
     afflix: afflixes.SCALABLE,
-    requiresTarget: true
+    requiresTarget: true,
+    level: 7
   },
   {
     cardId: 6,
@@ -121,6 +132,7 @@ export const CARD_LIST = [
     cost: 2,
     attack: 0,
     health: 4,
+    level: 14
   },
   {
     cardId: 7,
@@ -130,8 +142,9 @@ export const CARD_LIST = [
     cost: 3,
     attack: 4,
     health: 2,
-    afflix: afflixes.ESCALATING,
-    requiresTarget: true
+    afflix: afflixes.RENEWABLE,
+    requiresTarget: true,
+    level: 1
   },
   {
     cardId: 8,
@@ -141,6 +154,7 @@ export const CARD_LIST = [
     cost: 3,
     attack: 4,
     health: 3,
+    level: 14
   },
   {
     cardId: 9,
@@ -188,7 +202,7 @@ export const CARD_LIST = [
     cost: 3,
     attack: 2,
     health: 3,
-    afflix: afflixes.ESCALATING,
+    afflix: afflixes.RENEWABLE,
   },
   {
     cardId: 14,
@@ -198,7 +212,7 @@ export const CARD_LIST = [
     cost: 3,
     attack: 4,
     health: 4,
-    afflix: afflixes.ESCALATING,
+    afflix: afflixes.RENEWABLE,
   },
   {
     cardId: 15,
@@ -208,7 +222,7 @@ export const CARD_LIST = [
     cost: 3,
     attack: 4,
     health: 4,
-    afflix: afflixes.ESCALATING,
+    afflix: afflixes.RENEWABLE,
   },
   {
     cardId: 16,
@@ -218,7 +232,7 @@ export const CARD_LIST = [
     cost: 4,
     attack: 3,
     health: 3,
-    afflix: afflixes.ESCALATING,
+    afflix: afflixes.RENEWABLE,
   },
   {
     cardId: 17,
@@ -228,7 +242,7 @@ export const CARD_LIST = [
     cost: 4,
     attack: 1,
     health: 4,
-    afflix: afflixes.ESCALATING,
+    afflix: afflixes.RENEWABLE,
   },
   {
     cardId: 18,
@@ -237,7 +251,7 @@ export const CARD_LIST = [
     cost: 2,
     attack: 0,
     health: 0,
-    afflix: afflixes.ESCALATING,
+    afflix: afflixes.RENEWABLE,
   },
   {
     cardId: 19,
@@ -246,7 +260,7 @@ export const CARD_LIST = [
     cost: 2,
     attack: 0,
     health: 0,
-    afflix: afflixes.ESCALATING,
+    afflix: afflixes.RENEWABLE,
   },
   {
     cardId: 20,
@@ -283,7 +297,7 @@ export const CARD_LIST = [
     cost: 1,
     attack: 0,
     health: 0,
-    afflix: afflixes.ESCALATING,
+    afflix: afflixes.RENEWABLE,
     requiresTarget: true
   },
   {

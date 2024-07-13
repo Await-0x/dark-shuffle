@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { fetchCard, tags, types } from "../helpers/cards";
+import { CARD_LIST, fetchCard, tags, types } from "../helpers/cards";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
 import { getDraftCards, getDraftEntropy } from "../api/indexer";
@@ -14,7 +14,7 @@ export const DraftProvider = ({ children }) => {
 
   const [playerName, setPlayerName] = useState(localStorage.getItem('playerName') || '')
   const [options, setOptions] = useState([])
-  const [cards, setCards] = useState([])
+  const [cards, setCards] = useState(CARD_LIST.slice(0, 8))
 
   const [manaCurve, setManaCurve] = useState()
 

@@ -15,7 +15,7 @@ struct Game {
     active_battle_id: usize,
     hero_health: u16,
     hero_energy: u16,
-    deck_iteration: u16,
+    tree_branch: u16
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -30,6 +30,20 @@ struct GameEffects {
     next_spell_reduction: u16,
     dead_creatures: u16
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+struct TreeNode {
+    #[key]
+    id: usize,
+    game_id: usize,
+    branch: u16,
+    parents: ByteArray,
+    type: u16,
+    status: u8,
+    last_node: bool
+}
+
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]

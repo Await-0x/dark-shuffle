@@ -3,21 +3,23 @@ import { motion } from "framer-motion"
 import React, { useContext, useState } from "react"
 import { DraftContext } from "../../contexts/draftContext"
 import { CardSize, fetch_image } from "../../helpers/cards"
-import { uniquefy } from "../../helpers/utilities"
 import Card from "../card"
+import { levelColors } from "../../helpers/constants"
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import StarIcon from '@mui/icons-material/Star';
 
 function Overview() {
   const draft = useContext(DraftContext)
 
   const [displayCard, setDisplayCard] = useState(null)
 
-  const uniqueCards = uniquefy(draft.cards, "cardId")
-
   return <Box sx={styles.container}>
 
     {React.Children.toArray(
-      uniqueCards.map(card => {
-        const count = draft.cards.filter(c => c.cardId === card.cardId).length
+      draft.cards.sort((a, b) => a.cost - b.cost).map(card => {
+        let level = card.level || 14
+        let levelColor = levelColors[Math.floor(level / 3)]
 
         return <motion.div style={{ ...styles.card }}
           onHoverStart={() => setDisplayCard(card)}
@@ -38,10 +40,18 @@ function Overview() {
             </Typography>
           </Box>
 
-          <Box sx={styles.count}>
-            <Typography color='primary'>
-              {count > 1 && count}
-            </Typography>
+          <Box sx={styles.levelContainer}>
+            <BookmarkIcon htmlColor={levelColor.bg} fontSize='large' />
+
+            {level % 3 > 0
+              ? <StarIcon htmlColor={levelColor.star} sx={{ position: 'absolute', top: '6px', left: '12px', fontSize: '10px' }} />
+              : <StarOutlineIcon htmlColor={levelColor.star} sx={{ position: 'absolute', top: '6px', left: '12px', fontSize: '10px', opacity: 0.7 }} />
+            }
+
+            {level % 3 > 1
+              ? <StarIcon htmlColor={levelColor.star} sx={{ position: 'absolute', top: '15px', left: '12px', fontSize: '10px' }} />
+              : <StarOutlineIcon htmlColor={levelColor.star} sx={{ position: 'absolute', top: '15px', left: '12px', fontSize: '10px', opacity: 0.7 }} />
+            }
           </Box>
 
         </motion.div>
@@ -73,6 +83,7 @@ const styles = {
     justifyContent: 'center',
   },
   card: {
+    overflow: 'hidden',
     boxSizing: 'border-box',
     width: '100%',
     height: '36px',
@@ -94,5 +105,10 @@ const styles = {
     width: CardSize.big.width,
     position: 'absolute',
     right: '305px'
+  },
+  levelContainer: {
+    marginTop: '-5px',
+    marginRight: '-8px',
+    position: 'relative',
   }
 }

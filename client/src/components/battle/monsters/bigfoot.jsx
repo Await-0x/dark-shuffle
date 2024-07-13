@@ -7,6 +7,22 @@ import { AnimationContext } from '../../../contexts/animationHandler';
 import { CustomTooltip } from '../../../helpers/styles';
 import DamageAnimation from '../../animations/damageAnimation';
 
+export function BigFootTooltip() {
+  return <Box mb={1}>
+    <Typography color="primary" variant='h6'>Bigfoot</Typography>
+
+    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+      <Typography color="primary">★ Rage</Typography>
+    </Box>
+    <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+
+    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+      <Typography color="primary">★ Thick Skin</Typography>
+    </Box>
+    <Typography mt={0.5}>Takes (1) less damage from all sources.</Typography>
+  </Box>
+}
+
 function Bigfoot(props) {
   const animationHandler = useContext(AnimationContext)
   const controls = useAnimationControls()

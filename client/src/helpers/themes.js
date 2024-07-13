@@ -78,7 +78,7 @@ export const mainTheme = createTheme({
       styleOverrides: {
         tooltip: {
           fontSize: '16px',
-          background: '#282729'
+          background: 'transparent'
         }
       }
     },

@@ -1,4 +1,6 @@
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import StarIcon from '@mui/icons-material/Star';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -6,8 +8,6 @@ import sword from '../assets/images/sword.png';
 import { afflixExplainer, fetch_image, types } from "../helpers/cards";
 import { CustomTooltip } from '../helpers/styles';
 import bolt from "../assets/images/bolt.png";
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import StarIcon from '@mui/icons-material/Star';
 import { levelColors } from '../helpers/constants';
 
 function Card(props) {

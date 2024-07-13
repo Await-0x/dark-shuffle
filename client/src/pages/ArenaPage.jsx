@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import React, { useContext, useState } from 'react'
-import StartDraft from '../components/draft/startDraft'
+import StartDraft from '../components/landing/startDraft'
 import BattleContainer from '../container/BattleContainer'
 import DraftContainer from '../container/DraftContainer'
 import { GameContext } from '../contexts/gameContext'
@@ -46,7 +46,7 @@ function ArenaPage() {
         })
 
         let gameEffects = await getGameEffects(data.game_id);
-        
+
         gameState.setGameEffects({
           cardsDiscarded: gameEffects?.cards_discarded || 0,
           creaturesPlayed: gameEffects?.creatures_played || 0,
@@ -65,6 +65,12 @@ function ArenaPage() {
       checkActiveGame(burner.address)
     }
   }, [])
+
+  return (
+    <Box sx={styles.container}>
+      <StartBattleContainer />
+    </Box>
+  )
 
   return (
     <Box sx={styles.container}>

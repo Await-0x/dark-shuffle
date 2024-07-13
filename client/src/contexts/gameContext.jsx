@@ -12,7 +12,8 @@ const GAME_VALUES = {
   battlesWon: 0,
   heroHealth: 0,
   heroEnergy: 0,
-  deckIteration: 0
+  deckIteration: 0,
+  name: 'Await'
 }
 
 export const GameProvider = ({ children }) => {

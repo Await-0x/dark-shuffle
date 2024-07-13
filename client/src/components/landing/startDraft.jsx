@@ -1,17 +1,15 @@
-import { Box, Button, Typography } from '@mui/material'
-import React, { Suspense, useContext, useState } from 'react'
 import { LoadingButton } from '@mui/lab'
+import { Box, Typography } from '@mui/material'
+import React, { useContext, useState } from 'react'
 import { DraftContext } from '../../contexts/draftContext'
 import { _styles } from '../../helpers/styles'
+import TestNet from '../header/testnet'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
-import DraftHistory from './history'
-import TestNet from '../header/testnet'
 
 function StartDraft() {
   const draft = useContext(DraftContext)
   const [loading, setLoading] = useState(false)
-  const [history, showHistory] = useState(false)
 
   const [nameDialog, showNameDialog] = useState(false)
 
@@ -25,10 +23,6 @@ function StartDraft() {
     await draft.startDraft()
 
     setLoading(false)
-  }
-
-  if (history) {
-    return <DraftHistory back={() => showHistory(false)} />
   }
 
   return (
@@ -97,10 +91,6 @@ function StartDraft() {
             <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
               Start draft
             </LoadingButton>
-
-            {/* <Button variant='outlined' color='secondary' sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }} onClick={() => showHistory(true)}>
-              History
-            </Button> */}
           </Box>
         </Box>
 
