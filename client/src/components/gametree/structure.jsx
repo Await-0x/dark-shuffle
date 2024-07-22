@@ -3,19 +3,23 @@ import StarIcon from '@mui/icons-material/Star';
 import { Box, Typography } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import bolt from "../../assets/images/bolt.png";
+import skull from "../../assets/images/skull.png";
 import sword from "../../assets/images/sword.png";
 import { MONSTER_LIST } from '../../battle/monsterUtils';
 import { GameContext } from '../../contexts/gameContext';
 import { CARD_LIST, fetch_image } from '../../helpers/cards';
 import { levelColors } from '../../helpers/constants';
 import { CustomTooltip } from '../../helpers/styles';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import { LoadingButton } from '@mui/lab';
 
 const node_example = [
   {
     id: 1,
     parents: [],
     last_node: false,
-    status: 0,
+    status: 1,
     type: 'monster',
     monster_id: 403,
     health: 50,
@@ -42,9 +46,9 @@ const node_example = [
   },
   {
     id: 4,
-    parents: [100],
+    parents: [1],
     last_node: false,
-    status: 0,
+    status: 1,
     type: 'monster',
     monster_id: 401,
     health: 21,
@@ -65,9 +69,8 @@ const node_example = [
     parents: [2],
     last_node: false,
     status: 0,
-    type: 'card',
-    card_id: 22,
-    level: 5
+    type: 'potion',
+    amount: 3,
   },
   {
     id: 7,
@@ -104,13 +107,12 @@ const node_example = [
     parents: [4],
     last_node: false,
     status: 0,
-    type: 'card',
-    card_id: 1,
-    level: 2
+    type: 'potion',
+    amount: 3
   },
   {
     id: 11,
-    parents: [5, 6],
+    parents: [5],
     last_node: false,
     status: 0,
     type: 'monster',
@@ -120,12 +122,11 @@ const node_example = [
   },
   {
     id: 12,
-    parents: [622],
+    parents: [6],
     last_node: false,
     status: 0,
-    type: 'card',
-    card_id: 22,
-    level: 5
+    type: 'potion',
+    amount: 3
   },
   {
     id: 13,
@@ -150,8 +151,10 @@ const node_example = [
     parents: [9, 10],
     last_node: false,
     status: 0,
-    type: 'energy',
-    amount: 3,
+    type: 'monster',
+    monster_id: 406,
+    health: 40,
+    attack: 5
   },
   {
     id: 16,
@@ -165,216 +168,460 @@ const node_example = [
   },
 ]
 
-function RenderSquare(node, connector) {
-  return <Box sx={styles.circleContainer}>
-    {connector === 'split' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Box sx={{ width: '1px', height: '16px' }} />
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box sx={{ height: '1px', background: '#FFE97F80', width: '29px' }} />
-        {renderCard(node)}
-        <Box sx={{ height: '1px', background: '#FFE97F80', width: '29px' }} />
-      </Box>
-      <Box sx={{ width: '1px', background: '#FFE97F80', height: '17px' }} />
-    </Box>}
-
-    {connector === 'reversedSplit' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Box sx={{ width: '1px', background: '#FFE97F80', height: '16px', mr: '1px' }} />
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box sx={{ height: '1px', background: '#FFE97F80', width: '29px' }} />
-        {renderCard(node)}
-        <Box sx={{ height: '1px', background: '#FFE97F80', width: '29px' }} />
-      </Box>
-      <Box sx={{ width: '1px', height: '17px' }} />
-    </Box>}
-
-    {connector === 'connected' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Box sx={{ width: '1px', background: '#FFE97F80', height: '17px' }} />
-      {renderCard(node)}
-      <Box sx={{ width: '1px', background: '#FFE97F80', height: '16px', ml: '1px' }} />
-    </Box>}
-  </Box>
-}
-
-function RenderMonsterCircle(node) {
-  let monster = MONSTER_LIST.find(monster => monster.id === node.monster_id)
-
-  return <Box sx={styles.circleContainer}>
-    <CustomTooltip position={'right'} title={monster.abilities}>
-      <Box sx={styles.monsterCircle}>
-        <Box sx={{ width: '100%', height: '75%', display: 'flex', justifyContent: 'center' }}>
-          {monster.image}
-        </Box>
-
-        <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography>
-              {node.attack}
-            </Typography>
-
-            <img alt='' src={sword} height={18} width={18} />
-          </Box>
-
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography>
-              {node.health}
-            </Typography>
-
-            <FavoriteIcon htmlColor="red" fontSize='small' />
-          </Box>
-        </Box>
-
-        {node.collectible && <Box sx={{ position: 'absolute', top: 3, left: 3 }}>
-          <StarIcon htmlColor="gold" fontSize='small' />
-        </Box>}
-      </Box>
-    </CustomTooltip>
-  </Box>
-}
-
-function renderCard(node) {
-  let levelColor = levelColors[Math.floor(node.level / 3)]
-
-  return <Box sx={styles.square}>
-    <img alt='' src={fetch_image(CARD_LIST.find(card => card.cardId === node.card_id).name)} width={'75%'} />
-    <Box sx={{ width: '40%', height: '2px' }} bgcolor={levelColor.bg} />
-  </Box>
-}
-
-function renderPotionNode(node) {
-  return <Box sx={styles.smallCircle}>
-    <FavoriteIcon htmlColor="red" sx={{ fontSize: '25px' }} />
-    <Typography>
-      {node.amount}
-    </Typography>
-  </Box>
-}
-
-function renderEnergyNode(node) {
-  return <Box sx={styles.smallCircle}>
-    <img alt='' src={bolt} height={24} />
-    <Typography variant='h6' mt={'-2px'}>
-      {node.amount}
-    </Typography>
-  </Box>
-}
-
-function RenderSmallCircle(node, connector) {
-  return <Box sx={styles.circleContainer}>
-    {connector === 'split' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Box sx={{ width: '1px', height: '25px' }} />
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box sx={{ height: '1px', background: '#FFE97F80', width: '25px' }} />
-        {node.type === 'potion' ? renderPotionNode(node) : renderEnergyNode(node)}
-        <Box sx={{ height: '1px', background: '#FFE97F80', width: '25px' }} />
-      </Box>
-      <Box sx={{ width: '1px', background: '#FFE97F80', height: '25px' }} />
-    </Box>}
-
-    {connector === 'reversedSplit' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Box sx={{ width: '1px', background: '#FFE97F80', height: '24px', mr: '1px' }} />
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box sx={{ height: '1px', background: '#FFE97F80', width: '24px' }} />
-        {node.type === 'potion' ? renderPotionNode(node) : renderEnergyNode(node)}
-        <Box sx={{ height: '1px', background: '#FFE97F80', width: '24px' }} />
-      </Box>
-      <Box sx={{ width: '1px', height: '25px' }} />
-    </Box>}
-
-    {connector === 'connected' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Box sx={{ width: '1px', background: '#FFE97F80', height: '24px' }} />
-      {node.type === 'potion' ? renderPotionNode(node) : renderEnergyNode(node)}
-      <Box sx={{ width: '1px', background: '#FFE97F80', height: '24px' }} />
-    </Box>}
-  </Box >
-}
-
-function RenderConnectedNode(node) {
-  return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-    <Box sx={{ width: '1px', height: '50px', background: '#FFE97F80' }} />
-    {RenderType(node, 'connected')}
-  </Box>
-}
-
-function RenderSplitNode(node) {
-  return <>
-    <Box display={'flex'} alignItems={'flex-end'}>
-      <Box sx={styles.curvedLine} borderLeft={'1px solid #FFE97F80'} width={'40px'} />
-      {RenderType(node, 'split')}
-      <Box sx={styles.curvedLine} borderRight={'1px solid #FFE97F80'} width={'40px'} />
-    </Box>
-  </>
-}
-
-function renderReversedSplitNode(node) {
-  return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-    <Box sx={{ width: '1px', height: '50px', background: '#FFE97F80' }} />
-
-    <Box display={'flex'} alignItems={'flex-end'}>
-      <Box sx={styles.curvedLineReverse} borderLeft={'1px solid #FFE97F80'} width={'40px'} />
-      {RenderType(node, 'reversedSplit')}
-      <Box sx={styles.curvedLineReverse} borderRight={'1px solid #FFE97F80'} width={'39px'} />
-    </Box>
-  </Box>
-}
-
-function RenderType(node, connector) {
-  if (node.type === 'monster') return RenderMonsterCircle(node);
-  if (['potion', 'energy'].includes(node.type)) return RenderSmallCircle(node, connector);
-  if (node.type === 'card') return RenderSquare(node, connector);
-}
-
-function RenderNode(node, row, prevRow, nextRow) {
-  if (prevRow && row.length < prevRow.length) {
-    return RenderSplitNode(node)
-  } else if (nextRow && row.length < nextRow.length) {
-    return renderReversedSplitNode(node)
-  } else {
-    return RenderConnectedNode(node)
-  }
-}
+const INACTIVE_OPACITY = 0.5
 
 function Structure() {
   const game = useContext(GameContext)
 
-  const [nodes, setNodes] = useState(node_example)
+  const [nodes, setNodes] = useState(node_example.map(node => ({ ...node, active: getNodeStatus(node_example, node) })))
   const [tree, buildTree] = useState([])
 
   useEffect(() => {
     let endNode = nodes[nodes.length - 1]
     let sectionStartNodes = nodes.filter(node => node.parents.includes(nodes[0].id))
 
-    buildTree(sectionStartNodes.map(startNode => {
+    buildTree(sectionStartNodes.map((startNode, i) => {
       let currentNodes = [startNode]
       let generatedSection = []
 
       while (currentNodes[0].id !== endNode.id) {
         generatedSection.push(currentNodes)
         currentNodes = nodes.filter(node => currentNodes.find(currentNode => node.parents.includes(currentNode.id)))
+        currentNodes = currentNodes.map(node => ({ ...node, section: i }))
       }
 
       return generatedSection.reverse()
     }))
   }, [nodes])
 
+  function getNodeStatus(nodes, node) {
+    if ((node.id === nodes[0].id && nodes[0].status === 0) || nodes.find(_node => node.parents.includes(_node.id) && _node.status !== 0 &&
+      !nodes.find(_node => _node.status !== 0 && _node.parents.find(parent => node.parents.includes(parent))))) {
+      return true
+    }
+
+    return false
+  }
+
+  function nodeStyle(node) {
+    if (node.active) {
+      return { opacity: 1, borderColor: '#FFE97F' }
+    }
+
+    if (node.status !== 0) {
+      return { opacity: 1, borderColor: '#FFE97F' }
+    }
+
+    return { opacity: INACTIVE_OPACITY }
+  }
+
+  function connectorStyle(node, nextNode, direction, type) {
+    if (direction !== null && node.active && !node.status && direction >= 0) {
+      return { opacity: INACTIVE_OPACITY }
+    }
+
+    if (nextNode && (nextNode.active || nextNode.status !== 0) && node.status) {
+      return { opacity: 1, borderColor: '#FFE97F', background: ['vertical', 'horizontal'].includes(type) ? '#FFE97F' : 'inherit' }
+    }
+
+    if ((node.active || node.status !== 0) && direction === null) {
+      return { opacity: 1, borderColor: '#FFE97F', background: ['vertical', 'horizontal'].includes(type) ? '#FFE97F' : 'inherit' }
+    }
+
+    return { opacity: INACTIVE_OPACITY }
+  }
+
+  function RenderTopLine() {
+    let endNode = nodes.find(node => node.last_node)
+    let connectedToEndNode = tree.flat(2).filter(node => endNode.parents.includes(node.id))
+
+    function getStyles(line) {
+      if (tree.length === 1) {
+        if (line < 5 || line > 6) {
+          return { opacity: 0 }
+        }
+
+        if (connectedToEndNode.length === 1) {
+          return { opacity: 0 }
+        }
+      }
+
+      if (tree.length === 2) {
+        if (line < 3 || line > 8) {
+          return { opacity: 0 }
+        }
+
+        if (line === 3 && connectedToEndNode.filter(node => node.section === 0).length === 1) {
+          return { opacity: 0 }
+        }
+
+        if (line === 8 && connectedToEndNode.filter(node => node.section === 1).length === 1) {
+          return { opacity: 0 }
+        }
+      }
+
+      if (tree.length === 3) {
+        if (line < 1 || line > 10) {
+          return { opacity: 0 }
+        }
+
+        if (line === 1 && connectedToEndNode.filter(node => node.section === 0).length === 1) {
+          return { opacity: 0 }
+        }
+
+        if (line === 10 && connectedToEndNode.filter(node => node.section === 2).length === 1) {
+          return { opacity: 0 }
+        }
+
+        if (connectedToEndNode.filter(node => node.section === 0).length === 1) {
+          return { opacity: 0 }
+        }
+      }
+
+      if (!endNode.active) {
+        return { opacity: INACTIVE_OPACITY }
+      }
+
+      let activeNode = connectedToEndNode.find(node => node.status !== 0)
+      let sectionLength = connectedToEndNode.filter(node => node.section === activeNode.section).length
+      let sectionIndex = connectedToEndNode.filter(node => node.section === activeNode.section).findIndex(node => node.id === activeNode.id)
+
+      if (tree.length === 3) {
+        if (activeNode.section === 0) {
+          if ((sectionLength === 2 && line > sectionIndex * 2 && line < 6) || (sectionLength === 1 && line > 1 && line < 6)) {
+            return { opacity: 1, background: '#FFE97F' }
+          }
+        }
+
+        if (activeNode.section === 1) {
+          if ((sectionLength === 2 && line === 5 + sectionIndex)) {
+            return { opacity: 1, background: '#FFE97F' }
+          }
+        }
+
+        if (activeNode.section === 2) {
+          if ((sectionLength === 2 && line < (12 - sectionIndex * 2) && line > 5) || (sectionLength === 1 && line < 11 && line > 5)) {
+            return { opacity: 1, background: '#FFE97F' }
+          }
+        }
+      }
+
+      if (tree.length === 2) {
+        if (activeNode.section === 0) {
+          if ((sectionLength === 2 && line > (2 + sectionIndex * 2) && line < 6) || (sectionLength === 1 && line > 3 && line < 6)) {
+            return { opacity: 1, background: '#FFE97F' }
+          }
+        }
+
+        if (activeNode.section === 1) {
+          if ((sectionLength === 2 && line < (10 - sectionIndex * 2) && line > 5) || (sectionLength === 1 && line < 9 && line > 5)) {
+            return { opacity: 1, background: '#FFE97F' }
+          }
+        }
+      }
+
+      if (tree.length === 1) {
+        if (sectionLength === 2 && line === 5 + sectionIndex) {
+          return { opacity: 1, background: '#FFE97F' }
+        }
+      }
+
+      return { opacity: INACTIVE_OPACITY }
+    }
+
+    return <>
+      <Box sx={{ height: '25px', width: '1px', background: endNode.active ? '#FFE97F' : '#FFF', opacity: endNode.active ? 1 : INACTIVE_OPACITY }} />
+
+      <Box sx={{ display: 'flex', flexDirection: 'row', width: `100%` }}>
+        {React.Children.toArray(
+          Array(12).fill(0).map((_, index) => {
+            return <Box sx={{
+              width: '100px',
+              height: '1px',
+              background: '#FFF',
+              ...getStyles(index)
+            }} />
+          })
+        )}
+      </Box>
+
+    </>
+  }
+
+  function RenderConnector(node, type, number, nodeStyles) {
+    let nextNode = number !== null ? nodes.filter(_node => _node.parents.includes(node.id))[number] : null
+
+    if (type === 'vertical') {
+      return <Box sx={{ width: '1px', background: '#FFF', ...nodeStyles, ...connectorStyle(node, nextNode, number, type) }} />
+    }
+
+    if (type === 'horizontal') {
+      return <Box sx={{ height: '1px', background: '#FFF', ...nodeStyles, ...connectorStyle(node, nextNode, number, type) }} />
+    }
+
+    if (type === 'curved') {
+      return <Box sx={[styles.curvedLine, { ...nodeStyles, ...connectorStyle(node, nextNode, number) }]} />
+    }
+
+    if (type === 'curvedReverse') {
+      return <Box sx={[styles.curvedLineReverse, { ...nodeStyles, ...connectorStyle(node, nextNode, number) }]} />
+    }
+  }
+
+  function RenderSquare(node, connector) {
+    return <Box sx={styles.circleContainer}>
+      {connector === 'split' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Box sx={{ width: '1px', height: '16px' }} />
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          {RenderConnector(node, 'horizontal', 0, { width: '29px' })}
+          {renderCard(node)}
+          {RenderConnector(node, 'horizontal', 1, { width: '29px' })}
+        </Box>
+        {RenderConnector(node, 'vertical', null, { height: '17px' })}
+      </Box>}
+
+      {connector === 'reversedSplit' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {RenderConnector(node, 'vertical', 0, { height: '16px', mr: '1px' })}
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          {RenderConnector(node, 'horizontal', null, { width: '29px' })}
+          {renderCard(node)}
+          {RenderConnector(node, 'horizontal', null, { width: '29px' })}
+        </Box>
+        <Box sx={{ width: '1px', height: '17px' }} />
+      </Box>}
+
+      {connector === 'connected' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {RenderConnector(node, 'vertical', 0, { height: '17px' })}
+        {renderCard(node)}
+        {RenderConnector(node, 'vertical', null, { height: '16px', ml: '1px' })}
+      </Box>}
+    </Box>
+  }
+
+  function RenderMonsterCircle(node) {
+    let monster = MONSTER_LIST.find(monster => monster.id === node.monster_id)
+
+    return <Box sx={styles.circleContainer}>
+      <CustomTooltip position={'right'} title={
+        <Box sx={styles.tooltipContainer}>
+          {monster.abilities}
+
+          {node.active && <Box sx={{ mt: 2 }}>
+            <LoadingButton fullWidth variant='outlined' onClick={() => startBattle(node.id)} sx={{ fontSize: '14px', letterSpacing: '1px', textTransform: 'none' }}>
+              Battle
+            </LoadingButton>
+          </Box>}
+        </Box>
+      }>
+        <Box sx={[styles.monsterCircle, nodeStyle(node)]}>
+          <Box sx={{ width: '100%', height: '75%', display: 'flex', justifyContent: 'center', opacity: node.status !== 0 ? 0.5 : 1 }}>
+            {monster.image}
+          </Box>
+
+          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography>
+                {node.attack}
+              </Typography>
+
+              <img alt='' src={sword} height={18} width={18} />
+            </Box>
+
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography>
+                {node.health}
+              </Typography>
+
+              <FavoriteIcon htmlColor="red" fontSize='small' />
+            </Box>
+          </Box>
+
+          {node.collectible && <Box sx={{ position: 'absolute', top: 3, left: 3 }}>
+            <StarIcon htmlColor="gold" fontSize='small' />
+          </Box>}
+
+          {node.status === 1 && <Box sx={{ position: 'absolute', top: 30, left: 40 }}>
+            <img alt='' src={skull} width={40} />
+          </Box>}
+        </Box>
+      </CustomTooltip>
+    </Box>
+  }
+
+  function renderCard(node) {
+    let levelColor = levelColors[Math.floor(node.level / 3)]
+
+    return <Box sx={[styles.square, nodeStyle(node)]}>
+      <img alt='' src={fetch_image(CARD_LIST.find(card => card.cardId === node.card_id).name)} width={'75%'} />
+      <Box sx={{ width: '40%', height: '2px' }} bgcolor={levelColor.bg} />
+    </Box>
+  }
+
+  function renderPotionNode(node) {
+    return <CustomTooltip position={'right'} title={
+      <Box sx={styles.tooltipContainer}>
+        <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+          <FavoriteIcon htmlColor="red" sx={{ fontSize: '25px' }} />
+          <Typography variant='h6' color={'primary'} >Health</Typography>
+        </Box>
+
+        <Typography>Gain {node.amount} health</Typography>
+
+        {node.active && <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
+          <LoadingButton color='secondary' fullWidth variant='outlined' onClick={() => startBattle(node.id)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+            Pass
+          </LoadingButton>
+          <LoadingButton color='primary' fullWidth variant='outlined' onClick={() => startBattle(node.id)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+            Take
+          </LoadingButton>
+        </Box>}
+      </Box>
+    }>
+      <Box sx={[styles.smallCircle, nodeStyle(node)]}>
+        <FavoriteIcon htmlColor="red" sx={{ fontSize: '25px', opacity: node.status !== 0 ? 0.5 : 1 }} />
+        <Typography sx={{ opacity: node.status !== 0 ? 0.5 : 1 }}>
+          {node.amount}
+        </Typography>
+
+        {node.status === 1 && <Box sx={{ position: 'absolute', top: 20, left: 20 }}>
+          <CheckIcon htmlColor='#FFE97F' sx={{ fontSize: '32px' }} />
+        </Box>}
+
+        {node.status === 2 && <Box sx={{ position: 'absolute', top: 20, left: 20 }}>
+          <CloseIcon htmlColor='#FFE97F' sx={{ fontSize: '32px' }} />
+        </Box>}
+      </Box>
+    </CustomTooltip>
+  }
+
+  function renderEnergyNode(node) {
+    return <CustomTooltip position={'right'} title={
+      <Box sx={styles.tooltipContainer}>
+        <Box sx={{ display: 'flex', gap: 0.5, mb: 1 }}>
+          <img alt='' src={bolt} height={24} />
+          <Typography variant='h6' color={'primary'} >Energy</Typography>
+        </Box>
+
+        <Typography>Gain {node.amount} energy</Typography>
+
+        {node.active && <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
+          <LoadingButton color='secondary' fullWidth variant='outlined' onClick={() => startBattle(node.id)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+            Pass
+          </LoadingButton>
+          <LoadingButton color='primary' fullWidth variant='outlined' onClick={() => startBattle(node.id)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+            Take
+          </LoadingButton>
+        </Box>}
+      </Box>
+    }>
+      <Box sx={[styles.smallCircle, nodeStyle(node)]}>
+        <img alt='' src={bolt} height={24} style={{ opacity: node.status !== 0 ? 0.5 : 1 }} />
+        <Typography variant='h6' mt={'-2px'} sx={{ opacity: node.status !== 0 ? 0.5 : 1 }}>
+          {node.amount}
+        </Typography>
+
+        {node.status === 1 && <Box sx={{ position: 'absolute', top: 20, left: 20 }}>
+          <CheckIcon htmlColor='#FFE97F' sx={{ fontSize: '32px' }} />
+        </Box>}
+
+        {node.status === 2 && <Box sx={{ position: 'absolute', top: 20, left: 20 }}>
+          <CloseIcon htmlColor='#FFE97F' sx={{ fontSize: '32px' }} />
+        </Box>}
+      </Box>
+    </CustomTooltip>
+  }
+
+  function RenderSmallCircle(node, connector) {
+    return <Box sx={styles.circleContainer}>
+      {connector === 'split' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Box sx={{ width: '1px', height: '25px' }} />
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          {RenderConnector(node, 'horizontal', 0, { width: '25px' })}
+          {node.type === 'potion' ? renderPotionNode(node) : renderEnergyNode(node)}
+          {RenderConnector(node, 'horizontal', 1, { width: '25px' })}
+        </Box>
+        {RenderConnector(node, 'vertical', null, { height: '25px' })}
+      </Box>}
+
+      {connector === 'reversedSplit' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {RenderConnector(node, 'vertical', 0, { height: '24px', mr: '1px' })}
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          {RenderConnector(node, 'horizontal', null, { width: '24px' })}
+          {node.type === 'potion' ? renderPotionNode(node) : renderEnergyNode(node)}
+          {RenderConnector(node, 'horizontal', null, { width: '24px' })}
+        </Box>
+        <Box sx={{ width: '1px', height: '25px' }} />
+      </Box>}
+
+      {connector === 'connected' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {RenderConnector(node, 'vertical', 0, { height: '24px' })}
+        {node.type === 'potion' ? renderPotionNode(node) : renderEnergyNode(node)}
+        {RenderConnector(node, 'vertical', null, { height: '24px' })}
+      </Box>}
+    </Box >
+  }
+
+  function RenderConnectedNode(node) {
+    return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {RenderConnector(node, 'vertical', node.id === nodes[0].id ? 1 : 0, { height: '50px' })}
+      {RenderType(node, 'connected')}
+    </Box>
+  }
+
+  function RenderSplitNode(node) {
+    return <>
+      <Box display={'flex'} alignItems={'flex-end'}>
+        {RenderConnector(node, 'curved', 0, { borderLeft: '1px solid #FFF', width: '40px' })}
+        {RenderType(node, 'split')}
+        {RenderConnector(node, 'curved', 1, { borderRight: '1px solid #FFF', width: '40px' })}
+      </Box>
+    </>
+  }
+
+  function renderReversedSplitNode(node) {
+    let parent1 = nodes.find(n => n.id === node.parents[0])
+    let parent2 = nodes.find(n => n.id === node.parents[1])
+
+    return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {RenderConnector(node, 'vertical', 0, { height: '50px' })}
+
+      <Box display={'flex'} alignItems={'flex-end'}>
+        {RenderConnector(node, 'curvedReverse', parent1.status ? null : 99, { borderLeft: '1px solid #FFF', width: '40px' })}
+        {RenderType(node, 'reversedSplit')}
+        {RenderConnector(node, 'curvedReverse', parent2.status ? null : 99, { borderRight: '1px solid #FFF', width: '39px' })}
+      </Box>
+    </Box>
+  }
+
+  function RenderType(node, connector) {
+    if (node.type === 'monster') return RenderMonsterCircle(node);
+    if (['potion', 'energy'].includes(node.type)) return RenderSmallCircle(node, connector);
+    if (node.type === 'card') return RenderSquare(node, connector);
+  }
+
+  function RenderNode(node, row, prevRow, nextRow) {
+    if (prevRow && row.length < prevRow.length) {
+      return RenderSplitNode(node)
+    } else if (nextRow && row.length < nextRow.length) {
+      return renderReversedSplitNode(node)
+    } else {
+      return RenderConnectedNode(node)
+    }
+  }
+
   if (tree.length === 0) {
     return <Box />
   }
-
-  let paddingLeft = (tree[0][0].length > 1 ? 100 : 200) + (tree.length > 1 ? 0 : 400) + (tree.length === 2 ? 200 : 0)
-  let paddingRight = (tree[tree.length - 1][0].length > 1 ? 100 : 200) + (tree.length > 1 ? 0 : 400) + (tree.length === 2 ? 200 : 0)
 
   return (
     <Box sx={styles.container}>
       <Box sx={styles.topNode}>
         {RenderConnectedNode(nodes[nodes.length - 1])}
 
-        <Box sx={{ height: '25px', width: '1px', background: '#FFE97F80' }} />
-
-        <Box sx={{ width: `calc(100% - ${Math.min(1199, paddingLeft + paddingRight)}px)`, height: '1px', background: '#FFE97F80', mr: `${paddingRight}px`, ml: `${paddingLeft}px` }} />
+        <RenderTopLine />
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center' }}>
-
         <Box sx={styles.section}>
           {tree.length > 1 && React.Children.toArray(
             tree[0].map((row, i) => <>
@@ -386,8 +633,8 @@ function Structure() {
             </>)
           )}
 
-          {tree.length === 2 && <Box sx={[styles.curvedLine, { mb: 0, height: '50px' }]} borderLeft={'1px solid #FFE97F80'} ml={'50%'} width={'50%'} />}
-          {tree.length === 3 && <Box sx={styles.curvedLine} borderLeft={'1px solid #FFE97F80'} ml={'50%'} width={'50%'} />}
+          {tree.length === 2 && RenderConnector(nodes[0], 'curved', 0, { mb: 0, ml: '50%', height: '50px', borderLeft: '1px solid #FFF', width: '50%' })}
+          {tree.length === 3 && RenderConnector(nodes[0], 'curved', 0, { mb: '60px', ml: '50%', height: '111px', borderLeft: '1px solid #FFF', width: '50%' })}
         </Box>
 
         {(tree.length === 1 || tree.length === 3) && <Box sx={styles.section}>
@@ -401,12 +648,11 @@ function Structure() {
             </>)
           )}
 
-          {tree.length === 3 && <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-            <Box sx={styles.curvedLine} width={'calc(50% - 60px)'}></Box>
+          {tree.length === 3 && <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+            {RenderConnector(nodes[0], 'horizontal', 0, { width: '139px', mt: '51px' })}
             {RenderConnectedNode(nodes[0])}
-            <Box sx={styles.curvedLine} width={'calc(50% - 60px)'}></Box>
+            {RenderConnector(nodes[0], 'horizontal', 2, { width: '139px', mt: '51px' })}
           </Box>}
-
         </Box>}
 
         <Box sx={styles.section}>
@@ -420,8 +666,8 @@ function Structure() {
             </>)
           )}
 
-          {tree.length === 2 && <Box sx={[styles.curvedLine, { mb: 0, height: '50px' }]} borderRight={'1px solid #FFE97F80'} mr={'50%'} width={'50%'} />}
-          {tree.length === 3 && <Box sx={styles.curvedLine} borderRight={'1px solid #FFE97F80'} mr={'50%'} width={'50%'} />}
+          {tree.length === 2 && RenderConnector(nodes[0], 'curved', 1, { mb: 0, mr: '50%', height: '50px', borderRight: '1px solid #FFF', width: '50%' })}
+          {tree.length === 3 && RenderConnector(nodes[0], 'curved', 2, { mb: '60px', mr: '50%', height: '111px', borderRight: '1px solid #FFF', width: '50%' })}
         </Box>
 
       </Box>
@@ -431,7 +677,7 @@ function Structure() {
           {RenderConnectedNode(nodes[0])}
         </Box>}
 
-        <Box sx={{ width: '1px', height: '25px', background: '#FFE97F80' }} />
+        <Box sx={{ width: '1px', height: '25px', background: '#FFE97F' }} />
       </Box>
     </Box >
   )
@@ -472,7 +718,7 @@ const styles = {
     borderRadius: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   square: {
     width: '60px',
@@ -489,7 +735,7 @@ const styles = {
     height: '100%',
     boxSizing: 'border-box',
     background: 'rgba(0, 0, 0, 0.6)',
-    border: '1px solid #FFE97F80',
+    border: '1px solid #FFF',
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
@@ -503,25 +749,37 @@ const styles = {
     height: '70px',
     borderRadius: '100%',
     background: 'rgba(0, 0, 0, 0.6)',
-    border: '1px solid #FFE97F80',
+    border: '1px solid #FFF',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'relative',
+    cursor: 'pointer'
   },
   curvedLine: {
     height: '111px',
-    borderBottom: '1px solid #FFE97F80',
+    borderBottom: '1px solid #FFF',
     mb: '60px'
   },
   curvedLineReverse: {
     height: '60px',
-    borderTop: '1px solid #FFE97F80',
+    borderTop: '1px solid #FFF',
   },
   topNode: {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
+  },
+  tooltipContainer: {
+    width: '180px',
+    textAlign: 'left',
+    background: '#141920',
+    py: 1,
+    px: 2,
+    pb: 2,
+    borderRadius: '5px',
+    border: '1px solid rgba(255, 255, 255, 0.2)'
   }
 }
