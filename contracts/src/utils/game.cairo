@@ -3,10 +3,11 @@ mod game_utils {
     use starknet::syscalls::get_block_hash_syscall;
     use starknet::SyscallResultTrait;
 
-    use darkshuffle::constants::{DECK_SIZE, MONSTER_KILL_SCORE};
+    use darkshuffle::constants::{DECK_SIZE, MONSTER_KILL_SCORE, BRANCH_SCORE_MULTIPLIER};
     use darkshuffle::models::game::{Game, Leaderboard};
     use darkshuffle::models::battle::{Battle, Monster};
-    use darkshuffle::models::draft::{DraftEntropy};
+    use darkshuffle::models::entropy::{Entropy};
+    use darkshuffle::models::node::{Node};
 
     use darkshuffle::utils::{monsters::monster_utils};
 
@@ -28,22 +29,29 @@ mod game_utils {
 
     fn battle_won(ref battle: Battle, world: IWorldDispatcher) {
         let mut game: Game = get!(world, (battle.game_id), Game);
-        game.battles_won += 1;
+        let mut node: Node = get!(world, (battle.node_id), Node);
+
+        game.monsters_slain += 1;
         game.in_battle = false;
         game.active_battle_id = 0;
-        game.hero_health = battle.hero_health;
-        game.deck_iteration = battle.deck_iteration;
 
-        set!(world, (game, battle));
+        game.hero_health = battle.hero_health;
+        game.hero_xp += MONSTER_KILL_SCORE + (BRANCH_SCORE_MULTIPLIER * node.branch);
+
+        node.status = 1;
+        complete_node(ref game);
+
+        set!(world, (game, battle, node));
     }
     
     fn battle_lost(ref battle: Battle, world: IWorldDispatcher) {
         let mut game: Game = get!(world, (battle.game_id), Game);
+
         game.in_battle = false;
         game.active = false;
         game.active_battle_id = 0;
         game.hero_health = 0;
-        game.deck_iteration = battle.deck_iteration;
+        game.hero_xp += 99;
 
         update_leaderboard(ref game, ref battle, world);
         set!(world, (game, battle));
@@ -53,7 +61,7 @@ mod game_utils {
         let mut i = 1;
 
         while (i <= DECK_SIZE) {
-            let draft_entropy = get!(world, (game_id, i), DraftEntropy);
+            let draft_entropy = get!(world, (game_id, i), Entropy);
 
             assert(draft_entropy.block_hash == get_block_hash_syscall(draft_entropy.block_number).unwrap_syscall(), 'Entropy failed');
 
@@ -64,28 +72,23 @@ mod game_utils {
     fn update_leaderboard(ref game: Game, ref battle: Battle, world: IWorldDispatcher) {
         // verify_draft(game.game_id, world);
         
-        let score = score_game(ref game, ref battle);
-
         set!(world, (
             Leaderboard {
                 game_id: game.game_id,
                 player: starknet::get_caller_address(),
                 player_name: game.player_name,
-                score
+                score: game.hero_xp
             }
         ))
     }
 
-    fn score_game(ref game: Game, ref battle: Battle) -> u16 {
-        let mut score: u16 = 0;
+    fn complete_node(ref game: Game) {
+        game.node_level += 1;
 
-        score += MONSTER_KILL_SCORE * game.battles_won;
-
-        let monster: Monster = monster_utils::get_monster(game.battles_won);
-        if battle.monster_health < monster.health {
-            score += monster.health - battle.monster_health;
+        if game.node_level == LAST_NODE_LEVEL {
+            let mut next_block = get_block_info().unbox().block_number.into() + 1;
+            game.entropy_count += 1;
+            set!(world, (Entropy { game_id, number: game.entropy_count, block_number: next_block, block_hash: 0 }));
         }
-
-        score
     }
 }

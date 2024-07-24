@@ -3,11 +3,15 @@ const CARD_POOL_SIZE: u16 = 24;
 const DECK_SIZE: u8 = 8;
 const DISCARD_COST: u8 = 1;
 const MAX_BOARD: u8 = 6;
+const MONSTER_COUNT = 7;
+const NODE_TYPES = 2;
+const LAST_NODE_LEVEL = 6;
 
 const START_ENERGY: u16 = 7;
 const START_HEALTH: u16 = 30;
 
 const MONSTER_KILL_SCORE: u16 = 100;
+const BRANCH_SCORE_MULTIPLIER: u16 = 5;
 const PRIZES: u8 = 5;
 
 mod CardTypes {

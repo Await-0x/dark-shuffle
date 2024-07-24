@@ -38,9 +38,9 @@ mod draft_utils {
         };
 
         (
-            DraftOption {game_id, option_id: 1, card_id: card_1},
-            DraftOption {game_id, option_id: 2, card_id: card_2},
-            DraftOption {game_id, option_id: 3, card_id: card_3}
+            DraftOption {game_id, option_id: 1, card_id: card_1, level: 1},
+            DraftOption {game_id, option_id: 2, card_id: card_2, level: 1},
+            DraftOption {game_id, option_id: 3, card_id: card_3, level: 1}
         )
     }
 }

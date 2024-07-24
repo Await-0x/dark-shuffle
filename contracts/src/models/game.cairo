@@ -1,21 +1,27 @@
 use starknet::{ContractAddress, get_caller_address};
-use darkshuffle::models::battle::Battle;
+use darkshuffle::models::node::Node;
+use darkshuffle::constants::{LAST_NODE_LEVEL};
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
 struct Game {
     #[key]
     game_id: usize,
+    entropy_count: u16,
     player: ContractAddress,
     player_name: felt252,
     active: bool,
     in_draft: bool,
     in_battle: bool,
-    battles_won: u16,
     active_battle_id: usize,
+
     hero_health: u16,
     hero_energy: u16,
-    tree_branch: u16
+    hero_xp: u32,
+
+    branch: u16,
+    node_level: u8,
+    monsters_slain: u16,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -33,20 +39,6 @@ struct GameEffects {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct TreeNode {
-    #[key]
-    id: usize,
-    game_id: usize,
-    branch: u16,
-    parents: ByteArray,
-    type: u16,
-    status: u8,
-    last_node: bool
-}
-
-
-#[derive(Copy, Drop, Serde)]
-#[dojo::model]
 struct Leaderboard {
     #[key]
     game_id: usize,
@@ -61,5 +53,22 @@ impl GameOwnerImpl of GameOwnerTrait {
         assert(self.player == get_caller_address(), 'Not Owner');
         assert(self.active, 'Game over');
         assert(self.in_draft, 'Draft over');
+    }
+
+    fn assert_generate_tree(self: Game) {
+        assert(self.player == get_caller_address(), 'Not Owner');
+        assert(self.active, 'Game over');
+        assert(!self.in_draft, 'In Draft');
+        assert(!self.in_battle, 'In Battle');
+        assert(!self.node_level == LAST_NODE_LEVEL, 'Tree Not Completed');
+    }
+
+    fn assert_select_node(self: Game, node: Node) {
+        assert(self.player == get_caller_address(), 'Not Owner');
+        assert(self.active, 'Game over');
+        assert(!self.in_draft, 'In Draft');
+        assert(!self.in_battle, 'In Battle');
+        assert(node.status == 0, 'Already Selected');
+        assert(self.node_level == node.level, 'Unavailable Node');
     }
 }

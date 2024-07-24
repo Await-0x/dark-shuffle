@@ -4,7 +4,6 @@ struct Draft {
     #[key]
     game_id: usize,
     card_count: u8,
-    entropy_count: u16,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -15,6 +14,7 @@ struct DraftOption {
     #[key]
     option_id: u8,
     card_id: u16,
+    level: u16
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -25,15 +25,5 @@ struct DraftCard {
     #[key]
     number: u8,
     card_id: u16,
-}
-
-#[derive(Copy, Drop, Serde)]
-#[dojo::model]
-struct DraftEntropy {
-    #[key]
-    game_id: usize,
-    #[key]
-    number: u16,
-    block_number: u64,
-    block_hash: felt252
+    level: u16
 }

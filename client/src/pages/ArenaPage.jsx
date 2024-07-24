@@ -38,11 +38,9 @@ function ArenaPage() {
           active: data.active,
           inDraft: data.in_draft,
           inBattle: data.in_battle,
-          battlesWon: data.battles_won,
           activeBattleId: data.active_battle_id,
           heroHealth: data.hero_health,
           heroEnergy: data.hero_energy,
-          deckIteration: data.deck_iteration
         })
 
         let gameEffects = await getGameEffects(data.game_id);

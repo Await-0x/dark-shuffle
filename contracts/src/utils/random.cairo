@@ -21,6 +21,10 @@ fn LCG(seed: u128) -> u128 {
     (a * seed + c) % m
 }
 
-fn get_random_card_id(entropy: u128) -> u16 {
-    (entropy % CARD_POOL_SIZE.into() + 1).try_into().unwrap()
+fn get_random_card_id(seed: u128) -> u16 {
+    (seed % CARD_POOL_SIZE.into() + 1).try_into().unwrap()
+}
+
+fn get_random_number(seed: u128, range: u16) -> u16 {
+    (seed % range.into() + 1).try_into().unwrap()
 }

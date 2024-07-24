@@ -8,12 +8,15 @@ struct Battle {
     #[key]
     battle_id: usize,
     game_id: usize,
+    node_id: usize,
+
     round: u16,
-    deck_iteration: u16,
     card_index: u16,
+
     hero_health: u16,
     hero_energy: u16,
     hero_armor: u16,
+
     monster_id: u16,
     monster_attack: u16,
     monster_health: u16
@@ -54,7 +57,8 @@ struct HandCard {
     battle_id: usize,
     #[key]
     hand_card_number: u8,
-    card_id: u16
+    card_id: u16,
+    level: u16
 }
 
 #[derive(Copy, Drop)]
@@ -73,6 +77,7 @@ struct Card {
     cost: u16,
     attack: u16,
     health: u16,
+    level: u16
 }
 
 #[generate_trait]

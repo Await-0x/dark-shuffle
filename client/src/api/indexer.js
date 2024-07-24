@@ -15,7 +15,6 @@ export async function getActiveGame(address) {
           active,
           in_draft,
           in_battle,
-          battles_won,
           active_battle_id,
           hero_health,
           hero_energy,
