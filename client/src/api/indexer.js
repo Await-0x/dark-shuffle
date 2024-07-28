@@ -71,10 +71,10 @@ export async function getGameEffects(game_id) {
   return res?.gameEffectsModels?.edges[0]?.node
 }
 
-export async function getDraftEntropy(game_id, number) {
+export async function getEntropy(game_id, number) {
   const document = gql`
   {
-    draftEntropyModels(where:{game_id:${game_id},number:${number}}) {
+    entropyModels(where:{game_id:${game_id},number:${number}}) {
       edges {
         node {
           game_id,
@@ -88,7 +88,7 @@ export async function getDraftEntropy(game_id, number) {
   `
   const res = await request(dojoConfig.toriiUrl, document)
 
-  return res?.draftEntropyModels?.edges[0]?.node
+  return res?.entropyModels?.edges[0]?.node
 }
 
 export async function getBattleState(battle_id) {
@@ -99,8 +99,8 @@ export async function getBattleState(battle_id) {
         node {
           battle_id
           game_id,
+          node_id,
           round,
-          deck_iteration,
           card_index,
           hero_health,
           hero_energy,
@@ -133,6 +133,19 @@ export async function getBattleState(battle_id) {
           battle_id
           hand_card_number,
           card_id,
+          level
+        }
+      }
+    }
+
+    battleEffectsModels(where:{battle_id:${battle_id}}) {
+      edges {
+        node {
+          battle_id
+          next_spell_reduction,
+          next_card_reduction,
+          free_discard,
+          damage_immune
         }
       }
     }
@@ -143,7 +156,8 @@ export async function getBattleState(battle_id) {
   const result = {
     battle: res?.battleModels?.edges[0]?.node,
     creatures: res?.creatureModels?.edges.map(edge => edge.node),
-    handCards: res?.handCardModels?.edges.map(edge => edge.node)
+    handCards: res?.handCardModels?.edges.map(edge => edge.node),
+    battleEffects: res?.battleEffectsModels?.edges.map(edge => edge.node)
   }
 
   return result

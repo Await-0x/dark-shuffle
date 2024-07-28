@@ -63,9 +63,6 @@ function Card(props) {
       </Box>
 
       <Box sx={styles.textContainer}>
-        {card.afflix && <Typography textAlign={'center'} fontSize={'13px'} color='primary'>
-          {card.afflix}
-        </Typography>}
         <Typography sx={{ opacity: 0.9 }} textAlign={'center'} fontSize={'13px'}>
           {card.text}
         </Typography>
@@ -82,7 +79,7 @@ function Card(props) {
 
         <Box>
           <Typography variant="subtitle1">
-            {card.tag}
+            {card.afflix}
           </Typography>
         </Box>
 
@@ -97,8 +94,8 @@ function Card(props) {
 
       {card.type === types.SPELL && <Box sx={styles.bottomContainer}>
 
-        <Typography textAlign={'center'} width={'100%'} color='primary'>
-          Spell
+        <Typography variant="subtitle1">
+          {card.afflix}
         </Typography>
 
       </Box>}

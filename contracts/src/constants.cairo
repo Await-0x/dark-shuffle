@@ -1,11 +1,12 @@
 const ADVENTURER_ID: u16 = 65535;
-const CARD_POOL_SIZE: u16 = 24;
-const DECK_SIZE: u8 = 8;
+const CARD_POOL_SIZE: u16 = 40;
+const DECK_SIZE: u8 = 5;
 const DISCARD_COST: u8 = 1;
 const MAX_BOARD: u8 = 6;
 const MONSTER_COUNT = 7;
 const NODE_TYPES = 2;
 const LAST_NODE_LEVEL = 6;
+const MAX_CARD_LEVEL = 15;
 
 const START_ENERGY: u16 = 7;
 const START_HEALTH: u16 = 30;
@@ -20,11 +21,11 @@ mod CardTypes {
 }
 
 mod CardTags {
-    const SCAVENGER: felt252 = 'Scavenger';
-    const DEMON: felt252 = 'Demon';
-    const PRIEST: felt252 = 'Priest';
-    const SPELL: felt252 = 'Spell';
-    const NONE: felt252 = '\u0000';
+    const RENEWABLE: felt252 = 'Renewable';
+    const SCALABLE: felt252 = 'Scalable';
+    const ESCALATING: felt252 = 'Escalating';
+    const UNSTABLE: felt252 = 'Unstable';
+    const NONE: felt252 = 'None';
 }
 
 mod ActionTypes {

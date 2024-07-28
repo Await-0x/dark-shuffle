@@ -61,6 +61,17 @@ struct HandCard {
     level: u16
 }
 
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+struct Battleffects {   
+    #[key]
+    battle_id: usize,
+    next_spell_reduction: u8,
+    next_card_reduction: u8,
+    free_discard: bool,
+    damage_immune: bool
+}
+
 #[derive(Copy, Drop)]
 struct Monster {
     monster_id: u16,

@@ -41,17 +41,7 @@ function ArenaPage() {
           activeBattleId: data.active_battle_id,
           heroHealth: data.hero_health,
           heroEnergy: data.hero_energy,
-        })
-
-        let gameEffects = await getGameEffects(data.game_id);
-
-        gameState.setGameEffects({
-          cardsDiscarded: gameEffects?.cards_discarded || 0,
-          creaturesPlayed: gameEffects?.creatures_played || 0,
-          spellsPlayed: gameEffects?.spells_played || 0,
-          demonsPlayed: gameEffects?.demons_played || 0,
-          nextSpellReduction: gameEffects?.next_spell_reduction || 0,
-          deadCreatures: gameEffects?.dead_creatures || 0
+          heroXp: data.hero_xp
         })
 
         setReconnecting(false)

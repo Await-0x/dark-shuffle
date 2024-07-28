@@ -9,8 +9,8 @@ import { Box, Typography } from '@mui/material'
 
 export const MONSTER_LIST = [
   {
-    id: 401,
-    monsterId: 401,
+    id: 1,
+    monsterId: 1,
     name: 'Minotaur',
     image: <img alt='' src={minotaur} height={'100%'} />,
     abilities: <>
@@ -24,8 +24,8 @@ export const MONSTER_LIST = [
     </>,
   },
   {
-    id: 402,
-    monsterId: 402,
+    id: 2,
+    monsterId: 2,
     name: 'Troll',
     image: <img alt='' src={troll} height={'100%'} />,
     abilities: <>
@@ -43,8 +43,8 @@ export const MONSTER_LIST = [
     </>,
   },
   {
-    id: 403,
-    monsterId: 403,
+    id: 3,
+    monsterId: 3,
     name: 'Bigfoot',
     image: <img alt='' src={bigfoot} height={'100%'} />,
     abilities: <>
@@ -62,8 +62,8 @@ export const MONSTER_LIST = [
     </>
   },
   {
-    id: 404,
-    monsterId: 404,
+    id: 4,
+    monsterId: 4,
     name: 'Chimera',
     image: <img alt='' src={chimera} height={'100%'} />,
     abilities: <>
@@ -81,8 +81,8 @@ export const MONSTER_LIST = [
     </>
   },
   {
-    id: 405,
-    monsterId: 405,
+    id: 5,
+    monsterId: 5,
     name: 'Kappa',
     image: <img alt='' src={kappa} height={'100%'} />,
     abilities: <>
@@ -100,8 +100,8 @@ export const MONSTER_LIST = [
     </>,
   },
   {
-    id: 406,
-    monsterId: 406,
+    id: 6,
+    monsterId: 6,
     name: 'Spider',
     image: <img alt='' src={spider} height={'100%'} />,
     abilities: <>
@@ -119,8 +119,8 @@ export const MONSTER_LIST = [
     </>,
   },
   {
-    id: 407,
-    monsterId: 407,
+    id: 7,
+    monsterId: 7,
     name: 'Lich',
     image: <img alt='' src={lich} height={'100%'} />,
     abilities: <>

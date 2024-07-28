@@ -26,6 +26,7 @@ export const translateName = (address) => {
 }
 
 export const components = {
+  // Game Models
   'Game': {
     gameId: null,
     player: null,
@@ -33,11 +34,14 @@ export const components = {
     active: Boolean(),
     inDraft: Boolean(),
     inBattle: Boolean(),
-    battlesWon: Number(),
     activeBattleId: null,
     heroHealth: Number(),
     heroEnergy: Number(),
-    deckIteration: Number()
+    heroXp: Number(),
+    branch: Number(),
+    nodeLevel: Number(),
+    monstersSlain: Number(),
+    entropyCount: Number()
   },
   'Leaderboard': {
     gameId: null,
@@ -45,6 +49,8 @@ export const components = {
     player_name: String(),
     score: Number()
   },
+
+  // Draft Models
   'Draft': {
     gameId: null,
     cardCount: Number(),
@@ -53,23 +59,21 @@ export const components = {
     gameId: null,
     optionId: Number(),
     cardId: Number(),
+    level: Number(),
   },
   'DraftCard': {
     gameId: null,
     number: Number(),
     cardId: Number(),
+    level: Number(),
   },
-  'DraftEntropy': {
-    gameId: null,
-    number: Number(),
-    blockNumber: Number(),
-    blockHash: null
-  },
+
+  // Battle models
   'Battle': {
     battleId: null,
     gameId: null,
+    nodeId: null,
     round: Number(),
-    deckIteration: Number(),
     cardIndex: Number(),
     heroHealth: Number(),
     heroEnergy: Number(),
@@ -101,14 +105,43 @@ export const components = {
     battleId: null,
     handCardNumber: Number(),
     cardId: Number(),
+    level: Number(),
   },
-  'GameEffects': {
-    gameId: null,
-    cardsDiscarded: Number(),
-    creaturesPlayed: Number(),
-    spellsPlayed: Number(),
-    demonsPlayed: Number(),
+  'BattleEffects': {
+    battleId: null,
     nextSpellReduction: Number(),
-    deadCreatures: Number()
+    nextCardReduction: Number(),
+    freeDiscard: Boolean(),
+    damageImmune: Boolean(),
   },
+
+  // Node models
+  'Node': {
+    nodeId: null,
+    gameId: null,
+    branch: Number(),
+    parents: null,
+    type: Number(),
+    skippable: Boolean(),
+    status: Number(),
+    level: Number(),
+  },
+  'MonsterNode': {
+    nodeId: null,
+    monsterId: Number(),
+    attack: Number(),
+    health: Number()
+  },
+  'PotionNode': {
+    nodeId: null,
+    amount: Number(),
+  },
+
+  // Entropy models
+  'Entropy': {
+    gameId: null,
+    number: Number(),
+    blockNumber: Number(),
+    blockHash: null
+  }
 }

@@ -5,7 +5,7 @@ mod node_utils {
     };
 
     use darkshuffle::models::battle::{Battle, Monster};
-    use darkshuffle::models::game::{Game, GameEffects};
+    use darkshuffle::models::game::{Game};
     use darkshuffle::models::node::{Node, MonsterNode, PotionNode};
     use darkshuffle::utils::random;
     use darkshuffle::utils::hand::hand_utils;
@@ -172,6 +172,13 @@ mod node_utils {
                 monster_id: monster.monster_id,
                 monster_attack: monster.attack,
                 monster_health: monster.health
+            },
+            BattleEffects {
+                battle_id: battle_id,
+                next_spell_reduction: 0,
+                next_card_reduction: 0,
+                free_discard: false,
+                damage_immune: false
             }
         ));
     }

@@ -3,7 +3,7 @@ mod game_utils {
     use starknet::syscalls::get_block_hash_syscall;
     use starknet::SyscallResultTrait;
 
-    use darkshuffle::constants::{DECK_SIZE, MONSTER_KILL_SCORE, BRANCH_SCORE_MULTIPLIER};
+    use darkshuffle::constants::{DECK_SIZE, MONSTER_KILL_SCORE, BRANCH_SCORE_MULTIPLIER, START_ENERGY};
     use darkshuffle::models::game::{Game, Leaderboard};
     use darkshuffle::models::battle::{Battle, Monster};
     use darkshuffle::models::entropy::{Entropy};
@@ -36,6 +36,7 @@ mod game_utils {
         game.active_battle_id = 0;
 
         game.hero_health = battle.hero_health;
+        game.hero_energy = START_ENERGY;
         game.hero_xp += MONSTER_KILL_SCORE + (BRANCH_SCORE_MULTIPLIER * node.branch);
 
         node.status = 1;

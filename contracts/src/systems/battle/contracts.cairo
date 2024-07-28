@@ -10,8 +10,7 @@ trait IBattleContract {
 #[dojo::contract]
 mod battle_systems {
     use darkshuffle::constants::{START_ENERGY};
-    use darkshuffle::models::battle::{Battle, BattleOwnerTrait, HandCard, Card, Creature};
-    use darkshuffle::models::game::{GameEffects};
+    use darkshuffle::models::battle::{Battle, BattleOwnerTrait, HandCard, Card, Creature, BattleEffects};
     use darkshuffle::utils::{
         summon::summon_utils,
         cards::card_utils,
@@ -20,7 +19,8 @@ mod battle_systems {
         battle::battle_utils,
         game::game_utils,
         monsters::monster_utils,
-        hand::hand_utils
+        hand::hand_utils,
+        draft::draft_utils
     };
 
     #[abi(embed_v0)]
@@ -34,12 +34,13 @@ mod battle_systems {
 
             let card: Card = card_utils::get_card(hand_card.card_id);
             
-            let mut game_effects: GameEffects = get!(world, (battle.game_id), GameEffects);
-            battle_utils::energy_cost(ref battle, game_effects, card);
+            let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
+            battle_utils::energy_cost(ref battle, battle_effects, card);
 
             battle.card_index += 1;
             board_utils::add_creature_to_board(battle.card_index, battle_id, world);
             summon_utils::summon_creature(battle.card_index, target_id, world, ref battle, card);
+            draft_utils::level_up_card(world, battle.game_id, hand_card.hand_card_number);
             
             if game_utils::is_battle_over(battle) {
                 game_utils::end_battle(ref battle, world);
@@ -47,11 +48,10 @@ mod battle_systems {
                 delete!(world, (hand_card));
 
                 if hand_utils::count_cards(world, battle_id) == 0 {
-                    battle.deck_iteration += 1;
                     hand_utils::draw_cards(world, battle_id, battle.game_id);
                 }
-                
-                set!(world, (battle));
+
+                set!(world, (battle, battle_effects));
             }
         }
 
@@ -64,10 +64,11 @@ mod battle_systems {
 
             let card: Card = card_utils::get_card(hand_card.card_id);
             
-            let mut game_effects: GameEffects = get!(world, (battle.game_id), GameEffects);
+            let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
             
-            battle_utils::energy_cost(ref battle, game_effects, card);
+            battle_utils::energy_cost(ref battle, battle_effects, card);
             spell_utils::cast_spell(world, target_id, ref battle, card);
+            draft_utils::level_up_card(world, battle.game_id, hand_card.hand_card_number);
 
             if game_utils::is_battle_over(battle) {
                 game_utils::end_battle(ref battle, world);
@@ -75,13 +76,11 @@ mod battle_systems {
                 delete!(world, (hand_card));
 
                 if hand_utils::count_cards(world, battle_id) == 0 {
-                    battle.deck_iteration += 1;
                     hand_utils::draw_cards(world, battle_id, battle.game_id);
                 }
 
-                set!(world, (battle));
+                set!(world, (battle, battle_effects));
             }
-
         }
 
         fn attack(ref world: IWorldDispatcher, battle_id: usize, creature_id: u16) {
@@ -116,11 +115,14 @@ mod battle_systems {
             let hand_card: HandCard = get!(world, (battle_id, hand_card_number), HandCard);
             hand_card.assert_hand_card();
 
-            battle.assert_energy(1);
-            battle.hero_energy -= 1;
+            let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
 
-            let mut game_effects: GameEffects = get!(world, (battle.game_id), GameEffects);
-            game_effects.cards_discarded += 1;
+            if !battle_effects.free_discard {
+                battle.assert_energy(1);
+                battle.hero_energy -= 1;
+            } else {
+                battle_effects.free_discard = false;
+            }
 
             if game_utils::is_battle_over(battle) {
                 game_utils::end_battle(ref battle, world);
@@ -128,11 +130,10 @@ mod battle_systems {
                 delete!(world, (hand_card));
 
                 if hand_utils::count_cards(world, battle_id) == 0 {
-                    battle.deck_iteration += 1;
                     hand_utils::draw_cards(world, battle_id, battle.game_id);
                 }
                 
-                set!(world, (battle, game_effects));
+                set!(world, (battle, battle_effects));
             }
         }
 
@@ -147,7 +148,7 @@ mod battle_systems {
                 game_utils::end_battle(ref battle, world);
             } else {
                 battle.round += 1;
-                battle.hero_energy = START_ENERGY;
+                battle.hero_energy += START_ENERGY;
 
                 set!(world, (
                     battle

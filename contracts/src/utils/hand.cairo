@@ -51,7 +51,7 @@ mod hand_utils {
             let draft_card = get!(world, (game_id, i), DraftCard);
 
             set!(world, (
-                HandCard {battle_id, hand_card_number: i, card_id: draft_card.card_id}
+                HandCard {battle_id, hand_card_number: i, card_id: draft_card.card_id, level: draft_card.level}
             ));
 
             i += 1;

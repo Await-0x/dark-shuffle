@@ -1,47 +1,67 @@
 import { ADVENTURER_ID } from "../helpers/constants"
 
-export const spellEffect = ({ spell, board, shieldHero, deckIteration, target,
-  damageMonster, setBoard, animationHandler, increaseEnergy, monster, damageAdventurer,
-  gameEffects, setGameEffects, hand, creatureDead }) => {
+export const spellEffect = ({
+  spell, shieldHero, target,
+  damageMonster, increaseEnergy, healHero,
+  battleEffects, setBattleEffects
+}) => {
+  const { cardId, level } = spell;
 
-  if (spell.cardId === 18) {
-    damageMonster(deckIteration + 3)
+  if (cardId === 10) {
+    damageMonster(6 + level);
   }
 
-  if (spell.cardId === 19) {
-    shieldHero(deckIteration + 3)
+  else if (cardId === 11) {
+    damageMonster(12 + level);
   }
 
-  if (spell.cardId === 20) {
-    shieldHero(8)
+  else if (cardId === 12) {
+    shieldHero(level);
   }
 
-  if (spell.cardId === 21) {
-    damageMonster(10)
+  else if (cardId === 30) {
+    shieldHero(8);
   }
 
-  if (spell.cardId === 22) {
-    let health = target.health
-    target.health = target.attack
-    target.attack = health
-    if (target.health <= 0) {
-      creatureDead(target)
-    }
+  else if (cardId === 31) {
+    shieldHero(4);
   }
 
-  if (spell.cardId === 23) {
-    target.attack += deckIteration + 1
+  else if (cardId === 32) {
+    damageMonster(21);
   }
 
-  if (spell.cardId === 24) {
+  else if (cardId === 33) {
+    damageMonster(12);
+  }
+
+  else if (cardId === 34) {
     target.shield = true;
   }
 
-  let updatedGameEffects = {
-    ...gameEffects,
-    spellsPlayed: gameEffects.spellsPlayed + 1,
-    nextSpellReduction: 0
+  else if (cardId === 35) {
+    battleEffects.nextCardReduction = 1;
   }
 
-  setGameEffects(updatedGameEffects)
+  else if (cardId === 36) {
+    healHero(3);
+  }
+
+  else if (cardId === 37) {
+    increaseEnergy(5);
+  }
+
+  else if (cardId === 38) {
+    shieldHero(5);
+  }
+
+  else if (cardId === 39) {
+    damageMonster(15);
+  }
+
+  else if (cardId === 40) {
+    battleEffects.damageImmune = true;
+  }
+
+  setBattleEffects({ ...battleEffects })
 }

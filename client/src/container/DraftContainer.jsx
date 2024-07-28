@@ -66,9 +66,7 @@ function DraftContainer() {
       </Box>
 
       <Box sx={styles.overview}>
-
         <Overview />
-
       </Box>
 
     </Box>

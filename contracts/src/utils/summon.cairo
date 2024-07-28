@@ -1,7 +1,6 @@
 mod summon_utils {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use darkshuffle::models::battle::{Battle, Creature, Card};
-    use darkshuffle::models::game::{GameEffects};
+    use darkshuffle::models::battle::{Battle, Creature, Card, Battleffects};
     use darkshuffle::constants::{CardTags};
     use darkshuffle::utils::{
         battle::battle_utils,
@@ -17,7 +16,7 @@ mod summon_utils {
         card: Card,
     ) {
         let mut target: Creature = get!(world, (battle.battle_id, target_id), Creature);
-        let mut game_effects: GameEffects = get!(world, (battle.game_id), GameEffects);
+        let mut battle_effects: Battleffects = get!(world, (battle.battle_id), Battleffects);
 
         let mut creature: Creature = Creature {
             battle_id: battle.battle_id,
@@ -30,92 +29,96 @@ mod summon_utils {
             resting_round: 0,
         };
 
-        if battle.monster_id == 404 {
+        if battle.monster_id == 4 {
             creature.resting_round = battle.round;
         }
 
+        if card.card_tag == CardTags::SCALABLE {
+            creature.attack += card.level;
+            creature.health += card.level;
+        }
+
         if card.card_id == 1 {
-            creature.attack += battle.deck_iteration;
-            creature.health += battle.deck_iteration;
+            battle.hero_armor += card.level;
         }
 
         else if card.card_id == 2 {
-            battle.hero_armor += battle.deck_iteration;
+            battle.hero_armor += 1 + card.level;
         }
         
         else if card.card_id == 3 {
-            let mut amount = 0;
-            if battle.deck_iteration > 2 {
-                amount = 0;
-            } else {
-                amount = 3 - battle.deck_iteration;
-            }
-
-            battle_utils::damage_hero(ref battle, amount);
+            battle.hero_armor += 1 + card.level;
         }
         
         else if card.card_id == 4 {
-            battle_utils::damage_monster(ref battle, battle.deck_iteration);
+            board_utils::update_creatures(world, battle.battle_id, 0, card.level);
         }
 
-        else if card.card_id == 5 && target.card_id != 0 {
-            target.shield = true;
-            set!(world, (target));
+        else if card.card_id == 5 {
+            creature.attack += card.level;
         }
 
         else if card.card_id == 6 {
-            creature.attack += game_effects.demons_played;
+            creature.attack += card.level;
+            creature.health += card.level;
         }
 
-        else if card.card_id == 7 && target.card_id != 0 {
-            target.attack += battle.deck_iteration;
+        else if card.card_id == 7 {
+            battle_utils::damage_monster(ref battle, 3 + card.level);
         }
 
         else if card.card_id == 8 {
-            battle.hero_energy += 3;
-        }
-        
-        else if card.card_id == 9 {
-            battle.hero_energy += 1;
-        }
-        
-        else if card.card_id == 10 {
-            creature.attack += game_effects.cards_discarded;
-        }
-        
-        else if card.card_id == 11 {
-            let count: u16 = board_utils::count_board(world, battle.battle_id);
-            battle_utils::damage_monster(ref battle, count);
+            battle_utils::damage_monster(ref battle, card.level);
         }
 
-        else if card.card_id == 12 {
-            battle.hero_armor += battle.deck_iteration + 3;
+        else if card.card_id == 9 {
+            battle_effects.next_spell_reduction = card.level;
         }
-        
+
+        else if card.card_id == 13 {
+            battle.hero_armor += 1;
+        }
+
         else if card.card_id == 14 {
-            game_effects.next_spell_reduction = battle.deck_iteration;
+            battle.hero_armor += 2;
         }
 
         else if card.card_id == 15 {
-            board_utils::update_creatures(world, battle.battle_id, 0, battle.deck_iteration);
+            battle.hero_armor += 3;
         }
 
-        else if card.card_id == 16 {
-            let spell_count = hand_utils::count_spells(world, battle.battle_id);
-            creature.attack += spell_count;
-            creature.health += spell_count;
+        else if card.card_id == 16 && target.card_id != 0 {
+            target.shield = true;
+        }
+
+        else if card.card_id == 21 {
+            battle.hero_armor += 3;
+        }
+
+        else if card.card_id == 22 {
+            battle.hero_armor += 6;
+        }
+
+        else if card.card_id == 23 {
+            battle.hero_armor += 7;
+        }
+
+        else if card.card_id == 24 {
+            target.attack += 6;
+        }
+
+        else if card.card_id == 26 {
+            battle_utils::damage_monster(ref battle, 12);
+        }
+
+        else if card.card_id == 28 {
+            battle_utils::damage_monster(ref battle, 8);
+        }
+
+        else if card.card_id == 29 {
+            battle_effects.free_discard = true;
         }
         
-        else if card.card_id == 17 {
-            board_utils::update_creatures(world, battle.battle_id, battle.deck_iteration, 0);
-        }
-
-        if card.card_tag == CardTags::DEMON {
-            game_effects.demons_played += 1;
-        }
-
-        game_effects.creatures_played += 1;
-        
-        set!(world, (creature, game_effects, target));
+        set!(world, (creature, battle_effects, target));
     }
 }

@@ -7,7 +7,6 @@ use darkshuffle::constants::{LAST_NODE_LEVEL};
 struct Game {
     #[key]
     game_id: usize,
-    entropy_count: u16,
     player: ContractAddress,
     player_name: felt252,
     active: bool,
@@ -22,6 +21,7 @@ struct Game {
     branch: u16,
     node_level: u8,
     monsters_slain: u16,
+    entropy_count: u16,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -29,12 +29,6 @@ struct Game {
 struct GameEffects {   
     #[key]
     game_id: usize,
-    cards_discarded: u16,
-    creatures_played: u16,
-    spells_played: u16,
-    demons_played: u16,
-    next_spell_reduction: u16,
-    dead_creatures: u16
 }
 
 #[derive(Copy, Drop, Serde)]

@@ -83,7 +83,7 @@ function BattleContainer() {
 
           <Box sx={styles.utContainer}>
 
-            <CustomTooltip title={
+            {/* <CustomTooltip title={
               <Box mb={1} minWidth={'130px'}>
                 <Typography color="primary" variant='h6' mb={1}>Graveyard</Typography>
 
@@ -101,7 +101,7 @@ function BattleContainer() {
               </Box>
             }>
               <img src={graveyardIcon} alt='' width={84} />
-            </CustomTooltip>
+            </CustomTooltip> */}
 
             <CustomTooltip title={
               <Box mb={1}>

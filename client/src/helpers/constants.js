@@ -13,13 +13,15 @@ export const LCG_PRIME = BigInt(2147483647);
 export const GAME_COST = 20
 export const GAME_FEE = 2
 
-export const EFFECTS = {
-  cardsDiscarded: 0,
-  creaturesPlayed: 0,
-  spellsPlayed: 0,
-  demonsPlayed: 0,
+export const GAME_EFFECTS = {
+
+}
+
+export const BATTLE_EFFECTS = {
   nextSpellReduction: 0,
-  deadCreatures: 0
+  nextCardReduction: 0,
+  freeDiscard: false,
+  damageImmune: false,
 }
 
 export const levelColors = [

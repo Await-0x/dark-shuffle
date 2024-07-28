@@ -10,7 +10,7 @@ mod game_systems {
 
     use darkshuffle::constants::{DECK_SIZE, START_ENERGY, START_HEALTH, LAST_NODE_LEVEL};
     use darkshuffle::models::battle::{Battle, Monster};
-    use darkshuffle::models::game::{Game, GameEffects};
+    use darkshuffle::models::game::{Game};
     use darkshuffle::models::draft::{Draft};
     use darkshuffle::models::entropy::{Entropy};
 
@@ -43,15 +43,6 @@ mod game_systems {
                     branch: 0,
                     node_level: LAST_NODE_LEVEL,
                     monsters_slain: 0,
-                },
-                GameEffects {
-                    game_id,
-                    cards_discarded: 0,
-                    creatures_played: 0,
-                    spells_played: 0,
-                    demons_played: 0,
-                    next_spell_reduction: 0,
-                    dead_creatures: 0
                 },
                 Draft {
                     game_id,

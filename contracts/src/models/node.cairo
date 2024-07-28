@@ -2,7 +2,7 @@
 #[dojo::model]
 struct Node {
     #[key]
-    id: usize,
+    node_id: usize,
     game_id: usize,
     branch: u16,
     parents: Array<usize>,

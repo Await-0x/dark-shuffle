@@ -59,7 +59,7 @@ mod node_systems {
             let mut game = get!(world, (node.game_id, Game);
             game.assert_select_node();
 
-            assert(node.skippable, 'Not Skippable');
+            assert(node.skippable, 'Not skippable');
             assert(node_utils::node_available(world, node), 'Not available');
 
             node.status = 2;

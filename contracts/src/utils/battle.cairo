@@ -1,36 +1,41 @@
 mod battle_utils {
     use darkshuffle::constants::{CardTypes};
-    use darkshuffle::models::battle::{Battle, Creature, Card};
-    use darkshuffle::models::game::{GameEffects};
+    use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects};
 
-    fn energy_cost(ref battle: Battle, game_effects: GameEffects, card: Card) {
+    fn energy_cost(ref battle: Battle, battle_effects: BattleEffects, card: Card) {
         let mut cost = card.cost;
-        
-        if battle.monster_id == 405 && card.card_type == CardTypes::CREATURE {
+
+        if battle.monster_id == 5 && card.card_type == CardTypes::CREATURE {
             cost += 1;
         }
 
+        if card.card_tag == CardTags::RENEWABLE {
+            if (card.level - 1) >= cost {
+                cost = 1;
+            } else {
+                cost -= (card.level - 1);
+            }
+        }
+
         if card.card_type == CardTypes::SPELL {
-            if game_effects.next_spell_reduction >= cost {
-                return;
-            }
-            
-            cost -= game_effects.next_spell_reduction;
-        }
-        
-        let id = card.card_id;
-        if id == 5 || id == 11 || id == 12 || id == 20 || id == 21 || id == 22 || id == 24 {
-            let reduction = battle.deck_iteration;
-
-            if reduction >= cost {
-                return;
+            if battle_effects.next_spell_reduction >= cost {
+                cost = 0;
+            } else {
+                cost -= battle_effects.next_spell_reduction;
             }
 
-            cost -= reduction;
+            battle_effects.next_spell_reduction = 0;
+        }
+
+        if battle_effects.next_card_reduction >= cost {
+            cost = 0;
+        } else {
+            cost -= battle_effects.next_card_reduction;
         }
         
+        battle_effects.next_card_reduction = 0;
+
         assert(battle.hero_energy >= cost, 'Not enough energy');
-
         battle.hero_energy -= cost;
     }
 
@@ -55,7 +60,7 @@ mod battle_utils {
     fn damage_monster(ref battle: Battle, amount: u16) {
         let mut damage = amount;
 
-        if battle.monster_id == 403 {
+        if battle.monster_id == 3 {
             damage -= 1;
         }
 

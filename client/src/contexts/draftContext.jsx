@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { CARD_LIST, fetchCard, tags, types } from "../helpers/cards";
+import { CARD_LIST, tags, types } from "../helpers/cards";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
 import { getDraftCards, getDraftEntropy } from "../api/indexer";
@@ -93,7 +93,7 @@ export const DraftProvider = ({ children }) => {
     if (res) {
       const draftOptions = res.filter(e => e.componentName === 'DraftOption')
 
-      setOptions(draftOptions.map(option => fetchCard(option.cardId, 1, option.optionId)))
+      setOptions(draftOptions.map(option => CARD_DETAILS(option.cardId, option.optionId, option.level)))
     }
   }
 
@@ -129,11 +129,7 @@ export const DraftProvider = ({ children }) => {
   const fetchDraftCards = async (gameId, inDraft) => {
     let data = await getDraftCards(gameId)
 
-    let cards = data.map((card, i) => {
-      let _card = fetchCard(card.card_id, 0, i + 1)
-      _card.number = card.number
-      return _card
-    })
+    let cards = data.map(card => CARD_DETAILS(card.card_id, card.number, card.level))
 
     setDraftStats(cards)
     setCards(cards.sort((a, b) => a.cost - b.cost))
@@ -144,6 +140,13 @@ export const DraftProvider = ({ children }) => {
         blockNumber: parseInt(entropy.block_number)
       })
     }
+  }
+
+  const levelUpCards = async () => {
+    setCards(cards.map(card => ({
+      ...card,
+      level: Math.min(15, card.level + 1)
+    })))
   }
 
   return (
@@ -161,7 +164,8 @@ export const DraftProvider = ({ children }) => {
         getDraftOptions,
         setPlayerName,
         playerName,
-        fetchDraftCards
+        fetchDraftCards,
+        levelUpCards
       }}
     >
       {children}

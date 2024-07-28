@@ -1,99 +1,99 @@
-import { tags, types } from "../helpers/cards";
-
 export const summonEffect = ({
   creature,
   shieldHero,
-  deckIteration,
   target,
-  board,
   setBoard,
-  hand,
-  increaseEnergy,
   monster,
-  damageAdventurer,
   damageMonster,
-  gameEffects,
-  setGameEffects
+  battleEffects,
+  setBattleEffects
 }) => {
+  const { level, cardId } = creature;
+
   if (monster.id === 404) {
     creature.resting = true
   }
 
-  if (creature.cardId === 1) {
-    creature.attack += deckIteration
-    creature.health += deckIteration
+  if (cardId === 1) {
+    shieldHero(level)
   }
 
-  else if (creature.cardId === 2) {
-    shieldHero(deckIteration)
+  else if (cardId === 2) {
+    shieldHero(1 + level)
   }
 
-  else if (creature.cardId === 3) {
-    damageAdventurer(Math.max(0, 4 - deckIteration));
+  else if (cardId === 3) {
+    shieldHero(1 + level)
   }
 
-  else if (creature.cardId === 4) {
-    damageMonster(deckIteration);
+  else if (cardId === 4) {
+    setBoard(prev => prev.map(_creature => ({ ..._creature, health: _creature.health + level })))
   }
 
-  else if (creature.cardId === 5 && target) {
+  else if (cardId === 5) {
+    creature.attack += level;
+  }
+
+  else if (cardId === 6) {
+    creature.attack += level;
+    creature.health += level;
+  }
+
+  else if (cardId === 7) {
+    damageMonster(3 + level);
+  }
+
+  else if (cardId === 8) {
+    damageMonster(level);
+  }
+
+  else if (cardId === 9) {
+    battleEffects.nextSpellReduction = level;
+  }
+
+  else if (cardId === 13) {
+    shieldHero(1);
+  }
+
+  else if (cardId === 14) {
+    shieldHero(2);
+  }
+
+  else if (cardId === 15) {
+    shieldHero(3);
+  }
+
+  else if (cardId === 16 && target) {
     target.shield = true
   }
 
-  else if (creature.cardId === 6) {
-    creature.attack += gameEffects.demonsPlayed
+  else if (cardId === 21) {
+    shieldHero(5);
   }
 
-  else if (creature.cardId === 7 && target) {
-    target.attack += deckIteration
+  else if (cardId === 22) {
+    shieldHero(6);
   }
 
-  else if (creature.cardId === 8) {
-    increaseEnergy(3)
+  else if (cardId === 23) {
+    shieldHero(7);
   }
 
-  else if (creature.cardId === 9) {
-    increaseEnergy(1)
+  else if (cardId === 24 && target) {
+    target.attack += 6;
   }
 
-  else if (creature.cardId === 10) {
-    creature.attack += gameEffects.cardsDiscarded
+  else if (cardId === 26) {
+    damageMonster(12);
   }
 
-  else if (creature.cardId === 11) {
-    damageMonster(board.length)
+  else if (cardId === 28) {
+    damageMonster(8);
   }
 
-  else if (creature.cardId === 12) {
-    shieldHero(deckIteration + 3)
+  else if (cardId === 29) {
+    battleEffects.freeDiscard = true;
   }
 
-  else if (creature.cardId === 13) {
-  }
-
-  else if (creature.cardId === 14) {
-    gameEffects.nextSpellReduction = deckIteration
-  }
-
-  else if (creature.cardId === 15) {
-    setBoard(prev => prev.map(creature => ({ ...creature, health: creature.health + deckIteration })))
-  }
-
-  else if (creature.cardId === 16) {
-    let spellCount = hand.filter(card => card.type === types.SPELL).length
-    creature.attack += spellCount
-    creature.health += spellCount
-  }
-
-  else if (creature.cardId === 17) {
-    setBoard(prev => prev.map(creature => ({ ...creature, attack: creature.attack + deckIteration })))
-  }
-
-  let updatedGameEffects = {
-    ...gameEffects,
-    creaturesPlayed: gameEffects.creaturesPlayed + 1,
-    demonsPlayed: creature.tag === tags.DEMON ? gameEffects.demonsPlayed + 1 : gameEffects.demonsPlayed
-  }
-
-  setGameEffects(updatedGameEffects)
+  setBattleEffects({ ...battleEffects })
 }
