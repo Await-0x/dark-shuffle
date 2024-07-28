@@ -47,9 +47,9 @@ mod draft_utils {
     }
 
     fn level_up_card(world: IWorldDispatcher, game_id: usize, number: u8) {
-        let mut draft_card = get!(world, (game_id, number) DraftCard);
+        let mut draft_card = get!(world, (game_id, number), DraftCard);
 
-        if draftCard.level < MAX_CARD_LEVEL {
+        if draft_card.level < MAX_CARD_LEVEL {
             draft_card.level += 1;
             set!(world, (draft_card));
         }

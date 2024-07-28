@@ -7,3 +7,6 @@ mod game {
 mod battle {
     mod contracts;
 }
+mod node {
+    mod contracts;
+}

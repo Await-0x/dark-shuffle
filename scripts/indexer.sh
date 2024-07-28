@@ -11,6 +11,7 @@ sozo migrate apply --name darkshuffle
 echo "----- Auth and World Contracts: Set 0.1s ----- "
 source scripts/env_variables.sh dev
 ./scripts/set_config.sh --interval 0.1 --mode dev
+
 cp ../contracts/manifests/dev/manifest.json ../client/manifest.json
 cp ../contracts/manifests/prod/manifest.json ../client/prod-manifest.json
 

@@ -1,8 +1,8 @@
 mod battle_utils {
-    use darkshuffle::constants::{CardTypes};
+    use darkshuffle::constants::{CardTypes, CardTags};
     use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects};
 
-    fn energy_cost(ref battle: Battle, battle_effects: BattleEffects, card: Card) {
+    fn energy_cost(ref battle: Battle, ref battle_effects: BattleEffects, card: Card) {
         let mut cost = card.cost;
 
         if battle.monster_id == 5 && card.card_type == CardTypes::CREATURE {

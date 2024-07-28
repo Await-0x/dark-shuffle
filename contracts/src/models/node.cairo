@@ -5,8 +5,8 @@ struct Node {
     node_id: usize,
     game_id: usize,
     branch: u16,
-    parents: Array<usize>,
-    type: u16,
+    parents: Span<usize>,
+    node_type: u16,
     skippable: bool,
     status: u8,
     level: u8

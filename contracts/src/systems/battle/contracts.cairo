@@ -32,14 +32,14 @@ mod battle_systems {
             let hand_card: HandCard = get!(world, (battle_id, hand_card_number), HandCard);
             hand_card.assert_hand_card();
 
-            let card: Card = card_utils::get_card(hand_card.card_id);
+            let card: Card = card_utils::get_card(hand_card.card_id, hand_card.level);
             
             let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
-            battle_utils::energy_cost(ref battle, battle_effects, card);
+            battle_utils::energy_cost(ref battle, ref battle_effects, card);
 
             battle.card_index += 1;
             board_utils::add_creature_to_board(battle.card_index, battle_id, world);
-            summon_utils::summon_creature(battle.card_index, target_id, world, ref battle, card);
+            summon_utils::summon_creature(battle.card_index, target_id, world, ref battle, ref battle_effects, card);
             draft_utils::level_up_card(world, battle.game_id, hand_card.hand_card_number);
             
             if game_utils::is_battle_over(battle) {
@@ -62,12 +62,12 @@ mod battle_systems {
             let hand_card: HandCard = get!(world, (battle_id, hand_card_number), HandCard);
             hand_card.assert_hand_card();
 
-            let card: Card = card_utils::get_card(hand_card.card_id);
+            let card: Card = card_utils::get_card(hand_card.card_id, hand_card.level);
             
             let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
             
-            battle_utils::energy_cost(ref battle, battle_effects, card);
-            spell_utils::cast_spell(world, target_id, ref battle, card);
+            battle_utils::energy_cost(ref battle, ref battle_effects, card);
+            spell_utils::cast_spell(world, target_id, ref battle, ref battle_effects, card);
             draft_utils::level_up_card(world, battle.game_id, hand_card.hand_card_number);
 
             if game_utils::is_battle_over(battle) {

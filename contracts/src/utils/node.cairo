@@ -4,7 +4,7 @@ mod node_utils {
         array::{ArrayTrait},
     };
 
-    use darkshuffle::models::battle::{Battle, Monster};
+    use darkshuffle::models::battle::{Battle, BattleEffects, Monster};
     use darkshuffle::models::game::{Game};
     use darkshuffle::models::node::{Node, MonsterNode, PotionNode};
     use darkshuffle::utils::random;
@@ -25,8 +25,8 @@ mod node_utils {
                 break;
             } 
         
-            let mut parent_node = get!(world, (node.parents.at(index)), Node);
-            available = parent_node.status !== 0;
+            let mut parent_node = get!(world, (*node.parents.at(index)), Node);
+            available = parent_node.status != 0;
 
             index += 1;
         };
@@ -35,14 +35,13 @@ mod node_utils {
     }
 
     fn generate_tree_nodes(world: IWorldDispatcher, game_id: usize, mut seed: u128, branch: u16) {
-        let mut parent_id = save_node(1, branch, seed, array![], 1);
+        let mut parent_id = save_node(world, game_id, 1, branch, seed, array![].span(), 1);
 
         let sections = random::get_random_number(seed, 3);
 
-        let tree_length = 3;
         let mut section_index = 0;
-        let mut tree_index = 0;
-        let mut last_node_parents = ArrayTrait::<usize>::new();
+        let mut last_node_parents: Array<usize> = array![];
+        let mut node_type: u16 = 0;
 
         loop {
             if section_index == sections {
@@ -50,45 +49,46 @@ mod node_utils {
             }
 
             seed = random::LCG(seed);
-            let mut type = random_node(seed);
-            parent_id = save_node(type, branch, seed, array![parent_id], 2);
+            node_type = random_node(seed);
+
+            parent_id = save_node(world, game_id, node_type, branch, seed, array![parent_id].span(), 2);
 
             seed = random::LCG(seed);
-            type = random_node(seed);
+            node_type = random_node(seed);
 
-            let mut parent_id_1 = save_node(type, branch, seed, array![parent_id], 3);
+            let mut parent_id_1 = save_node(world, game_id, node_type, branch, seed, array![parent_id].span(), 3);
             let mut parent_id_2 = 0;
 
             if random::get_random_number(seed, 2) > 1 {
-                parent_id_2 = save_node(type, branch, seed, array![parent_id], 3);
+                parent_id_2 = save_node(world, game_id, node_type, branch, seed, array![parent_id].span(), 3);
             }
 
             seed = random::LCG(seed);
-            type = random_node(seed);
+            node_type = random_node(seed);
 
             if random::get_random_number(seed, 2) > 1 {
-                parent_id_1 = save_node(type, branch, seed, array![parent_id_1], 4);
+                parent_id_1 = save_node(world, game_id, node_type, branch, seed, array![parent_id_1].span(), 4);
                 seed = random::LCG(seed);
-                type = random_node(seed);
-                parent_id_2 = save_node(type, branch, seed, array![parent_id_2], 4);
+                node_type = random_node(seed);
+                parent_id_2 = save_node(world, game_id, node_type, branch, seed, array![parent_id_2].span(), 4);
                 last_node_parents.append(parent_id_1);
                 last_node_parents.append(parent_id_2);
             } else {
-                parent_id_1 = save_node(type, branch, seed, array![parent_id_1, parent_id_2], 4);
+                parent_id_1 = save_node(world, game_id, node_type, branch, seed, array![parent_id_1, parent_id_2].span(), 4);
                 last_node_parents.append(parent_id_1);
             }
 
             section_index += 1;
-        }
+        };
 
         seed = random::LCG(seed);
-        type = random_node(seed);
+        node_type = random_node(seed);
 
-        save_node(type, branch, seed, last_node_parents, 5);
+        save_node(world, game_id, node_type, branch, seed, last_node_parents.span(), 5);
     }
 
     fn random_node(seed: u128) -> u16 {
-        let mut node_type = random::get_random_number(seed, 2);
+        let mut node_type: u16 = random::get_random_number(seed, 2);
 
         if node_type != 1 {
             node_type = random::get_random_number(seed, NODE_TYPES) + 1;
@@ -97,21 +97,21 @@ mod node_utils {
         node_type
     }
 
-    fn save_node(type: u16, branch: u16, seed: u128, parents: Array<usize>, level: u8) -> usize {
+    fn save_node(world: IWorldDispatcher, game_id: usize, node_type: u16, branch: u16, seed: u128, parents: Span<usize>, level: u8) -> usize {
         let node_id = world.uuid();
         let mut skippable = false;
 
-        if type == 1 {
+        if node_type == 1 {
             set!(world, (get_monster_node(node_id, branch, seed)));
         }
 
-        if type == 2 || type == 3 {
-            set!(world, (get_potion_node(node_id, branch, seed, type)));
+        if node_type == 2 || node_type == 3 {
+            set!(world, (get_potion_node(node_id, branch, seed, node_type)));
             skippable = true;
         }
 
         set!(world, (
-            Node {node_id, branch, parents, type, skippable, status: 0, level}
+            Node {node_id, game_id, branch, parents, node_type, skippable, status: 0, level}
         ));
 
         return node_id;
@@ -132,14 +132,12 @@ mod node_utils {
         }
     }
 
-    fn get_potion_node(node_id: usize, branch: u16, seed: u16, type: u8) -> PotionNode {
-        let monster_id = random::get_random_number(seed, MONSTER_COUNT);
-        let branch_multiplier = random::get_random_number(seed, branch * 2);
-
+    fn get_potion_node(node_id: usize, branch: u16, seed: u128, node_type: u16) -> PotionNode {
         let mut amount = 1;
-        if type == 1 {
+
+        if node_type == 1 {
             amount += branch + random::get_random_number(seed, branch * 2);
-        } else if type == 2 {
+        } else if node_type == 2 {
             amount += random::get_random_number(seed, 4);
         }
 
@@ -183,16 +181,16 @@ mod node_utils {
         ));
     }
 
-    fn take_potion(ref game: Game, ref node: Node, potion: PotionNode) {
-        if node.type == 2 {
+    fn take_potion(ref game: Game, ref node: Node, potion: PotionNode, world: IWorldDispatcher) {
+        if node.node_type == 2 {
             game.hero_health += potion.amount;
         }
 
-        if node.type == 3 {
+        if node.node_type == 3 {
             game.hero_energy += potion.amount;
         }
 
         node.status = 1;
-        game_utils::complete_node(ref game);
+        game_utils::complete_node(ref game, world);
     }
 }

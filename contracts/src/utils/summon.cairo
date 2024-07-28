@@ -1,6 +1,6 @@
 mod summon_utils {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use darkshuffle::models::battle::{Battle, Creature, Card, Battleffects};
+    use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects};
     use darkshuffle::constants::{CardTags};
     use darkshuffle::utils::{
         battle::battle_utils,
@@ -13,10 +13,10 @@ mod summon_utils {
         target_id: u16,
         world: IWorldDispatcher,
         ref battle: Battle,
+        ref battle_effects: BattleEffects,
         card: Card,
     ) {
         let mut target: Creature = get!(world, (battle.battle_id, target_id), Creature);
-        let mut battle_effects: Battleffects = get!(world, (battle.battle_id), Battleffects);
 
         let mut creature: Creature = Creature {
             battle_id: battle.battle_id,

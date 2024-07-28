@@ -22,7 +22,6 @@ mod draft_systems {
             let mut game = get!(world, (game_id), Game);
             game.assert_draft();
 
-            let mut draft = get!(world, (game_id), Draft);
             let mut entropy: Entropy = get!(world, (game_id, game.entropy_count), Entropy);
             entropy.block_hash = entropy_hash;
             

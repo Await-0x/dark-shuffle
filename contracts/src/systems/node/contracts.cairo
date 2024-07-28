@@ -9,7 +9,7 @@ trait INodeContract {
 mod node_systems {
     use starknet::{get_caller_address, get_block_info};
     use darkshuffle::models::game::{Game, GameOwnerTrait};
-    use darkshuffle::models::node::{Node};
+    use darkshuffle::models::node::{Node, MonsterNode, PotionNode};
     use darkshuffle::models::entropy::{Entropy};
     use darkshuffle::utils::{
         random,
@@ -32,23 +32,23 @@ mod node_systems {
             game.branch += 1;
             game.node_level = 1;
 
-            node_utils::generate_tree_nodes(world, game_id, seed, game, game.branch + 1);
+            node_utils::generate_tree_nodes(world, game_id, seed, game.branch + 1);
             set!(world, (game, entropy));
         }
 
         fn select_node(ref world: IWorldDispatcher, node_id: usize) {
             let mut node = get!(world, (node_id), Node);
-            let mut game = get!(world, (node.game_id, Game);
-            game.assert_select_node();
+            let mut game = get!(world, (node.game_id), Game);
+            game.assert_select_node(node);
 
             assert(node_utils::node_available(world, node), 'Not available');
 
-            if node.type == 1 {
+            if node.node_type == 1 {
                 let monster_node = get!(world, (node_id), MonsterNode);
                 node_utils::start_battle(world, ref game, monster_node);
-            } else if node.type == 2 || node.type == 3 {
+            } else if node.node_type == 2 || node.node_type == 3 {
                 let potion_node = get!(world, (node_id), PotionNode);
-                node_utils::take_potion(ref game, ref node, potion_node);
+                node_utils::take_potion(ref game, ref node, potion_node, world);
             }
 
             set!(world, (game, node));
@@ -56,14 +56,15 @@ mod node_systems {
 
         fn skip_node(ref world: IWorldDispatcher, node_id: usize) {
             let mut node = get!(world, (node_id), Node);
-            let mut game = get!(world, (node.game_id, Game);
-            game.assert_select_node();
+            let mut game = get!(world, (node.game_id), Game);
+            game.assert_select_node(node);
 
             assert(node.skippable, 'Not skippable');
             assert(node_utils::node_available(world, node), 'Not available');
 
             node.status = 2;
-            game_utils::complete_node(ref game);
+            game.hero_xp += 10;
+            game_utils::complete_node(ref game, world);
 
             set!(world, (game, node));
         }

@@ -3,10 +3,10 @@ const CARD_POOL_SIZE: u16 = 40;
 const DECK_SIZE: u8 = 5;
 const DISCARD_COST: u8 = 1;
 const MAX_BOARD: u8 = 6;
-const MONSTER_COUNT = 7;
-const NODE_TYPES = 2;
-const LAST_NODE_LEVEL = 6;
-const MAX_CARD_LEVEL = 15;
+const MONSTER_COUNT: u16 = 7;
+const NODE_TYPES: u16 = 2;
+const LAST_NODE_LEVEL: u8 = 6;
+const MAX_CARD_LEVEL: u16 = 15;
 
 const START_ENERGY: u16 = 7;
 const START_HEALTH: u16 = 30;

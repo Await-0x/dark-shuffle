@@ -6,9 +6,8 @@ mod spell_utils {
         battle::battle_utils,
     };
 
-    fn cast_spell(world: IWorldDispatcher, target_id: u16, ref battle: Battle, card: Card) {
+    fn cast_spell(world: IWorldDispatcher, target_id: u16, ref battle: Battle, ref battle_effects: BattleEffects, card: Card) {
         let mut target: Creature = get!(world, (battle.battle_id, target_id), Creature);
-        let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
 
         if card.card_id == 10 {
             battle_utils::damage_monster(ref battle, card.level + 6);

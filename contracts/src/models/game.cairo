@@ -29,6 +29,7 @@ struct Game {
 struct GameEffects {   
     #[key]
     game_id: usize,
+    bonus_attack: u16
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -38,7 +39,7 @@ struct Leaderboard {
     game_id: usize,
     player: ContractAddress,
     player_name: felt252,
-    score: u16,
+    score: u32,
 }
 
 #[generate_trait]
@@ -54,7 +55,7 @@ impl GameOwnerImpl of GameOwnerTrait {
         assert(self.active, 'Game over');
         assert(!self.in_draft, 'In Draft');
         assert(!self.in_battle, 'In Battle');
-        assert(!self.node_level == LAST_NODE_LEVEL, 'Tree Not Completed');
+        assert(self.node_level == LAST_NODE_LEVEL, 'Tree Not Completed');
     }
 
     fn assert_select_node(self: Game, node: Node) {

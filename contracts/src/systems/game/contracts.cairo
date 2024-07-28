@@ -1,7 +1,6 @@
 #[dojo::interface]
 trait IGameContract {
     fn start_game(ref world: IWorldDispatcher, name: felt252);
-    fn start_battle(ref world: IWorldDispatcher, game_id: usize);
 }
 
 #[dojo::contract]
@@ -9,16 +8,9 @@ mod game_systems {
     use starknet::{get_caller_address, get_block_info};
 
     use darkshuffle::constants::{DECK_SIZE, START_ENERGY, START_HEALTH, LAST_NODE_LEVEL};
-    use darkshuffle::models::battle::{Battle, Monster};
     use darkshuffle::models::game::{Game};
     use darkshuffle::models::draft::{Draft};
     use darkshuffle::models::entropy::{Entropy};
-
-    use darkshuffle::utils::{
-        draft::draft_utils,
-        monsters::monster_utils,
-        hand::hand_utils
-    };
 
     #[abi(embed_v0)]
     impl GameContractImpl of super::IGameContract<ContractState> {
@@ -28,7 +20,6 @@ mod game_systems {
             set!(world, (
                 Game {
                     game_id,
-                    entropy_count: 1,
                     player: get_caller_address(),
                     player_name: name,
                     active: true,
@@ -43,11 +34,11 @@ mod game_systems {
                     branch: 0,
                     node_level: LAST_NODE_LEVEL,
                     monsters_slain: 0,
+                    entropy_count: 1
                 },
                 Draft {
                     game_id,
-                    card_count: 0,
-                    entropy_count: 1
+                    card_count: 0
                 },
                 Entropy {
                     game_id,

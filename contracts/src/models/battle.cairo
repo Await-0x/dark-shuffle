@@ -63,11 +63,11 @@ struct HandCard {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct Battleffects {   
+struct BattleEffects {   
     #[key]
     battle_id: usize,
-    next_spell_reduction: u8,
-    next_card_reduction: u8,
+    next_spell_reduction: u16,
+    next_card_reduction: u16,
     free_discard: bool,
     damage_immune: bool
 }

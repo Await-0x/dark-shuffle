@@ -15,3 +15,16 @@ export BATTLE_SYSTEMS=$(get_contract_address "darkshuffle::systems::battle::cont
 export DRAFT_SYSTEMS=$(get_contract_address "darkshuffle::systems::draft::contracts::draft_systems")
 
 export GAME_SYSTEMS=$(get_contract_address "darkshuffle::systems::game::contracts::game_systems")
+
+export NODE_SYSTEMS=$(get_contract_address "darkshuffle::systems::game::contracts::node_systems")
+
+export ENTROPY_SYSTEMS=$(get_contract_address "darkshuffle::systems::game::contracts::entropy_systems")
+
+# Display the addresses
+echo "-------------------------ADDRESS----------------------------------------"
+echo world : $SOZO_WORLD
+echo battle : $BATTLE_SYSTEMS
+echo draft : $DRAFT_SYSTEMS
+echo game : $GAME_SYSTEMS
+echo node : $NODE_SYSTEMS
+echo entropy : $ENTROPY_SYSTEMS

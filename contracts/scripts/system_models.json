@@ -1,5 +1,6 @@
 {
-  "BATTLE_SYSTEMS": ["Game", "Battle", "HandCard", "GameEffects", "Creature", "Board", "Leaderboard", "DraftEntropy", "DraftCard"],
-  "DRAFT_SYSTEMS": ["Game", "Draft", "DraftEntropy", "DraftOption", "DraftCard"],
-  "GAME_SYSTEMS": ["Game", "Draft", "DraftEntropy", "Battle", "HandCard", "GameEffects"]
+  "GAME_SYSTEMS": ["Game", "Draft", "Entropy"],
+  "DRAFT_SYSTEMS": ["Game", "Draft", "Entropy", "DraftOption", "DraftCard"],
+  "NODE_SYSTEMS": ["Game", "Entropy", "Node", "MonsterNode", "PotionNode"],
+  "BATTLE_SYSTEMS": ["Game", "Battle", "HandCard", "BattleEffects", "Creature", "Board", "Leaderboard", "Entropy", "DraftCard"]
 }
