@@ -29,13 +29,17 @@ export const DojoProvider = ({ children }) => {
     }
   }, [])
 
-  const executeTx = async (contract_name, system, call_data) => {
+  const executeTx = async (contractName, entrypoint, calldata) => {
     if (!account) {
       return
     }
 
     try {
-      const tx = await dojoProvider.execute(account, contract_name, system, call_data)
+      const tx = await dojoProvider.execute(account, {
+        contractName,
+        entrypoint,
+        calldata
+      }, 'darkshuffle');
 
       const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
 
