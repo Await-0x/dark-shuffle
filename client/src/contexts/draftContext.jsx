@@ -1,20 +1,21 @@
 import React, { createContext, useContext, useState } from "react";
-import { CARD_LIST, tags, types } from "../helpers/cards";
+import { CARD_DETAILS, fetchCardList, tags, types } from "../helpers/cards";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
-import { getDraftCards, getDraftEntropy } from "../api/indexer";
+import { getDraftCards, getEntropy } from "../api/indexer";
 
 export const DraftContext = createContext()
 
 export const DraftProvider = ({ children }) => {
   const dojo = useContext(DojoContext)
   const game = useContext(GameContext)
+  
   const [pendingTx, setPendingTx] = useState()
   const [pendingCard, setPendingCard] = useState()
 
   const [playerName, setPlayerName] = useState(localStorage.getItem('playerName') || '')
   const [options, setOptions] = useState([])
-  const [cards, setCards] = useState(CARD_LIST.slice(0, 8))
+  const [cards, setCards] = useState(fetchCardList().slice(0, 8))
 
   const [manaCurve, setManaCurve] = useState()
 
@@ -72,23 +73,19 @@ export const DraftProvider = ({ children }) => {
   const startDraft = async () => {
     initializeState()
 
-    if (game.clientOnly) {
-      return startDraftClientOnly()
-    }
-
-    const res = await dojo.executeTx("darkshuffle::systems::game::contracts::game_systems", "start_game", [playerName || 'Anonymous'])
+    const res = await dojo.executeTx("game_systems", "start_game", [playerName || 'Anonymous'])
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
-      const entropy = res.find(e => e.componentName === 'DraftEntropy')
+      const entropy = res.find(e => e.componentName === 'Entropy')
 
-      game.setDraftEntropy(entropy)
+      game.setGameEntropy(entropy)
       game.setGame(gameValues)
     }
   }
 
   const getDraftOptions = async () => {
-    const res = await dojo.executeTx("darkshuffle::systems::draft::contracts::draft_systems", "get_draft_options", [game.values.gameId, game.entropy.blockHash])
+    const res = await dojo.executeTx("draft_systems", "get_draft_options", [game.values.gameId, game.entropy.blockHash])
 
     if (res) {
       const draftOptions = res.filter(e => e.componentName === 'DraftOption')
@@ -102,7 +99,7 @@ export const DraftProvider = ({ children }) => {
 
     setPendingCard(card.id)
 
-    const res = await dojo.executeTx("darkshuffle::systems::draft::contracts::draft_systems", "pick_card", [game.values.gameId, card.id])
+    const res = await dojo.executeTx("draft_systems", "pick_card", [game.values.gameId, card.id])
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -116,11 +113,10 @@ export const DraftProvider = ({ children }) => {
 
       if (gameValues) {
         game.setGame(gameValues)
-        return
       }
 
-      const entropy = res.find(e => e.componentName === 'DraftEntropy')
-      game.setDraftEntropy(entropy)
+      const entropy = res.find(e => e.componentName === 'Entropy')
+      game.setGameEntropy(entropy)
     }
 
     setPendingCard()
@@ -135,8 +131,9 @@ export const DraftProvider = ({ children }) => {
     setCards(cards.sort((a, b) => a.cost - b.cost))
 
     if (inDraft) {
-      const entropy = await getDraftEntropy(gameId, data.length + 1)
-      game.setDraftEntropy({
+      const entropy = await getEntropy(gameId, data.length + 1)
+
+      game.setGameEntropy({
         blockNumber: parseInt(entropy.block_number)
       })
     }

@@ -50,15 +50,9 @@ function ArenaPage() {
 
     if (localStorage.getItem('burner')) {
       let burner = JSON.parse(localStorage.getItem('burner'))
-      checkActiveGame(burner.address)
+      // checkActiveGame(burner.address)
     }
   }, [])
-
-  return (
-    <Box sx={styles.container}>
-      <StartBattleContainer />
-    </Box>
-  )
 
   return (
     <Box sx={styles.container}>

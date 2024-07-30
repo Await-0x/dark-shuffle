@@ -169,7 +169,7 @@ export async function getLeaderboard(page) {
   try {
     const document = gql`
     {
-      leaderboardModels (order:{field:SCORE, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+      darkshuffleLeaderboardModels (order:{field:SCORE, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
         edges {
           node {
             player_name,
@@ -181,7 +181,7 @@ export async function getLeaderboard(page) {
   `
     const res = await request(dojoConfig.toriiUrl, document)
 
-    return res?.leaderboardModels?.edges.map(edge => edge.node)
+    return res?.darkshuffleLeaderboardModels?.edges.map(edge => edge.node)
   } catch (ex) {
     console.log(ex)
   }

@@ -19,7 +19,7 @@ function DraftContainer() {
   }
 
   useEffect(() => {
-    if (game.entropy.blockHash) {
+    if (game.values.inDraft && game.entropy.blockHash) {
       draft.getDraftOptions()
     }
   }, [game.entropy.blockHash])

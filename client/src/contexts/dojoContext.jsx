@@ -39,7 +39,7 @@ export const DojoProvider = ({ children }) => {
         contractName,
         entrypoint,
         calldata
-      }, 'darkshuffle');
+      }, 'darkshuffle', { maxFee: 0 });
 
       const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
 

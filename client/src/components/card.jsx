@@ -5,7 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import sword from '../assets/images/sword.png';
-import { afflixExplainer, fetch_image, types } from "../helpers/cards";
+import { tagExplainer, fetch_image, types } from "../helpers/cards";
 import { CustomTooltip } from '../helpers/styles';
 import bolt from "../assets/images/bolt.png";
 import { levelColors } from '../helpers/constants';
@@ -18,13 +18,13 @@ function Card(props) {
     setTimeout(() => showTooltip(true), 1000);
   }, [])
 
-  let level = card.level || 14
+  let level = card.level - 1
   let levelColor = levelColors[Math.floor(level / 3)]
 
-  return <CustomTooltip position={'bottom'} title={card.afflix && tooltip ?
+  return <CustomTooltip position={'bottom'} title={card.tag && tooltip ?
     <Box>
-      <Typography color="primary">{card.afflix}</Typography>
-      <Typography mt={0.5} fontSize={'13px'}>{afflixExplainer(card.afflix)}</Typography>
+      <Typography color="primary">{card.tag}</Typography>
+      <Typography mt={0.5} fontSize={'13px'}>{tagExplainer(card.tag)}</Typography>
     </Box>
     : false
   }>
@@ -79,7 +79,7 @@ function Card(props) {
 
         <Box>
           <Typography variant="subtitle1">
-            {card.afflix}
+            {card.tag}
           </Typography>
         </Box>
 
@@ -93,11 +93,13 @@ function Card(props) {
       </Box>}
 
       {card.type === types.SPELL && <Box sx={styles.bottomContainer}>
+        <Box />
 
         <Typography variant="subtitle1">
-          {card.afflix}
+          {card.tag}
         </Typography>
 
+        <Box />
       </Box>}
 
     </Box >

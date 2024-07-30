@@ -1,27 +1,35 @@
 export const translateName = (address) => {
   switch (address) {
-    case '0x1c9feb9d69c9956cfae36983de89e1d793483854170ea26ff539cb1a7536ef0':
-      return 'Game'
-    case '0x3fca6d7a13b72cfdfdf4a97d0ffb89fac6c686a62ced4a04137794363a3e382':
-      return 'Draft'
-    case '0x3d7669de40ca2ede342ac43d69249b2b5f3f30b50d3f6ac9fb6f884d4876546':
-      return 'DraftEntropy'
-    case '0x19e6bb4253bb27b892017bce064d94259ebac6537238955c42ea054cc00ab9e':
-      return 'GameEffects'
-    case '0x28669589d515b52b56e980eabcd4b22e91ddc54dfff38e7feabe0a744c887e9':
-      return 'DraftOption'
-    case '0x23a5cfb900262c136924e25e043a449f671c1ec33ae08f69a6e2794740534a1':
-      return 'DraftCard'
-    case '0x15ab3083eaf4d342d74aaf1e18ae7b462ff9a419f686f9a38540186cbbe12f2':
+    case '0x6adbb0ba14306ee0120e0aafaa59e98f44bf1b897edbfa1af89386d5ca26fe1':
       return 'Battle'
-    case '0x1d3626c4d2caeda5d3a8b0d233465d7535c17903dae481c9ba9df6e71c7cbd9':
-      return 'HandCard'
-    case '0x1b905abc6e99316dfe44d7e37e60964560e95706197d18c16149d2787da1961':
-      return 'Creature'
-    case '0x21e240f3774724630c2685134af751ba1428730ba62a57396ae0231240e7072':
+    case '0x157af533f10d2429e0324cff153cd430e0e9551aa55ee1f51cee5aedf8c2c34':
+      return 'BattleEffects'
+    case '0x359638a3b7e5908f2efe696ef928787916140c8bb3ce20b956a1fb37ddc0957':
       return 'Board'
-    case '0x29d24f39c721c59ee2afb13fee54793f9776437ad4e78a4381d5d7160e53ab8':
-      return 'Leaderboard'
+    case '0x3d4ce02a10392d8ce0660e04285ad75b4c723b1030eba13a3904de397479e54':
+      return 'Creature'
+    case '0x2febb181a7f6e5196432f8079e21fb0fdacc61b9a78805402d318c49133b66e':
+      return 'Draft'
+    case '0x5a0f843e99cdc17985f63f3599e79adfd46c533ab2ffa0fe61ab80c2d2d3ba4':
+      return 'DraftCard'
+    case '0x13e9bfb10bb4257acf6ab176a725a2c8faa9490463fff408fd0fc71a36a73ab':
+      return 'DraftOption'
+    case '0x239af4eed9d27e1f3d3adc5881865022283f3e9b8f34206efcf7d983e09ddce':
+      return 'Entropy'
+    case '0x1a3b9b6c5802b83d9a8a21a24d6472b1a47b0529b4b6c805f26f744c22a35a9':
+      return 'Game'
+    case '0x5bc24229f65f3fe6c3b0c0aa714b5962449dae463dbb418154054a24cb9cadb':
+      return 'GameEffects'
+    case '0xdbeecd6ebdc49d0c7692b3576e074dfa43fcd48c6b060ca8f7379b672e390e':
+      return 'HandCard'
+    case '0x7fe0a5deeba29dc6878ffaa61f30d6e6be2138f1539cc1fb4973e3b08b6c33':
+      return 'LeaderBoard'
+    case '0x9b3c32ba54b0d942bc7303f8a10b99ea5a23135550520e5750957cfaa08db8':
+      return 'MonsterNode'
+    case '0x2ca66fae0338d1ff831ca7ad5ade77cc8ad555c2f5904a958868adc4f5d7ba7':
+      return 'Node'
+    case '0x75f1a1576f2aad0c034746529f1bd4657acb549d3cf0e8efe0567d4f440c108':
+      return 'PotionNode'
   }
 }
 

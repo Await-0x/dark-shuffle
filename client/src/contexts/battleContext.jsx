@@ -1,12 +1,11 @@
 import { closeSnackbar, useSnackbar } from "notistack";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getBattleState } from "../api/indexer";
-import { deathEffect } from "../battle/deathUtils";
 import { MONSTER_LIST } from "../battle/monsterUtils";
 import { endOfTurnMonsterEffect } from "../battle/phaseUtils";
 import { spellEffect } from "../battle/spellUtils";
 import { summonEffect } from "../battle/summonUtils";
-import { afflixes, CARD_DETAILS, fetchBoardCreatures, types } from "../helpers/cards";
+import { CARD_DETAILS, fetchBoardCreatures, tags, types } from "../helpers/cards";
 import { ADVENTURER_ID, BATTLE_EFFECTS, START_ENERGY } from "../helpers/constants";
 import { AnimationContext } from "./animationHandler";
 import { DojoContext } from "./dojoContext";
@@ -133,7 +132,7 @@ export const BattleProvider = ({ children }) => {
 
     setPendingTx(true)
 
-    const res = await dojo.executeTx("darkshuffle::systems::game::contracts::game_systems", "start_battle", [game.values.gameId])
+    const res = await dojo.executeTx("game_systems", "start_battle", [game.values.gameId])
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -163,7 +162,7 @@ export const BattleProvider = ({ children }) => {
       return enqueueSnackbar('Board is full', { variant: 'warning' })
     }
 
-    submitBattleAction("darkshuffle::systems::battle::contracts::battle_systems", "summon_creature", [battleId, creature.id, target?.id || 0])
+    submitBattleAction("battle_systems", "summon_creature", [battleId, creature.id, target?.id || 0])
 
     animationHandler.addAnimation('monster', { type: 'intimidate' })
 
@@ -195,7 +194,7 @@ export const BattleProvider = ({ children }) => {
 
     spellEffect({ spell, shieldHero, target, damageMonster, increaseEnergy, healHero, battleEffects, setBattleEffects })
 
-    submitBattleAction("darkshuffle::systems::battle::contracts::battle_systems", "cast_spell", [battleId, spell.id, target?.id || 0])
+    submitBattleAction("battle_systems", "cast_spell", [battleId, spell.id, target?.id || 0])
 
     setTargetFriendlyCreature()
   }
@@ -213,11 +212,11 @@ export const BattleProvider = ({ children }) => {
 
     setHand(prev => prev.filter(handCard => (handCard.id !== card.id)))
 
-    submitBattleAction("darkshuffle::systems::battle::contracts::battle_systems", "discard", [battleId, card.id])
+    submitBattleAction("battle_systems", "discard", [battleId, card.id])
   }
 
   const attack = (creature) => {
-    submitBattleAction("darkshuffle::systems::battle::contracts::battle_systems", "attack", [battleId, creature.id])
+    submitBattleAction("battle_systems", "attack", [battleId, creature.id])
 
     animationHandler.addAnimation('creature', {
       type: 'attack',
@@ -229,7 +228,7 @@ export const BattleProvider = ({ children }) => {
   }
 
   const endTurn = () => {
-    submitBattleAction("darkshuffle::systems::battle::contracts::battle_systems", "end_turn", [battleId])
+    submitBattleAction("battle_systems", "end_turn", [battleId])
 
     animationHandler.addAnimation('monster', {
       type: 'ability',
@@ -278,15 +277,6 @@ export const BattleProvider = ({ children }) => {
     })
 
     setBoard(prev => prev.filter(x => x.id !== creature.id))
-
-    deathEffect({ creature, hand, setHand, updateHandCard, board, setBoard })
-  }
-
-  const updateHandCard = (cardId, update) => {
-    setHand(prev => prev.map(card => {
-      if (cardId === card.cardId) return { ...card, ...update }
-      return card
-    }))
   }
 
   const updateCreature = (id, update) => {
@@ -472,7 +462,7 @@ export const BattleProvider = ({ children }) => {
       cost += 1;
     }
 
-    if (card.afflix === afflixes.RENEWABLE) {
+    if (card.tag === tags.RENEWABLE) {
       cost = Math.max(1, cost - (card.level - 1));
     }
 

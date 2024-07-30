@@ -9,10 +9,6 @@ const GAME_VALUES = {
   gameId: null,
   inDraft: false,
   inBattle: false,
-  battlesWon: 0,
-  heroHealth: 0,
-  heroEnergy: 0,
-  deckIteration: 0,
   name: 'Await'
 }
 
@@ -39,15 +35,15 @@ export const GameProvider = ({ children }) => {
     setScore()
   }
 
-  const setDraftEntropy = (draftEntropy) => {
-    if (!draftEntropy) return;
+  const setGameEntropy = (gameEntropy) => {
+    if (!gameEntropy) return;
 
     setEntropy({
-      blockNumber: draftEntropy.blockNumber,
+      blockNumber: gameEntropy.blockNumber,
       blockHash: null
     })
 
-    fetchBlockHash(draftEntropy.blockNumber);
+    fetchBlockHash(gameEntropy.blockNumber);
   }
 
   const fetchBlockHash = async (blockNumber) => {
@@ -90,9 +86,8 @@ export const GameProvider = ({ children }) => {
         endGame,
         clientOnly,
         setClientOnly,
-        setDraftEntropy,
+        setGameEntropy,
         entropy,
-        setEntropy,
         score,
         setScore,
         gameEffects,

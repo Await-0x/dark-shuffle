@@ -8,17 +8,15 @@ get_contract_address() {
     ' "$KATANA_TOML_PATH"
 }
 
-export SOZO_WORLD=$(get_contract_address "dojo::world::world")
+export SOZO_WORLD="0x2ac6157b9cf3fa800073c7d37f633538e6bf408024aa21d52b1875b1968d750"
 
-export BATTLE_SYSTEMS=$(get_contract_address "darkshuffle::systems::battle::contracts::battle_systems")
+export BATTLE_SYSTEMS="darkshuffle-battle_systems"
 
-export DRAFT_SYSTEMS=$(get_contract_address "darkshuffle::systems::draft::contracts::draft_systems")
+export DRAFT_SYSTEMS="darkshuffle-draft_systems"
 
-export GAME_SYSTEMS=$(get_contract_address "darkshuffle::systems::game::contracts::game_systems")
+export GAME_SYSTEMS="darkshuffle-game_systems"
 
-export NODE_SYSTEMS=$(get_contract_address "darkshuffle::systems::game::contracts::node_systems")
-
-export ENTROPY_SYSTEMS=$(get_contract_address "darkshuffle::systems::game::contracts::entropy_systems")
+export NODE_SYSTEMS="darkshuffle-node_systems"
 
 # Display the addresses
 echo "-------------------------ADDRESS----------------------------------------"
@@ -27,4 +25,3 @@ echo battle : $BATTLE_SYSTEMS
 echo draft : $DRAFT_SYSTEMS
 echo game : $GAME_SYSTEMS
 echo node : $NODE_SYSTEMS
-echo entropy : $ENTROPY_SYSTEMS

@@ -18,7 +18,7 @@ function Overview() {
 
     {React.Children.toArray(
       draft.cards.sort((a, b) => a.cost - b.cost).map(card => {
-        let level = card.level || 14
+        let level = card.level - 1
         let levelColor = levelColors[Math.floor(level / 3)]
 
         return <motion.div style={{ ...styles.card }}

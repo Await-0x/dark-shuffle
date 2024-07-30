@@ -7,7 +7,7 @@ import skull from "../../assets/images/skull.png";
 import sword from "../../assets/images/sword.png";
 import { MONSTER_LIST } from '../../battle/monsterUtils';
 import { GameContext } from '../../contexts/gameContext';
-import { CARD_LIST, fetch_image } from '../../helpers/cards';
+import { CARD_DETAILS, fetch_image } from '../../helpers/cards';
 import { levelColors } from '../../helpers/constants';
 import { CustomTooltip } from '../../helpers/styles';
 import CheckIcon from '@mui/icons-material/Check';
@@ -21,7 +21,7 @@ const node_example = [
     last_node: false,
     status: 1,
     type: 'monster',
-    monster_id: 403,
+    monster_id: 3,
     health: 50,
     attack: 10,
   },
@@ -31,7 +31,7 @@ const node_example = [
     last_node: false,
     status: 0,
     type: 'monster',
-    monster_id: 407,
+    monster_id: 7,
     health: 30,
     attack: 3
   },
@@ -50,7 +50,7 @@ const node_example = [
     last_node: false,
     status: 1,
     type: 'monster',
-    monster_id: 401,
+    monster_id: 1,
     health: 21,
     attack: 1
   },
@@ -60,7 +60,7 @@ const node_example = [
     last_node: false,
     status: 0,
     type: 'monster',
-    monster_id: 403,
+    monster_id: 3,
     health: 50,
     attack: 10
   },
@@ -78,7 +78,7 @@ const node_example = [
     last_node: false,
     status: 0,
     type: 'monster',
-    monster_id: 401,
+    monster_id: 1,
     health: 45,
     attack: 5
   },
@@ -88,7 +88,7 @@ const node_example = [
     last_node: false,
     status: 0,
     type: 'monster',
-    monster_id: 404,
+    monster_id: 4,
     health: 40,
     attack: 5
   },
@@ -98,7 +98,7 @@ const node_example = [
     last_node: false,
     status: 0,
     type: 'monster',
-    monster_id: 403,
+    monster_id: 3,
     health: 70,
     attack: 3
   },
@@ -116,7 +116,7 @@ const node_example = [
     last_node: false,
     status: 0,
     type: 'monster',
-    monster_id: 403,
+    monster_id: 3,
     health: 50,
     attack: 10
   },
@@ -134,7 +134,7 @@ const node_example = [
     last_node: false,
     status: 0,
     type: 'monster',
-    monster_id: 406,
+    monster_id: 6,
     health: 40,
     attack: 5
   },
@@ -152,7 +152,7 @@ const node_example = [
     last_node: false,
     status: 0,
     type: 'monster',
-    monster_id: 406,
+    monster_id: 6,
     health: 40,
     attack: 5
   },
@@ -162,7 +162,7 @@ const node_example = [
     last_node: true,
     status: 0,
     type: 'monster',
-    monster_id: 403,
+    monster_id: 3,
     health: 50,
     attack: 10
   },
@@ -452,7 +452,7 @@ function Structure() {
     let levelColor = levelColors[Math.floor(node.level / 3)]
 
     return <Box sx={[styles.square, nodeStyle(node)]}>
-      <img alt='' src={fetch_image(CARD_LIST.find(card => card.cardId === node.card_id).name)} width={'75%'} />
+      <img alt='' src={fetch_image(CARD_DETAILS(node.card_id).name)} width={'75%'} />
       <Box sx={{ width: '40%', height: '2px' }} bgcolor={levelColor.bg} />
     </Box>
   }

@@ -10,12 +10,12 @@ import lich from "../../assets/images/monsters/lich.png"
 import minotaur from "../../assets/images/monsters/minotaur.png"
 import spider from "../../assets/images/monsters/spider.png"
 import troll from "../../assets/images/monsters/troll.png"
-import { CARD_LIST, fetch_image } from '../../helpers/cards'
+import { fetchCardList, fetch_image } from '../../helpers/cards'
 
 function PreloadCardImages() {
   return <>
     {React.Children.toArray(
-      CARD_LIST.map(card =>
+      fetchCardList().map(card =>
         <LazyLoadImage
           alt={""}
           height={0}

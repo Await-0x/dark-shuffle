@@ -43,7 +43,7 @@ for system in $(echo $system_models_json | jq -r 'keys[]'); do
         if [[ "$mode" == "prod" && "$mode" != "dev" ]]; then
             commands+=("sozo --profile prod auth grant writer $model,$contract_address")
         else
-            commands+=("sozo auth grant writer $model,$contract_address")
+            commands+=("sozo auth grant writer model:$model,$contract_address")
         fi
     done
 done
