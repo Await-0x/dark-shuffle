@@ -466,7 +466,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
       return {
         id,
         cardId: 32,
-        name: "Nature's Wrath",
+        name: "Natures Wrath",
         type: types.SPELL,
         cost: 5,
         attack: 0,
@@ -546,7 +546,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
       return {
         id,
         cardId: 38,
-        name: "Unstable 4",
+        name: "Shifting Aegis",
         type: types.SPELL,
         cost: 1,
         attack: 0,
@@ -559,7 +559,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
       return {
         id,
         cardId: 39,
-        name: "Unstable 5",
+        name: "Chaotic Blast",
         type: types.SPELL,
         cost: 1,
         attack: 0,
@@ -572,7 +572,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
       return {
         id,
         cardId: 40,
-        name: "Unstable 1",
+        name: "Flickering Sanctuary",
         type: types.SPELL,
         cost: 1,
         attack: 0,
