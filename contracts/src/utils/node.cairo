@@ -35,7 +35,7 @@ mod node_utils {
     }
 
     fn generate_tree_nodes(world: IWorldDispatcher, game_id: usize, mut seed: u128, branch: u16) {
-        let mut parent_id = save_node(world, game_id, 1, branch, seed, array![].span(), 1);
+        let mut grand_parent_id = save_node(world, game_id, 1, branch, seed, array![].span(), 1);
 
         let sections = random::get_random_number(seed, 3);
 
@@ -51,7 +51,7 @@ mod node_utils {
             seed = random::LCG(seed);
             node_type = random_node(seed);
 
-            parent_id = save_node(world, game_id, node_type, branch, seed, array![parent_id].span(), 2);
+            let mut parent_id = save_node(world, game_id, node_type, branch, seed, array![grand_parent_id].span(), 2);
 
             seed = random::LCG(seed);
             node_type = random_node(seed);
@@ -87,10 +87,11 @@ mod node_utils {
         save_node(world, game_id, node_type, branch, seed, last_node_parents.span(), 5);
     }
 
-    fn random_node(seed: u128) -> u16 {
-        let mut node_type: u16 = random::get_random_number(seed, 2);
+    fn random_node(mut seed: u128) -> u16 {
+        let mut node_type: u16 = random::get_random_number(seed, 3);
 
-        if node_type != 1 {
+        if node_type > 2 {
+            seed = random::LCG(seed);
             node_type = random::get_random_number(seed, NODE_TYPES) + 1;
         }
 
@@ -111,7 +112,7 @@ mod node_utils {
         }
 
         set!(world, (
-            Node {node_id, game_id, branch, parents, node_type, skippable, status: 0, level}
+            Node {node_id, game_id, branch, node_type, skippable, status: 0, level, parents}
         ));
 
         return node_id;
@@ -132,12 +133,14 @@ mod node_utils {
         }
     }
 
-    fn get_potion_node(node_id: usize, branch: u16, seed: u128, node_type: u16) -> PotionNode {
+    fn get_potion_node(node_id: usize, branch: u16, mut seed: u128, node_type: u16) -> PotionNode {
         let mut amount = 1;
 
-        if node_type == 1 {
+        seed = random::LCG(seed);
+
+        if node_type == 2 {
             amount += branch + random::get_random_number(seed, branch * 2);
-        } else if node_type == 2 {
+        } else if node_type == 3 {
             amount += random::get_random_number(seed, 4);
         }
 

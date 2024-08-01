@@ -360,7 +360,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
       return {
         id,
         cardId: 24,
-        name: "Peace Giver",
+        name: "Peace Keeper",
         type: types.CREATURE,
         cost: 4,
         attack: 6,
@@ -445,7 +445,6 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         health: 0,
         tag: tags.RENEWABLE,
         text: 'Gain 8 armor',
-        requiresTarget: true,
         level,
       }
     case 31:
@@ -459,7 +458,6 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         health: 0,
         tag: tags.RENEWABLE,
         text: 'Gain 4 armor',
-        requiresTarget: true,
         level,
       }
     case 32:

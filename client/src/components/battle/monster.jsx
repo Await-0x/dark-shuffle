@@ -104,13 +104,13 @@ function Monster(props) {
       </motion.div>
 
       {monster.health > 0 && <>
-        {monster.id === 401 && <Minotaur monster={monster} />}
-        {monster.id === 402 && <Troll monster={monster} />}
-        {monster.id === 403 && <Bigfoot monster={monster} />}
-        {monster.id === 404 && <Chimera monster={monster} />}
-        {monster.id === 405 && <Kappa monster={monster} />}
-        {monster.id === 406 && <Spider monster={monster} />}
-        {monster.id === 407 && <Lich monster={monster} />}
+        {monster.id === 1 && <Minotaur monster={monster} />}
+        {monster.id === 2 && <Troll monster={monster} />}
+        {monster.id === 3 && <Bigfoot monster={monster} />}
+        {monster.id === 4 && <Chimera monster={monster} />}
+        {monster.id === 5 && <Kappa monster={monster} />}
+        {monster.id === 6 && <Spider monster={monster} />}
+        {monster.id === 7 && <Lich monster={monster} />}
       </>}
 
     </motion.div>

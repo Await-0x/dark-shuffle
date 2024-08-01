@@ -18,5 +18,6 @@ export const CustomTooltip = styled(({ className, ...props }) => (
     maxWidth: 220,
     fontSize: theme.typography.pxToRem(12),
     border: '1px solid rgba(255, 255, 255, 0.6)',
+    background: '#141920',
   },
 }));

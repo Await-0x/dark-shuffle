@@ -1,7 +1,9 @@
 import React, { createContext, useState } from "react";
 import { getBlockWithTxs, getLatestBlock } from "../api/starknet";
-import { delay } from "../helpers/utilities";
+import { delay, getNodeStatus } from "../helpers/utilities";
 import { GAME_EFFECTS } from "../helpers/constants";
+import { useContext } from "react";
+import { DojoContext } from "./dojoContext";
 
 export const GameContext = createContext()
 
@@ -13,8 +15,11 @@ const GAME_VALUES = {
 }
 
 export const GameProvider = ({ children }) => {
+  const dojo = useContext(DojoContext)
+
   const [values, setValues] = useState({ ...GAME_VALUES })
   const [gameEffects, setGameEffects] = useState({ ...GAME_EFFECTS })
+  const [nodes, setNodes] = useState([])
 
   const [entropy, setEntropy] = useState({
     blockNumber: null,
@@ -78,20 +83,92 @@ export const GameProvider = ({ children }) => {
     return specificBlockHash(blockNumber);
   }
 
+  const updateNodeStatus = (nodeId, status) => {
+    setNodes(prev => prev.map(node =>
+      ({ ...node, status: node.nodeId === nodeId ? status : node.status })
+    ))
+  }
+
+  const selectNode = async (nodeId) => {
+    const res = await dojo.executeTx("node_systems", "select_node", [nodeId])
+ 
+    if (res) {
+      const gameValues = res.find(e => e.componentName === 'Game')
+      let node = res.find(e => e.componentName === 'Node')
+
+      if (node?.status) {
+        updateNodeStatus(node.nodeId, node.status)
+      }
+
+      if (gameValues) {
+        setGame(gameValues)
+      }
+    }
+
+    return res
+  }
+
+  const skipNode = async (nodeId) => {
+    const res = await dojo.executeTx("node_systems", "skip_node", [nodeId])
+ 
+    if (res) {
+      const node = res.find(e => e.componentName === 'Node')
+      const gameValues = res.find(e => e.componentName === 'Game')
+
+      updateNodeStatus(node.nodeId)
+      setGame(gameValues)
+    }
+  }
+
+  const generateNodes = async () => {
+    const res = await dojo.executeTx("node_systems", "generate_tree", [values.gameId, entropy.blockHash])
+
+    if (res) {
+      const nodes = res.filter(e => e.componentName === 'Node')
+      const monsterNodes = res.filter(e => e.componentName === 'MonsterNode')
+      const potionNodes = res.filter(e => e.componentName === 'PotionNode')
+      const gameValues = res.find(e => e.componentName === 'Game')
+
+      let computedNodes = nodes.map(node => {
+        let nodeDetails = null
+
+        if (node.nodeType === 1) {
+          nodeDetails = { ...monsterNodes.find(n => n.nodeId === node.nodeId), type: 'monster' }
+        } else if (node.nodeType === 2 || node.nodeType === 3) {
+          nodeDetails = { ...potionNodes.find(n => n.nodeId === node.nodeId), type: node.nodeType === 2 ? 'potion' : 'energy' }
+        }
+
+        return { ...node, ...nodeDetails, active: getNodeStatus(nodes, node) }
+      })
+
+      setNodes(computedNodes.sort((a, b) => a.level - b.level))
+      setGame(gameValues)
+    }
+  }
+
   return (
     <GameContext.Provider
       value={{
         values,
+        score,
+        entropy,
+        clientOnly,
+        gameEffects,
+        nodes,
         setGame,
         endGame,
-        clientOnly,
         setClientOnly,
         setGameEntropy,
-        entropy,
-        score,
         setScore,
-        gameEffects,
-        setGameEffects
+        setGameEffects,
+        setNodes,
+        
+        actions: {
+          selectNode,
+          skipNode,
+          generateNodes,
+          updateNodeStatus
+        }
       }}
     >
       {children}

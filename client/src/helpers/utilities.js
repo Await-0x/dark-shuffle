@@ -41,3 +41,12 @@ export function calculateDistance(x1, y1, x2, y2) {
   var deltaY = y2 - y1;
   return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 }
+
+export function getNodeStatus(nodes, node) {
+  if ((node.nodeId === nodes[0].nodeId && nodes[0].status === 0) || nodes.find(_node => node.parents.includes(_node.nodeId) && _node.status !== 0 &&
+    !nodes.find(_node => _node.status !== 0 && _node.parents.find(parent => node.parents.includes(parent))))) {
+    return true
+  }
+
+  return false
+}

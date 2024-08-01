@@ -96,6 +96,7 @@ export const BattleProvider = ({ children }) => {
 
     const gameValues = res.find(e => e.componentName === 'Game')
     const leaderboard = res.find(e => e.componentName === 'Leaderboard')
+    const node = res.find(e => e.componentName === 'Node')
 
     if (leaderboard) {
       return game.setScore(Math.max(1, leaderboard.score))
@@ -107,6 +108,8 @@ export const BattleProvider = ({ children }) => {
       setTimeout(() => {
         draft.levelUpCards();
         game.setGame(gameValues);
+        game.actions.updateNodeStatus(node.nodeId, node.status)
+
         resetBattleState()
       }, remainingTime);
     }
@@ -124,31 +127,18 @@ export const BattleProvider = ({ children }) => {
     setCreatureIndex(0)
     setMonster({})
     setAdventurer({})
-    setBattleEffects({...BATTLE_EFFECTS})
+    setBattleEffects({ ...BATTLE_EFFECTS })
   }
 
-  const startBattle = async () => {
+  const startBattle = async (battle) => {
     animationHandler.resetAnimationHandler()
 
-    setPendingTx(true)
-
-    const res = await dojo.executeTx("game_systems", "start_battle", [game.values.gameId])
-
-    if (res) {
-      const gameValues = res.find(e => e.componentName === 'Game')
-      const battle = res.find(e => e.componentName === 'Battle')
-
-      setHand([])
-      setBattleId(battle.battleId)
-      setAdventurer({ id: ADVENTURER_ID, health: battle.heroHealth, energy: battle.heroEnergy, armor: battle.heroArmor })
-      setMonster({ ...MONSTER_LIST.find(monster => monster.id === battle.monsterId), attack: battle.monsterAttack, health: battle.monsterHealth })
-      setBattleEffects({...BATTLE_EFFECTS})
-      setCreatureIndex(battle.cardIndex)
-
-      game.setGame(gameValues)
-    }
-
-    setPendingTx(false)
+    setHand([])
+    setBattleId(battle.battleId)
+    setAdventurer({ id: ADVENTURER_ID, health: battle.heroHealth, energy: battle.heroEnergy, armor: battle.heroArmor })
+    setMonster({ ...MONSTER_LIST.find(monster => monster.id === battle.monsterId), attack: battle.monsterAttack, health: battle.monsterHealth })
+    setBattleEffects({ ...BATTLE_EFFECTS })
+    setCreatureIndex(battle.cardIndex)
   }
 
   const summonCreature = (creature, target) => {
@@ -166,7 +156,7 @@ export const BattleProvider = ({ children }) => {
 
     animationHandler.addAnimation('monster', { type: 'intimidate' })
 
-    setBattleEffects(prev => ({...prev, nextCardReduction: 0}))
+    setBattleEffects(prev => ({ ...prev, nextCardReduction: 0 }))
     setHand(prev => prev.filter((_, i) => (i !== hand.findIndex(card => card.id === creature.id))))
     decreaseEnergy(cost)
 
@@ -188,7 +178,7 @@ export const BattleProvider = ({ children }) => {
       return enqueueSnackbar('Not enough energy', { variant: 'warning' })
     }
 
-    setBattleEffects(prev => ({...prev, nextSpellReduction: 0, nextCardReduction: 0}))
+    setBattleEffects(prev => ({ ...prev, nextSpellReduction: 0, nextCardReduction: 0 }))
     setHand(prev => prev.filter((_, i) => (i !== hand.findIndex(card => card.id === spell.id))))
     decreaseEnergy(cost)
 
@@ -205,7 +195,7 @@ export const BattleProvider = ({ children }) => {
     }
 
     if (battleEffects.freeDiscard) {
-      setBattleEffects(prev => ({...prev, freeDiscard: false}))
+      setBattleEffects(prev => ({ ...prev, freeDiscard: false }))
     } else {
       decreaseEnergy(1);
     }
@@ -241,7 +231,7 @@ export const BattleProvider = ({ children }) => {
     setAdventurer(prev => ({ ...prev, energy: START_ENERGY }));
 
     if (battleEffects.damageImmune) {
-      setBattleEffects(prev => ({...prev, damageImmune: false}))
+      setBattleEffects(prev => ({ ...prev, damageImmune: false }))
     }
   }
 
@@ -473,7 +463,7 @@ export const BattleProvider = ({ children }) => {
     cost = Math.max(0, cost - battleEffects.nextCardReduction);
 
     return cost
-  } 
+  }
 
   return (
     <BattleContext.Provider

@@ -1191,7 +1191,7 @@
     ],
     "address": "0x2ac6157b9cf3fa800073c7d37f633538e6bf408024aa21d52b1875b1968d750",
     "transaction_hash": "0x19daf6fa96bf9ce25be6015d9ff317ad667c230f1044c7c091e65b533a610a",
-    "block_number": 22,
+    "block_number": 23,
     "seed": "darkshuffle",
     "metadata": {
       "profile_name": "dev",
@@ -1211,8 +1211,8 @@
     {
       "kind": "DojoContract",
       "address": "0x37ac1b0d7656672d85d41afe60df03495667d726ab40ce9d279efff5ad99a",
-      "class_hash": "0x147f4755460f00f01e2e68fa4f4c29e24ccd749048a182959de84e9c0d66c66",
-      "original_class_hash": "0x147f4755460f00f01e2e68fa4f4c29e24ccd749048a182959de84e9c0d66c66",
+      "class_hash": "0x67a05e83f0b340b5869bfcb0b184d8cfd9f9fc79b6f614b906dc4fbb9a49720",
+      "original_class_hash": "0x67a05e83f0b340b5869bfcb0b184d8cfd9f9fc79b6f614b906dc4fbb9a49720",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -2029,8 +2029,8 @@
     {
       "kind": "DojoContract",
       "address": "0x32da7a00308c3e27f67c7e2b2c3425faaad42bea0c5598223886cc4d26e780d",
-      "class_hash": "0x1f020211b4bff8d76dc28c38bfed85923c46d0e3f8584351ac5dd9711cf36d6",
-      "original_class_hash": "0x1f020211b4bff8d76dc28c38bfed85923c46d0e3f8584351ac5dd9711cf36d6",
+      "class_hash": "0x41016ba68c3cad484efe215c9bbf314738dd2666e372feeac3522f5ffec2baa",
+      "original_class_hash": "0x41016ba68c3cad484efe215c9bbf314738dd2666e372feeac3522f5ffec2baa",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -8320,11 +8320,6 @@
           "key": false
         },
         {
-          "name": "parents",
-          "type": "Span<usize>",
-          "key": false
-        },
-        {
           "name": "node_type",
           "type": "u16",
           "key": false
@@ -8343,10 +8338,15 @@
           "name": "level",
           "type": "u8",
           "key": false
+        },
+        {
+          "name": "parents",
+          "type": "Span<usize>",
+          "key": false
         }
       ],
-      "class_hash": "0x27f50b3ec4a81c8c1ba40cb08eaef2dd6e3357d82f5e5849268993e80c4e71d",
-      "original_class_hash": "0x27f50b3ec4a81c8c1ba40cb08eaef2dd6e3357d82f5e5849268993e80c4e71d",
+      "class_hash": "0x4e59b0a73412f8abc7d988fdbff8366d958e71e53e6f996c379646d22c19355",
+      "original_class_hash": "0x4e59b0a73412f8abc7d988fdbff8366d958e71e53e6f996c379646d22c19355",
       "abi": [
         {
           "type": "impl",
@@ -8716,16 +8716,6 @@
           "interface_name": "darkshuffle::models::node::Inode"
         },
         {
-          "type": "struct",
-          "name": "core::array::Span::<core::integer::u32>",
-          "members": [
-            {
-              "name": "snapshot",
-              "type": "@core::array::Array::<core::integer::u32>"
-            }
-          ]
-        },
-        {
           "type": "enum",
           "name": "core::bool",
           "variants": [
@@ -8736,6 +8726,16 @@
             {
               "name": "True",
               "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u32>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u32>"
             }
           ]
         },
@@ -8756,10 +8756,6 @@
               "type": "core::integer::u16"
             },
             {
-              "name": "parents",
-              "type": "core::array::Span::<core::integer::u32>"
-            },
-            {
               "name": "node_type",
               "type": "core::integer::u16"
             },
@@ -8774,6 +8770,10 @@
             {
               "name": "level",
               "type": "core::integer::u8"
+            },
+            {
+              "name": "parents",
+              "type": "core::array::Span::<core::integer::u32>"
             }
           ]
         },

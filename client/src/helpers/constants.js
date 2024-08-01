@@ -1,11 +1,14 @@
 export const ADVENTURER_ID = 65535;
-export const CARD_POOL_SIZE = 24;
-export const DECK_SIZE = 8;
+export const CARD_POOL_SIZE = 40;
+export const DECK_SIZE = 5;
 export const DISCARD_COST = 1;
 export const MAX_BOARD = 6;
 
 export const START_ENERGY = 7;
 export const START_HEALTH = 30;
+
+export const TOP_NODE_LEVEL = 5;
+export const MAX_CARD_LEVEL = 15;
 
 export const U128_MAX = BigInt(340282366920938463463374607431768211455);
 export const LCG_PRIME = BigInt(2147483647);

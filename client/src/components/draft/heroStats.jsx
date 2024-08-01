@@ -15,7 +15,7 @@ function HeroStats() {
       </Typography>
 
       <Typography color='primary' sx={{ fontSize: '13px' }}>
-        99999 XP
+        {game.values.heroXp} XP
       </Typography>
     </Box>
 
@@ -47,7 +47,7 @@ function HeroStats() {
       </Box>
     </Box>
 
-    <Box mt={4} display={'flex'} flexDirection={'column'} gap={'1px'}>
+    {/* <Box mt={4} display={'flex'} flexDirection={'column'} gap={'1px'}>
       <Typography color={'#ffb260'} mb={0.5}>
         Effects
       </Typography>
@@ -58,7 +58,7 @@ function HeroStats() {
       <Typography sx={{ fontSize: '13px' }} color={'#ffb260'}>
         - Start battle with +1 energy
       </Typography>
-    </Box>
+    </Box> */}
 
   </Box>
 }

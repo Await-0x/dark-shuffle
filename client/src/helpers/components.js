@@ -19,16 +19,14 @@ export const translateName = (address) => {
     case '0x1a3b9b6c5802b83d9a8a21a24d6472b1a47b0529b4b6c805f26f744c22a35a9':
       return 'Game'
     case '0x5bc24229f65f3fe6c3b0c0aa714b5962449dae463dbb418154054a24cb9cadb':
-      return 'GameEffects'
-    case '0xdbeecd6ebdc49d0c7692b3576e074dfa43fcd48c6b060ca8f7379b672e390e':
       return 'HandCard'
-    case '0x7fe0a5deeba29dc6878ffaa61f30d6e6be2138f1539cc1fb4973e3b08b6c33':
-      return 'LeaderBoard'
-    case '0x9b3c32ba54b0d942bc7303f8a10b99ea5a23135550520e5750957cfaa08db8':
-      return 'MonsterNode'
-    case '0x2ca66fae0338d1ff831ca7ad5ade77cc8ad555c2f5904a958868adc4f5d7ba7':
-      return 'Node'
     case '0x75f1a1576f2aad0c034746529f1bd4657acb549d3cf0e8efe0567d4f440c108':
+      return 'LeaderBoard'
+    case '0x7fe0a5deeba29dc6878ffaa61f30d6e6be2138f1539cc1fb4973e3b08b6c33':
+      return 'MonsterNode'
+    case '0x9b3c32ba54b0d942bc7303f8a10b99ea5a23135550520e5750957cfaa08db8':
+      return 'Node'
+    case '0x2ca66fae0338d1ff831ca7ad5ade77cc8ad555c2f5904a958868adc4f5d7ba7':
       return 'PotionNode'
   }
 }
@@ -128,11 +126,11 @@ export const components = {
     nodeId: null,
     gameId: null,
     branch: Number(),
-    parents: null,
-    type: Number(),
+    nodeType: Number(),
     skippable: Boolean(),
     status: Number(),
     level: Number(),
+    parents: 'array',
   },
   'MonsterNode': {
     nodeId: null,

@@ -8,200 +8,37 @@ import sword from "../../assets/images/sword.png";
 import { MONSTER_LIST } from '../../battle/monsterUtils';
 import { GameContext } from '../../contexts/gameContext';
 import { CARD_DETAILS, fetch_image } from '../../helpers/cards';
-import { levelColors } from '../../helpers/constants';
+import { TOP_NODE_LEVEL, levelColors } from '../../helpers/constants';
 import { CustomTooltip } from '../../helpers/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
 
-const node_example = [
-  {
-    id: 1,
-    parents: [],
-    last_node: false,
-    status: 1,
-    type: 'monster',
-    monster_id: 3,
-    health: 50,
-    attack: 10,
-  },
-  {
-    id: 2,
-    parents: [1],
-    last_node: false,
-    status: 0,
-    type: 'monster',
-    monster_id: 7,
-    health: 30,
-    attack: 3
-  },
-  {
-    id: 3,
-    parents: [1],
-    last_node: false,
-    status: 0,
-    type: 'card',
-    card_id: 14,
-    level: 11
-  },
-  {
-    id: 4,
-    parents: [1],
-    last_node: false,
-    status: 1,
-    type: 'monster',
-    monster_id: 1,
-    health: 21,
-    attack: 1
-  },
-  {
-    id: 5,
-    parents: [2],
-    last_node: false,
-    status: 0,
-    type: 'monster',
-    monster_id: 3,
-    health: 50,
-    attack: 10
-  },
-  {
-    id: 6,
-    parents: [2],
-    last_node: false,
-    status: 0,
-    type: 'potion',
-    amount: 3,
-  },
-  {
-    id: 7,
-    parents: [3],
-    last_node: false,
-    status: 0,
-    type: 'monster',
-    monster_id: 1,
-    health: 45,
-    attack: 5
-  },
-  {
-    id: 8,
-    parents: [3],
-    last_node: false,
-    status: 0,
-    type: 'monster',
-    monster_id: 4,
-    health: 40,
-    attack: 5
-  },
-  {
-    id: 9,
-    parents: [4],
-    last_node: false,
-    status: 0,
-    type: 'monster',
-    monster_id: 3,
-    health: 70,
-    attack: 3
-  },
-  {
-    id: 10,
-    parents: [4],
-    last_node: false,
-    status: 0,
-    type: 'potion',
-    amount: 3
-  },
-  {
-    id: 11,
-    parents: [5],
-    last_node: false,
-    status: 0,
-    type: 'monster',
-    monster_id: 3,
-    health: 50,
-    attack: 10
-  },
-  {
-    id: 12,
-    parents: [6],
-    last_node: false,
-    status: 0,
-    type: 'potion',
-    amount: 3
-  },
-  {
-    id: 13,
-    parents: [7],
-    last_node: false,
-    status: 0,
-    type: 'monster',
-    monster_id: 6,
-    health: 40,
-    attack: 5
-  },
-  {
-    id: 14,
-    parents: [8],
-    last_node: false,
-    status: 0,
-    type: 'energy',
-    amount: 3,
-  },
-  {
-    id: 15,
-    parents: [9, 10],
-    last_node: false,
-    status: 0,
-    type: 'monster',
-    monster_id: 6,
-    health: 40,
-    attack: 5
-  },
-  {
-    id: 16,
-    parents: [11, 12, 13, 14, 15],
-    last_node: true,
-    status: 0,
-    type: 'monster',
-    monster_id: 3,
-    health: 50,
-    attack: 10
-  },
-]
-
 const INACTIVE_OPACITY = 0.5
 
-function Structure() {
+function Structure(props) {
   const game = useContext(GameContext)
 
-  const [nodes, setNodes] = useState(node_example.map(node => ({ ...node, active: getNodeStatus(node_example, node) })))
+  const { nodes } = game
   const [tree, buildTree] = useState([])
 
   useEffect(() => {
-    let endNode = nodes[nodes.length - 1]
-    let sectionStartNodes = nodes.filter(node => node.parents.includes(nodes[0].id))
+    let endNode = nodes.find(node => node.level === TOP_NODE_LEVEL)
+    let sectionStartNodes = nodes.filter(node => node.parents.includes(nodes[0].nodeId))
 
     buildTree(sectionStartNodes.map((startNode, i) => {
       let currentNodes = [startNode]
       let generatedSection = []
 
-      while (currentNodes[0].id !== endNode.id) {
+      while (currentNodes[0].nodeId !== endNode.nodeId) {
         generatedSection.push(currentNodes)
-        currentNodes = nodes.filter(node => currentNodes.find(currentNode => node.parents.includes(currentNode.id)))
+        currentNodes = nodes.filter(node => currentNodes.find(currentNode => node.parents.includes(currentNode.nodeId)))
         currentNodes = currentNodes.map(node => ({ ...node, section: i }))
       }
 
       return generatedSection.reverse()
     }))
   }, [nodes])
-
-  function getNodeStatus(nodes, node) {
-    if ((node.id === nodes[0].id && nodes[0].status === 0) || nodes.find(_node => node.parents.includes(_node.id) && _node.status !== 0 &&
-      !nodes.find(_node => _node.status !== 0 && _node.parents.find(parent => node.parents.includes(parent))))) {
-      return true
-    }
-
-    return false
-  }
 
   function nodeStyle(node) {
     if (node.active) {
@@ -232,8 +69,8 @@ function Structure() {
   }
 
   function RenderTopLine() {
-    let endNode = nodes.find(node => node.last_node)
-    let connectedToEndNode = tree.flat(2).filter(node => endNode.parents.includes(node.id))
+    let endNode = nodes.find(node => node.level === TOP_NODE_LEVEL)
+    let connectedToEndNode = tree.flat(2).filter(node => endNode.parents.includes(node.nodeId))
 
     function getStyles(line) {
       if (tree.length === 1) {
@@ -284,7 +121,7 @@ function Structure() {
 
       let activeNode = connectedToEndNode.find(node => node.status !== 0)
       let sectionLength = connectedToEndNode.filter(node => node.section === activeNode.section).length
-      let sectionIndex = connectedToEndNode.filter(node => node.section === activeNode.section).findIndex(node => node.id === activeNode.id)
+      let sectionIndex = connectedToEndNode.filter(node => node.section === activeNode.section).findIndex(node => node.nodeId === activeNode.nodeId)
 
       if (tree.length === 3) {
         if (activeNode.section === 0) {
@@ -344,12 +181,11 @@ function Structure() {
           })
         )}
       </Box>
-
     </>
   }
 
   function RenderConnector(node, type, number, nodeStyles) {
-    let nextNode = number !== null ? nodes.filter(_node => _node.parents.includes(node.id))[number] : null
+    let nextNode = number !== null ? nodes.filter(_node => _node.parents.includes(node.nodeId))[number] : null
 
     if (type === 'vertical') {
       return <Box sx={{ width: '1px', background: '#FFF', ...nodeStyles, ...connectorStyle(node, nextNode, number, type) }} />
@@ -399,7 +235,7 @@ function Structure() {
   }
 
   function RenderMonsterCircle(node) {
-    let monster = MONSTER_LIST.find(monster => monster.id === node.monster_id)
+    let monster = MONSTER_LIST.find(monster => monster.id === node.monsterId)
 
     return <Box sx={styles.circleContainer}>
       <CustomTooltip position={'right'} title={
@@ -407,7 +243,7 @@ function Structure() {
           {monster.abilities}
 
           {node.active && <Box sx={{ mt: 2 }}>
-            <LoadingButton fullWidth variant='outlined' onClick={() => startBattle(node.id)} sx={{ fontSize: '14px', letterSpacing: '1px', textTransform: 'none' }}>
+            <LoadingButton fullWidth variant='outlined' onClick={() => props.selectNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px', textTransform: 'none' }}>
               Battle
             </LoadingButton>
           </Box>}
@@ -465,13 +301,14 @@ function Structure() {
           <Typography variant='h6' color={'primary'} >Health</Typography>
         </Box>
 
-        <Typography>Gain {node.amount} health</Typography>
+        <Typography color='primary' mb={0.5}>Take: Gain {node.amount} Health</Typography>
+        <Typography color='secondary'>Pass: Gain 10 xp</Typography>
 
         {node.active && <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
-          <LoadingButton color='secondary' fullWidth variant='outlined' onClick={() => startBattle(node.id)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <LoadingButton color='secondary' fullWidth variant='outlined' onClick={() => game.actions.skipNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
             Pass
           </LoadingButton>
-          <LoadingButton color='primary' fullWidth variant='outlined' onClick={() => startBattle(node.id)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <LoadingButton color='primary' fullWidth variant='outlined' onClick={() => props.selectNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
             Take
           </LoadingButton>
         </Box>}
@@ -502,13 +339,14 @@ function Structure() {
           <Typography variant='h6' color={'primary'} >Energy</Typography>
         </Box>
 
-        <Typography>Gain {node.amount} energy</Typography>
+        <Typography color='primary' mb={0.5}>Take: Gain {node.amount} Energy</Typography>
+        <Typography color='secondary'>Pass: Gain 10 xp</Typography>
 
-        {node.active && <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
-          <LoadingButton color='secondary' fullWidth variant='outlined' onClick={() => startBattle(node.id)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+        {node.active && <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
+          <LoadingButton color='secondary' fullWidth variant='outlined' onClick={() => startBattle(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
             Pass
           </LoadingButton>
-          <LoadingButton color='primary' fullWidth variant='outlined' onClick={() => startBattle(node.id)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <LoadingButton color='primary' fullWidth variant='outlined' onClick={() => startBattle(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
             Take
           </LoadingButton>
         </Box>}
@@ -563,7 +401,7 @@ function Structure() {
 
   function RenderConnectedNode(node) {
     return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {RenderConnector(node, 'vertical', node.id === nodes[0].id ? 1 : 0, { height: '50px' })}
+      {RenderConnector(node, 'vertical', node.nodeId === nodes[0].nodeId ? 1 : 0, { height: '50px' })}
       {RenderType(node, 'connected')}
     </Box>
   }
@@ -579,8 +417,8 @@ function Structure() {
   }
 
   function renderReversedSplitNode(node) {
-    let parent1 = nodes.find(n => n.id === node.parents[0])
-    let parent2 = nodes.find(n => n.id === node.parents[1])
+    let parent1 = nodes.find(n => n.nodeId === node.parents[0])
+    let parent2 = nodes.find(n => n.nodeId === node.parents[1])
 
     return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {RenderConnector(node, 'vertical', 0, { height: '50px' })}
@@ -775,11 +613,6 @@ const styles = {
   tooltipContainer: {
     width: '180px',
     textAlign: 'left',
-    background: '#141920',
-    py: 1,
-    px: 2,
-    pb: 2,
-    borderRadius: '5px',
-    border: '1px solid rgba(255, 255, 255, 0.2)'
+    pb: 0.5
   }
 }

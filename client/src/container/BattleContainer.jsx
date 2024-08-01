@@ -12,6 +12,7 @@ import { fadeVariant } from "../helpers/variants";
 import graveyardIcon from '../assets/images/graveyard.png';
 import RestoringBattleDialog from '../components/dialogs/restoringBattle';
 import { GameContext } from '../contexts/gameContext';
+import { DECK_SIZE } from '../helpers/constants';
 
 function BattleContainer() {
   const game = useContext(GameContext)
@@ -60,14 +61,14 @@ function BattleContainer() {
 
             <CustomTooltip title={
               <Box mb={1}>
-                <Typography color="primary" variant='h6'>Deck ({battle.state.deckIteration})</Typography>
+                <Typography color="primary" variant='h6'>Deck</Typography>
                 <Typography mt={0.5}>Draw new set of cards if your hand is empty.</Typography>
               </Box>
             }>
               <Box sx={styles.deck}>
                 <Box sx={styles.cardCount}>
                   <Typography>
-                    {battle.state.deckIteration}
+                    {DECK_SIZE}
                   </Typography>
                 </Box>
               </Box>

@@ -5,11 +5,11 @@ struct Node {
     node_id: usize,
     game_id: usize,
     branch: u16,
-    parents: Span<usize>,
     node_type: u16,
     skippable: bool,
     status: u8,
-    level: u8
+    level: u8,
+    parents: Span<usize>
 }
 
 #[derive(Copy, Drop, Serde)]
