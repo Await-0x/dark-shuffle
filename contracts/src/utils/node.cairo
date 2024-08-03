@@ -179,7 +179,8 @@ mod node_utils {
                 next_spell_reduction: 0,
                 next_card_reduction: 0,
                 free_discard: false,
-                damage_immune: false
+                damage_immune: false,
+                unstables_played: array![].span()
             }
         ));
     }

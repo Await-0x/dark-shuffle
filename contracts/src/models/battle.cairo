@@ -69,7 +69,8 @@ struct BattleEffects {
     next_spell_reduction: u16,
     next_card_reduction: u16,
     free_discard: bool,
-    damage_immune: bool
+    damage_immune: bool,
+    unstables_played: Span<u8>
 }
 
 #[derive(Copy, Drop)]

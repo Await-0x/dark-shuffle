@@ -9,7 +9,7 @@ trait IBattleContract {
 
 #[dojo::contract]
 mod battle_systems {
-    use darkshuffle::constants::{START_ENERGY};
+    use darkshuffle::constants::{START_ENERGY, CardTags};
     use darkshuffle::models::battle::{Battle, BattleOwnerTrait, HandCard, Card, Creature, BattleEffects};
     use darkshuffle::utils::{
         summon::summon_utils,
@@ -65,6 +65,9 @@ mod battle_systems {
             let card: Card = card_utils::get_card(hand_card.card_id, hand_card.level);
             
             let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
+            if (card.card_tag == CardTags::UNSTABLE) {
+                // Check not played before
+            }
             
             battle_utils::energy_cost(ref battle, ref battle_effects, card);
             spell_utils::cast_spell(world, target_id, ref battle, ref battle_effects, card);

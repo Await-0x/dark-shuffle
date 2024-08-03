@@ -6,13 +6,12 @@ import React, { useContext } from 'react';
 import vortexAnim from "../assets/animations/vortex.json";
 import Battlefield from '../components/battle/battlefield';
 import Hand from '../components/battle/hand';
-import { BattleContext } from '../contexts/battleContext';
-import { CustomTooltip } from '../helpers/styles';
-import { fadeVariant } from "../helpers/variants";
-import graveyardIcon from '../assets/images/graveyard.png';
 import RestoringBattleDialog from '../components/dialogs/restoringBattle';
+import { BattleContext } from '../contexts/battleContext';
 import { GameContext } from '../contexts/gameContext';
 import { DECK_SIZE } from '../helpers/constants';
+import { CustomTooltip } from '../helpers/styles';
+import { fadeVariant } from "../helpers/variants";
 
 function BattleContainer() {
   const game = useContext(GameContext)
