@@ -11,7 +11,7 @@ import bolt from "../assets/images/bolt.png";
 import { levelColors } from '../helpers/constants';
 
 function Card(props) {
-  const { card, pendingCard } = props
+  const { card, pendingCard, cost } = props
   const [tooltip, showTooltip] = useState(false)
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function Card(props) {
       <Box sx={styles.header}>
         <Box sx={{ display: 'flex', alignItems: 'center', }}>
           <Typography variant="h5">
-            {card.cost}
+            {cost || card.cost}
           </Typography>
 
           <img alt='' src={bolt} height={20} style={{ marginLeft: '-1px' }} />

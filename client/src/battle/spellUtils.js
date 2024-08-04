@@ -1,3 +1,4 @@
+import { tags } from "../helpers/cards";
 import { ADVENTURER_ID } from "../helpers/constants"
 
 export const spellEffect = ({
@@ -61,6 +62,10 @@ export const spellEffect = ({
 
   else if (cardId === 40) {
     battleEffects.damageImmune = true;
+  }
+
+  if (spell.tag === tags.UNSTABLE) {
+    battleEffects.unstablesPlayed.push(spell.handCardNumber);
   }
 
   setBattleEffects({ ...battleEffects })

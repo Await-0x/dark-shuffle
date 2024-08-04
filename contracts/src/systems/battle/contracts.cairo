@@ -35,12 +35,19 @@ mod battle_systems {
             let card: Card = card_utils::get_card(hand_card.card_id, hand_card.level);
             
             let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
+            if (card.card_tag == CardTags::UNSTABLE) {
+                hand_card.assert_unstable_card(ref battle_effects);
+            }
+            
             battle_utils::energy_cost(ref battle, ref battle_effects, card);
 
             battle.card_index += 1;
             board_utils::add_creature_to_board(battle.card_index, battle_id, world);
             summon_utils::summon_creature(battle.card_index, target_id, world, ref battle, ref battle_effects, card);
-            draft_utils::level_up_card(world, battle.game_id, hand_card.hand_card_number);
+
+            if card.card_tag == CardTags::UNSTABLE {
+                battle_effects.unstables_played.append(hand_card.hand_card_number);
+            }
             
             if game_utils::is_battle_over(battle) {
                 game_utils::end_battle(ref battle, world);
@@ -66,13 +73,16 @@ mod battle_systems {
             
             let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
             if (card.card_tag == CardTags::UNSTABLE) {
-                // Check not played before
+                hand_card.assert_unstable_card(ref battle_effects);
             }
             
             battle_utils::energy_cost(ref battle, ref battle_effects, card);
             spell_utils::cast_spell(world, target_id, ref battle, ref battle_effects, card);
-            draft_utils::level_up_card(world, battle.game_id, hand_card.hand_card_number);
 
+            if card.card_tag == CardTags::UNSTABLE {
+                battle_effects.unstables_played.append(hand_card.hand_card_number);
+            }
+            
             if game_utils::is_battle_over(battle) {
                 game_utils::end_battle(ref battle, world);
             } else {

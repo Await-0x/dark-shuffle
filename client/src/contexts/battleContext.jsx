@@ -144,6 +144,10 @@ export const BattleProvider = ({ children }) => {
   const summonCreature = (creature, target) => {
     let cost = getCardCost(creature);
 
+    if (creature.tag === tags.UNSTABLE && battleEffects.unstablesPlayed.includes(creature.handCardNumber)) {
+      return enqueueSnackbar('Unstable card already played', { variant: 'warning' })
+    }
+
     if (cost > adventurer.energy) {
       return enqueueSnackbar('Not enough energy', { variant: 'warning' })
     }
@@ -228,7 +232,7 @@ export const BattleProvider = ({ children }) => {
 
   const beginTurn = () => {
     setBoard(prev => prev.map(creature => ({ ...creature, resting: false })));
-    setAdventurer(prev => ({ ...prev, energy: START_ENERGY }));
+    setAdventurer(prev => ({ ...prev, energy: adventurer.energy + START_ENERGY }));
 
     if (battleEffects.damageImmune) {
       setBattleEffects(prev => ({ ...prev, damageImmune: false }))
@@ -447,6 +451,10 @@ export const BattleProvider = ({ children }) => {
 
   const getCardCost = (card) => {
     let cost = card.cost;
+
+    if (!battleId) {
+      return cost;
+    }
 
     if (monster.id === 5 && card.type === types.CREATURE) {
       cost += 1;

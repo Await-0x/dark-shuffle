@@ -69,7 +69,7 @@ function Hand() {
       transition={{ ease: "linear", duration: 0.3 }}
     >
 
-      <Card card={displayCard} cost={displayCard.cost} />
+      <Card card={displayCard} cost={battle.utils.getCardCost(displayCard)} />
 
     </motion.div>
   }
@@ -102,7 +102,7 @@ function Hand() {
               animate={cardStyle(i)}
               transition={{ ease: "easeOut", duration: 0.5 }}>
 
-              <SmallCard card={card} />
+              <SmallCard card={card} cost={battle.utils.getCardCost(card)} />
 
             </motion.div>
           </>

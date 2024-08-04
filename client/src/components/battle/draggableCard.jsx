@@ -77,7 +77,7 @@ function DraggableCard(props) {
       ref.current.style.opacity = 1
     }
 
-    if (values.card.type === types.CREATURE && values.card.cost <= battle.state.adventurer.energy) {
+    if (values.card.type === types.CREATURE) {
       if (event.pageY < play_threshold) {
         ref.current.style.border = '1px solid #FFE97F'
       } else {
@@ -130,7 +130,7 @@ function DraggableCard(props) {
       ref={ref}
     >
 
-      <SmallCard card={card} showStats={card.type === types.CREATURE} />
+      <SmallCard card={card} showStats={card.type === types.CREATURE} cost={battle.utils.getCardCost(card)} />
 
     </motion.div>
   </>

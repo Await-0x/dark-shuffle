@@ -180,7 +180,7 @@ function Creature(props) {
     </motion.div>
 
     {displayCard && !attacking && <Box sx={styles.displayCard}>
-      <Card card={displayCard} />
+      <Card card={displayCard} cost={battle.utils.getCardCost(displayCard)} />
     </Box>}
   </Box>
 }

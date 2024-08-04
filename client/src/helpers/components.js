@@ -119,6 +119,7 @@ export const components = {
     nextCardReduction: Number(),
     freeDiscard: Boolean(),
     damageImmune: Boolean(),
+    unstablesPlayed: 'array'
   },
 
   // Node models

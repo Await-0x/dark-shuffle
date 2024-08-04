@@ -109,6 +109,20 @@ impl BattleOwnerImpl of BattleOwnerTrait {
         assert(self.card_id != 0, 'Card already played');
     }
 
+    fn assert_unstable_card(self: HandCard, ref battle_effects: BattleEffects) {
+        let mut index = 0;
+
+        loop {
+            if index.into() == battle_effects.unstables_played.len() {
+                break;
+            } 
+        
+            assert(*battle_effects.unstables_played.at(index) != self.hand_card_number, 'Unstable Card');
+
+            index += 1;
+        };
+    }
+
     fn assert_creature(self: Creature) {
         assert(self.card_id != 0, 'Creature not found');
         assert(self.health > 0, 'Creature dead');

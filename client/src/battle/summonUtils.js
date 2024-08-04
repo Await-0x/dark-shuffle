@@ -1,3 +1,5 @@
+import { tags } from "../helpers/cards";
+
 export const summonEffect = ({
   creature,
   shieldHero,
@@ -93,6 +95,10 @@ export const summonEffect = ({
 
   else if (cardId === 29) {
     battleEffects.freeDiscard = true;
+  }
+
+  if (creature.tag === tags.UNSTABLE) {
+    battleEffects.unstablesPlayed.push(creature.handCardNumber);
   }
 
   setBattleEffects({ ...battleEffects })

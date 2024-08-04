@@ -5,14 +5,14 @@ import { fetch_image, types } from "../helpers/cards";
 import sword from '../assets/images/sword.png'
 
 function SmallCard(props) {
-  const { card, showStats } = props
+  const { card, showStats, cost } = props
 
   return <Box sx={styles.container}>
 
     <Box sx={styles.header}>
       <Box sx={styles.circle} border={'1px solid #FFE97F'}>
         <Typography>
-          {card.cost}
+          {cost || card.cost}
         </Typography>
       </Box>
 

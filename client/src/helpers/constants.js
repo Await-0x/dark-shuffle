@@ -25,6 +25,7 @@ export const BATTLE_EFFECTS = {
   nextCardReduction: 0,
   freeDiscard: false,
   damageImmune: false,
+  unstablesPlayed: []
 }
 
 export const levelColors = [
