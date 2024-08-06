@@ -1,6 +1,6 @@
 mod battle_utils {
     use darkshuffle::constants::{CardTypes, CardTags};
-    use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects};
+    use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects, HandCard};
 
     fn energy_cost(ref battle: Battle, ref battle_effects: BattleEffects, card: Card) {
         let mut cost = card.cost;
@@ -39,8 +39,12 @@ mod battle_utils {
         battle.hero_energy -= cost;
     }
 
-    fn damage_hero(ref battle: Battle, amount: u16) {
+    fn damage_hero(ref battle: Battle, amount: u16, ref battle_effects: BattleEffects) {
         let mut damage = amount;
+
+        if battle_effects.damage_immune {
+            return;
+        }
 
         if battle.hero_armor <= damage {
             damage -= battle.hero_armor;
@@ -82,5 +86,11 @@ mod battle_utils {
         } else {
             creature.health -= amount;
         }
+    }
+
+    fn play_unstable_card(hand_card: HandCard, ref battle_effects: BattleEffects) {
+        let mut unstables_played: Array<u8> = battle_effects.unstables_played.into();
+        unstables_played.append(hand_card.hand_card_number);
+        battle_effects.unstables_played = unstables_played.span();
     }
 }

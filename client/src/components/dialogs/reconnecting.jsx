@@ -1,3 +1,4 @@
+import CloseIcon from '@mui/icons-material/Close';
 import { Box, Dialog, Typography } from '@mui/material';
 
 function ReconnectDialog(props) {
@@ -11,8 +12,12 @@ function ReconnectDialog(props) {
     >
 
       <Box sx={styles.container}>
+        <Box sx={{ position: 'absolute', top: '10px', right: '10px' }} onClick={props.close}>
+          <CloseIcon htmlColor='#FFF' sx={{ fontSize: '24px' }} />
+        </Box>
 
         <Typography variant='h3' color={'primary'}>Game in Progress</Typography>
+
         <Box display={'flex'} alignItems={'baseline'}>
           <Typography variant='h6' color={'primary'}>Reconnecting</Typography>
           <div className='dotLoader' />
@@ -36,6 +41,7 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     cursor: 'pointer',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    position: 'relative'
   },
 }

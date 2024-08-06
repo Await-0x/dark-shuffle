@@ -23,15 +23,6 @@ export function uniquefy(arr, field) {
   });
 }
 
-export function addArrays(arrays) {
-  return arrays.reduce((result, currentArray) => {
-    for (let i = 0; i < arrays[0].length; i++) {
-      result[i] = (result[i] || 0) + currentArray[i];
-    }
-    return result;
-  }, []);
-}
-
 export function ellipseAddress(address, start, end) {
   return `${address.slice(0, start)}...${address.slice(-end)}`.toUpperCase();
 }

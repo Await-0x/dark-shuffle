@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
-import { CARD_DETAILS, fetchCardList, tags, types } from "../helpers/cards";
+import { getDraftCards, getEntropy } from "../api/indexer";
+import { CARD_DETAILS, tags, types } from "../helpers/cards";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
-import { getDraftCards, getEntropy } from "../api/indexer";
 
 export const DraftContext = createContext()
 
@@ -13,9 +13,9 @@ export const DraftProvider = ({ children }) => {
   const [pendingTx, setPendingTx] = useState()
   const [pendingCard, setPendingCard] = useState()
 
-  const [playerName, setPlayerName] = useState(localStorage.getItem('playerName') || '')
+  const [playerName, setPlayerName] = useState(localStorage.getItem('playerName') ?? '')
   const [options, setOptions] = useState([])
-  const [cards, setCards] = useState(fetchCardList().slice(0, 8))
+  const [cards, setCards] = useState([])
 
   const [manaCurve, setManaCurve] = useState()
 
@@ -73,7 +73,7 @@ export const DraftProvider = ({ children }) => {
   const startDraft = async () => {
     initializeState()
 
-    const res = await dojo.executeTx("game_systems", "start_game", [playerName || 'Anonymous'])
+    const res = await dojo.executeTx("game_systems", "start_game", [playerName ?? 'Anonymous'])
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -107,7 +107,7 @@ export const DraftProvider = ({ children }) => {
 
       setOptions([])
 
-      card.number = draftCard.number;
+      card.id = draftCard.number;
       setCards(prev => [...prev, card].sort((a, b) => a.cost - b.cost))
       updateDraftStats(card)
 

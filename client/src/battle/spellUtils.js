@@ -1,5 +1,4 @@
 import { tags } from "../helpers/cards";
-import { ADVENTURER_ID } from "../helpers/constants"
 
 export const spellEffect = ({
   spell, shieldHero, target,
@@ -7,6 +6,8 @@ export const spellEffect = ({
   battleEffects, setBattleEffects
 }) => {
   const { cardId, level } = spell;
+
+  let updatedBattleEffects = {}
 
   if (cardId === 10) {
     damageMonster(6 + level);
@@ -41,7 +42,7 @@ export const spellEffect = ({
   }
 
   else if (cardId === 35) {
-    battleEffects.nextCardReduction = 1;
+    updatedBattleEffects.nextCardReduction = 1;
   }
 
   else if (cardId === 36) {
@@ -61,12 +62,12 @@ export const spellEffect = ({
   }
 
   else if (cardId === 40) {
-    battleEffects.damageImmune = true;
+    updatedBattleEffects.damageImmune = true;
   }
 
   if (spell.tag === tags.UNSTABLE) {
-    battleEffects.unstablesPlayed.push(spell.handCardNumber);
+    updatedBattleEffects.unstablesPlayed = [...battleEffects.unstablesPlayed, spell.id];
   }
 
-  setBattleEffects({ ...battleEffects })
+  setBattleEffects(prev => ({ ...prev, ...updatedBattleEffects }))
 }

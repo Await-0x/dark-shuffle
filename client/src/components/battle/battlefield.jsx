@@ -5,7 +5,6 @@ import { BattleContext } from '../../contexts/battleContext';
 import { GameContext } from "../../contexts/gameContext";
 import DamageEffectAnimation from '../animations/damageEffectAnimation';
 import PoisonSprayAnimation from "../animations/poisonSprayAnimation";
-import StarAnimation from '../animations/starAnimation';
 import Adventurer from './adventurer';
 import Arrow from "./arrow";
 import Creature from "./creature";
@@ -65,13 +64,13 @@ function Battlefield(props) {
 
     </Box >
 
-    {React.Children.toArray(
+    {/* {React.Children.toArray(
       animationHandler.creatureAnimations.filter(x => x.type === 'death').map(animation => <StarAnimation
         id={animation.id}
         left={animation.position.x}
         bottom={animation.position.y}
       />)
-    )}
+    )} */}
 
     {React.Children.toArray(
       animationHandler.creatureAnimations.filter(x => x.type === 'damageEffect').map(animation => <DamageEffectAnimation

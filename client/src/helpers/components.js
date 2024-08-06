@@ -20,8 +20,8 @@ export const translateName = (address) => {
       return 'Game'
     case '0x5bc24229f65f3fe6c3b0c0aa714b5962449dae463dbb418154054a24cb9cadb':
       return 'HandCard'
-    case '0x75f1a1576f2aad0c034746529f1bd4657acb549d3cf0e8efe0567d4f440c108':
-      return 'LeaderBoard'
+    case '0xdbeecd6ebdc49d0c7692b3576e074dfa43fcd48c6b060ca8f7379b672e390e':
+      return 'Leaderboard'
     case '0x7fe0a5deeba29dc6878ffaa61f30d6e6be2138f1539cc1fb4973e3b08b6c33':
       return 'MonsterNode'
     case '0x9b3c32ba54b0d942bc7303f8a10b99ea5a23135550520e5750957cfaa08db8':

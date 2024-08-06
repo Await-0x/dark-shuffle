@@ -20,7 +20,7 @@ function Leaderboard() {
 
       const data = await getLeaderboard(page - 1)
 
-      setLeaderboard(data || [])
+      setLeaderboard(data ?? [])
       setLoading(false)
     }
 

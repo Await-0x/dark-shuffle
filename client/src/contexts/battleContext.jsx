@@ -116,7 +116,7 @@ export const BattleProvider = ({ children }) => {
   }
 
   const drawHand = () => {
-    let cards = draft.cards.map(card => CARD_DETAILS(card.cardId, card.number, card.level))
+    let cards = draft.cards.map(card => CARD_DETAILS(card.cardId, card.id, card.level))
 
     setHand(cards)
   }
@@ -144,7 +144,7 @@ export const BattleProvider = ({ children }) => {
   const summonCreature = (creature, target) => {
     let cost = getCardCost(creature);
 
-    if (creature.tag === tags.UNSTABLE && battleEffects.unstablesPlayed.includes(creature.handCardNumber)) {
+    if (creature.tag === tags.UNSTABLE && battleEffects.unstablesPlayed.includes(creature.id)) {
       return enqueueSnackbar('Unstable card already played', { variant: 'warning' })
     }
 
@@ -156,20 +156,19 @@ export const BattleProvider = ({ children }) => {
       return enqueueSnackbar('Board is full', { variant: 'warning' })
     }
 
-    submitBattleAction("battle_systems", "summon_creature", [battleId, creature.id, target?.id || 0])
+    submitBattleAction("battle_systems", "summon_creature", [battleId, creature.id, target?.id ?? 0])
 
     animationHandler.addAnimation('monster', { type: 'intimidate' })
 
     setBattleEffects(prev => ({ ...prev, nextCardReduction: 0 }))
-    setHand(prev => prev.filter((_, i) => (i !== hand.findIndex(card => card.id === creature.id))))
+    setHand(prev => prev.filter(handCard => handCard.id !== creature.id))
     decreaseEnergy(cost)
 
     summonEffect({ creature, shieldHero, target, setBoard, monster, damageMonster, battleEffects, setBattleEffects })
 
     let creatureId = creatureIndex + 1;
-    creature.id = creatureId;
 
-    setBoard(prev => [...prev, creature])
+    setBoard(prev => [...prev, { ...creature, id: creatureId }])
     setCreatureIndex(prev => prev + 1)
 
     setTargetFriendlyCreature()
@@ -178,17 +177,21 @@ export const BattleProvider = ({ children }) => {
   const castSpell = (spell, target) => {
     let cost = getCardCost(spell);
 
+    if (spell.tag === tags.UNSTABLE && battleEffects.unstablesPlayed.includes(spell.id)) {
+      return enqueueSnackbar('Unstable card already played', { variant: 'warning' })
+    }
+
     if (cost > adventurer.energy) {
       return enqueueSnackbar('Not enough energy', { variant: 'warning' })
     }
 
     setBattleEffects(prev => ({ ...prev, nextSpellReduction: 0, nextCardReduction: 0 }))
-    setHand(prev => prev.filter((_, i) => (i !== hand.findIndex(card => card.id === spell.id))))
+    setHand(prev => prev.filter(handCard => handCard.id !== spell.id))
     decreaseEnergy(cost)
 
     spellEffect({ spell, shieldHero, target, damageMonster, increaseEnergy, healHero, battleEffects, setBattleEffects })
 
-    submitBattleAction("battle_systems", "cast_spell", [battleId, spell.id, target?.id || 0])
+    submitBattleAction("battle_systems", "cast_spell", [battleId, spell.id, target?.id ?? 0])
 
     setTargetFriendlyCreature()
   }
@@ -357,7 +360,7 @@ export const BattleProvider = ({ children }) => {
   }
 
   const damageAdventurer = (amount) => {
-    if (amount < 1) {
+    if (amount < 1 || battleEffects.damageImmune) {
       return;
     }
 
@@ -374,7 +377,7 @@ export const BattleProvider = ({ children }) => {
   }
 
   const damageMonster = (amount, cardId) => {
-    if (monster.id === 403) {
+    if (monster.id === 3) {
       amount -= 1;
     }
 
@@ -427,7 +430,15 @@ export const BattleProvider = ({ children }) => {
     let data = await getBattleState(parseInt(battleId))
 
     setBattleId(data.battle.battle_id)
-    setHand(data.handCards.map(card => CARD_DETAILS(card.card_id, data.battle.deck_iteration, card.hand_card_number, card.level)))
+    setBattleEffects({
+      nextSpellReduction: data.battleEffects.next_spell_reduction,
+      nextCardReduction: data.battleEffects.next_card_reduction,
+      freeDiscard: data.battleEffects.free_discard,
+      damageImmune: data.battleEffects.damage_immune,
+      unstablesPlayed: data.battleEffects.unstables_played
+    })
+
+    setHand(data.handCards.map(card => CARD_DETAILS(card.card_id, card.hand_card_number, card.level)))
     setBoard(fetchBoardCreatures(data))
 
     setMonster({
@@ -470,7 +481,7 @@ export const BattleProvider = ({ children }) => {
 
     cost = Math.max(0, cost - battleEffects.nextCardReduction);
 
-    return cost
+    return cost;
   }
 
   return (

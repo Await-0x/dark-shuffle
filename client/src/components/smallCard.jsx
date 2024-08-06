@@ -12,7 +12,7 @@ function SmallCard(props) {
     <Box sx={styles.header}>
       <Box sx={styles.circle} border={'1px solid #FFE97F'}>
         <Typography>
-          {cost || card.cost}
+          {cost ?? card.cost}
         </Typography>
       </Box>
 

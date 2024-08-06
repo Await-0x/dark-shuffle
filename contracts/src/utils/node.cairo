@@ -93,6 +93,8 @@ mod node_utils {
         if node_type > 2 {
             seed = random::LCG(seed);
             node_type = random::get_random_number(seed, NODE_TYPES) + 1;
+        } else {
+            node_type = 1;
         }
 
         node_type

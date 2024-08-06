@@ -92,7 +92,7 @@ mod summon_utils {
         }
 
         else if card.card_id == 21 {
-            battle.hero_armor += 3;
+            battle.hero_armor += 5;
         }
 
         else if card.card_id == 22 {

@@ -12,7 +12,9 @@ export const summonEffect = ({
 }) => {
   const { level, cardId } = creature;
 
-  if (monster.id === 404) {
+  let updatedBattleEffects = {}
+
+  if (monster.id === 4) {
     creature.resting = true
   }
 
@@ -50,7 +52,7 @@ export const summonEffect = ({
   }
 
   else if (cardId === 9) {
-    battleEffects.nextSpellReduction = level;
+    updatedBattleEffects.nextSpellReduction = level;
   }
 
   else if (cardId === 13) {
@@ -94,12 +96,12 @@ export const summonEffect = ({
   }
 
   else if (cardId === 29) {
-    battleEffects.freeDiscard = true;
+    updatedBattleEffects.freeDiscard = true;
   }
 
   if (creature.tag === tags.UNSTABLE) {
-    battleEffects.unstablesPlayed.push(creature.handCardNumber);
+    updatedBattleEffects.unstablesPlayed = [...battleEffects.unstablesPlayed, creature.id];
   }
 
-  setBattleEffects({ ...battleEffects })
+  setBattleEffects(prev => ({ ...prev, ...updatedBattleEffects }))
 }

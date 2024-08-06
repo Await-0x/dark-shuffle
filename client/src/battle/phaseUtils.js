@@ -6,15 +6,15 @@ export const endOfTurnMonsterEffect = ({
 }) => {
   setMonster(prev => ({ ...prev, attack: prev.attack + 1 }));
 
-  if (monster.id === 401) {
+  if (monster.id === 1) {
     setMonster(prev => ({ ...prev, attack: prev.attack + 1 }));
   }
 
-  else if (monster.id === 402) {
+  else if (monster.id === 2) {
     setMonster(prev => ({ ...prev, health: prev.health + 4 }));
   }
 
-  else if (monster.id === 406) {
+  else if (monster.id === 6) {
     damageBoard(2);
   }
 }
@@ -22,7 +22,7 @@ export const endOfTurnMonsterEffect = ({
 export const isAdventurerDead = ({ monster, adventurer }) => {
   let damage = monster.attack;
 
-  if ([401, 407].includes(monster.id)) {
+  if ([1, 7].includes(monster.id)) {
     damage += 1;
   }
 

@@ -10,7 +10,10 @@ mod game_utils {
     use darkshuffle::models::entropy::{Entropy};
     use darkshuffle::models::node::{Node};
 
-    use darkshuffle::utils::{monsters::monster_utils};
+    use darkshuffle::utils::{
+        monsters::monster_utils,
+        draft::draft_utils
+    };
 
     fn is_battle_over(battle: Battle) -> bool {
         if battle.monster_health > 0 && battle.hero_health > 0 {
@@ -42,6 +45,8 @@ mod game_utils {
 
         node.status = 1;
         complete_node(ref game, world);
+
+        draft_utils::level_up_cards(world, game.game_id);
 
         set!(world, (game, battle, node));
     }

@@ -33,7 +33,7 @@ function Card(props) {
       <Box sx={styles.header}>
         <Box sx={{ display: 'flex', alignItems: 'center', }}>
           <Typography variant="h5">
-            {cost || card.cost}
+            {cost ?? card.cost}
           </Typography>
 
           <img alt='' src={bolt} height={20} style={{ marginLeft: '-1px' }} />

@@ -32,7 +32,7 @@ mod node_systems {
             game.branch += 1;
             game.node_level = 1;
 
-            node_utils::generate_tree_nodes(world, game_id, seed, game.branch + 1);
+            node_utils::generate_tree_nodes(world, game_id, seed, game.branch);
             set!(world, (game, entropy));
         }
 

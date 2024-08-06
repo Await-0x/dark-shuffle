@@ -51,7 +51,7 @@ export const fetchCardList = () => {
 }
 
 export const CARD_DETAILS = (cardId, id, level = 1) => {
-  switch(cardId) {
+  switch (cardId) {
     // ESCALATING
     case 1:
       return {
@@ -148,7 +148,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
       return {
         id,
         cardId: 8,
-        name: "Coyote",
+        name: "Beetle",
         type: types.CREATURE,
         cost: 4,
         attack: 6,
@@ -221,7 +221,6 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cost: 2,
         attack: 3 + level,
         health: 7 + level,
-        level,
         text: `Play: Gain 1 armor`,
         level,
       }
@@ -235,7 +234,6 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cost: 3,
         attack: 5 + level,
         health: 4 + level,
-        level,
         text: `Play: Gain 2 armor`,
         level,
       }
@@ -249,7 +247,6 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cost: 5,
         attack: 7 + level,
         health: 5 + level,
-        level,
         text: `Play: Gain 3 armor`,
         level,
       }
@@ -263,7 +260,6 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cost: 4,
         attack: level,
         health: level,
-        level,
         text: `Play: Give a friendly minion Shield`,
         level,
       }
@@ -368,6 +364,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         tag: tags.RENEWABLE,
         text: `Play: Give a friendly creature 6 attack`,
         level,
+        requiresTarget: true
       }
     case 25:
       return {
@@ -498,6 +495,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         tag: tags.RENEWABLE,
         text: `Give a friendly creature Shield`,
         level,
+        requiresTarget: true
       }
     case 35:
       return {
@@ -511,7 +509,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         text: `Your next card cost 1 less energy`,
         level,
       }
-    
+
 
     // Unstable
     case 36:

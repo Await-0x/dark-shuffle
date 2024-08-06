@@ -7,7 +7,7 @@ version = "0.2.0"
 sierra-replace-ids = true
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.3" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.4" }
 
 [tool.dojo.world.namespace]
 default = "darkshuffle"
@@ -15,7 +15,7 @@ default = "darkshuffle"
 [tool.dojo.env]
 account_address = "0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
 private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
-world_address = "0x2ac6157b9cf3fa800073c7d37f633538e6bf408024aa21d52b1875b1968d750"
+world_address = "0x68bd46f4b09cc876e0ac692e1943351eb63b1d95e9406b4c0bff833a9edb0eb"
 
 [profile.prod.tool.dojo.env]
 rpc_url = "https://api.cartridge.gg/x/darkshuffle/katana"

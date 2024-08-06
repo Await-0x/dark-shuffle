@@ -27,7 +27,7 @@ function StartBattleContainer() {
     if (!res) return;
 
     const battleValues = res.find(e => e.componentName === 'Battle')
-    if (battle) {
+    if (battleValues) {
       battle.actions.startBattle(battleValues)
     }
   }

@@ -39,7 +39,7 @@ function DeathDialog(props) {
           </Typography>
 
           <Typography variant="h1" mt={1} color='primary'>
-            {game.values.battlesWon}
+            {game.values.monstersSlain}
           </Typography>
         </Box>
 
@@ -49,7 +49,7 @@ function DeathDialog(props) {
           </Typography>
 
           <Typography variant="h1" mt={1} color='primary'>
-            {game.score}
+            {game.values.heroXp}
           </Typography>
         </Box>
       </Box>

@@ -6,6 +6,7 @@ import { CardSize } from "../../helpers/cards";
 import Card from "../card";
 import SmallCard from "../smallCard";
 import DraggableCard from "./draggableCard";
+import { useEffect } from "react";
 
 function Hand() {
   const battle = useContext(BattleContext)
@@ -13,6 +14,11 @@ function Hand() {
 
   const [displayCard, setDisplayCard] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
+  const [nonce, setNonce] = useState(1)
+
+  useEffect(() => {
+    setNonce(prev => prev + 1)
+  }, [battle.state.battleEffects])
 
   const calculateCardPosition = (pos) => {
     const cards = hand.length
@@ -75,7 +81,7 @@ function Hand() {
   }
 
   const handCardStyles = (card) => {
-    let style = { ...styles.cardStyle, ...styles.card }
+    let style = { ...styles.cardStyle, ...styles.card, opacity: 1 }
 
     if ((selectedCard?.card.id === card.id) || (!selectedCard && displayCard?.id === card.id) || (targetFriendlyCreature?.id === card.id)) {
       style.opacity = 0
@@ -102,7 +108,7 @@ function Hand() {
               animate={cardStyle(i)}
               transition={{ ease: "easeOut", duration: 0.5 }}>
 
-              <SmallCard card={card} cost={battle.utils.getCardCost(card)} />
+              <SmallCard card={card} cost={battle.utils.getCardCost(card)} key={nonce} />
 
             </motion.div>
           </>

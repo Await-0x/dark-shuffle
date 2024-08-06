@@ -4,7 +4,7 @@ mod draft_utils {
 
     use darkshuffle::models::draft::{DraftOption, DraftCard};
     use darkshuffle::utils::random;
-    use darkshuffle::constants::{MAX_CARD_LEVEL};
+    use darkshuffle::constants::{MAX_CARD_LEVEL, DECK_SIZE};
 
     fn get_draft_options(game_id: usize, mut entropy: u128) -> (DraftOption, DraftOption, DraftOption) {
         let mut card_1 = 0;
@@ -44,5 +44,20 @@ mod draft_utils {
             DraftOption {game_id, option_id: 2, card_id: card_2, level: 1},
             DraftOption {game_id, option_id: 3, card_id: card_3, level: 1}
         )
+    }
+
+    fn level_up_cards(world: IWorldDispatcher, game_id: usize) {
+        let mut i = 1;
+
+        while (i <= DECK_SIZE) {
+            let mut draft_card = get!(world, (game_id, i), DraftCard);
+
+            if draft_card.level < MAX_CARD_LEVEL {
+                draft_card.level += 1;
+                set!(world, (draft_card));
+            }
+
+            i += 1;
+        };
     }
 }

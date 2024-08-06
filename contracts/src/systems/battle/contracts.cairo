@@ -46,7 +46,7 @@ mod battle_systems {
             summon_utils::summon_creature(battle.card_index, target_id, world, ref battle, ref battle_effects, card);
 
             if card.card_tag == CardTags::UNSTABLE {
-                battle_effects.unstables_played.append(hand_card.hand_card_number);
+                battle_utils::play_unstable_card(hand_card, ref battle_effects);
             }
             
             if game_utils::is_battle_over(battle) {
@@ -80,7 +80,7 @@ mod battle_systems {
             spell_utils::cast_spell(world, target_id, ref battle, ref battle_effects, card);
 
             if card.card_tag == CardTags::UNSTABLE {
-                battle_effects.unstables_played.append(hand_card.hand_card_number);
+                battle_utils::play_unstable_card(hand_card, ref battle_effects);
             }
             
             if game_utils::is_battle_over(battle) {
@@ -154,17 +154,20 @@ mod battle_systems {
             let mut battle: Battle = get!(world, battle_id, Battle);
             battle.assert_battle(world);
 
-            monster_utils::monster_ability(world, ref battle);
-            battle_utils::damage_hero(ref battle, battle.monster_attack);
+            let mut battle_effects: BattleEffects = get!(world, (battle.battle_id), BattleEffects);
+
+            monster_utils::monster_ability(world, ref battle, ref battle_effects);
+            battle_utils::damage_hero(ref battle, battle.monster_attack, ref battle_effects);
 
             if game_utils::is_battle_over(battle) {
                 game_utils::end_battle(ref battle, world);
             } else {
                 battle.round += 1;
                 battle.hero_energy += START_ENERGY;
+                battle_effects.damage_immune = false;
 
                 set!(world, (
-                    battle
+                    battle, battle_effects
                 ));
             }
         }

@@ -1,8 +1,7 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { getBlockWithTxs, getLatestBlock } from "../api/starknet";
-import { delay, getNodeStatus } from "../helpers/utilities";
 import { GAME_EFFECTS } from "../helpers/constants";
-import { useContext } from "react";
+import { delay, getNodeStatus } from "../helpers/utilities";
 import { DojoContext } from "./dojoContext";
 
 export const GameContext = createContext()
@@ -84,44 +83,45 @@ export const GameProvider = ({ children }) => {
   }
 
   const updateNodeStatus = (nodeId, status) => {
-    setNodes(prev => prev.map(node =>
-      ({ ...node, status: node.nodeId === nodeId ? status : node.status })
-    ))
+    setNodes(prev => {
+      let newNodes = prev.map(node => ({ ...node, status: node.nodeId === nodeId ? status : node.status }))
+      return newNodes.map(node => ({ ...node, active: getNodeStatus(newNodes, node) }))
+    });
   }
 
   const selectNode = async (nodeId) => {
     const res = await dojo.executeTx("node_systems", "select_node", [nodeId])
- 
+
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
       let node = res.find(e => e.componentName === 'Node')
 
       if (node?.status) {
-        updateNodeStatus(node.nodeId, node.status)
+        updateNodeStatus(node.nodeId, node.status);
       }
 
       if (gameValues) {
-        setGame(gameValues)
+        setGame(gameValues);
       }
     }
 
-    return res
+    return res;
   }
 
   const skipNode = async (nodeId) => {
-    const res = await dojo.executeTx("node_systems", "skip_node", [nodeId])
- 
-    if (res) {
-      const node = res.find(e => e.componentName === 'Node')
-      const gameValues = res.find(e => e.componentName === 'Game')
+    const res = await dojo.executeTx("node_systems", "skip_node", [nodeId]);
 
-      updateNodeStatus(node.nodeId)
-      setGame(gameValues)
+    if (res) {
+      const node = res.find(e => e.componentName === 'Node');
+      const gameValues = res.find(e => e.componentName === 'Game');
+
+      updateNodeStatus(node.nodeId);
+      setGame(gameValues);
     }
   }
 
   const generateNodes = async () => {
-    const res = await dojo.executeTx("node_systems", "generate_tree", [values.gameId, entropy.blockHash])
+    const res = await dojo.executeTx("node_systems", "generate_tree", [values.gameId, entropy.blockHash]);
 
     if (res) {
       const nodes = res.filter(e => e.componentName === 'Node')
@@ -139,10 +139,10 @@ export const GameProvider = ({ children }) => {
         }
 
         return { ...node, ...nodeDetails, active: getNodeStatus(nodes, node) }
-      })
+      });
 
-      setNodes(computedNodes.sort((a, b) => a.level - b.level))
-      setGame(gameValues)
+      setNodes(computedNodes.sort((a, b) => a.level - b.level));
+      setGame(gameValues);
     }
   }
 
@@ -155,6 +155,7 @@ export const GameProvider = ({ children }) => {
         clientOnly,
         gameEffects,
         nodes,
+
         setGame,
         endGame,
         setClientOnly,
@@ -162,7 +163,7 @@ export const GameProvider = ({ children }) => {
         setScore,
         setGameEffects,
         setNodes,
-        
+
         actions: {
           selectNode,
           skipNode,

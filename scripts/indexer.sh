@@ -17,4 +17,4 @@ cp ../contracts/manifests/prod/deployment/manifest.json ../client/prod-manifest.
 
 echo "-----  Started indexer ----- "
 rm torii.db
-torii --world 0x2ac6157b9cf3fa800073c7d37f633538e6bf408024aa21d52b1875b1968d750 --database torii.db --allowed-origins "*"
+torii --world 0x68bd46f4b09cc876e0ac692e1943351eb63b1d95e9406b4c0bff833a9edb0eb --database torii.db --allowed-origins "*"

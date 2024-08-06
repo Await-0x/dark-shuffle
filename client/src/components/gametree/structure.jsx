@@ -13,6 +13,7 @@ import { CustomTooltip } from '../../helpers/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
+import { useRef } from 'react';
 
 const INACTIVE_OPACITY = 0.5
 
@@ -21,6 +22,16 @@ function Structure(props) {
 
   const { nodes } = game
   const [tree, buildTree] = useState([])
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (tree.length > 0 && nodes[0].active && containerRef.current) {
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [tree])
 
   useEffect(() => {
     let endNode = nodes.find(node => node.level === TOP_NODE_LEVEL)
@@ -109,17 +120,13 @@ function Structure(props) {
         if (line === 10 && connectedToEndNode.filter(node => node.section === 2).length === 1) {
           return { opacity: 0 }
         }
-
-        if (connectedToEndNode.filter(node => node.section === 0).length === 1) {
-          return { opacity: 0 }
-        }
       }
 
       if (!endNode.active) {
         return { opacity: INACTIVE_OPACITY }
       }
 
-      let activeNode = connectedToEndNode.find(node => node.status !== 0)
+      let activeNode = connectedToEndNode.find(node => node.status !== 0 || node.active)
       let sectionLength = connectedToEndNode.filter(node => node.section === activeNode.section).length
       let sectionIndex = connectedToEndNode.filter(node => node.section === activeNode.section).findIndex(node => node.nodeId === activeNode.nodeId)
 
@@ -238,7 +245,7 @@ function Structure(props) {
     let monster = MONSTER_LIST.find(monster => monster.id === node.monsterId)
 
     return <Box sx={styles.circleContainer}>
-      <CustomTooltip position={'right'} title={
+      <CustomTooltip leaveDelay={300} position={'right'} title={
         <Box sx={styles.tooltipContainer}>
           {monster.abilities}
 
@@ -294,8 +301,8 @@ function Structure(props) {
   }
 
   function renderPotionNode(node) {
-    return <CustomTooltip position={'right'} title={
-      <Box sx={styles.tooltipContainer}>
+    return <CustomTooltip leaveDelay={300} position={'right'} title={
+      <Box sx={[styles.tooltipContainer, { m: 0.5 }]}>
         <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
           <FavoriteIcon htmlColor="red" sx={{ fontSize: '25px' }} />
           <Typography variant='h6' color={'primary'} >Health</Typography>
@@ -332,8 +339,8 @@ function Structure(props) {
   }
 
   function renderEnergyNode(node) {
-    return <CustomTooltip position={'right'} title={
-      <Box sx={styles.tooltipContainer}>
+    return <CustomTooltip leaveDelay={300} position={'right'} title={
+      <Box sx={[styles.tooltipContainer, { m: 0.5 }]}>
         <Box sx={{ display: 'flex', gap: 0.5, mb: 1 }}>
           <img alt='' src={bolt} height={24} />
           <Typography variant='h6' color={'primary'} >Energy</Typography>
@@ -343,10 +350,10 @@ function Structure(props) {
         <Typography color='secondary'>Pass: Gain 10 xp</Typography>
 
         {node.active && <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
-          <LoadingButton color='secondary' fullWidth variant='outlined' onClick={() => startBattle(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <LoadingButton color='secondary' fullWidth variant='outlined' onClick={() => game.actions.skipNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
             Pass
           </LoadingButton>
-          <LoadingButton color='primary' fullWidth variant='outlined' onClick={() => startBattle(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <LoadingButton color='primary' fullWidth variant='outlined' onClick={() => props.selectNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
             Take
           </LoadingButton>
         </Box>}
@@ -401,7 +408,7 @@ function Structure(props) {
 
   function RenderConnectedNode(node) {
     return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {RenderConnector(node, 'vertical', node.nodeId === nodes[0].nodeId ? 1 : 0, { height: '50px' })}
+      {RenderConnector(node, 'vertical', (node.nodeId === nodes[0].nodeId && tree.length > 1) ? 1 : 0, { height: '50px' })}
       {RenderType(node, 'connected')}
     </Box>
   }
@@ -452,7 +459,7 @@ function Structure(props) {
   }
 
   return (
-    <Box sx={styles.container}>
+    <Box sx={styles.container} ref={containerRef}>
       <Box sx={styles.topNode}>
         {RenderConnectedNode(nodes[nodes.length - 1])}
 
@@ -613,6 +620,6 @@ const styles = {
   tooltipContainer: {
     width: '180px',
     textAlign: 'left',
-    pb: 0.5
+    p: 0.5
   }
 }
