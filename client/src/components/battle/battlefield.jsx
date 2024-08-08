@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
 import { GameContext } from "../../contexts/gameContext";
-import DamageEffectAnimation from '../animations/damageEffectAnimation';
 import PoisonSprayAnimation from "../animations/poisonSprayAnimation";
 import Adventurer from './adventurer';
 import Arrow from "./arrow";
@@ -63,20 +62,6 @@ function Battlefield(props) {
       <Adventurer />
 
     </Box >
-
-    {/* {React.Children.toArray(
-      animationHandler.creatureAnimations.filter(x => x.type === 'death').map(animation => <StarAnimation
-        id={animation.id}
-        left={animation.position.x}
-        bottom={animation.position.y}
-      />)
-    )} */}
-
-    {React.Children.toArray(
-      animationHandler.creatureAnimations.filter(x => x.type === 'damageEffect').map(animation => <DamageEffectAnimation
-        animation={animation}
-      />)
-    )}
 
     {animationHandler.boardAnimation.length > 0 && React.Children.toArray(
       animationHandler.boardAnimation.map(animation => <PoisonSprayAnimation

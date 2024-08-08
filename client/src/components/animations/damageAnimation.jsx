@@ -13,10 +13,6 @@ function DamageAnimation(props) {
 
   useEffect(() => {
     startAnimation()
-
-    return () => {
-      animationHandler.damageFinished(id);
-    }
   }, [damage])
 
   async function startAnimation() {
@@ -28,17 +24,16 @@ function DamageAnimation(props) {
         transition: { duration: 1, delay: 2 }
       })
 
-      animationHandler.damageFinished(id)
+      animationHandler.actions.setAnimations(prev => ({ ...prev, [id]: null }));
     } catch (ex) { }
   }
 
-  let position = mini ? { position: 'absolute', left: '70px', top: '35px' } : small ? { position: 'absolute', left: '15px', top: '15px' } : { position: 'absolute', left: '25px', top: '25px' }
+  let position = mini ? { zIndex: 99, position: 'absolute', left: '70px', top: '35px' } : small ? { zIndex: 99, position: 'absolute', left: '15px', top: '15px' } : { zIndex: 99, position: 'absolute', left: '25px', top: '25px' }
   let size = mini ? { width: '60px', height: '60px' } : small ? { width: '90px', height: '90px' } : { width: '150px', height: '150px' }
 
   return <motion.div
     style={position}
     animate={controls}
-    key={id}
   >
 
     <Box sx={size} display={'flex'} alignItems={'center'} justifyContent={'center'}>

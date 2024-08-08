@@ -34,13 +34,13 @@ export const translateName = (address) => {
 export const components = {
   // Game Models
   'Game': {
-    gameId: null,
+    gameId: Number(),
     player: null,
     player_name: String(),
     active: Boolean(),
     inDraft: Boolean(),
     inBattle: Boolean(),
-    activeBattleId: null,
+    activeBattleId: Number(),
     heroHealth: Number(),
     heroEnergy: Number(),
     heroXp: Number(),
@@ -50,7 +50,7 @@ export const components = {
     entropyCount: Number()
   },
   'Leaderboard': {
-    gameId: null,
+    gameId: Number(),
     player: null,
     player_name: String(),
     score: Number()
@@ -58,17 +58,17 @@ export const components = {
 
   // Draft Models
   'Draft': {
-    gameId: null,
+    gameId: Number(),
     cardCount: Number(),
   },
   'DraftOption': {
-    gameId: null,
+    gameId: Number(),
     optionId: Number(),
     cardId: Number(),
     level: Number(),
   },
   'DraftCard': {
-    gameId: null,
+    gameId: Number(),
     number: Number(),
     cardId: Number(),
     level: Number(),
@@ -76,9 +76,9 @@ export const components = {
 
   // Battle models
   'Battle': {
-    battleId: null,
-    gameId: null,
-    nodeId: null,
+    battleId: Number(),
+    gameId: Number(),
+    nodeId: Number(),
     round: Number(),
     cardIndex: Number(),
     heroHealth: Number(),
@@ -89,7 +89,7 @@ export const components = {
     monsterHealth: Number()
   },
   'Creature': {
-    battleId: null,
+    battleId: Number(),
     creatureId: Number(),
     cardId: Number(),
     cost: Number(),
@@ -99,7 +99,7 @@ export const components = {
     restingRound: Number()
   },
   'Board': {
-    battleId: null,
+    battleId: Number(),
     creature1: Number(),
     creature2: Number(),
     creature3: Number(),
@@ -108,13 +108,13 @@ export const components = {
     creature6: Number(),
   },
   'HandCard': {
-    battleId: null,
+    battleId: Number(),
     handCardNumber: Number(),
     cardId: Number(),
     level: Number(),
   },
   'BattleEffects': {
-    battleId: null,
+    battleId: Number(),
     nextSpellReduction: Number(),
     nextCardReduction: Number(),
     freeDiscard: Boolean(),
@@ -124,8 +124,8 @@ export const components = {
 
   // Node models
   'Node': {
-    nodeId: null,
-    gameId: null,
+    nodeId: Number(),
+    gameId: Number(),
     branch: Number(),
     nodeType: Number(),
     skippable: Boolean(),
@@ -134,19 +134,19 @@ export const components = {
     parents: 'array',
   },
   'MonsterNode': {
-    nodeId: null,
+    nodeId: Number(),
     monsterId: Number(),
     attack: Number(),
     health: Number()
   },
   'PotionNode': {
-    nodeId: null,
+    nodeId: Number(),
     amount: Number(),
   },
 
   // Entropy models
   'Entropy': {
-    gameId: null,
+    gameId: Number(),
     number: Number(),
     blockNumber: Number(),
     blockHash: null

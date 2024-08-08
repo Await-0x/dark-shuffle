@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { getLeaderboard } from '../../api/indexer';
 import { hexToAscii } from '@dojoengine/utils';
+import { Scrollbar } from 'react-scrollbars-custom';
 
 function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
@@ -56,7 +57,7 @@ function Leaderboard() {
 
       {loading && <Box />}
 
-      <Box sx={styles.rowContainer}>
+      <Scrollbar style={{ width: '100%', height: '100%', paddingBottom: '20px' }}>
         {!loading && React.Children.toArray(
           leaderboard.map((player, i) => {
 
@@ -77,8 +78,7 @@ function Leaderboard() {
             </>
           })
         )}
-      </Box>
-
+      </Scrollbar>
     </Box >
   )
 }

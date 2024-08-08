@@ -28,7 +28,7 @@ export function translateEvent(event) {
 
   const parsedFields = Object.keys(component).reduce((acc, key, index) => {
     if (component[key] === 'array') {
-      return { ...acc, [key]: values.splice(index+1, parseInt(values[index])) }
+      return { ...acc, [key]: values.splice(index+1, parseInt(values[index])).map(x => parseInt(x)) }
     }
 
     return { ...acc, [key]: parseData(values[index], component[key]) }

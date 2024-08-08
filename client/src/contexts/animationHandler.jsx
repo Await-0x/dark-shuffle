@@ -4,7 +4,13 @@ export const AnimationContext = createContext()
 
 let ANIMATION_COUNTER = 1
 
+let START_VALUES = {
+  monsterDamaged: null
+}
+
 export const AnimationHandler = ({ children }) => {
+
+  const [animations, setAnimations] = useState({ ...START_VALUES })
 
   const [completed, setCompleted] = useState([])
 
@@ -22,6 +28,7 @@ export const AnimationHandler = ({ children }) => {
     setHeroAnimations([])
     setDamageAnimations([])
     setBoardAnimation([])
+    setAnimations({ ...START_VALUES })
   }
 
   const addAnimation = (type, animation, animationList) => {
@@ -75,6 +82,14 @@ export const AnimationHandler = ({ children }) => {
   return (
     <AnimationContext.Provider
       value={{
+        actions: {
+          setAnimations
+        },
+
+        state: {
+          animations
+        },
+
         completed,
         animationCompleted,
         consumeCompleted,

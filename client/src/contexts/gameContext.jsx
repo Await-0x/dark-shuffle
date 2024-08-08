@@ -94,7 +94,12 @@ export const GameProvider = ({ children }) => {
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
-      let node = res.find(e => e.componentName === 'Node')
+      const node = res.find(e => e.componentName === 'Node')
+      const entropy = res.find(e => e.componentName === 'Entropy')
+
+      if (entropy) {
+        setGameEntropy(entropy);
+      }
 
       if (node?.status) {
         updateNodeStatus(node.nodeId, node.status);
@@ -115,7 +120,7 @@ export const GameProvider = ({ children }) => {
       const node = res.find(e => e.componentName === 'Node');
       const gameValues = res.find(e => e.componentName === 'Game');
 
-      updateNodeStatus(node.nodeId);
+      updateNodeStatus(node.nodeId, node.status);
       setGame(gameValues);
     }
   }
@@ -141,7 +146,7 @@ export const GameProvider = ({ children }) => {
         return { ...node, ...nodeDetails, active: getNodeStatus(nodes, node) }
       });
 
-      setNodes(computedNodes.sort((a, b) => a.level - b.level));
+      setNodes(computedNodes.sort((a, b) => a.nodeId - b.nodeId));
       setGame(gameValues);
     }
   }

@@ -97,6 +97,11 @@ export const BattleProvider = ({ children }) => {
     const gameValues = res.find(e => e.componentName === 'Game')
     const leaderboard = res.find(e => e.componentName === 'Leaderboard')
     const node = res.find(e => e.componentName === 'Node')
+    const entropy = res.find(e => e.componentName === 'Entropy')
+
+    if (entropy) {
+      game.setGameEntropy(entropy);
+    }
 
     if (leaderboard) {
       return game.setScore(Math.max(1, leaderboard.score))
@@ -238,7 +243,7 @@ export const BattleProvider = ({ children }) => {
     setAdventurer(prev => ({ ...prev, energy: adventurer.energy + START_ENERGY }));
 
     if (battleEffects.damageImmune) {
-      setBattleEffects(prev => ({ ...prev, damageImmune: false }))
+      setBattleEffects(prev => ({ ...prev, damageImmune: false }));
     }
   }
 
@@ -262,7 +267,7 @@ export const BattleProvider = ({ children }) => {
         return creatureDead(creature);
       }
 
-      creatureHealth(creature, amount * -1)
+      creatureHealth(creature, amount * -1);
     })
   }
 
@@ -273,22 +278,22 @@ export const BattleProvider = ({ children }) => {
       position: getCreaturePosition(creature.id)
     })
 
-    setBoard(prev => prev.filter(x => x.id !== creature.id))
+    setBoard(prev => prev.filter(x => x.id !== creature.id));
   }
 
   const updateCreature = (id, update) => {
     setBoard(prev => prev.map(creature => {
       if (creature.id === id) return { ...creature, ...update }
-      return creature
+      return creature;
     }))
   }
 
   const creatureSleep = (target) => {
-    updateCreature(target.id, { resting: true })
+    updateCreature(target.id, { resting: true });
   }
 
   const removeShield = (target) => {
-    updateCreature(target.id, { shield: false })
+    updateCreature(target.id, { shield: false });
   }
 
   const creatureHealth = (target, amount) => {
@@ -376,29 +381,17 @@ export const BattleProvider = ({ children }) => {
     setMonster(prev => ({ ...prev, health: prev.health + amount }))
   }
 
-  const damageMonster = (amount, cardId) => {
+  const damageMonster = (amount) => {
     if (monster.id === 3) {
       amount -= 1;
     }
 
-    if (cardId) {
-      board.filter(creature => creature.cardId === cardId).map(creature => {
-        animationHandler.addAnimation('creature', {
-          type: 'damageEffect',
-          creatureId: creature.id,
-          position: getCreaturePosition(creature.id),
-          targetPosition: getMonsterPosition(),
-          damageAmount: amount
-        })
-      })
-    }
-
-    animationHandler.addAnimation('damage', { targetId: monster.id, damage: amount })
-    setMonster(prev => ({ ...prev, health: prev.health - amount }))
+    animationHandler.actions.setAnimations(prev => ({ ...prev, monsterDamaged: amount }));
+    setMonster(prev => ({ ...prev, health: prev.health - amount }));
   }
 
   const setTargetFriendly = (card) => {
-    setTargetFriendlyCreature(card)
+    setTargetFriendlyCreature(card);
   }
 
   const getMonsterPosition = () => {

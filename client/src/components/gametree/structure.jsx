@@ -455,7 +455,7 @@ function Structure(props) {
   }
 
   if (tree.length === 0) {
-    return <Box />
+    return <Box>Tree not generated</Box>
   }
 
   return (

@@ -1,8 +1,11 @@
-import { Box, Button, Dialog, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import StarIcon from '@mui/icons-material/Star';
+import { Box, Dialog, Typography } from '@mui/material';
+import vortex from "../../assets/images/vortex.png";
 import { MONSTER_LIST } from '../../battle/monsterUtils';
 import { fetch_image } from '../../helpers/cards';
-import vortex from "../../assets/images/vortex.png"
+import { levelColors } from '../../helpers/constants';
 
 function TutorialDialog(props) {
   const { open, close } = props
@@ -26,21 +29,21 @@ function TutorialDialog(props) {
         <Box sx={styles.guideRow}>
           <Box width='40%'>
             <Typography variant='h5' color='primary'>
-              Deck iterations
+              Card Tiers
             </Typography>
             <Typography mt={1}>
-              Play / Discard all cards in your hand to get a new set of improved cards.
+              Defeat beasts to level up your cards
             </Typography>
           </Box>
 
-          <Box width='40%' display={'flex'} alignItems={'center'} justifyContent={'center'}>
-            <Box sx={styles.deck}>
-              <Box sx={styles.cardCount}>
-                <Typography>
-                  1
-                </Typography>
+          <Box width='40%' display={'flex'} alignItems={'center'} justifyContent={'center'} gap={0.5}>
+            {Array(5).fill(0).map((_, i) => {
+              return <Box sx={styles.levelContainer} key={i}>
+                <BookmarkIcon htmlColor={levelColors[i].bg} fontSize='large' />
+                <StarIcon htmlColor={levelColors[i].star} sx={{ position: 'absolute', top: '6px', left: '12px', fontSize: '10px' }} />
+                <StarIcon htmlColor={levelColors[i].star} sx={{ position: 'absolute', top: '15px', left: '12px', fontSize: '10px' }} />
               </Box>
-            </Box>
+            })}
           </Box>
         </Box>
 
@@ -96,10 +99,10 @@ function TutorialDialog(props) {
         <Box sx={styles.guideRow}>
           <Box width='40%'>
             <Typography variant='h5' color='primary'>
-              Attack Monster
+              Attack Beast
             </Typography>
             <Typography mt={1}>
-              Use your creatures or spells to damage the monster.
+              Use your creatures or spells to damage the beast.
             </Typography>
           </Box>
 
@@ -162,26 +165,31 @@ const styles = {
     justifyContent: 'center',
     borderRadius: '100px'
   },
-    deck: {
-      background: '#141920',
-      border: '1px solid rgba(255, 255, 255, 0.6)',
-      height: '80px',
-      width: '60px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: '4px',
-      boxShadow: `rgba(255, 233, 127, 0.35) 0px 5px 15px`,
-      animation: 'animateGlow 2.5s linear infinite',
-      cursor: 'pointer'
-    },
-    cardCount: {
-      width: '32px',
-      height: '32px',
-      borderRadius: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      border: '1px solid rgba(255, 255, 255, 0.3)',
-    }
+  deck: {
+    background: '#141920',
+    border: '1px solid rgba(255, 255, 255, 0.6)',
+    height: '80px',
+    width: '60px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '4px',
+    boxShadow: `rgba(255, 233, 127, 0.35) 0px 5px 15px`,
+    animation: 'animateGlow 2.5s linear infinite',
+    cursor: 'pointer'
+  },
+  cardCount: {
+    width: '32px',
+    height: '32px',
+    borderRadius: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
+  },
+  levelContainer: {
+    marginTop: '-5px',
+    marginRight: '-8px',
+    position: 'relative',
+  }
 }

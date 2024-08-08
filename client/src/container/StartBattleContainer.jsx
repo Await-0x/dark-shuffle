@@ -12,7 +12,6 @@ import { fadeVariant } from "../helpers/variants";
 
 function StartBattleContainer() {
   const game = useContext(GameContext)
-  const draft = useContext(DraftContext)
   const battle = useContext(BattleContext)
 
   useEffect(() => {

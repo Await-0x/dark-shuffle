@@ -79,7 +79,7 @@ export async function getEntropy(game_id, number) {
 export async function getTreeNodes(game_id, branch) {
   const document = gql`
   {
-    darkshuffleNodeModels(where:{game_id:${game_id}, branch:${branch + 1}}, limit:100) {
+    darkshuffleNodeModels(where:{game_id:${game_id}, branch:${branch}}, limit:100) {
       edges {
         node {
           node_id,
@@ -163,9 +163,9 @@ export async function getTreeNodes(game_id, branch) {
     attack: node.attack,
     health: node.health,
     amount: node.amount
-  }))
+  })).sort((a, b) => a.nodeId - b.nodeId)
 
-  return nodeObject.map(node => ({ ...node, active: getNodeStatus(nodeObject, node) })).sort((a, b) => a.level - b.level)
+  return nodeObject.map(node => ({ ...node, active: getNodeStatus(nodeObject, node) }))
 }
 
 export async function getBattleState(battle_id) {

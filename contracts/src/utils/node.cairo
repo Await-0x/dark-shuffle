@@ -124,7 +124,7 @@ mod node_utils {
         let monster_id = random::get_random_number(seed, MONSTER_COUNT);
         let branch_multiplier = random::get_random_number(seed, branch);
 
-        let health = 30 + (branch * 5) + (branch_multiplier * 2);
+        let health = 35 + (branch * 6) + (branch_multiplier * 3);
         let attack = 1 + (branch * 2) + (branch_multiplier);
 
         MonsterNode {

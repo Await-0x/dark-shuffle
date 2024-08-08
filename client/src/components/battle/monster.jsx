@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import skullAnim from "../../assets/animations/skull.json";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from "../../contexts/battleContext";
+import DamageAnimation from '../animations/damageAnimation';
 import Bigfoot from './monsters/bigfoot';
 import Chimera from './monsters/chimera';
 import Kappa from './monsters/kappa';
@@ -91,15 +92,20 @@ function Monster(props) {
     }
   }
 
+  let damage = animationHandler.state.animations.monsterDamaged
+
   return <>
     <motion.div
       layout
       onMouseUp={(event) => mouseUpHandler(event)}
       animate={controls}
       ref={ref}
+      style={{ position: 'relative', width: '200px', height: '200px' }}
     >
 
-      <motion.div animate={skullControls} style={{ left: 'calc(50% - 100px)', top: '100px', position: 'absolute', opacity: monster.health > 0 ? 0 : 1 }}>
+      {(damage && monster.health > 0) && <DamageAnimation id={'monsterDamaged'} damage={damage} />}
+
+      <motion.div animate={skullControls} style={{ left: 'calc(50% - 100px)', top: 0, position: 'absolute', opacity: monster.health > 0 ? 0 : 1 }}>
         {skull.View}
       </motion.div>
 

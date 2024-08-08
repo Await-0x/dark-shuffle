@@ -15,11 +15,9 @@ export const MONSTER_LIST = [
     image: <img alt='' src={minotaur} height={'100%'} />,
     abilities: <>
       <Typography color="primary" variant='h6'>Minotaur</Typography>
-
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-        <Typography color="primary">★ Super Rage</Typography>
+        <Typography color="primary">★ Rage</Typography>
       </Box>
-
       <Typography mt={0.5}>Gains +2 attack each round.</Typography>
     </>,
   },
@@ -30,13 +28,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={troll} height={'100%'} />,
     abilities: <>
       <Typography color="primary" variant='h6'>Troll</Typography>
-
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-        <Typography color="primary">★ Rage</Typography>
-      </Box>
-      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
-
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
         <Typography color="primary">★ Regeneration</Typography>
       </Box>
       <Typography mt={0.5}>Restores (4) health each turn.</Typography>
@@ -49,13 +41,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={bigfoot} height={'100%'} />,
     abilities: <>
       <Typography color="primary" variant='h6'>Bigfoot</Typography>
-
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-        <Typography color="primary">★ Rage</Typography>
-      </Box>
-      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
-
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
         <Typography color="primary">★ Thick Skin</Typography>
       </Box>
       <Typography mt={0.5}>Takes (1) less damage from all sources.</Typography>
@@ -68,13 +54,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={chimera} height={'100%'} />,
     abilities: <>
       <Typography color="primary" variant='h6'>Chimera</Typography>
-
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-        <Typography color="primary">★ Rage</Typography>
-      </Box>
-      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
-
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
         <Typography color="primary">★ Intimidation</Typography>
       </Box>
       <Typography mt={0.5}>Creatures can't attack the same turn they're summoned.</Typography>
@@ -87,13 +67,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={kappa} height={'100%'} />,
     abilities: <>
       <Typography color="primary" variant='h6'>Kappa</Typography>
-
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-        <Typography color="primary">★ Rage</Typography>
-      </Box>
-      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
-
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
         <Typography color="primary">★ Mind Vision</Typography>
       </Box>
       <Typography mt={0.5}>Creatures cost (1) more.</Typography>
@@ -106,13 +80,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={spider} height={'100%'} />,
     abilities: <>
       <Typography color="primary" variant='h6'>Spider</Typography>
-
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-        <Typography color="primary">★ Rage</Typography>
-      </Box>
-      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
-
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
         <Typography color="primary">★ Poison Spray</Typography>
       </Box>
       <Typography mt={0.5}>Deals (2) damage to each creature.</Typography>
@@ -125,13 +93,7 @@ export const MONSTER_LIST = [
     image: <img alt='' src={lich} height={'100%'} />,
     abilities: <>
       <Typography color="primary" variant='h6'>Lich</Typography>
-
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-        <Typography color="primary">★ Rage</Typography>
-      </Box>
-      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
-
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
         <Typography color="primary">★ Drain Life</Typography>
       </Box>
       <Typography mt={0.5}>Drains (1) life from each character.</Typography>

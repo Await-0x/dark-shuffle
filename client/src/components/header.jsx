@@ -20,7 +20,7 @@ const menuItems = [
     icon: <InfoIcon />
   },
   {
-    name: 'Collection',
+    name: 'Cards',
     path: '/library',
     icon: <InfoIcon />
   }

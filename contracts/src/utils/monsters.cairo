@@ -9,8 +9,6 @@ mod monster_utils {
     fn monster_ability(world: IWorldDispatcher, ref battle: Battle, ref battle_effects: BattleEffects) {
         if battle.monster_id == 1 {
             battle.monster_attack += 2;
-        } else {
-            battle.monster_attack += 1;
         }
 
         if battle.monster_id == 2 {

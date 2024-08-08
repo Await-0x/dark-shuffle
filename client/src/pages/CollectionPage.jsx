@@ -9,10 +9,11 @@ function CollectionPage() {
 
       <Box sx={styles.cards}>
         {React.Children.toArray(
-          fetchCardList().sort((a, b) => a.id - b.id).map(card =>
-            <Box sx={styles.cardContainer}>
+          fetchCardList().sort((a, b) => a.id - b.id).map(card => {
+            return <Box sx={styles.cardContainer}>
               <Card card={card} />
             </Box>
+          }
           ))}
       </Box>
 

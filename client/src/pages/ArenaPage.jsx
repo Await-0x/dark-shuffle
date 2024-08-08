@@ -33,7 +33,6 @@ function ArenaPage() {
           let nodes = await getTreeNodes(data.game_id, data.branch)
 
           if (nodes) {
-            console.log(nodes)
             gameState.setNodes(nodes)
           }
 

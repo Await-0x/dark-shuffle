@@ -45,7 +45,7 @@ export const tagExplainer = (tag) => {
 }
 
 export const fetchCardList = () => {
-  return Array.from(40).fill(0).map((_, i) => {
+  return Array(40).fill(0).map((_, i) => {
     return CARD_DETAILS(i + 1, i + 1)
   })
 }
