@@ -15,6 +15,8 @@ function DraftContainer() {
   const draft = useContext(DraftContext)
 
   const selectCard = (card) => {
+    if (draft.pendingCard) return;
+    
     draft.selectCard(card)
   }
 

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { getLeaderboard } from '../../api/indexer';
 import { hexToAscii } from '@dojoengine/utils';
-import { Scrollbar } from 'react-scrollbars-custom';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
@@ -57,10 +57,9 @@ function Leaderboard() {
 
       {loading && <Box />}
 
-      <Scrollbar style={{ width: '100%', height: '100%', paddingBottom: '20px' }}>
+      <Scrollbars style={{ width: '100%', height: '100%', paddingBottom: '20px' }}>
         {!loading && React.Children.toArray(
           leaderboard.map((player, i) => {
-
             return <>
               <Box sx={styles.row}>
                 <Box width='50px' textAlign={'center'}>
@@ -78,7 +77,7 @@ function Leaderboard() {
             </>
           })
         )}
-      </Scrollbar>
+      </Scrollbars>
     </Box >
   )
 }
@@ -102,8 +101,5 @@ const styles = {
     justifyContent: 'space-between',
     p: 1,
     opacity: 0.9
-  },
-  rowContainer: {
-    overflow: 'scroll'
   }
 }

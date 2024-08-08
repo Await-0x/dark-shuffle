@@ -10,6 +10,7 @@ import { BattleContext } from '../contexts/battleContext'
 import { DraftContext } from '../contexts/draftContext'
 import { GameContext } from '../contexts/gameContext'
 import { useSnackbar } from 'notistack'
+import { Scrollbars } from 'react-custom-scrollbars';
 
 function ArenaPage() {
   const gameState = useContext(GameContext)
@@ -75,7 +76,7 @@ function ArenaPage() {
   }, [])
 
   return (
-    <Box sx={styles.container}>
+    <Scrollbars style={{ ...styles.container }}>
       {gameId === null && <StartDraft />}
 
       {inDraft && <DraftContainer />}
@@ -85,7 +86,7 @@ function ArenaPage() {
       {(gameId !== null && !inDraft && !inBattle) && <StartBattleContainer />}
 
       {reconnecting && <ReconnectDialog close={() => setReconnecting(false)} />}
-    </Box>
+    </Scrollbars>
   )
 }
 
@@ -95,7 +96,6 @@ const styles = {
   container: {
     width: '100%',
     height: '100%',
-    overflow: 'scroll'
   },
 
   board: {

@@ -6,10 +6,10 @@ mod card_utils {
         if id == 1 {
             return Card {
                 card_id: 1,
-                name: 'Wild Dog',
+                name: 'Wisdom Bringer',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
-                cost: 3,
+                cost: 4,
                 attack: 3,
                 health: 6,
                 level
@@ -19,7 +19,7 @@ mod card_utils {
         else if id == 2 {
             return Card {
                 card_id: 2,
-                name: 'Wisdom Bringer',
+                name: 'Faith Guardian',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 cost: 4,
@@ -32,7 +32,7 @@ mod card_utils {
         else if id == 3 {
             return Card {
                 card_id: 3,
-                name: 'Fiery Demon',
+                name: 'Solace Bringer',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 cost: 5,
@@ -45,7 +45,7 @@ mod card_utils {
         else if id == 4 {
             return Card {
                 card_id: 4,
-                name: 'Zarthos',
+                name: 'Eden Priest',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 cost: 3,
@@ -58,7 +58,7 @@ mod card_utils {
         else if id == 5 {
             return Card {
                 card_id: 5,
-                name: 'Faith Guardian',
+                name: 'Wild Dog',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 cost: 1,
@@ -71,7 +71,7 @@ mod card_utils {
         else if id == 6 {
             return Card {
                 card_id: 6,
-                name: 'Grim Marauder',
+                name: 'Coyote',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 cost: 2,
@@ -84,7 +84,7 @@ mod card_utils {
         else if id == 7 {
             return Card {
                 card_id: 7,
-                name: 'Blessing Caster',
+                name: 'Fiery Demon',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 cost: 6,
@@ -97,7 +97,7 @@ mod card_utils {
         else if id == 8 {
             return Card {
                 card_id: 8,
-                name: 'Tasmanian Devil',
+                name: 'Beetle',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 cost: 4,
@@ -110,7 +110,7 @@ mod card_utils {
         else if id == 9 {
             return Card {
                 card_id: 9,
-                name: 'Jackal',
+                name: 'Zephyr',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 cost: 4,
@@ -123,7 +123,7 @@ mod card_utils {
         else if id == 10 {
             return Card {
                 card_id: 10,
-                name: 'Ghoul Ravager',
+                name: 'Fireball',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::ESCALATING,
                 cost: 1,
@@ -136,7 +136,7 @@ mod card_utils {
         else if id == 11 {
             return Card {
                 card_id: 11,
-                name: 'Gospel Scribe',
+                name: 'Lightning Strike',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::ESCALATING,
                 cost: 3,
@@ -149,10 +149,10 @@ mod card_utils {
         else if id == 12 {
             return Card {
                 card_id: 12,
-                name: 'Eden Priest',
+                name: 'First Aid',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::ESCALATING,
-                cost: 1,
+                cost: 3,
                 attack: 0,
                 health: 0,
                 level
@@ -162,7 +162,7 @@ mod card_utils {
         else if id == 13 {
             return Card {
                 card_id: 13,
-                name: 'Coyote',
+                name: 'Grace Warden',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
                 cost: 2,
@@ -175,7 +175,7 @@ mod card_utils {
         else if id == 14 {
             return Card {
                 card_id: 14,
-                name: 'Virtue Curate',
+                name: 'Blessing Caster',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
                 cost: 3,
@@ -188,7 +188,7 @@ mod card_utils {
         else if id == 15 {
             return Card   {
                 card_id: 15,
-                name: 'Solace Bringer',
+                name: 'Gospel Scribe',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
                 cost: 5,
@@ -201,7 +201,7 @@ mod card_utils {
         else if id == 16 {
             return Card {
                 card_id: 16,
-                name: 'Zephyr',
+                name: 'Chant Monk',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
                 cost: 4,
@@ -214,7 +214,7 @@ mod card_utils {
         else if id == 17 {
             return Card {
                 card_id: 17,
-                name: 'Divine Speaker',
+                name: 'Grim Marauder',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
                 cost: 2,
@@ -227,7 +227,7 @@ mod card_utils {
         else if id == 18 {
             return Card {
                 card_id: 18,
-                name: 'Fireball',
+                name: 'Tasmanian Devil',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
                 cost: 3,
@@ -240,7 +240,7 @@ mod card_utils {
         else if id == 19 {
             return Card {
                 card_id: 19,
-                name: 'Flash Heal',
+                name: 'Jackal',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
                 cost: 4,
@@ -253,7 +253,7 @@ mod card_utils {
         else if id == 20 {
             return Card {
                 card_id: 20,
-                name: 'Greater Heal',
+                name: 'Binturong',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
                 cost: 5,
@@ -266,7 +266,7 @@ mod card_utils {
         else if id == 21 {
             return Card {
                 card_id: 21,
-                name: 'Lava Wave',
+                name: 'Virtue Curate',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 cost: 5,
@@ -279,7 +279,7 @@ mod card_utils {
         else if id == 22 {
             return Card {
                 card_id: 22,
-                name: 'Temporal Shift',
+                name: 'Mercy Giver',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 cost: 6,
@@ -292,7 +292,7 @@ mod card_utils {
         else if id == 23 {
             return Card {
                 card_id: 23,
-                name: 'Power Injection',
+                name: 'Celestial Minister',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 cost: 7,
@@ -305,7 +305,7 @@ mod card_utils {
         else if id == 24 {
             return Card {
                 card_id: 24,
-                name: 'Peace Giver',
+                name: 'Peace Keeper',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 cost: 4,
@@ -318,7 +318,7 @@ mod card_utils {
         else if id == 25 {
             return Card {
                 card_id: 25,
-                name: 'Blessed Barrier',
+                name: 'Rat',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 cost: 5,
@@ -331,7 +331,7 @@ mod card_utils {
         else if id == 26 {
             return Card {
                 card_id: 26,
-                name: 'Blessed Barrier',
+                name: 'Bald Eagle',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 cost: 5,
@@ -344,7 +344,7 @@ mod card_utils {
         else if id == 27 {
             return Card {
                 card_id: 27,
-                name: 'Blessed Barrier',
+                name: 'Devourer',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 cost: 6,
@@ -357,7 +357,7 @@ mod card_utils {
         else if id == 28 {
             return Card {
                 card_id: 28,
-                name: 'Blessed Barrier',
+                name: 'Rage Infernal',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 cost: 6,
@@ -370,7 +370,7 @@ mod card_utils {
         else if id == 29 {
             return Card {
                 card_id: 29,
-                name: 'Blessed Barrier',
+                name: 'Jinx Weaver',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 cost: 6,
@@ -396,7 +396,7 @@ mod card_utils {
         else if id == 31 {
             return Card {
                 card_id: 31,
-                name: 'Blessed Barrier',
+                name: 'Barricade',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::RENEWABLE,
                 cost: 4,
@@ -409,7 +409,7 @@ mod card_utils {
         else if id == 32 {
             return Card {
                 card_id: 32,
-                name: 'Blessed Barrier',
+                name: 'Natures Wrath',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::RENEWABLE,
                 cost: 5,
@@ -422,7 +422,7 @@ mod card_utils {
         else if id == 33 {
             return Card {
                 card_id: 33,
-                name: 'Blessed Barrier',
+                name: 'Spark',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::RENEWABLE,
                 cost: 2,
@@ -435,7 +435,7 @@ mod card_utils {
         else if id == 34 {
             return Card {
                 card_id: 34,
-                name: 'Blessed Barrier',
+                name: 'Divine Intervention',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::RENEWABLE,
                 cost: 4,
@@ -448,7 +448,7 @@ mod card_utils {
         else if id == 35 {
             return Card {
                 card_id: 35,
-                name: 'Blessed Barrier',
+                name: 'Energy Transfer',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::NONE,
                 cost: 1,
@@ -461,7 +461,7 @@ mod card_utils {
         else if id == 36 {
             return Card {
                 card_id: 36,
-                name: 'Blessed Barrier',
+                name: 'Greater Heal',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::UNSTABLE,
                 cost: 1,
@@ -474,7 +474,7 @@ mod card_utils {
         else if id == 37 {
             return Card {
                 card_id: 37,
-                name: 'Blessed Barrier',
+                name: 'Power Injection',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::UNSTABLE,
                 cost: 1,
@@ -487,7 +487,7 @@ mod card_utils {
         else if id == 38 {
             return Card {
                 card_id: 38,
-                name: 'Blessed Barrier',
+                name: 'Shifting Aegis',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::UNSTABLE,
                 cost: 1,
@@ -500,7 +500,7 @@ mod card_utils {
         else if id == 39 {
             return Card {
                 card_id: 39,
-                name: 'Blessed Barrier',
+                name: 'Chaotic Blast',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::UNSTABLE,
                 cost: 1,
@@ -513,7 +513,7 @@ mod card_utils {
         else if id == 40 {
             return Card {
                 card_id: 40,
-                name: 'Blessed Barrier',
+                name: 'Flickering Sanctuary',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::UNSTABLE,
                 cost: 1,

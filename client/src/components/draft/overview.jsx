@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material"
 import { motion } from "framer-motion"
 import React, { useContext, useState } from "react"
 import { DraftContext } from "../../contexts/draftContext"
-import { CardSize, fetch_image } from "../../helpers/cards"
+import { CARD_DETAILS, CardSize, fetch_image, tags } from "../../helpers/cards"
 import Card from "../card"
 import { levelColors } from "../../helpers/constants"
 import BookmarkIcon from '@mui/icons-material/Bookmark';
@@ -18,8 +18,11 @@ function Overview() {
 
     {React.Children.toArray(
       draft.cards.sort((a, b) => a.cost - b.cost).map(card => {
-        let level = card.level - 1
-        let levelColor = levelColors[Math.floor(level / 3)]
+        card = CARD_DETAILS(card.cardId, card.number, card.level);
+
+        let level = card.level - 1;
+        let levelColor = levelColors[Math.floor(level / 3)];
+        card.cost = card.tag === tags.RENEWABLE ? Math.max(1, card.cost - (card.level - 1)) : card.cost;
 
         return <motion.div style={{ ...styles.card }}
           onHoverStart={() => setDisplayCard(card)}
@@ -59,7 +62,7 @@ function Overview() {
     )}
 
     {displayCard && <Box sx={styles.displayCard}>
-      <Card card={displayCard} />
+      <Card card={displayCard} cost={displayCard.cost} />
     </Box>}
   </Box>
 }

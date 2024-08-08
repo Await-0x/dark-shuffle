@@ -1,3 +1,4 @@
+import { Scrollbars } from 'react-custom-scrollbars';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
 import { Box, Typography } from '@mui/material';
@@ -22,14 +23,17 @@ function Structure(props) {
 
   const { nodes } = game
   const [tree, buildTree] = useState([])
-  const containerRef = useRef(null);
+  const scrollbarRef = useRef(null);
+
+  const scrollToTop = () => {
+    if (scrollbarRef.current) {
+      scrollbarRef.current.view.scrollTo({ top: scrollbarRef.current.getScrollHeight(), behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
-    if (tree.length > 0 && nodes[0].active && containerRef.current) {
-      containerRef.current.scrollTo({
-        top: containerRef.current.scrollHeight,
-        behavior: 'smooth'
-      });
+    if (tree.length > 0 && nodes[0].active && scrollbarRef.current) {
+      scrollToTop()
     }
   }, [tree])
 
@@ -459,7 +463,7 @@ function Structure(props) {
   }
 
   return (
-    <Box sx={styles.container} ref={containerRef}>
+    <Scrollbars ref={scrollbarRef} style={{ ...styles.container }}>
       <Box sx={styles.topNode}>
         {RenderConnectedNode(nodes[nodes.length - 1])}
 
@@ -524,7 +528,7 @@ function Structure(props) {
 
         <Box sx={{ width: '1px', height: '25px', background: '#FFE97F' }} />
       </Box>
-    </Box >
+    </Scrollbars>
   )
 }
 
@@ -534,8 +538,7 @@ const styles = {
   container: {
     width: '1200px',
     height: '100%',
-    margin: 'auto',
-    overflow: 'scroll',
+    margin: 'auto'
   },
   section: {
     height: '100%',

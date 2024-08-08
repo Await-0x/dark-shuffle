@@ -35,7 +35,7 @@ function DeathDialog(props) {
       <Box display={'flex'} mt={6}>
         <Box mr={10}>
           <Typography variant="h4" color='primary'>
-            Monsters Slain
+            Beasts Slain
           </Typography>
 
           <Typography variant="h1" mt={1} color='primary'>

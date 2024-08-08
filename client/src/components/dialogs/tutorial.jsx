@@ -32,7 +32,10 @@ function TutorialDialog(props) {
               Card Tiers
             </Typography>
             <Typography mt={1}>
-              Defeat beasts to level up your cards
+              Defeat beasts to level up your cards.
+            </Typography>
+            <Typography>
+              Spatial Diff.
             </Typography>
           </Box>
 

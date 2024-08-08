@@ -2,22 +2,25 @@ import { Box } from '@mui/material'
 import React from 'react'
 import Card from '../components/card'
 import { CardSize, fetchCardList } from '../helpers/cards'
+import { Scrollbars } from 'react-custom-scrollbars';
 
 function CollectionPage() {
   return (
     <Box sx={styles.container}>
+      <Scrollbars style={{ width: '100%', height: '100%' }}>
 
-      <Box sx={styles.cards}>
-        {React.Children.toArray(
-          fetchCardList().sort((a, b) => a.id - b.id).map(card => {
-            return <Box sx={styles.cardContainer}>
-              <Card card={card} />
-            </Box>
-          }
-          ))}
-      </Box>
+        <Box sx={styles.cards}>
+          {React.Children.toArray(
+            fetchCardList().sort((a, b) => a.id - b.id).map(card => {
+              return <Box sx={styles.cardContainer}>
+                <Card card={card} />
+              </Box>
+            }
+            ))}
+        </Box>
 
-    </Box >
+      </Scrollbars >
+    </Box>
   )
 }
 
@@ -29,8 +32,7 @@ const styles = {
     height: '100%',
     p: 2,
     pb: 10,
-    boxSizing: 'border-box',
-    overflow: 'scroll'
+    boxSizing: 'border-box'
   },
   cards: {
     display: 'flex',
