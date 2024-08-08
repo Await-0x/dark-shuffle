@@ -58,7 +58,6 @@ mod game_utils {
         game.active = false;
         game.active_battle_id = 0;
         game.hero_health = 0;
-        game.hero_xp += 99;
 
         update_leaderboard(ref game, ref battle, world);
         set!(world, (game, battle));
