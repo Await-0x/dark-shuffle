@@ -23,7 +23,12 @@ export const DojoProvider = ({ children }) => {
   useEffect(() => {
     if (localStorage.getItem('burner')) {
       let burner = JSON.parse(localStorage.getItem('burner'))
-      setAccount(new Account(rpcProvider, burner.address, burner.privateKey, "1"))
+
+      if (burner.version === dojoConfig.version) {
+        setAccount(new Account(rpcProvider, burner.address, burner.privateKey, "1"))
+      } else {
+        createBurner()
+      }
     } else {
       createBurner()
     }

@@ -65,7 +65,6 @@ export const createBurnerAccount = async (rpcProvider) => {
   );
 
   const account = new Account(rpcProvider, contractAddress, privateKey, "1");
-  console.log(rpcProvider)
   const { transaction_hash, contract_address } = await account.deployAccount({
     classHash: accountClassHash,
     constructorCalldata: constructorCalldata,
@@ -79,7 +78,7 @@ export const createBurnerAccount = async (rpcProvider) => {
   const receipt = await account.waitForTransaction(transaction_hash, { retryInterval: 100 });
 
   if (receipt) {
-    localStorage.setItem('burner', JSON.stringify({ address: contractAddress, privateKey }))
+    localStorage.setItem('burner', JSON.stringify({ address: contractAddress, privateKey, version: dojoConfig.version }))
     return account
   }
 };
