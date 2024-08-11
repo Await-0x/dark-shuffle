@@ -12,9 +12,9 @@ if [[ ! -z "$1" ]]; then
     if [[ "$1" == "prod" ]]; then
         echo "is prod"
         STARKNET_RPC_URL="https://api.cartridge.gg/x/darkshuffle/katana/"
-        DOJO_ACCOUNT_ADDRESS="0x1ac9ffb92ef2b848b6b9feb8a06b9c3311077007e9075517fe629165f8c111"
-        DOJO_PRIVATE_KEY="0x4aa974632b58a8946752d559f2b061b8fc9949c2006c8ca2429e27a2584341c"
-        SOZO_WORLD="0x7bb7ebdd7e71f60cdc9d411b5069442931990aa4ead38c117f38d77d9cedbfd"
+        DOJO_ACCOUNT_ADDRESS="0x6af2ac345307fe6c7b71fbc0b612571082ca402af4ed6a18f9786de1e1f1efd"
+        DOJO_PRIVATE_KEY="0x58e48aa7e04ef9b1323b7402ad0c73dee9137741d8c7f915d558ccd5d00d045"
+        SOZO_WORLD="0x68bd46f4b09cc876e0ac692e1943351eb63b1d95e9406b4c0bff833a9edb0eb"
         KATANA_TOML_PATH="./manifests/prod/deployment/manifest.toml"
     elif [[ "$1" != "dev" ]]; then
         echo "Invalid argument. Use 'dev' or 'prod'."
