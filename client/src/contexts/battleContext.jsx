@@ -1,5 +1,6 @@
 import { closeSnackbar, useSnackbar } from "notistack";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { isMobile } from 'react-device-detect';
 import { getBattleState } from "../api/indexer";
 import { MONSTER_LIST } from "../battle/monsterUtils";
 import { endOfTurnMonsterEffect } from "../battle/phaseUtils";
@@ -21,7 +22,6 @@ export const BattleProvider = ({ children }) => {
   const animationHandler = useContext(AnimationContext)
 
   const { enqueueSnackbar } = useSnackbar()
-  const [pendingTx, setPendingTx] = useState(false)
   const [resettingState, setResettingState] = useState(false)
 
   const [battleId, setBattleId] = useState()
@@ -37,6 +37,17 @@ export const BattleProvider = ({ children }) => {
   const [battleEffects, setBattleEffects] = useState({ ...BATTLE_EFFECTS })
 
   const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(false)
+
+  const [pendingTx, setPendingTx] = useState(false)
+  const [txQueue, setTxQueue] = useState([])
+
+  useEffect(() => {
+    if (!pendingTx) {
+      if (txQueue.length > 0) {
+        submitBattleAction(txQueue[0])
+      }
+    }
+  }, [pendingTx, txQueue])
 
   useEffect(() => {
     if (targetFriendlyCreature) {
@@ -86,13 +97,20 @@ export const BattleProvider = ({ children }) => {
     // eslint-ignore-next-line react-hooks/exhaustive-deps
   }, [animationHandler.completed])
 
-  const submitBattleAction = async (contract, name, data) => {
+  const submitBattleAction = async ({ contract, name, data }) => {
+    setPendingTx(true)
+
     const startTime = Date.now();
     const res = await dojo.executeTx(contract, name, data)
 
+    setTxQueue(prev => prev.slice(1))
+
     if (!res) {
+      setTxQueue([])
       return fetchBattleState(battleId)
     }
+
+    setPendingTx(false)
 
     const gameValues = res.find(e => e.componentName === 'Game')
     const leaderboard = res.find(e => e.componentName === 'Leaderboard')
@@ -161,7 +179,7 @@ export const BattleProvider = ({ children }) => {
       return enqueueSnackbar('Board is full', { variant: 'warning' })
     }
 
-    submitBattleAction("battle_systems", "summon_creature", [battleId, creature.id, target?.id ?? 0])
+    setTxQueue(prev => [...prev, { contract: "battle_systems", name: "summon_creature", data: [battleId, creature.id, target?.id ?? 0] }])
 
     animationHandler.addAnimation('monster', { type: 'intimidate' })
 
@@ -196,7 +214,7 @@ export const BattleProvider = ({ children }) => {
 
     spellEffect({ spell, shieldHero, target, damageMonster, increaseEnergy, healHero, battleEffects, setBattleEffects })
 
-    submitBattleAction("battle_systems", "cast_spell", [battleId, spell.id, target?.id ?? 0])
+    setTxQueue(prev => [...prev, { contract: "battle_systems", name: "cast_spell", data: [battleId, spell.id, target?.id ?? 0] }])
 
     setTargetFriendlyCreature()
   }
@@ -214,11 +232,11 @@ export const BattleProvider = ({ children }) => {
 
     setHand(prev => prev.filter(handCard => (handCard.id !== card.id)))
 
-    submitBattleAction("battle_systems", "discard", [battleId, card.id])
+    setTxQueue(prev => [...prev, { contract: "battle_systems", name: "discard", data: [battleId, card.id] }])
   }
 
   const attack = (creature) => {
-    submitBattleAction("battle_systems", "attack", [battleId, creature.id])
+    setTxQueue(prev => [...prev, { contract: "battle_systems", name: "attack", data: [battleId, creature.id] }])
 
     animationHandler.addAnimation('creature', {
       type: 'attack',
@@ -230,7 +248,7 @@ export const BattleProvider = ({ children }) => {
   }
 
   const endTurn = () => {
-    submitBattleAction("battle_systems", "end_turn", [battleId])
+    setTxQueue(prev => [...prev, { contract: "battle_systems", name: "end_turn", data: [battleId] }])
 
     animationHandler.addAnimation('monster', {
       type: 'ability',
@@ -395,6 +413,13 @@ export const BattleProvider = ({ children }) => {
   }
 
   const getMonsterPosition = () => {
+    if (isMobile) {
+      return {
+        x: window.innerWidth / 2,
+        y: (window.innerHeight - 56 - 150) * 0.95
+      }
+    }
+
     return {
       x: window.innerWidth / 2,
       y: (window.innerHeight - 56 - 200) * 0.95
@@ -403,6 +428,13 @@ export const BattleProvider = ({ children }) => {
 
   const getCreaturePosition = (id) => {
     if (id === ADVENTURER_ID) {
+      if (isMobile) {
+        return {
+          x: 100,
+          y: 0 - window.innerHeight * 0.12
+        }
+      }
+
       return {
         x: window.innerWidth / 2,
         y: (window.innerHeight - 56 - 200) * 0.50
@@ -450,6 +482,7 @@ export const BattleProvider = ({ children }) => {
     setCreatureIndex(data.battle.card_index)
     setTargetFriendlyCreature()
 
+    setPendingTx(false)
     setResettingState(false)
   }
 

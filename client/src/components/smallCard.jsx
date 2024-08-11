@@ -1,22 +1,23 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import { isMobile, isBrowser } from 'react-device-detect';
+import sword from '../assets/images/sword.png';
 import { fetch_image, types } from "../helpers/cards";
-import sword from '../assets/images/sword.png'
 
 function SmallCard(props) {
   const { card, showStats, cost } = props
 
-  return <Box sx={styles.container}>
+  return <Box sx={styles.container} gap={isMobile ? 0.5 : 2}>
 
     <Box sx={styles.header}>
       <Box sx={styles.circle} border={'1px solid #FFE97F'}>
-        <Typography>
+        <Typography fontSize={isMobile && '12px'}>
           {cost ?? card.cost}
         </Typography>
       </Box>
 
-      <Typography>
+      <Typography fontSize={isMobile && '11px'}>
         {card.name}
       </Typography>
     </Box>
@@ -45,7 +46,7 @@ function SmallCard(props) {
           </Box>
         </>}
 
-      {card.type === types.SPELL &&
+      {isBrowser && card.type === types.SPELL &&
         <Typography textAlign={'center'} width={'100%'} color='primary'>
           Spell
         </Typography>
@@ -66,7 +67,6 @@ const styles = {
     border: '1px solid rgba(255, 255, 255, 0.24)',
     borderRadius: '4px',
     p: 1,
-    gap: 2,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -86,8 +86,9 @@ const styles = {
     alignItems: 'center'
   },
   circle: {
-    width: '24px',
     height: '24px',
+    width: '24px',
+    minWidth: '24px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

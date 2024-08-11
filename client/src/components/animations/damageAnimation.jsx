@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material"
 import { AnimationContext } from "../../contexts/animationHandler"
 import { useContext, useEffect } from "react"
 import splatter from "../../assets/images/splatter.png"
+import { isMobile } from "react-device-detect"
 
 function DamageAnimation(props) {
   const { id, damage, small, mini } = props
@@ -28,8 +29,12 @@ function DamageAnimation(props) {
     } catch (ex) { }
   }
 
-  let position = mini ? { zIndex: 99, position: 'absolute', left: '70px', top: '35px' } : small ? { zIndex: 99, position: 'absolute', left: '15px', top: '15px' } : { zIndex: 99, position: 'absolute', left: '25px', top: '25px' }
-  let size = mini ? { width: '60px', height: '60px' } : small ? { width: '90px', height: '90px' } : { width: '150px', height: '150px' }
+  let position = mini ? { zIndex: 99, position: 'absolute', left: '70px', top: '35px' }
+    : small ? { zIndex: 99, position: 'absolute', left: isMobile ? '12px' : '15px', top: isMobile ? '12px' : '15px' }
+      : { zIndex: 99, position: 'absolute', left: isMobile ? '15px' : '25px', top: isMobile ? '15px' : '25px' }
+
+  let size = mini ? { width: '60px', height: '60px' } : small ? { width: isMobile ? '75px' : '90px', height: isMobile ? '75px' : '90px' }
+    : { width: isMobile ? '90px' : '150px', height: isMobile ? '90px' : '150px' }
 
   return <motion.div
     style={position}

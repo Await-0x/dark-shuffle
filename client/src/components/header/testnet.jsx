@@ -1,10 +1,10 @@
 import { Box, Button, Dialog, TextField, Typography } from '@mui/material';
 import { motion } from "framer-motion";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { isBrowser, isMobile } from 'react-device-detect';
 import background from "../../assets/images/cards/gospel_scribe.png";
 import { DraftContext } from '../../contexts/draftContext';
 import { fadeVariant } from "../../helpers/variants";
-import { useEffect } from 'react';
 
 function TestNet(props) {
   const { open, close } = props
@@ -30,9 +30,9 @@ function TestNet(props) {
         sx: { background: 'rgba(0, 0, 0, 0.98)', border: '2px solid #FFE97F' }
       }}
     >
-      <Box sx={styles.wizardContainer}>
+      <Box sx={isMobile ? styles.mobileWizardContainer : styles.wizardContainer}>
         <motion.div variants={fadeVariant} exit='exit' animate='enter'>
-          <Box sx={styles.container}>
+          <Box sx={styles.container} mt={isMobile ? 2 : 4}>
 
             <Box sx={styles.providerContainer}>
               <Typography color='white' variant='h4'>
@@ -48,7 +48,7 @@ function TestNet(props) {
                   onChange={(e) => setName(e.target.value)}
                 />
 
-                <Button variant='outlined' onClick={applyName}>
+                <Button variant='outlined' onClick={applyName} size='large'>
                   <Typography color='primary'>
                     Set Name
                   </Typography>
@@ -56,9 +56,9 @@ function TestNet(props) {
               </Box>
             </Box>
 
-            <Box display='flex' mr={5} mt={-2}>
+            {isBrowser && <Box display='flex' mr={5} mt={-2}>
               <img alt='' src={background} width={190} />
-            </Box>
+            </Box>}
 
           </Box>
         </motion.div>
@@ -77,6 +77,16 @@ const styles = {
     width: '700px',
     height: '300px',
   },
+  mobileWizardContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    boxSizing: 'border-box',
+    padding: '8px',
+    width: '100%',
+    maxWidth: '500px',
+    height: '300px',
+    overflow: 'hidden'
+  },
   container: {
     boxSizing: 'border-box',
     width: '100%',
@@ -85,8 +95,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     cursor: 'pointer',
-    overflow: 'hidden',
-    mt: 4
+    overflow: 'hidden'
   },
   providerContainer: {
     height: '100%',

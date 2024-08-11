@@ -574,7 +574,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         attack: 0,
         health: 0,
         tag: tags.UNSTABLE,
-        text: `Your hero are immunue to damage next turn`,
+        text: `Your hero is immune to damage next turn`,
         level,
       }
     default:
@@ -594,6 +594,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
 
 export const CardSize = {
   big: { height: '330px', width: '252px' },
+  large: { height: '275px', width: '210px' },
   medium: { height: '220px', width: '168px' },
   small: { height: '110px', width: '84px' }
 }

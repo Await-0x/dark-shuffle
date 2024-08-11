@@ -1,27 +1,11 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { motion, useAnimationControls } from "framer-motion";
 import { Box, Typography } from "@mui/material";
+import { motion, useAnimationControls } from "framer-motion";
 import React, { useContext, useEffect } from "react";
 import sword from "../../../assets/images/sword.png";
 import { AnimationContext } from '../../../contexts/animationHandler';
-import { CustomTooltip } from '../../../helpers/styles';
 import DamageAnimation from '../../animations/damageAnimation';
-
-export function BigFootTooltip() {
-  return <Box mb={1}>
-    <Typography color="primary" variant='h6'>Bigfoot</Typography>
-
-    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-      <Typography color="primary">★ Rage</Typography>
-    </Box>
-    <Typography mt={0.5}>Gains +1 attack each round.</Typography>
-
-    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-      <Typography color="primary">★ Thick Skin</Typography>
-    </Box>
-    <Typography mt={0.5}>Takes (1) less damage from all sources.</Typography>
-  </Box>
-}
+import { isMobile } from 'react-device-detect';
 
 function Bigfoot(props) {
   const animationHandler = useContext(AnimationContext)
@@ -55,51 +39,34 @@ function Bigfoot(props) {
     animationHandler.setMonsterAnimations(prev => prev.filter(x => x.type !== 'defend'))
   }
 
-  return <CustomTooltip position={'right'} title={
-    <Box mb={1}>
-      <Typography color="primary" variant='h6'>Bigfoot</Typography>
+  return <Box sx={styles.container}>
+    {damage && <DamageAnimation id={damage.id} damage={damage.damage} />}
 
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-        <Typography color="primary">★ Rage</Typography>
-      </Box>
-      <Typography mt={0.5}>Gains +1 attack each round.</Typography>
+    <motion.div animate={controls} style={styles.armor} />
 
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-        <Typography color="primary">★ Thick Skin</Typography>
-      </Box>
-      <Typography mt={0.5}>Takes (1) less damage from all sources.</Typography>
+    <Box sx={styles.imageContainer}>
+      {monster.image}
     </Box>
 
-  }>
-    <Box sx={styles.container}>
-      {damage && <DamageAnimation id={damage.id} damage={damage.damage} />}
+    <Box sx={styles.bottomContainer}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant="h6" fontSize={isMobile && '14px'}>
+          {monster.attack}
+        </Typography>
 
-      <motion.div animate={controls} style={styles.armor} />
-
-      <Box sx={styles.imageContainer}>
-        {monster.image}
+        <img alt='' src={sword} height={isMobile ? 20 : 24} width={isMobile ? 20 : 24} />
       </Box>
 
-      <Box sx={styles.bottomContainer}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h6">
-            {monster.attack}
-          </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant="h6" fontSize={isMobile && '14px'}>
+          {monster.health}
+        </Typography>
 
-          <img alt='' src={sword} height={24} width={24} />
-        </Box>
-
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h6">
-            {monster.health}
-          </Typography>
-
-          <FavoriteIcon htmlColor="red" />
-        </Box>
+        <FavoriteIcon htmlColor="red" fontSize={isMobile ? 'small' : 'inherit'} />
       </Box>
-
     </Box>
-  </CustomTooltip>
+
+  </Box>
 }
 
 export default Bigfoot
@@ -108,8 +75,8 @@ const styles = {
   container: {
     position: 'relative',
     boxSizing: 'border-box',
-    width: '200px',
-    height: '200px',
+    width: '100%',
+    height: '100%',
     border: '1px solid rgba(255, 255, 255, 0.24)',
     borderRadius: '4px',
     p: 1,

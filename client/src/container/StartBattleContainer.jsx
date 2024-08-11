@@ -1,4 +1,6 @@
-import { Box } from '@mui/material';
+import WestIcon from '@mui/icons-material/West';
+import EastIcon from '@mui/icons-material/East';
+import { Box, IconButton } from '@mui/material';
 import { motion } from "framer-motion";
 import React, { useContext, useEffect } from 'react';
 import BlockRevealAnimation from '../components/animations/blockRevealAnimation';
@@ -6,13 +8,17 @@ import HeroStats from '../components/draft/heroStats';
 import Overview from '../components/draft/overview';
 import Structure from '../components/gametree/structure';
 import { BattleContext } from '../contexts/battleContext';
-import { DraftContext } from '../contexts/draftContext';
 import { GameContext } from '../contexts/gameContext';
 import { fadeVariant } from "../helpers/variants";
+import { BrowserView, MobileView, isMobile } from 'react-device-detect'
+import { useState } from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 function StartBattleContainer() {
   const game = useContext(GameContext)
   const battle = useContext(BattleContext)
+
+  const [cardOverview, setCardOverview] = useState(false)
 
   useEffect(() => {
     if (game.values.nodeLevel === 6 && game.entropy.blockHash) {
@@ -35,7 +41,7 @@ function StartBattleContainer() {
     <motion.div style={styles.container} variants={fadeVariant} initial='initial' exit='exit' animate='enter'>
       <Box sx={styles.container}>
 
-        <Box sx={styles.draftContainer}>
+        <Box sx={isMobile ? styles.mobileDraftContainer : styles.draftContainer}>
 
           {(game.values.nodeLevel === 6 || game.nodes.length === 0)
             ? <Box mt={10}><BlockRevealAnimation icon /></Box>
@@ -44,13 +50,43 @@ function StartBattleContainer() {
 
         </Box>
 
-        <Box sx={styles.overview}>
+        <BrowserView>
+          <Box sx={styles.overview}>
+            <Scrollbars style={{ width: '100%', height: '100%' }}>
 
-          <Overview />
+              <Overview />
 
-          <HeroStats />
+              <HeroStats />
 
-        </Box>
+            </Scrollbars>
+          </Box>
+        </BrowserView>
+
+        <MobileView>
+          {!cardOverview && <Box sx={styles.mobileOverview} width={'55px'}>
+
+            <IconButton onClick={() => setCardOverview(true)}>
+              <WestIcon htmlColor='white' />
+            </IconButton>
+
+            <HeroStats compact={true} />
+
+          </Box>}
+
+          {cardOverview && <Box sx={styles.mobileOverview} width={'280px'}>
+            <Scrollbars style={{ width: '100%', height: '100%' }}>
+
+              <IconButton onClick={() => setCardOverview(false)} sx={{ ml: 1 }}>
+                <EastIcon htmlColor='white' />
+              </IconButton>
+
+              <Overview />
+
+              <HeroStats />
+
+            </Scrollbars>
+          </Box>}
+        </MobileView>
 
       </Box>
     </motion.div>
@@ -74,9 +110,25 @@ const styles = {
     justifyContent: 'space-between'
   },
 
+  mobileOverview: {
+    height: 'calc(100vh - 55px)',
+    pt: '40px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+
   draftContainer: {
     height: 'calc(100% - 55px)',
     width: 'calc(100% - 300px)',
+    borderRight: '1px solid rgba(255, 255, 255, 0.12)',
+    overflow: 'auto',
+    boxSizing: 'border-box',
+  },
+
+  mobileDraftContainer: {
+    height: '100%',
+    width: 'calc(100% - 50px)',
     borderRight: '1px solid rgba(255, 255, 255, 0.12)',
     overflow: 'auto',
     boxSizing: 'border-box',

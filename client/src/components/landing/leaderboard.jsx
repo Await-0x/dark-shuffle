@@ -57,7 +57,7 @@ function Leaderboard() {
 
       {loading && <Box />}
 
-      <Scrollbars style={{ width: '100%', height: '100%', paddingBottom: '20px' }}>
+      <Scrollbars style={{ width: '100%', height: '100%', paddingBottom: '20px', minHeight: '240px' }}>
         {!loading && React.Children.toArray(
           leaderboard.map((player, i) => {
             return <>

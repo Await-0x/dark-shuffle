@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material"
 import { motion } from "framer-motion"
+import { isMobile } from 'react-device-detect';
 import React, { useContext, useState } from "react"
 import { DraftContext } from "../../contexts/draftContext"
 import { CARD_DETAILS, CardSize, fetch_image, tags } from "../../helpers/cards"
@@ -61,7 +62,7 @@ function Overview() {
       })
     )}
 
-    {displayCard && <Box sx={styles.displayCard}>
+    {displayCard && <Box sx={isMobile ? styles.mobileDisplayCard : styles.displayCard}>
       <Card card={displayCard} cost={displayCard.cost} />
     </Box>}
   </Box>
@@ -74,7 +75,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: 0.5,
-    p: 1
+    p: 1,
   },
   cardCost: {
     width: '20px',
@@ -102,6 +103,13 @@ const styles = {
     '&:hover': {
       border: '1px solid rgba(255, 255, 255, 0.6)',
     },
+  },
+  mobileDisplayCard: {
+    height: CardSize.large.height,
+    width: CardSize.large.width,
+    position: 'fixed',
+    right: '285px',
+    top: 45,
   },
   displayCard: {
     height: CardSize.big.height,

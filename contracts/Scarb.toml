@@ -1,13 +1,15 @@
 [package]
-cairo-version = "=2.7.0-rc.3"
 name = "darkshuffle"
-version = "0.2.0"
+version = "0.3.0"
 
 [cairo]
 sierra-replace-ids = true
 
 [dependencies]
 dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.4" }
+
+[profile.prod.tool.dojo.world.namespace]
+default = "darkshuffle"
 
 [tool.dojo.world.namespace]
 default = "darkshuffle"

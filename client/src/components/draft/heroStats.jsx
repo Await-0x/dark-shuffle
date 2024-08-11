@@ -1,11 +1,32 @@
+import { BrowserView, MobileView, isMobile } from 'react-device-detect'
 import { Box, Typography } from "@mui/material"
 import React, { useContext } from "react"
 import { GameContext } from "../../contexts/gameContext"
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import bolt from "../../assets/images/bolt.png";
 
-function HeroStats() {
+function HeroStats(props) {
   const game = useContext(GameContext)
+
+  if (props.compact) {
+    return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+      <Box display={'flex'}>
+        <Typography>
+          {game.values.heroHealth}
+        </Typography>
+
+        <FavoriteIcon htmlColor="red" sx={{ fontSize: '18px' }} />
+      </Box>
+
+      <Box display={'flex'}>
+        <Typography>
+          {game.values.heroEnergy}
+        </Typography>
+
+        <img alt='' src={bolt} height={18} />
+      </Box>
+    </Box>
+  }
 
   return <Box sx={styles.container}>
 
@@ -72,7 +93,7 @@ const styles = {
     m: 1,
     p: 2,
     boxSizing: 'border-box',
-    width: '284px',
+    width: 'calc(100% - 16px)',
     background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5))',
     border: '1px solid rgba(255, 255, 255, 0.2)',
     borderRadius: '5px',

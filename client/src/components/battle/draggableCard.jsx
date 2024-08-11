@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react'
-
+import { isMobile, isBrowser } from 'react-device-detect'
 import { motion, useAnimationControls } from 'framer-motion'
 import { BattleContext } from '../../contexts/battleContext'
 import { CardSize, types } from '../../helpers/cards'
@@ -14,7 +14,7 @@ function DraggableCard(props) {
   const relX = clientX - rect.left - rect.width / 2
   const relY = clientY - rect.top - rect.height / 2
 
-  const play_threshold = window.innerHeight - 200
+  const play_threshold = isBrowser ? window.innerHeight - 200 : window.innerHeight * 0.65
 
   const { enqueueSnackbar } = useSnackbar()
   const controls = useAnimationControls()
@@ -120,17 +120,21 @@ function DraggableCard(props) {
       animate={controls}
       transition={{ type: 'spring', duration: 0.3 }}
       onAnimationComplete={dragEnd}
-      style={{
+      style={isBrowser ? {
         left: style.left,
         x: clientX - rect.left - rect.width / 2,
         top: style.top,
         y: clientY - rect.top - rect.height / 2,
         ...styles.draggable
+      } : {
+        left: style.left,
+        x: clientX - rect.left - rect.width / 2,
+        ...styles.mobileDraggable
       }}
       ref={ref}
     >
 
-      <SmallCard card={card} showStats={card.type === types.CREATURE} cost={battle.utils.getCardCost(card)} />
+      <SmallCard card={card} showStats={!isMobile && card.type === types.CREATURE} cost={battle.utils.getCardCost(card)} />
 
     </motion.div>
   </>
@@ -139,6 +143,18 @@ function DraggableCard(props) {
 export default DraggableCard
 
 const styles = {
+  mobileDraggable: {
+    userSelect: 'none',
+    transition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    borderRadius: '4px',
+    position: 'absolute',
+    zIndex: '3',
+    height: CardSize.small.height,
+    width: CardSize.small.width,
+    cursor: 'grabbing',
+    border: '1px solid yellow',
+    bottom: 10
+  },
   draggable: {
     userSelect: 'none',
     transition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',

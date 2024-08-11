@@ -2,6 +2,7 @@ import { Box, Button, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { GameContext } from "../../contexts/gameContext";
 import { motion, useAnimationControls } from "framer-motion";
+import { isMobile, isBrowser } from 'react-device-detect'
 
 function DeathDialog(props) {
   const game = useContext(GameContext)
@@ -25,9 +26,9 @@ function DeathDialog(props) {
     showText(true)
   }
 
-  return <motion.div style={styles.container} animate={controls}>
+  return <motion.div style={isMobile ? styles.mobileContainer : styles.container} animate={controls}>
 
-    {text && <Box width={'800px'} sx={{ display: 'flex', flexDirection: 'column', 'alignItems': 'center' }}>
+    {text && <Box width={'800px'} sx={{ display: 'flex', flexDirection: 'column', 'alignItems': 'center', maxWidth: '90%' }}>
       <Typography variant="h2" color={'red'}>
         A Hero Has Fallen
       </Typography>
@@ -54,14 +55,16 @@ function DeathDialog(props) {
         </Box>
       </Box>
 
-      <Typography mt={6}>
-        Your journey ends here, brave adventurer, swallowed by the unforgiving darkness of The Cave.
-        In this silent tomb, your valor and strife are sealed away, a whisper lost among the echoes of countless others who dared to challenge the abyss.
-      </Typography>
+      {isBrowser && <>
+        <Typography mt={6}>
+          Your journey ends here, brave adventurer, swallowed by the unforgiving darkness of The Cave.
+          In this silent tomb, your valor and strife are sealed away, a whisper lost among the echoes of countless others who dared to challenge the abyss.
+        </Typography>
 
-      <Typography mt={4}>
-        The Cave remains, eternal and unyielding, its secrets forever guarded by shadows.
-      </Typography>
+        <Typography mt={4}>
+          The Cave remains, eternal and unyielding, its secrets forever guarded by shadows.
+        </Typography>
+      </>}
 
       <Box mt={6}>
         <Button variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '1px' }} onClick={backToMenu}>
@@ -78,7 +81,7 @@ export default DeathDialog
 const styles = {
   container: {
     position: 'absolute',
-    top: '55px',
+    top: 0,
     opacity: 0,
     background: 'rgb(0, 0, 0)',
     zIndex: 99,
@@ -91,4 +94,19 @@ const styles = {
     alignItems: 'center',
     textAlign: 'center'
   },
+  mobileContainer: {
+    position: 'absolute',
+    top: 0,
+    opacity: 0,
+    background: 'rgb(0, 0, 0)',
+    zIndex: 99,
+    boxSizing: 'border-box',
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center'
+  }
 }

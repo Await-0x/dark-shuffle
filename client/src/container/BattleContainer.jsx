@@ -1,9 +1,14 @@
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { LoadingButton } from '@mui/lab';
 import { Box, Typography } from '@mui/material';
 import { motion } from "framer-motion";
 import { useLottie } from 'lottie-react';
 import React, { useContext } from 'react';
+import { isMobile } from 'react-device-detect';
 import vortexAnim from "../assets/animations/vortex.json";
+import bolt from "../assets/images/bolt.png";
+import monarch from "../assets/images/monarch.png";
+import shield from "../assets/images/shield.png";
 import Battlefield from '../components/battle/battlefield';
 import Hand from '../components/battle/hand';
 import RestoringBattleDialog from '../components/dialogs/restoringBattle';
@@ -31,6 +36,85 @@ function BattleContainer() {
     }
   }
 
+  if (isMobile) {
+    return <Box style={styles.mobileContainer} onMouseUp={(event) => mouseUpHandler(event)}>
+      <Box style={styles.mobileBoard}>
+        <Battlefield />
+
+        <Box sx={{ position: 'absolute', right: '20px' }}>
+          <CustomTooltip title={<Box mb={1}>
+            <Typography color="primary">End Turn</Typography>
+            <Typography mt={0.5}>Monster perform its ability and attack. Replenish energy.</Typography>
+          </Box>
+          }>
+            <LoadingButton variant='outlined' size='medium' sx={{ fontSize: '12px', letterSpacing: '1px' }}
+              loading={false}
+              onClick={() => battle.actions.endTurn()}
+            >
+              END TURN
+            </LoadingButton>
+          </CustomTooltip>
+        </Box>
+
+      </Box>
+      <Box sx={[styles.playerContainer, { px: 0.5, height: '25%' }]}>
+
+        <Box width={'150px'} height={'100%'} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
+          <img alt='' src={monarch} height={'58%'} />
+
+          <Box width={'100%'} display={'flex'} gap={0.5} justifyContent={'center'}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="h5">
+                {battle.state.adventurer.energy}
+              </Typography>
+
+              <img alt='' src={bolt} height={21} />
+            </Box>
+
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="h5">
+                {battle.state.adventurer.health}
+              </Typography>
+
+              <FavoriteIcon htmlColor="red" fontSize='small' />
+            </Box>
+
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="h5">
+                {battle.state.adventurer.armor}
+              </Typography>
+
+              <img alt='' src={shield} height={20} width={20} />
+            </Box>
+          </Box>
+
+        </Box>
+
+        <Box sx={[styles.hand, { flex: 1 }]}>
+
+          <Hand />
+
+        </Box>
+
+        <Box sx={[styles.utContainer, { pr: 0 }]}>
+
+          <CustomTooltip title={
+            <Box mb={1}>
+              <Typography color="primary" variant='h6'>Vortex</Typography>
+              <Typography mt={0.5}>Drag cards to the vortex to discard them from your hand. Costs (1) energy.</Typography>
+            </Box>
+          }>
+            <Box width='140px'>
+              {vortex.View}
+            </Box>
+          </CustomTooltip>
+
+        </Box>
+
+      </Box>
+    </Box>
+  }
+
   return (
     <motion.div style={styles.container} variants={fadeVariant} initial='initial' exit='exit' animate='enter' onMouseUp={(event) => mouseUpHandler(event)}>
       <Box sx={styles.container}>
@@ -45,7 +129,7 @@ function BattleContainer() {
             </Box>
             }>
               <LoadingButton variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '1px' }}
-                loading={battle.state.pendingTx}
+                loading={false}
                 onClick={() => battle.actions.endTurn()}
               >
                 END TURN
@@ -54,7 +138,7 @@ function BattleContainer() {
           </Box>
         </Box>
 
-        <Box sx={styles.playerContainer}>
+        <Box sx={[styles.playerContainer, { height: '144px' }]}>
 
           <Box width={'232px'} display={'flex'} justifyContent={'center'}>
 
@@ -75,33 +159,13 @@ function BattleContainer() {
 
           </Box>
 
-          <Box sx={styles.hand}>
+          <Box sx={[styles.hand, { width: '800px' }]}>
 
             <Hand />
 
           </Box>
 
           <Box sx={styles.utContainer}>
-
-            {/* <CustomTooltip title={
-              <Box mb={1} minWidth={'130px'}>
-                <Typography color="primary" variant='h6' mb={1}>Graveyard</Typography>
-
-                <Typography variant='h6'>
-                  {`Discarded: ${game.gameEffects.cardsDiscarded}`}
-                </Typography>
-
-                <Typography variant='h6'>
-                  {`Creatures: ${game.gameEffects.deadCreatures}`}
-                </Typography>
-
-                <Typography variant='h6'>
-                  {`Spells: ${game.gameEffects.spellsPlayed}`}
-                </Typography>
-              </Box>
-            }>
-              <img src={graveyardIcon} alt='' width={84} />
-            </CustomTooltip> */}
 
             <CustomTooltip title={
               <Box mb={1}>
@@ -131,6 +195,22 @@ const styles = {
   container: {
     width: '100%',
     height: '100%',
+    overflow: 'hidden'
+  },
+
+  mobileContainer: {
+    width: '100vw',
+    height: '100vh',
+    overflow: 'hidden'
+  },
+
+  mobileBoard: {
+    height: '75%',
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 2,
   },
 
   board: {
@@ -143,18 +223,17 @@ const styles = {
   },
 
   playerContainer: {
-    height: '144px',
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     position: 'relative',
     px: 2,
-    alignItems: 'center'
+    alignItems: 'center',
+    boxSizing: 'border-box'
   },
 
   hand: {
     height: '100%',
-    width: '800px',
   },
 
   utContainer: {
@@ -179,17 +258,6 @@ const styles = {
     cursor: 'pointer'
   },
 
-  graveyard: {
-    background: '#3c0505b8',
-    border: '1px solid rgba(255, 255, 255, 0.6)',
-    height: '70px',
-    width: '50px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: '4px',
-  },
-
   cardCount: {
     width: '32px',
     height: '32px',
@@ -198,5 +266,13 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     border: '1px solid rgba(255, 255, 255, 0.3)',
+  },
+
+  kingContainer: {
+    width: '100%',
+    height: '20%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 }

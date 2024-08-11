@@ -1,5 +1,6 @@
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { AnimatePresence } from "framer-motion";
+import { isBrowser, isMobile } from 'react-device-detect';
 import { BrowserRouter, Route, Routes, } from "react-router-dom";
 
 import Box from '@mui/material/Box';
@@ -13,6 +14,7 @@ import { routes } from './helpers/routes';
 import { mainTheme } from './helpers/themes';
 
 import { useState } from 'react';
+import MobileHeader from './components/mobileHeader';
 import { AnimationHandler } from "./contexts/animationHandler";
 import { StarknetProvider } from "./contexts/starknet";
 
@@ -36,7 +38,8 @@ function Main() {
                           <BattleProvider>
 
                             <Box className='main'>
-                              <Header connectWallet={connectWallet} showConnectWallet={showConnectWallet} />
+                              {isBrowser && <Header connectWallet={connectWallet} showConnectWallet={showConnectWallet} />}
+                              {isMobile && <MobileHeader connectWallet={connectWallet} showConnectWallet={showConnectWallet} />}
 
                               <AnimatePresence mode="wait">
 

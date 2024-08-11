@@ -7,6 +7,7 @@ import Card from "../card";
 import SmallCard from "../smallCard";
 import DraggableCard from "./draggableCard";
 import { useEffect } from "react";
+import { isMobile, isBrowser } from 'react-device-detect';
 
 function Hand() {
   const battle = useContext(BattleContext)
@@ -70,7 +71,7 @@ function Hand() {
     const cardPosition = hand.findIndex(card => card.id === displayCard?.id)
 
     return <motion.div
-      style={{ ...styles.displayCard, ...styles.cardStyle, left: calculateCardPosition(cardPosition) }}
+      style={{ ...(isMobile ? styles.displayCardMobile : styles.displayCard), ...styles.cardStyle, left: calculateCardPosition(cardPosition) }}
       animate={{ y: '-5px' }}
       transition={{ ease: "linear", duration: 0.3 }}
     >
@@ -81,7 +82,7 @@ function Hand() {
   }
 
   const handCardStyles = (card) => {
-    let style = { ...styles.cardStyle, ...styles.card, opacity: 1 }
+    let style = { ...styles.cardStyle, ...(isMobile ? styles.cardMobile : styles.card), opacity: 1 }
 
     if ((selectedCard?.card.id === card.id) || (!selectedCard && displayCard?.id === card.id) || (targetFriendlyCreature?.id === card.id)) {
       style.opacity = 0
@@ -97,7 +98,7 @@ function Hand() {
         hand.map((card, i) => {
           return <>
             <motion.div
-              style={{ ...styles.cardWrapper, ...cardStyle(i) }}
+              style={{ ...(isMobile ? styles.cardWrapperMobile : styles.cardWrapper), ...cardStyle(i) }}
               onHoverStart={() => hoverCard(card)}
               onHoverEnd={() => endHoverCard()}
               onClick={event => selectCard(event, i, card)}
@@ -117,12 +118,10 @@ function Hand() {
 
       {displayCard !== null && !selectedCard && renderDisplayCard()}
 
-      {
-        selectedCard && <DraggableCard
-          values={selectedCard}
-          dragEnd={() => setSelectedCard(null)}
-        />
-      }
+      {selectedCard && <DraggableCard
+        values={selectedCard}
+        dragEnd={() => setSelectedCard(null)}
+      />}
 
     </Box >
   )
@@ -136,6 +135,13 @@ const styles = {
     width: '100%',
     height: '100%',
   },
+  cardWrapperMobile: {
+    height: CardSize.small.height,
+    width: CardSize.small.width,
+    position: 'absolute',
+    zIndex: '2',
+    userSelect: 'none'
+  },
   cardWrapper: {
     height: CardSize.medium.height,
     width: CardSize.medium.width,
@@ -147,10 +153,21 @@ const styles = {
     position: 'absolute',
     borderRadius: '4px'
   },
+  cardMobile: {
+    height: CardSize.small.height,
+    width: CardSize.small.width,
+    left: '77%',
+  },
   card: {
     height: CardSize.medium.height,
     width: CardSize.medium.width,
     left: '77%',
+  },
+  displayCardMobile: {
+    height: CardSize.large.height,
+    width: CardSize.large.width,
+    bottom: '60px',
+    zIndex: '1'
   },
   displayCard: {
     height: CardSize.big.height,

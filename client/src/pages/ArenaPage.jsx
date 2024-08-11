@@ -1,5 +1,6 @@
-import { Box } from '@mui/material'
+import { useSnackbar } from 'notistack'
 import React, { useContext, useEffect, useState } from 'react'
+import { Scrollbars } from 'react-custom-scrollbars'
 import { getActiveGame, getTreeNodes } from '../api/indexer'
 import ReconnectDialog from '../components/dialogs/reconnecting'
 import StartDraft from '../components/landing/startDraft'
@@ -9,8 +10,6 @@ import StartBattleContainer from '../container/StartBattleContainer'
 import { BattleContext } from '../contexts/battleContext'
 import { DraftContext } from '../contexts/draftContext'
 import { GameContext } from '../contexts/gameContext'
-import { useSnackbar } from 'notistack'
-import { Scrollbars } from 'react-custom-scrollbars';
 
 function ArenaPage() {
   const gameState = useContext(GameContext)
@@ -21,6 +20,18 @@ function ArenaPage() {
 
   const [reconnecting, setReconnecting] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
+
+  useEffect(() => {
+    try {
+      if (gameId) {
+        screen.orientation.lock('landscape')
+      } else {
+        screen.orientation.unlock()
+      }
+    } catch (ex) {
+      // Silence is golden
+    }
+  }, [gameId])
 
   useEffect(() => {
     async function checkActiveGame(address) {
@@ -96,37 +107,5 @@ const styles = {
   container: {
     width: '100%',
     height: '100%',
-  },
-
-  board: {
-    height: 'calc(100% - 200px)',
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 2
-  },
-
-  playerContainer: {
-    height: '144px',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    position: 'relative'
-  },
-
-  hand: {
-    height: '100%',
-    width: '800px',
-  },
-
-  manaContainer: {
-    height: '100%',
-    width: '150px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    pt: 2,
-    gap: 1
   }
 }

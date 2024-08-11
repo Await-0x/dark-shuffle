@@ -9,6 +9,7 @@ import Arrow from "./arrow";
 import Creature from "./creature";
 import DeathDialog from './death';
 import Monster from "./monster";
+import { isMobile, isBrowser } from 'react-device-detect';
 
 function Battlefield(props) {
   const animationHandler = useContext(AnimationContext)
@@ -30,19 +31,19 @@ function Battlefield(props) {
     showArrow(false)
   }
 
-  return <Box sx={styles.container}>
+  return <Box sx={styles.container} height={isMobile ? '98%' : '90%'}>
 
     {game.score && <DeathDialog />}
 
     {arrow && <Arrow arrow={arrow} cancel={cancelAttack} />}
 
-    <Box sx={styles.enemyContainer}>
+    <Box sx={styles.enemyContainer} height={isMobile ? '50%' : '40%'}>
 
       <Monster monster={battle.state.monster} attackingCreature={attackingCreature} />
 
     </Box>
 
-    <Box sx={styles.myContainer}>
+    <Box sx={styles.myContainer} height={isMobile ? '45%' : '35%'}>
 
       {React.Children.toArray(
         battle.state.board.map((creature, i) => {
@@ -57,11 +58,11 @@ function Battlefield(props) {
 
     </Box>
 
-    <Box sx={styles.kingContainer}>
+    {isBrowser && <Box sx={styles.kingContainer}>
 
       <Adventurer />
 
-    </Box >
+    </Box >}
 
     {animationHandler.boardAnimation.length > 0 && React.Children.toArray(
       animationHandler.boardAnimation.map(animation => <PoisonSprayAnimation
@@ -77,13 +78,11 @@ const styles = {
   container: {
     boxSizing: 'border-box',
     width: '100%',
-    height: '90%',
     borderRadius: '4px',
     background: 'rgba(0, 0, 0, 0.6)',
   },
   enemyContainer: {
     width: '100%',
-    height: '40%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -91,7 +90,6 @@ const styles = {
   },
   myContainer: {
     width: '100%',
-    height: '35%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -110,16 +108,5 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  king: {
-    width: '200px',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    boxSizing: 'border-box',
-    pt: 2,
-    gap: 1,
-    position: 'relative'
   }
 }

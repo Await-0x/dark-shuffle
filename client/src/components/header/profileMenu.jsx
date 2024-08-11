@@ -1,9 +1,9 @@
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import EditIcon from '@mui/icons-material/Edit';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { Box, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
 import React, { useContext } from 'react';

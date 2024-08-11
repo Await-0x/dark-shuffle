@@ -25,15 +25,19 @@ function Structure(props) {
   const [tree, buildTree] = useState([])
   const scrollbarRef = useRef(null);
 
-  const scrollToTop = () => {
+  const scrollContainer = () => {
     if (scrollbarRef.current) {
-      scrollbarRef.current.view.scrollTo({ top: scrollbarRef.current.getScrollHeight(), behavior: 'smooth' });
+      scrollbarRef.current.view.scrollTo({
+        left: 400,
+        top: scrollbarRef.current.getScrollHeight(),
+        behavior: 'smooth'
+      });
     }
   };
 
   useEffect(() => {
-    if (tree.length > 0 && nodes[0].active && scrollbarRef.current) {
-      scrollToTop()
+    if (tree.length > 0 && game.values.nodeLevel < 3 && scrollbarRef.current) {
+      scrollContainer()
     }
   }, [tree])
 
@@ -110,6 +114,7 @@ function Structure(props) {
         if (line === 8 && connectedToEndNode.filter(node => node.section === 1).length === 1) {
           return { opacity: 0 }
         }
+
       }
 
       if (tree.length === 3) {
@@ -148,7 +153,7 @@ function Structure(props) {
         }
 
         if (activeNode.section === 2) {
-          if ((sectionLength === 2 && line < (12 - sectionIndex * 2) && line > 5) || (sectionLength === 1 && line < 11 && line > 5)) {
+          if ((sectionLength === 2 && line < (9 + sectionIndex * 2) && line > 5) || (sectionLength === 1 && line < 11 && line > 5)) {
             return { opacity: 1, background: '#FFE97F' }
           }
         }
@@ -162,7 +167,7 @@ function Structure(props) {
         }
 
         if (activeNode.section === 1) {
-          if ((sectionLength === 2 && line < (10 - sectionIndex * 2) && line > 5) || (sectionLength === 1 && line < 9 && line > 5)) {
+          if ((sectionLength === 2 && line < (7 + sectionIndex * 2) && line > 5) || (sectionLength === 1 && line < 9 && line > 5)) {
             return { opacity: 1, background: '#FFE97F' }
           }
         }
@@ -230,9 +235,9 @@ function Structure(props) {
       {connector === 'reversedSplit' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {RenderConnector(node, 'vertical', 0, { height: '16px', mr: '1px' })}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {RenderConnector(node, 'horizontal', null, { width: '29px' })}
+          {RenderConnector(node, 'horizontal', nodes.find(n => n.nodeId === node.parents[0])?.status ? null : 99, { width: '29px' })}
           {renderCard(node)}
-          {RenderConnector(node, 'horizontal', null, { width: '29px' })}
+          {RenderConnector(node, 'horizontal', nodes.find(n => n.nodeId === node.parents[1])?.status ? null : 99, { width: '29px' })}
         </Box>
         <Box sx={{ width: '1px', height: '17px' }} />
       </Box>}
@@ -395,9 +400,9 @@ function Structure(props) {
       {connector === 'reversedSplit' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {RenderConnector(node, 'vertical', 0, { height: '24px', mr: '1px' })}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {RenderConnector(node, 'horizontal', null, { width: '24px' })}
+          {RenderConnector(node, 'horizontal', nodes.find(n => n.nodeId === node.parents[0])?.status ? null : 99, { width: '24px' })}
           {node.type === 'potion' ? renderPotionNode(node) : renderEnergyNode(node)}
-          {RenderConnector(node, 'horizontal', null, { width: '24px' })}
+          {RenderConnector(node, 'horizontal', nodes.find(n => n.nodeId === node.parents[1]) ? null : 99, { width: '24px' })}
         </Box>
         <Box sx={{ width: '1px', height: '25px' }} />
       </Box>}
@@ -606,7 +611,7 @@ const styles = {
     cursor: 'pointer'
   },
   curvedLine: {
-    height: '111px',
+    height: '109px',
     borderBottom: '1px solid #FFF',
     mb: '60px'
   },

@@ -1,11 +1,11 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import shield from "../../assets/images/shield.png";
 import { Box, Typography } from "@mui/material";
 import { useLottie } from 'lottie-react';
 import React, { useContext, useEffect } from "react";
 import shieldAnim from "../../assets/animations/shield.json";
 import bolt from "../../assets/images/bolt.png";
 import monarch from "../../assets/images/monarch.png";
-import shield from "../../assets/images/shield.png";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
 import { ADVENTURER_ID } from '../../helpers/constants';
