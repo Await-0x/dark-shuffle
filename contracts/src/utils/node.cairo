@@ -129,8 +129,8 @@ mod node_utils {
         seed = random::LCG(seed);
         let attack_multiplier = random::get_random_number(seed, 5);
 
-        let health = 40 + (branch * health_multiplier);
-        let attack = 3 + (branch * attack_multiplier);
+        let health = 35 + (branch * health_multiplier) + (branch * 5);
+        let attack = 2 + (branch * attack_multiplier) + branch;
 
         MonsterNode {
             node_id,
