@@ -55,7 +55,7 @@ function ArenaPage() {
           gameState.setGame({
             gameId: data.game_id,
             player: data.player,
-            playerName: data.player_name,
+            player_name: data.player_name,
             active: data.active,
             inDraft: data.in_draft,
             inBattle: data.in_battle,

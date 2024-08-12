@@ -10,7 +10,6 @@ const GAME_VALUES = {
   gameId: null,
   inDraft: false,
   inBattle: false,
-  name: 'Await'
 }
 
 export const GameProvider = ({ children }) => {
