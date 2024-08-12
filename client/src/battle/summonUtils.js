@@ -76,11 +76,11 @@ export const summonEffect = ({
   }
 
   else if (cardId === 22) {
-    shieldHero(6);
+    shieldHero(5);
   }
 
   else if (cardId === 23) {
-    shieldHero(7);
+    shieldHero(5);
   }
 
   else if (cardId === 24 && target) {
