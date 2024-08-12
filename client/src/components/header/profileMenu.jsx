@@ -1,10 +1,10 @@
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import EditIcon from '@mui/icons-material/Edit';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import XIcon from '@mui/icons-material/X';
 import { Box, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 import { DojoContext } from '../../contexts/dojoContext';
@@ -94,12 +94,12 @@ function ProfileMenu(props) {
           </ListItemText>
         </MenuItem>
 
-        <MenuItem onClick={() => { window.open("https://discord.gg/v534GSTf9p", "_blank"); handleClose; }}>
+        <MenuItem onClick={() => { window.open("https://twitter.com/await_0x", "_blank"); handleClose; }}>
           <ListItemIcon>
-            <SportsEsportsIcon fontSize="small" />
+            <XIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>
-            Discord
+            Twitter
           </ListItemText>
         </MenuItem>
 

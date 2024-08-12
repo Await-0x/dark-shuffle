@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { DojoContext } from '../contexts/dojoContext';
 import { DraftContext } from '../contexts/draftContext';
 import { ellipseAddress } from '../helpers/utilities';
+import XIcon from '@mui/icons-material/X';
 import TestNet from './header/testnet';
 
 const menuItems = [
@@ -116,11 +117,11 @@ function MobileHeader(props) {
           </Typography>
         </Box>
 
-        <Box sx={styles.content} onClick={() => { window.open("https://discord.gg/v534GSTf9p", "_blank"); }} mb={1}>
-          <SportsEsportsIcon fontSize="medium" />
+        <Box sx={styles.content} onClick={() => { window.open("https://twitter.com/await_0x", "_blank"); }} mb={1}>
+          <XIcon fontSize="medium" />
 
           <Typography variant='h6'>
-            Discord
+            Twitter
           </Typography>
         </Box>
 
