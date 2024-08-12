@@ -4,7 +4,7 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Button, Typography } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import logo from '../assets/images/logo.png';
+import logo from '../assets/images/cards.png';
 import { DojoContext } from '../contexts/dojoContext';
 import { DraftContext } from '../contexts/draftContext';
 import { ellipseAddress } from '../helpers/utilities';

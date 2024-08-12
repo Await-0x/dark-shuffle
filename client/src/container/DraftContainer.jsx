@@ -12,6 +12,7 @@ import { GameContext } from '../contexts/gameContext';
 import { CardSize } from '../helpers/cards';
 import { DECK_SIZE } from '../helpers/constants';
 import { fadeChildrenContainer, fadeChildrenItem } from '../helpers/variants';
+import DraftStats from '../components/draft/draftStats';
 
 function DraftContainer() {
   const game = useContext(GameContext)
@@ -123,6 +124,10 @@ function DraftContainer() {
             </>
             : <BlockRevealAnimation icon />
           }
+        </Box>
+
+        <Box sx={styles.draftInfo}>
+          <DraftStats />
         </Box>
 
       </Box>

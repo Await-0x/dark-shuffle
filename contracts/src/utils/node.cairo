@@ -120,12 +120,17 @@ mod node_utils {
         return node_id;
     }
 
-    fn get_monster_node(node_id: usize, branch: u16, seed: u128) -> MonsterNode {
+    fn get_monster_node(node_id: usize, branch: u16, mut seed: u128) -> MonsterNode {
         let monster_id = random::get_random_number(seed, MONSTER_COUNT);
-        let branch_multiplier = random::get_random_number(seed, branch);
 
-        let health = 35 + (branch * 6) + (branch_multiplier * 3);
-        let attack = 1 + (branch * 2) + (branch_multiplier);
+        seed = random::LCG(seed);
+        let health_multiplier = random::get_random_number(seed, 15);
+
+        seed = random::LCG(seed);
+        let attack_multiplier = random::get_random_number(seed, 5);
+
+        let health = 40 + (branch * health_multiplier);
+        let attack = 3 + (branch * attack_multiplier);
 
         MonsterNode {
             node_id,

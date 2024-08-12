@@ -30,6 +30,24 @@ function StartDraft() {
     <>
       <MobileView>
         <Box sx={styles.mobileContainer}>
+          <Box sx={[styles.kpi, { width: '100%', height: '110px', mt: 2 }]}>
+            <Typography variant='h6'>
+              Season reward
+            </Typography>
+            <Typography variant='h5' color='primary'>
+              0 $LORDS
+            </Typography>
+          </Box>
+
+          <Box sx={[styles.kpi, { width: '100%', height: '110px', mb: 2 }]}>
+            <Typography variant='h6'>
+              Season ends in
+            </Typography>
+            <Typography variant='h5' color='primary'>
+              0 Blocks
+            </Typography>
+          </Box>
+
           <Typography variant='h2'>
             Enter the Cave
           </Typography>
@@ -42,25 +60,7 @@ function StartDraft() {
             Start draft
           </LoadingButton>
 
-          <Box sx={[styles.kpi, { width: '100%', height: '110px', mt: 2 }]}>
-            <Typography variant='h6'>
-              Season ends in
-            </Typography>
-            <Typography variant='h5' color='primary'>
-              0 Blocks
-            </Typography>
-          </Box>
-
-          <Box sx={[styles.kpi, { width: '100%', height: '110px' }]}>
-            <Typography variant='h6'>
-              Season reward
-            </Typography>
-            <Typography variant='h5' color='primary'>
-              0 $LORDS
-            </Typography>
-          </Box>
-
-          <Box width={'100%'} sx={_styles.customBox}>
+          <Box width={'100%'} sx={_styles.customBox} mt={2}>
 
             <Leaderboard />
 
@@ -126,10 +126,6 @@ function StartDraft() {
                 But tread carefully, brave adventurer, for the cave shows no mercy. A single defeat, a mere moment of weakness, spells the end of your journey. In this high-stakes adventure, death is final, and glory is earned.
               </Typography>
 
-              <Typography color={'primary'} mt={1.5}>
-                Do you have the courage and wit to navigate the trials of the cave, overcoming its monstrous denizens and uncovering its ancient secrets? Assemble your cards, ready your team, and step forth into the unknown.
-              </Typography>
-
               <Box mt={4} display={'flex'} alignItems={'center'} gap={2}>
                 <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
                   Start draft
@@ -145,9 +141,10 @@ function StartDraft() {
 
           </Box>
 
-          {nameDialog && <TestNet open={nameDialog} close={() => { showNameDialog(false); beginDraft(); }} />}
         </Box >
       </BrowserView>
+
+      {nameDialog && <TestNet open={nameDialog} close={() => { showNameDialog(false); beginDraft(); }} />}
     </>
   )
 }

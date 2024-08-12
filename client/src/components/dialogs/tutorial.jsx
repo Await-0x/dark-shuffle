@@ -35,7 +35,7 @@ function TutorialDialog(props) {
               Defeat beasts to level up your cards.
             </Typography>
             <Typography>
-              Spatial Diff.
+              Cards improve based on their type.
             </Typography>
           </Box>
 

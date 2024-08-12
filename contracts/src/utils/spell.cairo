@@ -22,7 +22,7 @@ mod spell_utils {
         }
         
         else if card.card_id == 30 {
-            battle.hero_armor += 8;
+            battle.hero_armor += 5;
         }
 
         else if card.card_id == 31 {

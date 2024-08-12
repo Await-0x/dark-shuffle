@@ -10,7 +10,6 @@ import { Box, Divider, IconButton, List, Typography } from '@mui/material';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { default as React, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/images/logo.png';
 import { DojoContext } from '../contexts/dojoContext';
 import { DraftContext } from '../contexts/draftContext';
 import { ellipseAddress } from '../helpers/utilities';

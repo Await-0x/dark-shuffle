@@ -194,6 +194,7 @@ export const BattleProvider = ({ children }) => {
     setBoard(prev => [...prev, { ...creature, id: creatureId }])
     setCreatureIndex(prev => prev + 1)
 
+    console.log('summoning creature')
     setTargetFriendlyCreature()
   }
 

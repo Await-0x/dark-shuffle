@@ -283,7 +283,7 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 cost: 6,
-                attack: 1,
+                attack: 4,
                 health: 4,
                 level
             };
@@ -296,8 +296,8 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 cost: 7,
-                attack: 2,
-                health: 2,
+                attack: 7,
+                health: 7,
                 level
             };
         }
@@ -386,7 +386,7 @@ mod card_utils {
                 name: 'Blessed Barrier',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::RENEWABLE,
-                cost: 8,
+                cost: 6,
                 attack: 0,
                 health: 0,
                 level

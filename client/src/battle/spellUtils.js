@@ -22,7 +22,7 @@ export const spellEffect = ({
   }
 
   else if (cardId === 30) {
-    shieldHero(8);
+    shieldHero(5);
   }
 
   else if (cardId === 31) {

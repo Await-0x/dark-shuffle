@@ -20,7 +20,9 @@ function Battlefield(props) {
   const [attackingCreature, setAttackingCreature] = useState()
 
   const startAttack = (creature, arrow) => {
+    console.log('heelo google', battle.state.targetFriendlyCreature)
     if (creature.resting) { return }
+    if (battle.state.targetFriendlyCreature) { return }
 
     setAttackingCreature(creature)
     showArrow(arrow)

@@ -96,11 +96,11 @@ mod summon_utils {
         }
 
         else if card.card_id == 22 {
-            battle.hero_armor += 6;
+            battle.hero_armor += 5;
         }
 
         else if card.card_id == 23 {
-            battle.hero_armor += 7;
+            battle.hero_armor += 5;
         }
 
         else if card.card_id == 24 {

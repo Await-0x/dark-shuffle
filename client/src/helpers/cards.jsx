@@ -333,10 +333,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: "Mercy Giver",
         type: types.CREATURE,
         cost: 6,
-        attack: 1,
+        attack: 4,
         health: 4,
         tag: tags.RENEWABLE,
-        text: `Play: Gain 6 armor`,
+        text: `Play: Gain 5 armor`,
         level,
       }
     case 23:
@@ -346,10 +346,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: "Celestial Minister",
         type: types.CREATURE,
         cost: 7,
-        attack: 2,
-        health: 2,
+        attack: 7,
+        health: 7,
         tag: tags.RENEWABLE,
-        text: `Play: Gain 7 armor`,
+        text: `Play: Gain 5 armor`,
         level,
       }
     case 24:
@@ -437,11 +437,11 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cardId: 30,
         name: 'Blessed Barrier',
         type: types.SPELL,
-        cost: 8,
+        cost: 6,
         attack: 0,
         health: 0,
         tag: tags.RENEWABLE,
-        text: 'Gain 8 armor',
+        text: 'Gain 5 armor',
         level,
       }
     case 31:

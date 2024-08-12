@@ -114,7 +114,7 @@ const styles = {
   displayCard: {
     height: CardSize.big.height,
     width: CardSize.big.width,
-    position: 'absolute',
+    position: 'fixed',
     right: '305px'
   },
   levelContainer: {
