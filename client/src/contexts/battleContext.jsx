@@ -103,13 +103,12 @@ export const BattleProvider = ({ children }) => {
     const startTime = Date.now();
     const res = await dojo.executeTx(contract, name, data)
 
-    setTxQueue(prev => prev.slice(1))
-
     if (!res) {
       setTxQueue([])
       return fetchBattleState(battleId)
     }
-
+    
+    setTxQueue(prev => prev.slice(1))
     setPendingTx(false)
 
     const gameValues = res.find(e => e.componentName === 'Game')
@@ -122,7 +121,8 @@ export const BattleProvider = ({ children }) => {
     }
 
     if (leaderboard) {
-      return game.setScore(Math.max(1, leaderboard.score))
+      game.setScore(Math.max(1, leaderboard.score))
+      return
     }
 
     if (gameValues) {
@@ -194,7 +194,6 @@ export const BattleProvider = ({ children }) => {
     setBoard(prev => [...prev, { ...creature, id: creatureId }])
     setCreatureIndex(prev => prev + 1)
 
-    console.log('summoning creature')
     setTargetFriendlyCreature()
   }
 
@@ -520,7 +519,7 @@ export const BattleProvider = ({ children }) => {
           castSpell,
           attack,
           discardCard,
-          endTurn
+          endTurn,
         },
 
         utils: {
@@ -531,7 +530,8 @@ export const BattleProvider = ({ children }) => {
           setTargetFriendly,
           fetchBattleState,
           healMonster,
-          getCardCost
+          getCardCost,
+          resetBattleState
         },
 
         state: {

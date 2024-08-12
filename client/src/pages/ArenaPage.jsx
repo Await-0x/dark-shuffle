@@ -10,6 +10,7 @@ import StartBattleContainer from '../container/StartBattleContainer'
 import { BattleContext } from '../contexts/battleContext'
 import { DraftContext } from '../contexts/draftContext'
 import { GameContext } from '../contexts/gameContext'
+import { hexToAscii } from '@dojoengine/utils'
 
 function ArenaPage() {
   const gameState = useContext(GameContext)
@@ -55,7 +56,7 @@ function ArenaPage() {
           gameState.setGame({
             gameId: data.game_id,
             player: data.player,
-            player_name: data.player_name,
+            player_name: hexToAscii(data.player_name),
             active: data.active,
             inDraft: data.in_draft,
             inBattle: data.in_battle,

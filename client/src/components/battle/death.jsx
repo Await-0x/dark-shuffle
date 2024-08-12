@@ -1,11 +1,13 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { GameContext } from "../../contexts/gameContext";
+import { BattleContext } from "../../contexts/battleContext";
 import { motion, useAnimationControls } from "framer-motion";
 import { isMobile, isBrowser } from 'react-device-detect'
 
 function DeathDialog(props) {
   const game = useContext(GameContext)
+  const battle = useContext(BattleContext)
   const controls = useAnimationControls()
   const [text, showText] = useState(false)
 
@@ -23,6 +25,7 @@ function DeathDialog(props) {
       transition: { duration: 3, delay: 1 }
     })
 
+    battle.utils.resetBattleState()
     showText(true)
   }
 

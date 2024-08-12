@@ -12,7 +12,7 @@ import { DraftContext } from '../../contexts/draftContext';
 import { ellipseAddress } from '../../helpers/utilities';
 
 function ProfileMenu(props) {
-  const { handleClose, anchorEl, openAccountDialog, openNameDialog } = props
+  const { handleClose, anchorEl, openNameDialog } = props
 
   const dojo = useContext(DojoContext)
   const draft = useContext(DraftContext)
