@@ -1,6 +1,6 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import shield from "../../assets/images/shield.png";
-import { Box, Typography } from "@mui/material";
+import { Box, LinearProgress, Typography } from "@mui/material";
 import { useLottie } from 'lottie-react';
 import React, { useContext, useEffect } from "react";
 import shieldAnim from "../../assets/animations/shield.json";
@@ -8,14 +8,29 @@ import bolt from "../../assets/images/bolt.png";
 import monarch from "../../assets/images/monarch.png";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
-import { ADVENTURER_ID } from '../../helpers/constants';
-import { CustomTooltip } from '../../helpers/styles';
+import { ADVENTURER_ID, START_ENERGY, START_HEALTH } from '../../helpers/constants';
+import { CustomTooltip, EnergyBar, HealthBar, ShieldBar } from '../../helpers/styles';
 import DamageAnimation from '../animations/damageAnimation';
+import { normalise } from '../../helpers/utilities';
+import { useState } from 'react';
+import { GameContext } from '../../contexts/gameContext';
 
 export default function Adventurer(props) {
+  const game = useContext(GameContext)
   const animationHandler = useContext(AnimationContext)
   const battle = useContext(BattleContext)
   const damage = animationHandler.damageAnimations.find(x => x.targetId === ADVENTURER_ID)
+
+  const [prevEnergy, setPrevEnergy] = useState(0)
+  const [maxEnergy, setMaxEnergy] = useState(0)
+
+  useEffect(() => {
+    if (battle.state.adventurer.energy > prevEnergy) {
+      setMaxEnergy(battle.state.adventurer.energy)
+    }
+
+    setPrevEnergy(battle.state.adventurer.energy)
+  }, [battle.state.adventurer.energy])
 
   const _shield = useLottie({
     animationData: shieldAnim,
@@ -44,54 +59,67 @@ export default function Adventurer(props) {
 
     <img alt='' src={monarch} height={'70%'} />
 
-    <Box sx={{ display: 'flex', gap: 1 }}>
-      <CustomTooltip title={
-        <Box mb={1}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <img alt='' src={bolt} height={20} />
-            <Typography color="primary" variant='h6'>Energy</Typography>
-          </Box>
-          <Typography mt={0.5}>Cards require energy to play.</Typography>
-          <Typography>Your energy replenish each turn.</Typography>
-        </Box>
-      }>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h3">
-            {battle.state.adventurer.energy}
-          </Typography>
-
-          <img alt='' src={bolt} height={25} />
-        </Box>
-      </CustomTooltip>
-
-      <CustomTooltip title={
-        <Box mb={1}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <FavoriteIcon htmlColor="red" fontSize='small' />
-            <Typography color="primary" variant='h6'>Health</Typography>
-          </Box>
-          <Typography mt={0.5}>If your health reaches 0, you die.</Typography>
-        </Box>
-      }>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h3">
-            {battle.state.adventurer.health}
-          </Typography>
-
-          <FavoriteIcon htmlColor="red" />
-        </Box>
-      </CustomTooltip>
-
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant="h3">
-          {battle.state.adventurer.armor}
-        </Typography>
+        <CustomTooltip title={
+          <Box mb={1}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <img alt='' src={bolt} height={20} />
+              <Typography color="primary" variant='h6'>Energy</Typography>
+            </Box>
+            <Typography mt={0.5}>Cards require energy to play.</Typography>
+            <Typography>Your energy replenish each turn.</Typography>
+          </Box>
+        }>
+          <Box width={'80px'} display={'flex'} alignItems={'center'} justifyContent={'flex-end'}>
+            <Typography>
+              {battle.state.adventurer.energy}
+            </Typography>
 
-        <img alt='' src={shield} height={24} width={24} />
+            <img alt='' src={bolt} height={18} />
+          </Box>
+        </CustomTooltip>
+
+        <Box width={'160px'} ml={0.5} mr={'60px'}>
+          <EnergyBar variant="determinate" value={normalise(battle.state.adventurer.energy, maxEnergy)} />
+        </Box>
+      </Box>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+        <CustomTooltip title={
+          <Box mb={1}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <FavoriteIcon htmlColor="red" fontSize='small' />
+
+              <Typography color="primary" variant='h6'>Health</Typography>
+            </Box>
+            <Typography mt={0.5}>If your health reaches 0, the game ends.</Typography>
+          </Box>
+        }>
+          <Box width={'80px'} display={'flex'} alignItems={'center'} justifyContent={'flex-end'}>
+            <Typography>
+              {battle.state.adventurer.health}
+            </Typography>
+            {battle.state.adventurer.armor > 0 && <Typography>
+              ({battle.state.adventurer.armor})
+            </Typography>}
+
+            <FavoriteIcon htmlColor="red" sx={{ fontSize: '18px' }} />
+          </Box>
+        </CustomTooltip>
+
+        <Box width={'160px'} ml={0.5} mr={'60px'}>
+          <HealthBar variant="determinate" value={normalise(battle.state.adventurer.health, Math.max(START_HEALTH, game.values.heroHealth))} />
+        </Box>
+
+        <Box sx={{ width: '160px', position: 'absolute', right: 0, mr: '60px' }}>
+          <ShieldBar variant="determinate" value={normalise(battle.state.adventurer.armor, START_HEALTH)} />
+        </Box>
+
       </Box>
     </Box>
 
-  </Box>
+  </Box >
 }
 
 const styles = {

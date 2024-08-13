@@ -107,7 +107,7 @@ export const BattleProvider = ({ children }) => {
       setTxQueue([])
       return fetchBattleState(battleId)
     }
-    
+
     setTxQueue(prev => prev.slice(1))
     setPendingTx(false)
 
@@ -159,7 +159,7 @@ export const BattleProvider = ({ children }) => {
     setHand([])
     setBattleId(battle.battleId)
     setAdventurer({ id: ADVENTURER_ID, health: battle.heroHealth, energy: battle.heroEnergy, armor: battle.heroArmor })
-    setMonster({ ...MONSTER_LIST.find(monster => monster.id === battle.monsterId), attack: battle.monsterAttack, health: battle.monsterHealth })
+    setMonster({ ...MONSTER_LIST.find(monster => monster.id === battle.monsterId), attack: battle.monsterAttack, health: battle.monsterHealth, startHealth: battle.monsterHealth })
     setBattleEffects({ ...BATTLE_EFFECTS })
     setCreatureIndex(battle.cardIndex)
   }
@@ -469,7 +469,8 @@ export const BattleProvider = ({ children }) => {
     setMonster({
       ...MONSTER_LIST.find(monster => monster.id === data.battle.monster_id),
       attack: data.battle.monster_attack,
-      health: data.battle.monster_health
+      health: data.battle.monster_health,
+      startHealth: data.battle.monster_health
     })
 
     setAdventurer({

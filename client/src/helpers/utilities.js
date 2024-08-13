@@ -41,3 +41,7 @@ export function getNodeStatus(nodes, node) {
 
   return false
 }
+
+export function normalise (value, max) {
+  return Math.min(100, (value * 100) / max)
+} 

@@ -9,6 +9,8 @@ import { AnimationContext } from '../../../contexts/animationHandler';
 import { BattleContext } from '../../../contexts/battleContext';
 import DamageAnimation from '../../animations/damageAnimation';
 import { isMobile } from 'react-device-detect';
+import { normalise } from '../../../helpers/utilities';
+import { EnemyHealthBar } from '../../../helpers/styles';
 
 function Lich(props) {
   const animationHandler = useContext(AnimationContext)
@@ -62,6 +64,8 @@ function Lich(props) {
   }, [animationHandler.monsterAnimations])
 
   return <Box sx={styles.container}>
+    <EnemyHealthBar variant="determinate" value={normalise(monster.health, monster.startHealth)} />
+
     {damage && <DamageAnimation id={damage.id} damage={damage.damage} />}
 
     {swirl.View}
@@ -117,7 +121,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: '75%'
+    height: '70%'
   },
   bottomContainer: {
     display: 'flex',

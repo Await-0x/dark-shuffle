@@ -1,9 +1,13 @@
+import { Box } from "@mui/material";
 import { motion, useAnimationControls } from "framer-motion";
 import { useLottie } from 'lottie-react';
 import React, { useContext, useEffect, useRef } from "react";
+import { isMobile } from 'react-device-detect';
 import skullAnim from "../../assets/animations/skull.json";
+import { MONSTER_LIST } from "../../battle/monsterUtils";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from "../../contexts/battleContext";
+import { CustomTooltip } from "../../helpers/styles";
 import DamageAnimation from '../animations/damageAnimation';
 import Bigfoot from './monsters/bigfoot';
 import Chimera from './monsters/chimera';
@@ -12,10 +16,6 @@ import Lich from './monsters/lich';
 import Minotaur from './monsters/minotaur';
 import Spider from './monsters/spider';
 import Troll from './monsters/troll';
-import { isMobile, isBrowser } from 'react-device-detect';
-import { MONSTER_LIST } from "../../battle/monsterUtils";
-import { CustomTooltip } from "../../helpers/styles";
-import { Box } from "@mui/material";
 
 function Monster(props) {
   const battle = useContext(BattleContext)
@@ -130,6 +130,3 @@ function Monster(props) {
 }
 
 export default Monster
-
-const styles = {
-}

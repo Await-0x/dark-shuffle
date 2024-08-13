@@ -6,6 +6,8 @@ import { AnimationContext } from '../../../contexts/animationHandler';
 import { BattleContext } from '../../../contexts/battleContext';
 import DamageAnimation from '../../animations/damageAnimation';
 import { isMobile } from 'react-device-detect';
+import { EnemyHealthBar } from '../../../helpers/styles';
+import { normalise } from '../../../helpers/utilities';
 
 function Spider(props) {
   const animationHandler = useContext(AnimationContext)
@@ -35,6 +37,8 @@ function Spider(props) {
   }, [animationHandler.monsterAnimations])
 
   return <Box sx={styles.container}>
+    <EnemyHealthBar variant="determinate" value={normalise(monster.health, monster.startHealth)} />
+
     {damage && <DamageAnimation id={damage.id} damage={damage.damage} />}
 
     <Box sx={styles.imageContainer}>
@@ -87,7 +91,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: '75%'
+    height: '70%'
   },
   bottomContainer: {
     display: 'flex',
