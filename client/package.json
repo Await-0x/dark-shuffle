@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@argent/starknet-react-webwallet-connector": "^6.6.0",
+    "@cartridge/connector": "^0.3.39",
+    "@cartridge/controller": "^0.3.39",
     "@dojoengine/core": "1.0.0-alpha.0",
     "@dojoengine/react": "1.0.0-alpha.0",
     "@dojoengine/recs": "^2.0.13",

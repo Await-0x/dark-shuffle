@@ -9,6 +9,10 @@ const {
   VITE_PUBLIC_ACCOUNT_CLASS_HASH,
   VITE_PUBLIC_DEV,
   VITE_PUBLIC_FEE_TOKEN_ADDRESS,
+  VITE_PUBLIC_WORLD_ADDRESS,
+  VITE_PUBLIC_ETH_ADDRESS,
+  VITE_PUBLIC_LORDS_ADDRESS,
+  VITE_PUBLIC_NETWORK
 } = import.meta.env;
 
 export const dojoConfig = {
@@ -20,5 +24,9 @@ export const dojoConfig = {
   masterPrivateKey: VITE_PUBLIC_MASTER_PRIVATE_KEY,
   accountClassHash: VITE_PUBLIC_ACCOUNT_CLASS_HASH || "0x05400e90f7e0ae78bd02c77cd75527280470e2fe19c54970dd79dc37a9d3645c",
   feeTokenAddress: VITE_PUBLIC_FEE_TOKEN_ADDRESS || "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
-  manifest: VITE_PUBLIC_DEV === "true" ? devManifest : prodManifest
+  manifest: VITE_PUBLIC_DEV === "true" ? devManifest : prodManifest,
+  gameAddress: VITE_PUBLIC_WORLD_ADDRESS,
+  ethAddress: VITE_PUBLIC_ETH_ADDRESS,
+  lordsAddress: VITE_PUBLIC_LORDS_ADDRESS,
+  publicNetwork: VITE_PUBLIC_NETWORK
 };
