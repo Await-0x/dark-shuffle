@@ -1,5 +1,6 @@
 export const ADVENTURER_ID = 65535;
 export const CARD_POOL_SIZE = 40;
+export const DRAFT_SIZE = 10;
 export const DECK_SIZE = 5;
 export const DISCARD_COST = 1;
 export const MAX_BOARD = 6;
@@ -24,8 +25,7 @@ export const BATTLE_EFFECTS = {
   nextSpellReduction: 0,
   nextCardReduction: 0,
   freeDiscard: false,
-  damageImmune: false,
-  unstablesPlayed: []
+  damageImmune: false
 }
 
 export const levelColors = [

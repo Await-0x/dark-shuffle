@@ -14,7 +14,7 @@ mod draft_systems {
         random,
         draft::draft_utils
     };
-    use darkshuffle::constants::{Messages, DECK_SIZE};
+    use darkshuffle::constants::{Messages, DRAFT_SIZE};
 
     #[abi(embed_v0)]
     impl DraftContractImpl of super::IDraftContract<ContractState> {
@@ -53,7 +53,7 @@ mod draft_systems {
                 DraftCard { game_id, card_id: choice.card_id, number: draft.card_count, level: choice.level }
             ));
 
-            if draft.card_count == DECK_SIZE {
+            if draft.card_count == DRAFT_SIZE {
                 game.in_draft = false;
             } 
             

@@ -1,4 +1,3 @@
-mod attack;
 mod battle;
 mod board;
 mod cards;

@@ -2,7 +2,6 @@ import { motion } from "framer-motion"
 import { fadeVariant } from "../../helpers/variants"
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import { argent, braavos, useConnect } from "@starknet-react/core";
-import { argentWebWalletConnector } from "../../helpers/starknet";
 import background from "../../assets/images/cards/blessing_caster.png"
 import EmailIcon from '@mui/icons-material/Email';
 
@@ -39,9 +38,9 @@ function ConnectWallet(props) {
               <Divider sx={{ width: '40%' }} />
             </Stack>
 
-            <Button startIcon={<EmailIcon />} color='warning' variant='outlined' onClick={() => connect({ connector: argentWebWalletConnector })} size='large'>
+            <Button startIcon={<EmailIcon />} color='warning' variant='outlined' size='large'>
               <Typography color='#f59100'>
-                Login with email
+                Cartridge Controller
               </Typography>
             </Button>
           </Box>

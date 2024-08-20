@@ -28,6 +28,8 @@ export const translateName = (address) => {
       return 'Node'
     case '0x2ca66fae0338d1ff831ca7ad5ade77cc8ad555c2f5904a958868adc4f5d7ba7':
       return 'PotionNode'
+    case '0x4003bd660d2358d7dedc99e3fd20f996915c9674814788bc99c748e935458b2':
+      return 'CardNode'
   }
 }
 
@@ -81,12 +83,16 @@ export const components = {
     nodeId: Number(),
     round: Number(),
     cardIndex: Number(),
+    roundEnergy: Number(),
     heroHealth: Number(),
     heroEnergy: Number(),
     heroArmor: Number(),
+    heroBurn: Number(),
     monsterId: Number(),
     monsterAttack: Number(),
-    monsterHealth: Number()
+    monsterHealth: Number(),
+    branch: Number(),
+    deck: 'array'
   },
   'Creature': {
     battleId: Number(),
@@ -119,7 +125,6 @@ export const components = {
     nextCardReduction: Number(),
     freeDiscard: Boolean(),
     damageImmune: Boolean(),
-    unstablesPlayed: 'array'
   },
 
   // Node models
@@ -142,6 +147,11 @@ export const components = {
   'PotionNode': {
     nodeId: Number(),
     amount: Number(),
+  },
+  'CardNode': {
+    nodeId: Number(),
+    cardId: Number(),
+    cardLevel: Number(),
   },
 
   // Entropy models

@@ -3,7 +3,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import StarIcon from '@mui/icons-material/Star';
 import { Box, Dialog, Typography } from '@mui/material';
 import vortex from "../../assets/images/vortex.png";
-import { MONSTER_LIST } from '../../battle/monsterUtils';
+import { GET_MONSTER } from '../../battle/monsterUtils';
 import { fetch_image } from '../../helpers/cards';
 import { levelColors } from '../../helpers/constants';
 
@@ -117,7 +117,7 @@ function TutorialDialog(props) {
             <ArrowForwardIcon color='primary' fontSize='large' />
 
             <Box height={'100px'}>
-              {MONSTER_LIST[0].image}
+              {GET_MONSTER(1).image}
             </Box>
           </Box>
         </Box>

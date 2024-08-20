@@ -1,10 +1,10 @@
 const ADVENTURER_ID: u16 = 65535;
 const CARD_POOL_SIZE: u16 = 40;
+const DRAFT_SIZE: u8 = 10;
 const DECK_SIZE: u8 = 5;
 const DISCARD_COST: u8 = 1;
 const MAX_BOARD: u8 = 6;
-const MONSTER_COUNT: u16 = 7;
-const NODE_TYPES: u16 = 2;
+const MONSTER_COUNT: u16 = 21;
 const LAST_NODE_LEVEL: u8 = 6;
 const MAX_CARD_LEVEL: u16 = 15;
 
@@ -24,6 +24,7 @@ mod CardTags {
     const RENEWABLE: felt252 = 'Renewable';
     const SCALABLE: felt252 = 'Scalable';
     const ESCALATING: felt252 = 'Escalating';
+    const FATIQUE: felt252 = 'Fatique';
     const UNSTABLE: felt252 = 'Unstable';
     const NONE: felt252 = 'None';
 }
@@ -46,4 +47,4 @@ mod Messages {
 }
 
 const U128_MAX: u128 = 340282366920938463463374607431768211455;
-const LCG_PRIME: u128 = 2147483647;
+const LCG_PRIME: u128 = 281474976710656;

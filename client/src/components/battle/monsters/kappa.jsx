@@ -7,6 +7,7 @@ import DamageAnimation from '../../animations/damageAnimation';
 import { isMobile } from 'react-device-detect';
 import { EnemyHealthBar } from '../../../helpers/styles';
 import { normalise } from '../../../helpers/utilities';
+import { fetchMonsterImage } from '../../../battle/monsterUtils';
 
 function Kappa(props) {
   const animationHandler = useContext(AnimationContext)
@@ -33,7 +34,7 @@ function Kappa(props) {
     {damage && <DamageAnimation id={damage.id} damage={damage.damage} />}
 
     <Box sx={styles.imageContainer}>
-      {monster.image}
+      {<img alt='' src={fetchMonsterImage(monster.name)} height={'100%'} />}
     </Box>
 
     <Box sx={styles.bottomContainer}>

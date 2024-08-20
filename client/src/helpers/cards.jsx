@@ -7,6 +7,7 @@ export const tags = {
   SCALABLE: 'Scalable',
   RENEWABLE: 'Renewable',
   ESCALATING: 'Escalating',
+  FATIQUE: 'Fatique',
   UNSTABLE: 'Unstable',
   SHIELD: 'Shield',
 }
@@ -98,7 +99,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cardId: 4,
         name: "Eden Priest",
         type: types.CREATURE,
-        cost: 3,
+        cost: 2,
         attack: 2,
         health: 8,
         tag: tags.ESCALATING,
@@ -521,8 +522,8 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cost: 1,
         attack: 0,
         health: 0,
-        tag: tags.UNSTABLE,
-        text: `Gain 3 health`,
+        tag: tags.FATIQUE,
+        text: `Gain 1 health`,
         level,
       }
     case 37:
@@ -534,8 +535,8 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cost: 1,
         attack: 0,
         health: 0,
-        tag: tags.UNSTABLE,
-        text: `Gain 5 energy`,
+        tag: tags.FATIQUE,
+        text: `Gain 4 energy`,
         level,
       }
     case 38:
@@ -547,8 +548,8 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cost: 1,
         attack: 0,
         health: 0,
-        tag: tags.UNSTABLE,
-        text: `Gain 5 armor`,
+        tag: tags.FATIQUE,
+        text: `Gain 8 armor`,
         level,
       }
     case 39:
@@ -560,7 +561,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cost: 1,
         attack: 0,
         health: 0,
-        tag: tags.UNSTABLE,
+        tag: tags.FATIQUE,
         text: `Deal 15 damage`,
         level,
       }
@@ -568,13 +569,13 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
       return {
         id,
         cardId: 40,
-        name: "Flickering Sanctuary",
+        name: "Divine Sacrifice",
         type: types.SPELL,
         cost: 1,
         attack: 0,
         health: 0,
-        tag: tags.UNSTABLE,
-        text: `Your hero is immune to damage next turn`,
+        tag: tags.FATIQUE,
+        text: `Your hero loses 3 health and is immune to damage until next turn`,
         level,
       }
     default:

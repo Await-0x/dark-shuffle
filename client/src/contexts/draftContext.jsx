@@ -3,33 +3,42 @@ import { getDraftCards, getEntropy } from "../api/indexer";
 import { CARD_DETAILS, tags, types } from "../helpers/cards";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
+import { DECK_SIZE } from "../helpers/constants";
 
 export const DraftContext = createContext()
 
 export const DraftProvider = ({ children }) => {
   const dojo = useContext(DojoContext)
   const game = useContext(GameContext)
-  
+
   const [pendingTx, setPendingTx] = useState()
   const [pendingCard, setPendingCard] = useState()
 
   const [playerName, setPlayerName] = useState(localStorage.getItem('playerName') ?? '')
   const [options, setOptions] = useState([])
   const [cards, setCards] = useState([])
+  const [bench, setBench] = useState([])
 
   const [manaCurve, setManaCurve] = useState()
-
   const [tagCount, setTagCount] = useState(Object.keys(tags).map(_ => 0))
 
   const initializeState = () => {
     setPendingCard(false)
     setOptions([])
     setCards([])
+    setBench([])
     setTagCount(Object.keys(tags).map(_ => 0))
     setManaCurve({
       [types.CREATURE]: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [types.SPELL]: [0, 0, 0, 0, 0, 0, 0, 0, 0]
     })
+  }
+
+  const setDeckFromGraph = (cardIds) => {
+    let allCards = [...cards, ...bench]
+
+    setCards(allCards.filter(card => cardIds.includes(card.id)))
+    setBench(allCards.filter(card => !cardIds.includes(card.id)))
   }
 
   const setDraftStats = (cards) => {
@@ -108,7 +117,13 @@ export const DraftProvider = ({ children }) => {
       setOptions([])
 
       card.id = draftCard.number;
-      setCards(prev => [...prev, card].sort((a, b) => a.cost - b.cost))
+
+      if (cards.length < DECK_SIZE) {
+        setCards(prev => [...prev, card].sort((a, b) => a.cost - b.cost))
+      } else {
+        setBench(prev => [...prev, card].sort((a, b) => a.cost - b.cost))
+      }
+
       updateDraftStats(card)
 
       if (gameValues) {
@@ -123,12 +138,13 @@ export const DraftProvider = ({ children }) => {
   }
 
   const fetchDraftCards = async (gameId, inDraft) => {
-    let data = await getDraftCards(gameId)
+    let data = await getDraftCards(gameId);
 
-    let cards = data.map(card => CARD_DETAILS(card.card_id, card.number, card.level))
+    let cards = data.map(card => CARD_DETAILS(card.card_id, card.number, card.level));
 
-    setDraftStats(cards)
-    setCards(cards.sort((a, b) => a.cost - b.cost))
+    setDraftStats(cards);
+    setCards(cards.slice(0, 5).sort((a, b) => a.cost - b.cost));
+    setBench(cards.slice(5).sort((a, b) => a.cost - b.cost));
 
     if (inDraft) {
       const entropy = await getEntropy(gameId, data.length + 1)
@@ -146,23 +162,46 @@ export const DraftProvider = ({ children }) => {
     })))
   }
 
+  const addCardToDeck = (cardNumber) => {
+    let card = bench.find(card => card.id === cardNumber)
+
+    if (!card) return;
+
+    setCards(prev => [...prev, card])
+    setBench(prev => prev.filter(card => card.id !== cardNumber))
+  }
+
+  const removeCardFromDeck = (cardNumber) => {
+    let card = cards.find(card => card.id === cardNumber)
+
+    if (!card) return;
+
+    setBench(prev => [...prev, card])
+    setCards(prev => prev.filter(card => card.id !== cardNumber))
+  }
+
   return (
     <DraftContext.Provider
       value={{
         cards,
-        selectCard,
         options,
-        setOptions,
         manaCurve,
         tagCount,
-        startDraft,
         pendingTx,
         pendingCard,
+        playerName,
+        bench,
+
+        selectCard,
+        setOptions,
+        startDraft,
         getDraftOptions,
         setPlayerName,
-        playerName,
         fetchDraftCards,
-        levelUpCards
+        levelUpCards,
+        addCardToDeck,
+        removeCardFromDeck,
+        setDeckFromGraph
       }}
     >
       {children}

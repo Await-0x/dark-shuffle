@@ -13,9 +13,11 @@ import { fadeVariant } from "../helpers/variants";
 import { BrowserView, MobileView, isMobile } from 'react-device-detect'
 import { useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
+import { DraftContext } from '../contexts/draftContext';
 
 function StartBattleContainer() {
   const game = useContext(GameContext)
+  const draft = useContext(DraftContext)
   const battle = useContext(BattleContext)
 
   const [cardOverview, setCardOverview] = useState(false)
@@ -27,7 +29,7 @@ function StartBattleContainer() {
   }, [game.entropy.blockHash, game.values.nodeLevel])
 
   const selectNode = async (nodeId) => {
-    const res = await game.actions.selectNode(nodeId)
+    const res = await game.actions.selectNode(nodeId, draft.cards.map(card => card.id))
 
     if (!res) return;
 

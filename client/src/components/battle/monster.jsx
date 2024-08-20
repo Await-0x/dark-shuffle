@@ -4,7 +4,7 @@ import { useLottie } from 'lottie-react';
 import React, { useContext, useEffect, useRef } from "react";
 import { isMobile } from 'react-device-detect';
 import skullAnim from "../../assets/animations/skull.json";
-import { MONSTER_LIST } from "../../battle/monsterUtils";
+import { GET_MONSTER } from "../../battle/monsterUtils";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from "../../contexts/battleContext";
 import { CustomTooltip } from "../../helpers/styles";
@@ -18,11 +18,9 @@ import Spider from './monsters/spider';
 import Troll from './monsters/troll';
 
 function Monster(props) {
-  const battle = useContext(BattleContext)
   const animationHandler = useContext(AnimationContext)
 
-  const { monster, attackingCreature } = props
-
+  const { monster } = props
   const controls = useAnimationControls()
   const skullControls = useAnimationControls()
   const ref = useRef()
@@ -84,18 +82,6 @@ function Monster(props) {
     animationHandler.animationCompleted({ type: 'monsterAttack' })
   }
 
-  const mouseUpHandler = (event) => {
-    if (!attackingCreature) {
-      return
-    }
-
-    animationHandler.addAnimation('monster', { type: 'defend' })
-
-    if (attackingCreature) {
-      return battle.actions.attack(attackingCreature)
-    }
-  }
-
   let damage = animationHandler.state.animations.monsterDamaged
 
   return <>
@@ -114,15 +100,15 @@ function Monster(props) {
       </motion.div>
 
       {monster.health > 0 && <CustomTooltip position={'right'} title={<Box mb={1}>
-        {MONSTER_LIST.find(m => m.monsterId === monster.id).abilities}
+        {monster.abilities}
       </Box>}>
-        {monster.id === 1 && <Minotaur monster={monster} />}
-        {monster.id === 2 && <Troll monster={monster} />}
-        {monster.id === 3 && <Bigfoot monster={monster} />}
-        {monster.id === 4 && <Chimera monster={monster} />}
-        {monster.id === 5 && <Kappa monster={monster} />}
-        {monster.id === 6 && <Spider monster={monster} />}
-        {monster.id === 7 && <Lich monster={monster} />}
+        {monster.name === 'Minotaur' && <Minotaur monster={monster} />}
+        {monster.name === 'Troll' && <Troll monster={monster} />}
+        {monster.name === 'Bigfoot' && <Bigfoot monster={monster} />}
+        {monster.name === 'Chimera' && <Chimera monster={monster} />}
+        {monster.name === 'Kappa' && <Kappa monster={monster} />}
+        {monster.name === 'Spider' && <Spider monster={monster} />}
+        {monster.name === 'Lich' && <Lich monster={monster} />}
       </CustomTooltip>}
 
     </motion.div>

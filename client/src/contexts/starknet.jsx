@@ -1,25 +1,13 @@
 import React from "react";
 
-import { sepolia, mainnet } from "@starknet-react/chains";
+import { mainnet, sepolia } from "@starknet-react/chains";
 import {
   StarknetConfig,
-  publicProvider,
-  argent,
-  braavos,
-  useInjectedConnectors,
   voyager
 } from "@starknet-react/core";
-import { getProvider } from "../helpers/starknet";
+import { connectors, getProvider } from "../helpers/starknet";
 
 export function StarknetProvider({ children }) {
-  const { connectors } = useInjectedConnectors({
-    recommended: [
-      argent(),
-      braavos(),
-    ],
-    includeRecommended: "onlyIfNoConnectors",
-  });
-
   return (
     <StarknetConfig
       chains={[mainnet, sepolia]}

@@ -1,47 +1,27 @@
 import { Box } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
+import { isBrowser, isMobile } from 'react-device-detect';
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
 import { GameContext } from "../../contexts/gameContext";
 import PoisonSprayAnimation from "../animations/poisonSprayAnimation";
 import Adventurer from './adventurer';
-import Arrow from "./arrow";
 import Creature from "./creature";
 import DeathDialog from './death';
 import Monster from "./monster";
-import { isMobile, isBrowser } from 'react-device-detect';
 
 function Battlefield(props) {
   const animationHandler = useContext(AnimationContext)
   const game = useContext(GameContext)
   const battle = useContext(BattleContext)
-  const [arrow, showArrow] = useState(false)
-
-  const [attackingCreature, setAttackingCreature] = useState()
-
-  const startAttack = (creature, arrow) => {
-    console.log('heelo google', battle.state.targetFriendlyCreature)
-    if (creature.resting) { return }
-    if (battle.state.targetFriendlyCreature) { return }
-
-    setAttackingCreature(creature)
-    showArrow(arrow)
-  }
-
-  const cancelAttack = () => {
-    setAttackingCreature()
-    showArrow(false)
-  }
 
   return <Box sx={styles.container} height={isMobile ? '98%' : '90%'}>
 
     {game.score && <DeathDialog />}
 
-    {arrow && <Arrow arrow={arrow} cancel={cancelAttack} />}
-
     <Box sx={styles.enemyContainer} height={isMobile ? '50%' : '40%'}>
 
-      <Monster monster={battle.state.monster} attackingCreature={attackingCreature} />
+      <Monster monster={battle.state.monster} />
 
     </Box>
 
@@ -52,8 +32,6 @@ function Battlefield(props) {
           return <Creature
             pos={i}
             creature={creature}
-            startAttack={startAttack}
-            attacking={attackingCreature}
           />
         })
       )}

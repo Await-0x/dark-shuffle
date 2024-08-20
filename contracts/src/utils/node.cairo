@@ -4,13 +4,14 @@ mod node_utils {
         array::{ArrayTrait},
     };
 
-    use darkshuffle::models::battle::{Battle, BattleEffects, Monster};
+    use darkshuffle::models::battle::{Battle, BattleEffects};
     use darkshuffle::models::game::{Game};
-    use darkshuffle::models::node::{Node, MonsterNode, PotionNode};
+    use darkshuffle::models::draft::{Draft, DraftCard};
+    use darkshuffle::models::node::{Node, MonsterNode, PotionNode, CardNode};
     use darkshuffle::utils::random;
     use darkshuffle::utils::hand::hand_utils;
     use darkshuffle::utils::game::game_utils;
-    use darkshuffle::constants::{MONSTER_COUNT, U128_MAX, LCG_PRIME, NODE_TYPES, LAST_NODE_LEVEL};
+    use darkshuffle::constants::{MONSTER_COUNT, U128_MAX, LCG_PRIME, LAST_NODE_LEVEL, START_ENERGY};
 
     fn node_available(world: IWorldDispatcher, node: Node) -> bool {
         if node.parents.is_empty() {
@@ -35,13 +36,13 @@ mod node_utils {
     }
 
     fn generate_tree_nodes(world: IWorldDispatcher, game_id: usize, mut seed: u128, branch: u16) {
-        let mut grand_parent_id = save_node(world, game_id, 1, branch, seed, array![].span(), 1);
+        let mut node_type: u16 = random_node(seed);
+        let mut grand_parent_id = save_node(world, game_id, node_type, branch, seed, array![].span(), 1);
 
+        seed = random::LCG(seed);
         let sections = random::get_random_number(seed, 3);
-
         let mut section_index = 0;
         let mut last_node_parents: Array<usize> = array![];
-        let mut node_type: u16 = 0;
 
         loop {
             if section_index == sections {
@@ -59,7 +60,10 @@ mod node_utils {
             let mut parent_id_1 = save_node(world, game_id, node_type, branch, seed, array![parent_id].span(), 3);
             let mut parent_id_2 = 0;
 
+            seed = random::LCG(seed);
             if random::get_random_number(seed, 2) > 1 {
+                seed = random::LCG(seed);
+                node_type = random_node(seed);
                 parent_id_2 = save_node(world, game_id, node_type, branch, seed, array![parent_id].span(), 3);
             }
 
@@ -82,17 +86,17 @@ mod node_utils {
         };
 
         seed = random::LCG(seed);
-        node_type = random_node(seed);
-
-        save_node(world, game_id, node_type, branch, seed, last_node_parents.span(), 5);
+        save_node(world, game_id, 1, branch, seed, last_node_parents.span(), 5);
     }
 
     fn random_node(mut seed: u128) -> u16 {
-        let mut node_type: u16 = random::get_random_number(seed, 3);
+        let mut node_type: u16 = random::get_random_number(seed, 10);
 
-        if node_type > 2 {
+        if node_type > 9 {
+            node_type = 4;
+        } else if node_type > 6 {
             seed = random::LCG(seed);
-            node_type = random::get_random_number(seed, NODE_TYPES) + 1;
+            node_type = random::get_random_number(seed, 2) + 1;
         } else {
             node_type = 1;
         }
@@ -108,8 +112,13 @@ mod node_utils {
             set!(world, (get_monster_node(node_id, branch, seed)));
         }
 
-        if node_type == 2 || node_type == 3 {
+        else if node_type == 2 || node_type == 3 {
             set!(world, (get_potion_node(node_id, branch, seed, node_type)));
+            skippable = true;
+        }
+
+        else if node_type == 4 {
+            set!(world, (get_card_node(node_id, branch, seed)));
             skippable = true;
         }
 
@@ -157,13 +166,36 @@ mod node_utils {
         }
     }
 
-    fn start_battle(world: IWorldDispatcher, ref game: Game, monster: MonsterNode) {
+    fn get_card_node(node_id: usize, branch: u16, mut seed: u128) -> CardNode {
+        seed = random::LCG(seed);
+        let card_id = random::get_random_card_id(seed);
+        seed = random::LCG(seed);
+        let card_level = random::get_random_number(seed, branch * 3);
+
+        CardNode {
+            node_id,
+            card_id,
+            card_level
+        }
+    }
+
+    fn start_battle(world: IWorldDispatcher, ref game: Game, monster: MonsterNode, deck: Span<u8>) {
         let battle_id = world.uuid();
 
         game.in_battle = true;
         game.active_battle_id = battle_id;
         
-        hand_utils::draw_cards(world, battle_id, game.game_id);
+        hand_utils::draw_cards(world, battle_id, game.game_id, deck);
+
+        let mut round_energy = START_ENERGY;
+        if monster.monster_id == 12 {
+            round_energy -= 1;
+        }
+
+        let mut start_energy = game.hero_energy;
+        if monster.monster_id == 13 {
+            start_energy -= game.branch;
+        }
 
         set!(world, (
             Battle {
@@ -172,22 +204,26 @@ mod node_utils {
                 node_id: monster.node_id,
                 round: 1,
                 card_index: 1,
+                round_energy: START_ENERGY,
             
                 hero_health: game.hero_health,
-                hero_energy: game.hero_energy,
+                hero_energy: start_energy,
                 hero_armor: 0,
+                hero_burn: 0,
                 
                 monster_id: monster.monster_id,
                 monster_attack: monster.attack,
-                monster_health: monster.health
+                monster_health: monster.health,
+
+                branch: game.branch,
+                deck,
             },
             BattleEffects {
                 battle_id: battle_id,
                 next_spell_reduction: 0,
                 next_card_reduction: 0,
                 free_discard: false,
-                damage_immune: false,
-                unstables_played: array![].span()
+                damage_immune: false
             }
         ));
     }
@@ -200,6 +236,20 @@ mod node_utils {
         if node.node_type == 3 {
             game.hero_energy += potion.amount;
         }
+
+        node.status = 1;
+        game_utils::complete_node(ref game, world);
+    }
+
+    fn take_card(ref game: Game, ref node: Node, card: CardNode, world: IWorldDispatcher) {
+        let mut draft = get!(world, (game.game_id), Draft);
+
+        draft.card_count += 1;
+
+        set!(world, (
+            draft,
+            DraftCard { game_id: game.game_id, card_id: card.card_id, number: draft.card_count, level: card.card_level }
+        ));
 
         node.status = 1;
         game_utils::complete_node(ref game, world);

@@ -1,11 +1,31 @@
 mod battle_utils {
     use darkshuffle::constants::{CardTypes, CardTags};
-    use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects, HandCard};
+    use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects, BattleOwnerTrait};
+
+    fn discard_cost(ref battle: Battle, ref battle_effects: BattleEffects) {
+        let mut cost = 1;
+
+        if battle.monster_id == 11 {
+            cost += 1;
+        }
+
+        if battle_effects.free_discard {
+            battle_effects.free_discard = false;
+            return;
+        }
+
+        battle.assert_energy(cost);
+        battle.hero_energy -= cost;
+    }
 
     fn energy_cost(ref battle: Battle, ref battle_effects: BattleEffects, card: Card) {
         let mut cost = card.cost;
 
         if battle.monster_id == 5 && card.card_type == CardTypes::CREATURE {
+            cost += 1;
+        }
+
+        if battle.monster_id == 10 && card.card_type == CardTypes::SPELL {
             cost += 1;
         }
 
@@ -61,11 +81,55 @@ mod battle_utils {
         }
     }
 
-    fn damage_monster(ref battle: Battle, amount: u16) {
+    fn piercing_damage_hero(ref battle: Battle, amount: u16, ref battle_effects: BattleEffects) {
         let mut damage = amount;
 
+        if battle_effects.damage_immune {
+            return;
+        }
+
+        if battle.hero_health < damage {
+            battle.hero_health = 0;
+        } else {
+            battle.hero_health -= damage;
+        }
+    }
+
+    fn increase_armor(ref battle: Battle, amount: u16, ref battle_effects: BattleEffects) {
+        battle.hero_armor += amount;
+
+        if battle.monster_id == 20 && battle.hero_armor > 10 {
+            battle.hero_armor = 10;
+        }
+    }
+
+    fn damage_monster(ref battle: Battle, ref battle_effects: BattleEffects, amount: u16, damage_type: u8) {
+        let mut damage = amount;
+
+        // Spell damage
+        if damage_type == 1 {
+            if battle.monster_id == 8 {
+                return;
+            }
+
+            if battle.monster_id == 15 {
+                damage_hero(ref battle, battle.branch, ref battle_effects);
+            }
+        }
+
+        // Creature damage
+        if damage_type == 2 {
+            if battle.monster_id == 9 {
+                return;
+            }
+
+            if battle.monster_id == 16 {
+                damage_hero(ref battle, battle.branch, ref battle_effects);
+            }
+        }
+
         if battle.monster_id == 3 {
-            damage -= 1;
+            damage -= battle.branch;
         }
 
         if battle.monster_health < damage {
@@ -86,11 +150,5 @@ mod battle_utils {
         } else {
             creature.health -= amount;
         }
-    }
-
-    fn play_unstable_card(hand_card: HandCard, ref battle_effects: BattleEffects) {
-        let mut unstables_played: Array<u8> = battle_effects.unstables_played.into();
-        unstables_played.append(hand_card.hand_card_number);
-        battle_effects.unstables_played = unstables_played.span();
     }
 }

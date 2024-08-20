@@ -1,20 +1,19 @@
-import { Scrollbars } from 'react-custom-scrollbars';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
+import { LoadingButton } from '@mui/lab';
 import { Box, Typography } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
 import bolt from "../../assets/images/bolt.png";
 import skull from "../../assets/images/skull.png";
 import sword from "../../assets/images/sword.png";
-import { MONSTER_LIST } from '../../battle/monsterUtils';
+import { GET_MONSTER, fetchMonsterImage } from '../../battle/monsterUtils';
 import { GameContext } from '../../contexts/gameContext';
 import { CARD_DETAILS, fetch_image } from '../../helpers/cards';
 import { TOP_NODE_LEVEL, levelColors } from '../../helpers/constants';
 import { CustomTooltip } from '../../helpers/styles';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import { LoadingButton } from '@mui/lab';
-import { useRef } from 'react';
 
 const INACTIVE_OPACITY = 0.5
 
@@ -251,7 +250,7 @@ function Structure(props) {
   }
 
   function RenderMonsterCircle(node) {
-    let monster = MONSTER_LIST.find(monster => monster.id === node.monsterId)
+    let monster = GET_MONSTER(node.monsterId, game.values.branch)
 
     return <Box sx={styles.circleContainer}>
       <CustomTooltip leaveDelay={300} position={'right'} title={
@@ -267,7 +266,7 @@ function Structure(props) {
       }>
         <Box sx={[styles.monsterCircle, nodeStyle(node)]}>
           <Box sx={{ width: '100%', height: '75%', display: 'flex', justifyContent: 'center', opacity: node.status !== 0 ? 0.5 : 1 }}>
-            {monster.image}
+            {<img alt='' src={fetchMonsterImage(monster.name)} height={'100%'} />}
           </Box>
 
           <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
@@ -301,10 +300,10 @@ function Structure(props) {
   }
 
   function renderCard(node) {
-    let levelColor = levelColors[Math.floor(node.level / 3)]
+    let levelColor = levelColors[Math.floor(node.cardLevel / 3)]
 
     return <Box sx={[styles.square, nodeStyle(node)]}>
-      <img alt='' src={fetch_image(CARD_DETAILS(node.card_id).name)} width={'75%'} />
+      <img alt='' src={fetch_image(CARD_DETAILS(node.cardId).name)} width={'75%'} />
       <Box sx={{ width: '40%', height: '2px' }} bgcolor={levelColor.bg} />
     </Box>
   }

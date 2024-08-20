@@ -3,7 +3,7 @@ import { BarChart } from '@mui/x-charts';
 import React, { useContext } from "react";
 import { DraftContext } from "../../contexts/draftContext";
 import { tags, types } from "../../helpers/cards";
-import { DECK_SIZE } from "../../helpers/constants";
+import { DRAFT_SIZE } from "../../helpers/constants";
 
 function DraftStats() {
   const draft = useContext(DraftContext)
@@ -14,8 +14,11 @@ function DraftStats() {
   return <Box sx={styles.container}>
 
     <Box>
+      <Typography variant="h6">
+        Draft
+      </Typography>
       <Typography variant="h2" color='primary' mb={1}>
-        {creatures + spells}/{DECK_SIZE}
+        {draft.cards.length + draft.bench.length}/{DRAFT_SIZE}
       </Typography>
     </Box>
 

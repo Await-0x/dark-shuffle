@@ -1,6 +1,5 @@
 mod draft_utils {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use starknet::{ContractAddress};
 
     use darkshuffle::models::draft::{DraftOption, DraftCard};
     use darkshuffle::utils::random;
@@ -46,11 +45,12 @@ mod draft_utils {
         )
     }
 
-    fn level_up_cards(world: IWorldDispatcher, game_id: usize) {
-        let mut i = 1;
+    fn level_up_cards(world: IWorldDispatcher, game_id: usize, deck: Span<u8>) {
+        let mut i = 0;
 
-        while (i <= DECK_SIZE) {
-            let mut draft_card = get!(world, (game_id, i), DraftCard);
+        while (i < DECK_SIZE.into()) {
+            let card_number: u8 = *deck.at(i);
+            let mut draft_card = get!(world, (game_id, card_number), DraftCard);
 
             if draft_card.level < MAX_CARD_LEVEL {
                 draft_card.level += 1;

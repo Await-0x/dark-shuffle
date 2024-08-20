@@ -21,8 +21,8 @@ function PoisonSprayAnimation(props) {
       y: position.y - targetPosition.y,
       transition: { ease: "linear", duration: 1 }
     })
-
-    animationHandler.increaseBoardAnimationCounter()
+    
+    animationHandler.animationCompleted({ type: 'monsterAbility' })
   }
 
   return <>

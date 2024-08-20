@@ -21,7 +21,7 @@ let mobileSize = { width: '100px', height: '100px' }
 let browserSize = { width: '120px', height: '120px' }
 
 function Creature(props) {
-  const { creature, startAttack, attacking } = props
+  const { creature } = props
 
   const animationHandler = useContext(AnimationContext)
   const battle = useContext(BattleContext)
@@ -98,11 +98,12 @@ function Creature(props) {
   }, [animationHandler.creatureAnimations])
 
   const attackAnimation = async (creatureAnimation) => {
-    const { creature, position, targetPosition } = creatureAnimation
+    const { creature, position, targetPosition, delay, lastAttack } = creatureAnimation
 
     await controls.start({
       x: targetPosition.x - position.x,
-      y: position.y - targetPosition.y
+      y: position.y - targetPosition.y,
+      transition: { delay }
     })
 
     animationHandler.animationCompleted({ type: 'creatureAttack', creatureId: creature.id })
@@ -114,6 +115,10 @@ function Creature(props) {
     })
 
     animationHandler.animationCompleted({ type: 'creatureAttackFinished', creatureId: creature.id })
+    
+    if (lastAttack) {
+      animationHandler.animationCompleted({ type: 'lastAttackAnimation', creatureId: creature.id })
+    }
   }
 
   const mouseUpHandler = (event) => {
@@ -122,7 +127,6 @@ function Creature(props) {
     if (!card) {
       return
     }
-
 
     if (card.type === types.CREATURE) {
       battle.actions.summonCreature(card, creature)
@@ -137,15 +141,13 @@ function Creature(props) {
     <motion.div
       style={isMobile ? { ...styles.mobileSize } : { ...styles.browserSize }}
       layout
-      onPanStart={event => startAttack(creature, event)}
-      onClick={event => startAttack(creature, event)}
       animate={controls}
       onHoverStart={() => setDisplayCard(creature)}
       onHoverEnd={() => setDisplayCard(null)}
       onMouseUp={(event) => mouseUpHandler(event)}
     >
 
-      <Box sx={[isMobile ? styles.mobileSize : styles.browserSize, styles.container, attacking?.id === creature.id && styles.highlight, creature.resting && styles.faded, battle.state.targetFriendlyCreature && styles.targetable]}>
+      <Box sx={[isMobile ? styles.mobileSize : styles.browserSize, styles.container, creature.resting && styles.faded, battle.state.targetFriendlyCreature && styles.targetable]}>
 
         {creature.resting && <SleepAnimation />}
 
@@ -184,7 +186,7 @@ function Creature(props) {
 
     </motion.div>
 
-    {displayCard && !attacking && <Box sx={styles.displayCard}>
+    {displayCard && <Box sx={styles.displayCard}>
       <Card card={displayCard} cost={battle.utils.getCardCost(displayCard)} />
     </Box>}
   </Box>

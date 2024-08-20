@@ -43,15 +43,15 @@ function BattleContainer() {
 
         <Box sx={{ position: 'absolute', right: '20px' }}>
           <CustomTooltip title={<Box mb={1}>
-            <Typography color="primary">End Turn</Typography>
-            <Typography mt={0.5}>Monster perform its ability and attack. Replenish energy.</Typography>
+            <Typography color="primary">Attack & End Turn</Typography>
+            <Typography mt={0.5}>Your creatures attack. Monster perform its ability and attack. Yoy replenish energy.</Typography>
           </Box>
           }>
             <LoadingButton variant='outlined' size='medium' sx={{ fontSize: '12px', letterSpacing: '1px' }}
               loading={false}
               onClick={() => battle.actions.endTurn()}
             >
-              END TURN
+              Attack & End Turn
             </LoadingButton>
           </CustomTooltip>
         </Box>
@@ -124,15 +124,15 @@ function BattleContainer() {
 
           <Box sx={{ position: 'absolute', right: '20px' }}>
             <CustomTooltip title={<Box mb={1}>
-              <Typography color="primary" variant='h6'>End Turn</Typography>
-              <Typography mt={0.5}>Monster perform its ability and attack. Replenish energy.</Typography>
+              <Typography color="primary">Attack & End Turn</Typography>
+              <Typography mt={0.5}>Your creatures attack. Monster perform its ability and attack. Yoy replenish energy.</Typography>
             </Box>
             }>
               <LoadingButton variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '1px' }}
                 loading={false}
                 onClick={() => battle.actions.endTurn()}
               >
-                END TURN
+                Attack & End Turn
               </LoadingButton>
             </CustomTooltip>
           </Box>

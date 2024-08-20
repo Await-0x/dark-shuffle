@@ -19,7 +19,6 @@ export const AnimationHandler = ({ children }) => {
   const [heroAnimations, setHeroAnimations] = useState([])
   const [damageAnimations, setDamageAnimations] = useState([])
   const [boardAnimation, setBoardAnimation] = useState([])
-  const [boardAnimationCounter, setBoardAnimationCounter] = useState(0)
 
   const resetAnimationHandler = () => {
     setCompleted([])
@@ -32,7 +31,7 @@ export const AnimationHandler = ({ children }) => {
   }
 
   const addAnimation = (type, animation, animationList) => {
-    animation = { id: ANIMATION_COUNTER, ...animation, }
+    animation = { id: ANIMATION_COUNTER, ...animation }
 
     switch (type) {
       case 'creature':
@@ -55,28 +54,12 @@ export const AnimationHandler = ({ children }) => {
     ANIMATION_COUNTER += 1
   }
 
-  const damageFinished = (id) => {
-    setDamageAnimations(prev => prev.filter(x => x.id !== id))
-  }
-
   const animationCompleted = (anim) => {
     setCompleted(prev => [...prev, anim])
   }
 
-  const consumeCompleted = (animation) => {
-    setCompleted(prev => prev.filter((_, i) => i !== prev.findIndex(anim => anim.type === animation)))
-  }
-
-  useEffect(() => {
-    if (boardAnimationCounter && boardAnimationCounter >= boardAnimation.length) {
-      setBoardAnimation([])
-      setBoardAnimationCounter(0)
-      animationCompleted({ type: 'monsterAbility' })
-    }
-  }, [boardAnimationCounter])
-
-  const increaseBoardAnimationCounter = () => {
-    setBoardAnimationCounter(prev => prev + 1)
+  const consumeCompleted = () => {
+    setCompleted(prev => prev.slice(1))
   }
 
   return (
@@ -98,13 +81,11 @@ export const AnimationHandler = ({ children }) => {
         setMonsterAnimations,
         creatureAnimations,
         setCreatureAnimations,
-        damageFinished,
         damageAnimations,
         heroAnimations,
         setHeroAnimations,
         resetAnimationHandler,
         boardAnimation,
-        increaseBoardAnimationCounter
       }}
     >
       {children}

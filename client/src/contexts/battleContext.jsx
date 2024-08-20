@@ -2,16 +2,16 @@ import { closeSnackbar, useSnackbar } from "notistack";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { isMobile } from 'react-device-detect';
 import { getBattleState } from "../api/indexer";
-import { MONSTER_LIST } from "../battle/monsterUtils";
 import { endOfTurnMonsterEffect } from "../battle/phaseUtils";
 import { spellEffect } from "../battle/spellUtils";
 import { summonEffect } from "../battle/summonUtils";
 import { CARD_DETAILS, fetchBoardCreatures, tags, types } from "../helpers/cards";
-import { ADVENTURER_ID, BATTLE_EFFECTS, START_ENERGY } from "../helpers/constants";
+import { ADVENTURER_ID, BATTLE_EFFECTS } from "../helpers/constants";
 import { AnimationContext } from "./animationHandler";
 import { DojoContext } from "./dojoContext";
 import { DraftContext } from "./draftContext";
 import { GameContext } from "./gameContext";
+import { GET_MONSTER } from "../battle/monsterUtils";
 
 export const BattleContext = createContext()
 
@@ -33,6 +33,7 @@ export const BattleProvider = ({ children }) => {
   const [adventurer, setAdventurer] = useState({})
 
   const [creatureIndex, setCreatureIndex] = useState(0)
+  const [roundEnergy, setRoundEnergy] = useState(0)
 
   const [battleEffects, setBattleEffects] = useState({ ...BATTLE_EFFECTS })
 
@@ -59,6 +60,7 @@ export const BattleProvider = ({ children }) => {
 
   useEffect(() => {
     if (hand.length === 0 && monster.id) {
+      console.log(hand.length, monster.id)
       drawHand()
     }
   }, [hand, monster])
@@ -75,27 +77,45 @@ export const BattleProvider = ({ children }) => {
     }
 
     if (animation.type === 'monsterAbility') {
-      animationHandler.consumeCompleted('monsterAbility')
       monsterAttack()
     }
 
     if (animation.type === 'monsterAttack') {
-      animationHandler.consumeCompleted('monsterAttack')
       monsterAttackResult()
     }
 
-    else if (animation.type === 'creatureAttack') {
-      animationHandler.consumeCompleted('creatureAttack')
+    if (animation.type === 'creatureAttack') {
       creatureAttack(animation.creatureId)
     }
 
-    else if (animation.type === 'creatureAttackFinished') {
-      animationHandler.consumeCompleted('creatureAttackFinished')
+    if (animation.type === 'creatureAttackFinished') {
       creatureAttackResult(animation.creatureId)
     }
 
+    if (animation.type === 'lastAttackAnimation') {
+      animationHandler.addAnimation('monster', {
+        type: 'ability',
+        position: getMonsterPosition(),
+      })
+    }
+
+    animationHandler.consumeCompleted()
     // eslint-ignore-next-line react-hooks/exhaustive-deps
   }, [animationHandler.completed])
+
+  useEffect(() => {
+    if (monster.id === 18 && monster.health < 30 && monster.attack === monster.startAttack) {
+      setMonster(prev => ({ ...prev, attack: prev.startAttack * 2 }))
+    } else if (monster.id === 18 && monster.health >= 30 && monster.attack > monster.startAttack) {
+      setMonster(prev => ({ ...prev, attack: prev.startAttack }))
+    }
+
+    if (monster.id === 21 && monster.health > 50 && monster.attack < monster.startAttack + 10) {
+      setMonster(prev => ({ ...prev, attack: prev.startAttack + 10 }))
+    } else if (monster.id === 21 && monster.health <= 50 && monster.attack > monster.startAttack) {
+      setMonster(prev => ({ ...prev, attack: prev.startAttack }))
+    }
+  }, [monster.health])
 
   const submitBattleAction = async ({ contract, name, data }) => {
     setPendingTx(true)
@@ -140,7 +160,7 @@ export const BattleProvider = ({ children }) => {
 
   const drawHand = () => {
     let cards = draft.cards.map(card => CARD_DETAILS(card.cardId, card.id, card.level))
-
+  
     setHand(cards)
   }
 
@@ -151,6 +171,7 @@ export const BattleProvider = ({ children }) => {
     setMonster({})
     setAdventurer({})
     setBattleEffects({ ...BATTLE_EFFECTS })
+    setRoundEnergy(0)
   }
 
   const startBattle = async (battle) => {
@@ -158,18 +179,15 @@ export const BattleProvider = ({ children }) => {
 
     setHand([])
     setBattleId(battle.battleId)
-    setAdventurer({ id: ADVENTURER_ID, health: battle.heroHealth, energy: battle.heroEnergy, armor: battle.heroArmor })
-    setMonster({ ...MONSTER_LIST.find(monster => monster.id === battle.monsterId), attack: battle.monsterAttack, health: battle.monsterHealth, startHealth: battle.monsterHealth })
+    setAdventurer({ id: ADVENTURER_ID, health: battle.heroHealth, energy: battle.heroEnergy, armor: battle.heroArmor, burn: battle.heroBurn })
+    setMonster({ ...GET_MONSTER(battle.monsterId), attack: battle.monsterAttack, health: battle.monsterHealth, startHealth: battle.monsterHealth, startAttack: battle.monsterAttack })
     setBattleEffects({ ...BATTLE_EFFECTS })
     setCreatureIndex(battle.cardIndex)
+    setRoundEnergy(battle.roundEnergy)
   }
 
   const summonCreature = (creature, target) => {
     let cost = getCardCost(creature);
-
-    if (creature.tag === tags.UNSTABLE && battleEffects.unstablesPlayed.includes(creature.id)) {
-      return enqueueSnackbar('Unstable card already played', { variant: 'warning' })
-    }
 
     if (cost > adventurer.energy) {
       return enqueueSnackbar('Not enough energy', { variant: 'warning' })
@@ -187,7 +205,7 @@ export const BattleProvider = ({ children }) => {
     setHand(prev => prev.filter(handCard => handCard.id !== creature.id))
     decreaseEnergy(cost)
 
-    summonEffect({ creature, shieldHero, target, setBoard, monster, damageMonster, battleEffects, setBattleEffects })
+    summonEffect({ creature, shieldHero, target, setBoard, monster, damageMonster, battleEffects, setBattleEffects, setRoundEnergy })
 
     let creatureId = creatureIndex + 1;
 
@@ -200,10 +218,6 @@ export const BattleProvider = ({ children }) => {
   const castSpell = (spell, target) => {
     let cost = getCardCost(spell);
 
-    if (spell.tag === tags.UNSTABLE && battleEffects.unstablesPlayed.includes(spell.id)) {
-      return enqueueSnackbar('Unstable card already played', { variant: 'warning' })
-    }
-
     if (cost > adventurer.energy) {
       return enqueueSnackbar('Not enough energy', { variant: 'warning' })
     }
@@ -212,7 +226,7 @@ export const BattleProvider = ({ children }) => {
     setHand(prev => prev.filter(handCard => handCard.id !== spell.id))
     decreaseEnergy(cost)
 
-    spellEffect({ spell, shieldHero, target, damageMonster, increaseEnergy, healHero, battleEffects, setBattleEffects })
+    spellEffect({ spell, shieldHero, target, damageMonster, increaseEnergy, healHero, battleEffects, setBattleEffects, setRoundEnergy, pierceDamageAdventurer })
 
     setTxQueue(prev => [...prev, { contract: "battle_systems", name: "cast_spell", data: [battleId, spell.id, target?.id ?? 0] }])
 
@@ -220,14 +234,20 @@ export const BattleProvider = ({ children }) => {
   }
 
   const discardCard = (card) => {
-    if (adventurer.energy < 1 && !battleEffects.freeDiscard) {
+    let cost = 1;
+
+    if (monster.id === 11) {
+      cost += 1;
+    }
+
+    if (adventurer.energy < cost && !battleEffects.freeDiscard) {
       return enqueueSnackbar('Not enough energy', { variant: 'warning' })
     }
 
     if (battleEffects.freeDiscard) {
       setBattleEffects(prev => ({ ...prev, freeDiscard: false }))
     } else {
-      decreaseEnergy(1);
+      decreaseEnergy(cost);
     }
 
     setHand(prev => prev.filter(handCard => (handCard.id !== card.id)))
@@ -235,30 +255,29 @@ export const BattleProvider = ({ children }) => {
     setTxQueue(prev => [...prev, { contract: "battle_systems", name: "discard", data: [battleId, card.id] }])
   }
 
-  const attack = (creature) => {
-    setTxQueue(prev => [...prev, { contract: "battle_systems", name: "attack", data: [battleId, creature.id] }])
-
-    animationHandler.addAnimation('creature', {
-      type: 'attack',
-      creatureId: creature.id,
-      creature,
-      position: getCreaturePosition(creature.id),
-      targetPosition: getMonsterPosition()
+  const boardAttack = () => {
+    board.map((creature, i) => {
+      animationHandler.addAnimation('creature', {
+        type: 'attack',
+        creatureId: creature.id,
+        creature,
+        position: getCreaturePosition(creature.id),
+        targetPosition: getMonsterPosition(),
+        delay: i,
+        lastAttack: i === board.length - 1
+      })
     })
   }
 
   const endTurn = () => {
     setTxQueue(prev => [...prev, { contract: "battle_systems", name: "end_turn", data: [battleId] }])
 
-    animationHandler.addAnimation('monster', {
-      type: 'ability',
-      position: getMonsterPosition(),
-    })
+    boardAttack()
   }
 
   const beginTurn = () => {
     setBoard(prev => prev.map(creature => ({ ...creature, resting: false })));
-    setAdventurer(prev => ({ ...prev, energy: adventurer.energy + START_ENERGY }));
+    setAdventurer(prev => ({ ...prev, energy: roundEnergy }));
 
     if (battleEffects.damageImmune) {
       setBattleEffects(prev => ({ ...prev, damageImmune: false }));
@@ -266,7 +285,7 @@ export const BattleProvider = ({ children }) => {
   }
 
   const monsterAttack = () => {
-    endOfTurnMonsterEffect({ monster, setMonster, board, damageBoard, damageAdventurer, animationHandler })
+    endOfTurnMonsterEffect({ monster, setMonster, board, damageBoard, damageAdventurer, animationHandler, setAdventurer })
 
     animationHandler.addAnimation('monster', {
       type: 'attack',
@@ -325,7 +344,7 @@ export const BattleProvider = ({ children }) => {
   const creatureAttack = (creatureId) => {
     let creature = board.find(creature => creature.id === creatureId)
 
-    damageMonster(creature.attack)
+    damageMonster(creature.attack, 'Creature')
 
     if (creature.shield) {
       removeShield(creature)
@@ -345,7 +364,18 @@ export const BattleProvider = ({ children }) => {
   }
 
   const monsterAttackResult = () => {
-    damageAdventurer(monster.attack)
+    let attack = monster.attack;
+
+    if (monster.id === 19) {
+      pierceDamageAdventurer(game.values.branch)
+      attack = Math.max(0, attack - game.values.branch)
+    }
+
+    damageAdventurer(attack)
+
+    if (adventurer.burn > 0) {
+      damageAdventurer(adventurer.burn);
+    }
 
     beginTurn()
   }
@@ -379,7 +409,18 @@ export const BattleProvider = ({ children }) => {
 
     animationHandler.addAnimation('hero', { type: 'shield' })
 
-    setAdventurer(prev => ({ ...prev, armor: prev.armor + amount }))
+    setAdventurer(prev => ({ ...prev, armor: monster.id === 20 ? Math.min(10, prev.armor + amount) : prev.armor + amount }))
+  }
+
+  const pierceDamageAdventurer = (amount) => {
+    if (amount < 1 || battleEffects.damageImmune) {
+      return;
+    }
+
+    setAdventurer(prev => ({
+      ...prev,
+      health: prev.health - amount
+    }))
   }
 
   const damageAdventurer = (amount) => {
@@ -399,9 +440,29 @@ export const BattleProvider = ({ children }) => {
     setMonster(prev => ({ ...prev, health: prev.health + amount }))
   }
 
-  const damageMonster = (amount) => {
+  const damageMonster = (amount, damageType) => {
     if (monster.id === 3) {
       amount -= 1;
+    }
+
+    if (damageType === 'Spell') {
+      if (monster.id === 8) {
+        amount = 0;
+      }
+
+      if (monster.id === 15) {
+        damageAdventurer(game.values.branch);
+      }
+    }
+
+    if (damageType === 'Creature') {
+      if (monster.id === 9) {
+        amount = 0;
+      }
+
+      if (monster.id === 16) {
+        damageAdventurer(game.values.branch);
+      }
     }
 
     animationHandler.actions.setAnimations(prev => ({ ...prev, monsterDamaged: amount }));
@@ -459,29 +520,33 @@ export const BattleProvider = ({ children }) => {
       nextSpellReduction: data.battleEffects.next_spell_reduction,
       nextCardReduction: data.battleEffects.next_card_reduction,
       freeDiscard: data.battleEffects.free_discard,
-      damageImmune: data.battleEffects.damage_immune,
-      unstablesPlayed: data.battleEffects.unstables_played
+      damageImmune: data.battleEffects.damage_immune
     })
 
     setHand(data.handCards.map(card => CARD_DETAILS(card.card_id, card.hand_card_number, card.level)))
     setBoard(fetchBoardCreatures(data))
 
     setMonster({
-      ...MONSTER_LIST.find(monster => monster.id === data.battle.monster_id),
+      ...GET_MONSTER(data.battle.monster_id),
       attack: data.battle.monster_attack,
       health: data.battle.monster_health,
-      startHealth: data.battle.monster_health
+      startHealth: data.battle.monster_health,
+      startAttack: data.battle.monster_attack
     })
 
     setAdventurer({
       id: ADVENTURER_ID,
       health: data.battle.hero_health,
       energy: data.battle.hero_energy,
-      armor: data.battle.hero_armor
+      armor: data.battle.hero_armor,
+      burn: data.battle.hero_burn
     })
 
+    setRoundEnergy(data.battle.round_energy)
     setCreatureIndex(data.battle.card_index)
     setTargetFriendlyCreature()
+
+    draft.setDeckFromGraph(data.battle.deck)
 
     setPendingTx(false)
     setResettingState(false)
@@ -495,6 +560,10 @@ export const BattleProvider = ({ children }) => {
     }
 
     if (monster.id === 5 && card.type === types.CREATURE) {
+      cost += 1;
+    }
+
+    if (monster.id === 10 && card.type === types.SPELL) {
       cost += 1;
     }
 
@@ -518,7 +587,6 @@ export const BattleProvider = ({ children }) => {
           startBattle,
           summonCreature,
           castSpell,
-          attack,
           discardCard,
           endTurn,
         },

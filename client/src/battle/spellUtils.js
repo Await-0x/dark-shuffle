@@ -3,18 +3,22 @@ import { tags } from "../helpers/cards";
 export const spellEffect = ({
   spell, shieldHero, target,
   damageMonster, increaseEnergy, healHero,
-  battleEffects, setBattleEffects
+  setRoundEnergy, setBattleEffects, pierceDamageAdventurer
 }) => {
   const { cardId, level } = spell;
 
   let updatedBattleEffects = {}
 
+  if (spell.tag == tags.FATIQUE) {
+    setRoundEnergy(prev => Math.max(0, prev - 1))
+  }
+
   if (cardId === 10) {
-    damageMonster(6 + level);
+    damageMonster(6 + level, 'Spell');
   }
 
   else if (cardId === 11) {
-    damageMonster(12 + level);
+    damageMonster(12 + level, 'Spell');
   }
 
   else if (cardId === 12) {
@@ -30,11 +34,11 @@ export const spellEffect = ({
   }
 
   else if (cardId === 32) {
-    damageMonster(21);
+    damageMonster(21, 'Spell');
   }
 
   else if (cardId === 33) {
-    damageMonster(12);
+    damageMonster(12, 'Spell');
   }
 
   else if (cardId === 34) {
@@ -58,15 +62,12 @@ export const spellEffect = ({
   }
 
   else if (cardId === 39) {
-    damageMonster(15);
+    damageMonster(15, 'Spell');
   }
 
   else if (cardId === 40) {
+    pierceDamageAdventurer(3)
     updatedBattleEffects.damageImmune = true;
-  }
-
-  if (spell.tag === tags.UNSTABLE) {
-    updatedBattleEffects.unstablesPlayed = [...battleEffects.unstablesPlayed, spell.id];
   }
 
   setBattleEffects(prev => ({ ...prev, ...updatedBattleEffects }))

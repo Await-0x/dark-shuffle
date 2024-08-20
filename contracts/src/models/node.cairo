@@ -29,3 +29,12 @@ struct PotionNode {
     node_id: usize,
     amount: u16
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+struct CardNode {
+    #[key]
+    node_id: usize,
+    card_id: u16,
+    card_level: u16
+}

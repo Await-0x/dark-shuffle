@@ -1,0 +1,79 @@
+Weekly event with crazy alterations?
+
+Solution 1:
+- Unstable cards fatigues one energy
+- Energy do not transfer
+- Keep discard
+
+(Auto attack?)
+
+Monsters:
+1. Minotaur
+Gain +1 attack each round
+Effect: Creatures get +2 attack at the start of your turn
+
+2. Regenerate health
+Effect: Your hero gain 3 life after defeating a beast
+
+3. Drain life (ignores armor)
+Effect: Your creatures gain 1 health at the end of each round
+
+4. Poison Spray
+Effect: Your creatures gain +2 health
+
+5. Creatures can’t attack same turn they are summoned
+Effect: Creatures attack immediately when summoned
+
+6. Blocks one damage from all sources
+Effect: Your creatures take one less damage
+
+7. Creatures cost one more
+Effect: First creature you play each turn cost 1 less energy
+
+8. Immune to spell damage
+Effect: Spells deal three more damage if your deck has no creatures
+
+9. Immune to physical damage
+Effect: Creatures deal three more damage if your deck has no spells
+
+10. Spells cost one more
+Effect: First spell you play each turn cost 1 less energy
+
+11. Discard cost 1 more
+Effect: Discard one card for free each turn
+
+12. You gain one less energy each round
+Effect: You gain one more energy each round
+
+13. You start the battle with branch less energy
+Effect: Start each battle with 2 more energy
+
+14. Attack equal health
+Effect: Start each battle with 5 armor
+
+15. Spell reflection (branch damage to hero each time you damage with a spell)
+Effect: Each time you cast a spell, gain +1 armor
+
+16. Physical reflection (branch damage to hero each time you damage with a spell)
+Effect: Each time a creature attacks, gain +1 armor
+
+17. Burn (Your hero takes one damage for each burn stack)
+Effect: Creatures afflict burn when damaging
+
+18. Double attack below 30 health
+Effect: If your hero has less than 10 health, your creatures has +5 attack
+
+19. Piercing Damage
+Effect: At the end of each turn gain +2 armor
+
+20. Your hero can’t have more than 10 armor
+Effect: If your hero has more than 9 armor, your creatures has +2 attack
+
+21. Takes branch less damage from spells
+Effect: Spells deal one more damage
+
+22. Takes branch less damage from creatures
+Effect: Creatures has +1 attack
+
+23. Above 50 health, has +10 attack
+Effect: If your hero has more than 20 health, your creatures has +3 attack

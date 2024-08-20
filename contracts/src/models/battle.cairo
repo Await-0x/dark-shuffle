@@ -12,14 +12,19 @@ struct Battle {
 
     round: u16,
     card_index: u16,
+    round_energy: u16,
 
     hero_health: u16,
     hero_energy: u16,
     hero_armor: u16,
+    hero_burn: u16,
 
     monster_id: u16,
     monster_attack: u16,
-    monster_health: u16
+    monster_health: u16,
+    
+    branch: u16,
+    deck: Span<u8>,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -69,15 +74,7 @@ struct BattleEffects {
     next_spell_reduction: u16,
     next_card_reduction: u16,
     free_discard: bool,
-    damage_immune: bool,
-    unstables_played: Span<u8>
-}
-
-#[derive(Copy, Drop)]
-struct Monster {
-    monster_id: u16,
-    attack: u16,
-    health: u16
+    damage_immune: bool
 }
 
 #[derive(Copy, Drop)]
@@ -107,20 +104,6 @@ impl BattleOwnerImpl of BattleOwnerTrait {
 
     fn assert_hand_card(self: HandCard) {
         assert(self.card_id != 0, 'Card already played');
-    }
-
-    fn assert_unstable_card(self: HandCard, ref battle_effects: BattleEffects) {
-        let mut index = 0;
-
-        loop {
-            if index.into() == battle_effects.unstables_played.len() {
-                break;
-            } 
-        
-            assert(*battle_effects.unstables_played.at(index) != self.hand_card_number, 'Unstable Card');
-
-            index += 1;
-        };
     }
 
     fn assert_creature(self: Creature) {

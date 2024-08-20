@@ -14,8 +14,8 @@ fn get_entropy(felt_to_split: felt252) -> u128 {
 }
 
 fn LCG(seed: u128) -> u128 {
-    let a = 48271;
-    let c = 0;
+    let a = 25214903917;
+    let c = 11;
     let m = LCG_PRIME;
 
     (a * seed + c) % m

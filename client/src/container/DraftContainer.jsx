@@ -1,18 +1,18 @@
-import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
+import WestIcon from '@mui/icons-material/West';
 import { Box, IconButton, Typography } from '@mui/material';
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import BlockRevealAnimation from '../components/animations/blockRevealAnimation';
 import Card from '../components/card';
+import DraftStats from '../components/draft/draftStats';
 import Overview from '../components/draft/overview';
 import { DraftContext } from '../contexts/draftContext';
 import { GameContext } from '../contexts/gameContext';
 import { CardSize } from '../helpers/cards';
-import { DECK_SIZE } from '../helpers/constants';
+import { DRAFT_SIZE } from '../helpers/constants';
 import { fadeChildrenContainer, fadeChildrenItem } from '../helpers/variants';
-import DraftStats from '../components/draft/draftStats';
 
 function DraftContainer() {
   const game = useContext(GameContext)
@@ -77,7 +77,7 @@ function DraftContainer() {
 
         <Typography color='primary'>{draft.cards.length}</Typography>
         <Typography color={'primary'}>/</Typography>
-        <Typography color='primary'>{DECK_SIZE}</Typography>
+        <Typography color='primary'>{DRAFT_SIZE}</Typography>
       </Box>}
 
       {cardOverview && <Box sx={[styles.mobileOverview, { width: '260px', gap: 0 }]}>

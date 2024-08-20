@@ -8,11 +8,16 @@ export const summonEffect = ({
   monster,
   damageMonster,
   battleEffects,
-  setBattleEffects
+  setBattleEffects,
+  setRoundEnergy
 }) => {
   const { level, cardId } = creature;
 
   let updatedBattleEffects = {}
+
+  if (creature.tag == tags.FATIQUE) {
+    setRoundEnergy(prev => Math.max(0, prev - 1))
+  }
 
   if (monster.id === 4) {
     creature.resting = true
@@ -44,11 +49,11 @@ export const summonEffect = ({
   }
 
   else if (cardId === 7) {
-    damageMonster(3 + level);
+    damageMonster(3 + level, 'Creature');
   }
 
   else if (cardId === 8) {
-    damageMonster(level);
+    damageMonster(level, 'Creature');
   }
 
   else if (cardId === 9) {
@@ -88,19 +93,15 @@ export const summonEffect = ({
   }
 
   else if (cardId === 26) {
-    damageMonster(12);
+    damageMonster(12, 'Creature');
   }
 
   else if (cardId === 28) {
-    damageMonster(8);
+    damageMonster(8, 'Creature');
   }
 
   else if (cardId === 29) {
     updatedBattleEffects.freeDiscard = true;
-  }
-
-  if (creature.tag === tags.UNSTABLE) {
-    updatedBattleEffects.unstablesPlayed = [...battleEffects.unstablesPlayed, creature.id];
   }
 
   setBattleEffects(prev => ({ ...prev, ...updatedBattleEffects }))

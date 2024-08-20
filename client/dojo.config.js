@@ -12,7 +12,7 @@ const {
 } = import.meta.env;
 
 export const dojoConfig = {
-  version: "0.3.1",
+  version: "0.4.0",
   development: VITE_PUBLIC_DEV === "true",
   rpcUrl: VITE_PUBLIC_NODE_URL,
   toriiUrl: VITE_PUBLIC_TORII,

@@ -2,11 +2,10 @@ mod game_utils {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     use starknet::{get_caller_address, get_block_info};
     use starknet::syscalls::get_block_hash_syscall;
-    use starknet::SyscallResultTrait;
 
     use darkshuffle::constants::{DECK_SIZE, MONSTER_KILL_SCORE, BRANCH_SCORE_MULTIPLIER, START_ENERGY, LAST_NODE_LEVEL};
     use darkshuffle::models::game::{Game, Leaderboard};
-    use darkshuffle::models::battle::{Battle, Monster};
+    use darkshuffle::models::battle::{Battle};
     use darkshuffle::models::entropy::{Entropy};
     use darkshuffle::models::node::{Node};
 
@@ -46,7 +45,7 @@ mod game_utils {
         node.status = 1;
         complete_node(ref game, world);
 
-        draft_utils::level_up_cards(world, game.game_id);
+        draft_utils::level_up_cards(world, game.game_id, battle.deck);
 
         set!(world, (game, battle, node));
     }
@@ -64,15 +63,15 @@ mod game_utils {
     }
 
     fn verify_draft(game_id: usize, world: IWorldDispatcher) {
-        let mut i = 1;
+        // let mut i = 1;
 
-        while (i <= DECK_SIZE) {
-            let draft_entropy = get!(world, (game_id, i), Entropy);
+        // while (i <= DECK_SIZE) {
+        //     let draft_entropy = get!(world, (game_id, i), Entropy);
 
-            assert(draft_entropy.block_hash == get_block_hash_syscall(draft_entropy.block_number).unwrap_syscall(), 'Entropy failed');
+        //     assert(draft_entropy.block_hash == get_block_hash_syscall(draft_entropy.block_number).unwrap_syscall(), 'Entropy failed');
 
-            i += 1;
-        };
+        //     i += 1;
+        // };
     }
 
     fn update_leaderboard(ref game: Game, ref battle: Battle, world: IWorldDispatcher) {

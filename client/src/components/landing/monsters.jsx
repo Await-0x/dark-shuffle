@@ -1,16 +1,11 @@
 import { Box } from '@mui/material'
 import React, { useState } from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { fetchCardList, fetch_image } from '../../helpers/cards'
 import { _styles } from '../../helpers/styles'
 
-import bigfoot from "../../assets/images/monsters/bigfoot.png"
-import chimera from "../../assets/images/monsters/chimera.png"
-import kappa from "../../assets/images/monsters/kappa.png"
-import lich from "../../assets/images/monsters/lich.png"
-import minotaur from "../../assets/images/monsters/minotaur.png"
-import spider from "../../assets/images/monsters/spider.png"
-import troll from "../../assets/images/monsters/troll.png"
-import { fetchCardList, fetch_image } from '../../helpers/cards'
+import { fetchMonsterImage, fetchMonsterList } from '../../battle/monsterUtils'
+import { shuffle } from '../../helpers/utilities'
 
 function PreloadCardImages() {
   return <>
@@ -28,41 +23,36 @@ function PreloadCardImages() {
 
 function Monsters() {
   const [isLoading, setIsLoading] = useState(0);
+  const [monsters] = useState(shuffle(fetchMonsterList()));
 
-  function LoadMonsterImage(src) {
-    return <LazyLoadImage
-      alt={""}
-      height={0}
-      src={src}
-      width={0}
-      onLoad={() => { setIsLoading(prev => prev + 1) }}
-    />
+  function PreloadMonsterImages(monsters) {
+    return <>
+      {React.Children.toArray(
+        monsters.map(monster =>
+          <LazyLoadImage
+            alt={""}
+            height={0}
+            src={fetchMonsterImage(monster.name)}
+            width={0}
+            onLoad={() => { setIsLoading(prev => prev + 1) }}
+          />
+        ))}
+    </>
   }
 
   return (
     <Box sx={[_styles.customBox, _styles.linearBg, styles.container]} width={'100%'} height={'150px'}>
-      {isLoading < 7 ? <>
-        {LoadMonsterImage(troll)}
-        {LoadMonsterImage(bigfoot)}
-        {LoadMonsterImage(chimera)}
-        {LoadMonsterImage(kappa)}
-        {LoadMonsterImage(spider)}
-        {LoadMonsterImage(lich)}
-        {LoadMonsterImage(minotaur)}
-      </>
+      {isLoading < 9
+        ? PreloadMonsterImages(monsters.slice(9))
 
         : <>
-          <img alt='' src={minotaur} height={'80%'} />
-          <img alt='' src={troll} height={'85%'} />
-          <img alt='' src={bigfoot} height={'85%'} />
-          <img alt='' src={chimera} height={'85%'} />
-          <img alt='' src={kappa} height={'85%'} />
-          <img alt='' src={spider} height={'80%'} />
-          <img alt='' src={lich} height={'80%'} />
+          {React.Children.toArray(
+            monsters.slice(0, 9).map(monster => <img alt='' src={fetchMonsterImage(monster.name)} height={'80%'} />)
+          )}
 
           {PreloadCardImages()}
-        </>
-      }
+          {PreloadMonsterImages(monsters.slice(9))}
+        </>}
     </Box>
   )
 }
@@ -73,7 +63,7 @@ const styles = {
   container: {
     display: 'flex',
     alignItems: 'center',
-    gap: 3,
+    gap: 4,
     px: 2,
 
     animationName: 'fadeInAnimation',

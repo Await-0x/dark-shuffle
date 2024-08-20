@@ -7,7 +7,7 @@ import Card from "../card";
 import SmallCard from "../smallCard";
 import DraggableCard from "./draggableCard";
 import { useEffect } from "react";
-import { isMobile, isBrowser } from 'react-device-detect';
+import { isMobile } from 'react-device-detect';
 
 function Hand() {
   const battle = useContext(BattleContext)

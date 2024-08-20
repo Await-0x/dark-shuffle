@@ -88,8 +88,8 @@ export const GameProvider = ({ children }) => {
     });
   }
 
-  const selectNode = async (nodeId) => {
-    const res = await dojo.executeTx("node_systems", "select_node", [nodeId])
+  const selectNode = async (nodeId, deck) => {
+    const res = await dojo.executeTx("node_systems", "select_node", [nodeId, deck])
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')

@@ -48,7 +48,7 @@ mod card_utils {
                 name: 'Eden Priest',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
-                cost: 3,
+                cost: 2,
                 attack: 2,
                 health: 8,
                 level
@@ -513,7 +513,7 @@ mod card_utils {
         else if id == 40 {
             return Card {
                 card_id: 40,
-                name: 'Flickering Sanctuary',
+                name: 'Divine Sacrifice',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::UNSTABLE,
                 cost: 1,
