@@ -11,9 +11,10 @@ import skull from "../../assets/images/skull.png";
 import sword from "../../assets/images/sword.png";
 import { GET_MONSTER, fetchMonsterImage } from '../../battle/monsterUtils';
 import { GameContext } from '../../contexts/gameContext';
-import { CARD_DETAILS, fetch_image } from '../../helpers/cards';
+import { CARD_DETAILS, CardSize, fetch_image } from '../../helpers/cards';
 import { TOP_NODE_LEVEL, levelColors } from '../../helpers/constants';
-import { CustomTooltip } from '../../helpers/styles';
+import { CustomTooltip, LargeCustomTooltip } from '../../helpers/styles';
+import Card from '../card';
 
 const INACTIVE_OPACITY = 0.5
 
@@ -244,7 +245,7 @@ function Structure(props) {
       {connector === 'connected' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {RenderConnector(node, 'vertical', 0, { height: '17px' })}
         {renderCard(node)}
-        {RenderConnector(node, 'vertical', null, { height: '16px', ml: '1px' })}
+        {RenderConnector(node, 'vertical', null, { height: '16px' })}
       </Box>}
     </Box>
   }
@@ -258,7 +259,7 @@ function Structure(props) {
           {monster.abilities}
 
           {node.active && <Box sx={{ mt: 2 }}>
-            <LoadingButton fullWidth variant='outlined' onClick={() => props.selectNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px', textTransform: 'none' }}>
+            <LoadingButton loading={game.selectingNode} fullWidth variant='outlined' onClick={() => props.selectNode(node.nodeId, 'battle')} sx={{ fontSize: '14px', letterSpacing: '1px', textTransform: 'none' }}>
               Battle
             </LoadingButton>
           </Box>}
@@ -302,10 +303,35 @@ function Structure(props) {
   function renderCard(node) {
     let levelColor = levelColors[Math.floor(node.cardLevel / 3)]
 
-    return <Box sx={[styles.square, nodeStyle(node)]}>
-      <img alt='' src={fetch_image(CARD_DETAILS(node.cardId).name)} width={'75%'} />
-      <Box sx={{ width: '40%', height: '2px' }} bgcolor={levelColor.bg} />
-    </Box>
+    return <LargeCustomTooltip leaveDelay={300} position={'right'} title={
+      <Box sx={styles.cardTooltipContainer}>
+        <Box sx={styles.displayCard}>
+          <Card card={CARD_DETAILS(node.cardId, 1, node.cardLevel)} hideTooltip={true} />
+        </Box>
+
+        {node.active && <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
+          <LoadingButton loading={game.selectingNode} color='secondary' fullWidth variant='outlined' onClick={() => game.actions.skipNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+            Pass
+          </LoadingButton>
+          <LoadingButton loading={game.selectingNode} color='primary' fullWidth variant='outlined' onClick={() => props.selectNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+            Take
+          </LoadingButton>
+        </Box>}
+      </Box>
+    }>
+      <Box sx={[styles.square, nodeStyle(node)]}>
+        <img alt='' src={fetch_image(CARD_DETAILS(node.cardId).name)} style={{ width: '75%', opacity: node.status !== 0 ? 0.5 : 1 }} />
+        <Box sx={{ width: '40%', height: '2px', opacity: node.status !== 0 ? 0.5 : 1 }} bgcolor={levelColor.bg} />
+
+        {node.status === 1 && <Box sx={{ position: 'absolute', top: 25, left: 13 }}>
+          <CheckIcon htmlColor='#FFE97F' sx={{ fontSize: '32px' }} />
+        </Box>}
+
+        {node.status === 2 && <Box sx={{ position: 'absolute', top: 25, left: 13 }}>
+          <CloseIcon htmlColor='#FFE97F' sx={{ fontSize: '32px' }} />
+        </Box>}
+      </Box>
+    </LargeCustomTooltip>
   }
 
   function renderPotionNode(node) {
@@ -320,10 +346,10 @@ function Structure(props) {
         <Typography color='secondary'>Pass: Gain 10 xp</Typography>
 
         {node.active && <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
-          <LoadingButton color='secondary' fullWidth variant='outlined' onClick={() => game.actions.skipNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <LoadingButton loading={game.selectingNode} color='secondary' fullWidth variant='outlined' onClick={() => game.actions.skipNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
             Pass
           </LoadingButton>
-          <LoadingButton color='primary' fullWidth variant='outlined' onClick={() => props.selectNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <LoadingButton loading={game.selectingNode} color='primary' fullWidth variant='outlined' onClick={() => props.selectNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
             Take
           </LoadingButton>
         </Box>}
@@ -358,10 +384,10 @@ function Structure(props) {
         <Typography color='secondary'>Pass: Gain 10 xp</Typography>
 
         {node.active && <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
-          <LoadingButton color='secondary' fullWidth variant='outlined' onClick={() => game.actions.skipNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <LoadingButton loading={game.selectingNode} color='secondary' fullWidth variant='outlined' onClick={() => game.actions.skipNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
             Pass
           </LoadingButton>
-          <LoadingButton color='primary' fullWidth variant='outlined' onClick={() => props.selectNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <LoadingButton loading={game.selectingNode} color='primary' fullWidth variant='outlined' onClick={() => props.selectNode(node.nodeId)} sx={{ fontSize: '14px', letterSpacing: '1px' }}>
             Take
           </LoadingButton>
         </Box>}
@@ -580,7 +606,9 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
+    position: 'relative',
+    cursor: 'pointer'
   },
   monsterCircle: {
     width: '100%',
@@ -624,9 +652,16 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center'
   },
+  cardTooltipContainer: {
+    my: 0.5
+  },
   tooltipContainer: {
     width: '180px',
     textAlign: 'left',
     p: 0.5
-  }
+  },
+  displayCard: {
+    height: CardSize.big.height,
+    width: CardSize.big.width,
+  },
 }

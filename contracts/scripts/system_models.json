@@ -20,7 +20,9 @@
     "CardNode",
     "Battle",
     "BattleEffects",
-    "HandCard"
+    "HandCard",
+    "Draft",
+    "DraftCard"
   ],
   "BATTLE_SYSTEMS": [
     "Game",

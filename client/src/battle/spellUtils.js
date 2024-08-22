@@ -50,15 +50,15 @@ export const spellEffect = ({
   }
 
   else if (cardId === 36) {
-    healHero(3);
+    healHero(1);
   }
 
   else if (cardId === 37) {
-    increaseEnergy(5);
+    increaseEnergy(3);
   }
 
   else if (cardId === 38) {
-    shieldHero(5);
+    shieldHero(8);
   }
 
   else if (cardId === 39) {

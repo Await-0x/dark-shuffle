@@ -12,17 +12,17 @@ mod monster_utils {
         }
 
         if battle.monster_id == 2 {
-            battle.monster_health += 4;
+            battle.monster_health += (5 + battle.branch);
         }
 
         if battle.monster_id == 6 {
-            board_utils::damage_board(world, battle.battle_id, 2);
+            board_utils::damage_board(world, battle.battle_id, battle.branch + 1);
         }
 
         if battle.monster_id == 7 {
-            battle.monster_health += board_utils::count_board(world, battle.battle_id) + 1;
-            board_utils::damage_board(world, battle.battle_id, 1);
-            battle_utils::damage_hero(ref battle, 1, ref battle_effects);
+            battle.monster_health += (board_utils::count_board(world, battle.battle_id) + 1) * battle.branch;
+            board_utils::damage_board(world, battle.battle_id, battle.branch);
+            battle_utils::damage_hero(ref battle, battle.branch, ref battle_effects);
         }
 
         if battle.monster_id == 14 {

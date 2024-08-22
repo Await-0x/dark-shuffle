@@ -83,6 +83,7 @@ struct Card {
     name: felt252,
     card_type: felt252,
     card_tag: felt252,
+    tag_multiplier: u8,
     cost: u16,
     attack: u16,
     health: u16,

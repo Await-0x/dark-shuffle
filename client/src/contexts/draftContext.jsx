@@ -4,6 +4,7 @@ import { CARD_DETAILS, tags, types } from "../helpers/cards";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
 import { DECK_SIZE } from "../helpers/constants";
+import { useEffect } from "react";
 
 export const DraftContext = createContext()
 
@@ -18,9 +19,17 @@ export const DraftProvider = ({ children }) => {
   const [options, setOptions] = useState([])
   const [cards, setCards] = useState([])
   const [bench, setBench] = useState([])
+  const [battleCards, setBattleCards] = useState()
 
   const [manaCurve, setManaCurve] = useState()
   const [tagCount, setTagCount] = useState(Object.keys(tags).map(_ => 0))
+
+  useEffect(() => {
+    if (cards.length > 0 && battleCards) {
+      setDeckFromGraph(battleCards)
+      setBattleCards()
+    }
+  }, [battleCards, cards])
 
   const initializeState = () => {
     setPendingCard(false)
@@ -141,8 +150,8 @@ export const DraftProvider = ({ children }) => {
     let data = await getDraftCards(gameId);
 
     let cards = data.map(card => CARD_DETAILS(card.card_id, card.number, card.level));
-
     setDraftStats(cards);
+
     setCards(cards.slice(0, 5).sort((a, b) => a.cost - b.cost));
     setBench(cards.slice(5).sort((a, b) => a.cost - b.cost));
 
@@ -180,6 +189,16 @@ export const DraftProvider = ({ children }) => {
     setCards(prev => prev.filter(card => card.id !== cardNumber))
   }
 
+  const addNodeCard = (draftCard) => {
+    let card = CARD_DETAILS(draftCard.cardId, draftCard.number, draftCard.level)
+
+    if (cards.length < DECK_SIZE) {
+      setCards(prev => [...prev, card].sort((a, b) => a.cost - b.cost))
+    } else {
+      setBench(prev => [...prev, card].sort((a, b) => a.cost - b.cost))
+    }
+  }
+
   return (
     <DraftContext.Provider
       value={{
@@ -201,7 +220,9 @@ export const DraftProvider = ({ children }) => {
         levelUpCards,
         addCardToDeck,
         removeCardFromDeck,
-        setDeckFromGraph
+        setDeckFromGraph,
+        addNodeCard,
+        setBattleCards
       }}
     >
       {children}

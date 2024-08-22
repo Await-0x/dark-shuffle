@@ -66,7 +66,6 @@ function Creature(props) {
 
   useEffect(() => {
     const creatureAnimation = animationHandler.creatureAnimations.find(anim => anim.creatureId === creature.id)
-
     if (creatureAnimation) {
 
       if (creatureAnimation.type === 'attack') {
@@ -98,12 +97,11 @@ function Creature(props) {
   }, [animationHandler.creatureAnimations])
 
   const attackAnimation = async (creatureAnimation) => {
-    const { creature, position, targetPosition, delay, lastAttack } = creatureAnimation
+    const { creature, position, targetPosition } = creatureAnimation
 
     await controls.start({
       x: targetPosition.x - position.x,
       y: position.y - targetPosition.y,
-      transition: { delay }
     })
 
     animationHandler.animationCompleted({ type: 'creatureAttack', creatureId: creature.id })
@@ -115,10 +113,6 @@ function Creature(props) {
     })
 
     animationHandler.animationCompleted({ type: 'creatureAttackFinished', creatureId: creature.id })
-    
-    if (lastAttack) {
-      animationHandler.animationCompleted({ type: 'lastAttackAnimation', creatureId: creature.id })
-    }
   }
 
   const mouseUpHandler = (event) => {
@@ -137,10 +131,12 @@ function Creature(props) {
     }
   }
 
-  return <Box sx={{ position: 'relative' }}>
+  return <Box sx={{ position: 'relative', opacity: creature.dead ? 0 : 1 }}>
     <motion.div
       style={isMobile ? { ...styles.mobileSize } : { ...styles.browserSize }}
+      key={creature.id}
       layout
+      layoutId={creature.id}
       animate={controls}
       onHoverStart={() => setDisplayCard(creature)}
       onHoverEnd={() => setDisplayCard(null)}

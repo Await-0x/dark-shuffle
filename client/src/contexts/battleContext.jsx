@@ -12,6 +12,7 @@ import { DojoContext } from "./dojoContext";
 import { DraftContext } from "./draftContext";
 import { GameContext } from "./gameContext";
 import { GET_MONSTER } from "../battle/monsterUtils";
+import { delay } from "../helpers/utilities";
 
 export const BattleContext = createContext()
 
@@ -39,8 +40,12 @@ export const BattleProvider = ({ children }) => {
 
   const [targetFriendlyCreature, setTargetFriendlyCreature] = useState(false)
 
+  const [endingTurn, setEndingTurn] = useState(false)
+  const [attackingOrder, setAttackingOrder] = useState([])
+
   const [pendingTx, setPendingTx] = useState(false)
   const [txQueue, setTxQueue] = useState([])
+  const [endState, setEndState] = useState()
 
   useEffect(() => {
     if (!pendingTx) {
@@ -49,6 +54,18 @@ export const BattleProvider = ({ children }) => {
       }
     }
   }, [pendingTx, txQueue])
+
+  useEffect(() => {
+    if (endingTurn) {
+      setAttackingOrder([...board.filter(creature => !creature.resting), 'monster'])
+    }
+  }, [endingTurn])
+
+  useEffect(() => {
+    if (endState && (monster.health < 1 || adventurer.health < 1)) {
+      endGame()
+    }
+  }, [endState, monster.health, adventurer.health])
 
   useEffect(() => {
     if (targetFriendlyCreature) {
@@ -60,7 +77,6 @@ export const BattleProvider = ({ children }) => {
 
   useEffect(() => {
     if (hand.length === 0 && monster.id) {
-      console.log(hand.length, monster.id)
       drawHand()
     }
   }, [hand, monster])
@@ -92,13 +108,6 @@ export const BattleProvider = ({ children }) => {
       creatureAttackResult(animation.creatureId)
     }
 
-    if (animation.type === 'lastAttackAnimation') {
-      animationHandler.addAnimation('monster', {
-        type: 'ability',
-        position: getMonsterPosition(),
-      })
-    }
-
     animationHandler.consumeCompleted()
     // eslint-ignore-next-line react-hooks/exhaustive-deps
   }, [animationHandler.completed])
@@ -117,10 +126,30 @@ export const BattleProvider = ({ children }) => {
     }
   }, [monster.health])
 
+  useEffect(() => {
+    if (!endingTurn) return;
+
+    if (attackingOrder.length > 0) {
+      if (attackingOrder[0] === 'monster') {
+        animationHandler.addAnimation('monster', {
+          type: 'ability',
+          position: getMonsterPosition(),
+        })
+      } else {
+        animationHandler.addAnimation('creature', {
+          type: 'attack',
+          creatureId: attackingOrder[0].id,
+          creature: attackingOrder[0],
+          position: getCreaturePosition(attackingOrder[0].id),
+          targetPosition: getMonsterPosition(),
+        })
+      }
+    }
+  }, [attackingOrder])
+
   const submitBattleAction = async ({ contract, name, data }) => {
     setPendingTx(true)
 
-    const startTime = Date.now();
     const res = await dojo.executeTx(contract, name, data)
 
     if (!res) {
@@ -141,26 +170,31 @@ export const BattleProvider = ({ children }) => {
     }
 
     if (leaderboard) {
-      game.setScore(Math.max(1, leaderboard.score))
+      setEndState({ score: Math.max(1, leaderboard.score) })
       return
     }
 
     if (gameValues) {
-      const remainingTime = Math.max(0, 2000 - (Date.now() - startTime));
+      setEndState({ gameValues, node })
+    }
+  }
 
-      setTimeout(() => {
-        draft.levelUpCards();
-        game.setGame(gameValues);
-        game.actions.updateNodeStatus(node.nodeId, node.status)
+  const endGame = async () => {
+    if (endState.score) {
+      game.setScore(Math.max(1, endState.score))
+    } else {
+      draft.levelUpCards();
 
-        resetBattleState()
-      }, remainingTime);
+      await delay(1000);
+      game.setGame(endState.gameValues);
+      game.actions.updateNodeStatus(endState.node.nodeId, endState.node.status)
+      resetBattleState()
     }
   }
 
   const drawHand = () => {
     let cards = draft.cards.map(card => CARD_DETAILS(card.cardId, card.id, card.level))
-  
+
     setHand(cards)
   }
 
@@ -172,18 +206,23 @@ export const BattleProvider = ({ children }) => {
     setAdventurer({})
     setBattleEffects({ ...BATTLE_EFFECTS })
     setRoundEnergy(0)
+    setEndingTurn(false)
+    setAttackingOrder([])
+    setEndState()
   }
 
   const startBattle = async (battle) => {
     animationHandler.resetAnimationHandler()
 
+    setBoard([])
     setHand([])
     setBattleId(battle.battleId)
     setAdventurer({ id: ADVENTURER_ID, health: battle.heroHealth, energy: battle.heroEnergy, armor: battle.heroArmor, burn: battle.heroBurn })
-    setMonster({ ...GET_MONSTER(battle.monsterId), attack: battle.monsterAttack, health: battle.monsterHealth, startHealth: battle.monsterHealth, startAttack: battle.monsterAttack })
+    setMonster({ ...GET_MONSTER(battle.monsterId, game.values.branch), attack: battle.monsterAttack, health: battle.monsterHealth, startHealth: battle.monsterHealth, startAttack: battle.monsterAttack })
     setBattleEffects({ ...BATTLE_EFFECTS })
     setCreatureIndex(battle.cardIndex)
     setRoundEnergy(battle.roundEnergy)
+    setEndState()
   }
 
   const summonCreature = (creature, target) => {
@@ -255,28 +294,14 @@ export const BattleProvider = ({ children }) => {
     setTxQueue(prev => [...prev, { contract: "battle_systems", name: "discard", data: [battleId, card.id] }])
   }
 
-  const boardAttack = () => {
-    board.map((creature, i) => {
-      animationHandler.addAnimation('creature', {
-        type: 'attack',
-        creatureId: creature.id,
-        creature,
-        position: getCreaturePosition(creature.id),
-        targetPosition: getMonsterPosition(),
-        delay: i,
-        lastAttack: i === board.length - 1
-      })
-    })
-  }
-
   const endTurn = () => {
+    setEndingTurn(true)
     setTxQueue(prev => [...prev, { contract: "battle_systems", name: "end_turn", data: [battleId] }])
-
-    boardAttack()
   }
 
   const beginTurn = () => {
-    setBoard(prev => prev.map(creature => ({ ...creature, resting: false })));
+    setEndingTurn(false)
+    setBoard(prev => prev.filter(creature => !creature.dead).map(creature => ({ ...creature, resting: false })));
     setAdventurer(prev => ({ ...prev, energy: roundEnergy }));
 
     if (battleEffects.damageImmune) {
@@ -285,7 +310,7 @@ export const BattleProvider = ({ children }) => {
   }
 
   const monsterAttack = () => {
-    endOfTurnMonsterEffect({ monster, setMonster, board, damageBoard, damageAdventurer, animationHandler, setAdventurer })
+    endOfTurnMonsterEffect({ monster, setMonster, board, damageBoard, damageAdventurer, animationHandler, setAdventurer, branch: game.values.branch })
 
     animationHandler.addAnimation('monster', {
       type: 'attack',
@@ -315,7 +340,7 @@ export const BattleProvider = ({ children }) => {
       position: getCreaturePosition(creature.id)
     })
 
-    setBoard(prev => prev.filter(x => x.id !== creature.id));
+    updateCreature(creature.id, { dead: true })
   }
 
   const updateCreature = (id, update) => {
@@ -442,7 +467,7 @@ export const BattleProvider = ({ children }) => {
 
   const damageMonster = (amount, damageType) => {
     if (monster.id === 3) {
-      amount -= 1;
+      amount -= game.values.branch;
     }
 
     if (damageType === 'Spell') {
@@ -464,6 +489,12 @@ export const BattleProvider = ({ children }) => {
         damageAdventurer(game.values.branch);
       }
     }
+
+    if (monster.health <= amount) {
+      setAttackingOrder([])
+    } else if (attackingOrder.length > 0) [
+      setAttackingOrder(prev => prev.slice(1))
+    ]
 
     animationHandler.actions.setAnimations(prev => ({ ...prev, monsterDamaged: amount }));
     setMonster(prev => ({ ...prev, health: prev.health - amount }));
@@ -527,7 +558,7 @@ export const BattleProvider = ({ children }) => {
     setBoard(fetchBoardCreatures(data))
 
     setMonster({
-      ...GET_MONSTER(data.battle.monster_id),
+      ...GET_MONSTER(data.battle.monster_id, game.values.branch),
       attack: data.battle.monster_attack,
       health: data.battle.monster_health,
       startHealth: data.battle.monster_health,
@@ -546,7 +577,7 @@ export const BattleProvider = ({ children }) => {
     setCreatureIndex(data.battle.card_index)
     setTargetFriendlyCreature()
 
-    draft.setDeckFromGraph(data.battle.deck)
+    draft.setBattleCards(data.battle.deck)
 
     setPendingTx(false)
     setResettingState(false)
@@ -588,7 +619,7 @@ export const BattleProvider = ({ children }) => {
           summonCreature,
           castSpell,
           discardCard,
-          endTurn,
+          endTurn
         },
 
         utils: {
@@ -611,7 +642,8 @@ export const BattleProvider = ({ children }) => {
           adventurer,
           battleEffects,
           targetFriendlyCreature,
-          resettingState
+          resettingState,
+          roundEnergy
         }
       }}
     >

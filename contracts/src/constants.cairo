@@ -8,8 +8,8 @@ const MONSTER_COUNT: u16 = 21;
 const LAST_NODE_LEVEL: u8 = 6;
 const MAX_CARD_LEVEL: u16 = 15;
 
-const START_ENERGY: u16 = 7;
-const START_HEALTH: u16 = 30;
+const START_ENERGY: u16 = 8;
+const START_HEALTH: u16 = 50;
 
 const MONSTER_KILL_SCORE: u16 = 100;
 const BRANCH_SCORE_MULTIPLIER: u16 = 5;

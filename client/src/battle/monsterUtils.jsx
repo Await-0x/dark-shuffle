@@ -26,7 +26,9 @@ export const GET_MONSTER = (monsterId, branch = 1) => {
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
             <Typography color="primary">★ Rage</Typography>
           </Box>
-          <Typography mt={0.5}>Gains +2 attack each round.</Typography>
+          <Typography mt={0.5}>
+            Gains +2 attack each round.
+          </Typography>
         </>,
       }
     case 2:
@@ -39,7 +41,9 @@ export const GET_MONSTER = (monsterId, branch = 1) => {
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
             <Typography color="primary">★ Regeneration</Typography>
           </Box>
-          <Typography mt={0.5}>Restores (4) health each turn.</Typography>
+          <Typography mt={0.5}>
+            Restores {5 + branch} health each turn.
+          </Typography>
         </>,
       }
     case 3:
@@ -52,7 +56,9 @@ export const GET_MONSTER = (monsterId, branch = 1) => {
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
             <Typography color="primary">★ Thick Skin</Typography>
           </Box>
-          <Typography mt={0.5}>Takes (1) less damage from all sources.</Typography>
+          <Typography mt={0.5}>
+            Takes {branch} less damage from all sources.
+          </Typography>
         </>
       }
     case 4:
@@ -65,7 +71,9 @@ export const GET_MONSTER = (monsterId, branch = 1) => {
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
             <Typography color="primary">★ Intimidation</Typography>
           </Box>
-          <Typography mt={0.5}>Creatures can't attack the same turn they're summoned.</Typography>
+          <Typography mt={0.5}>
+            Creatures can't attack the same turn they're summoned.
+          </Typography>
         </>
       }
     case 5:
@@ -78,7 +86,9 @@ export const GET_MONSTER = (monsterId, branch = 1) => {
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
             <Typography color="primary">★ Mind Vision</Typography>
           </Box>
-          <Typography mt={0.5}>Creatures cost (1) more.</Typography>
+          <Typography mt={0.5}>
+            Creatures cost 1 more energy to play.
+          </Typography>
         </>,
       }
     case 6:
@@ -91,7 +101,9 @@ export const GET_MONSTER = (monsterId, branch = 1) => {
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
             <Typography color="primary">★ Poison Spray</Typography>
           </Box>
-          <Typography mt={0.5}>Deals (2) damage to each creature.</Typography>
+          <Typography mt={0.5}>
+            Deals {branch + 1} damage to all creatures.
+          </Typography>
         </>,
       }
     case 7:
@@ -104,7 +116,9 @@ export const GET_MONSTER = (monsterId, branch = 1) => {
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
             <Typography color="primary">★ Drain Life</Typography>
           </Box>
-          <Typography mt={0.5}>Drains (1) life from each character.</Typography>
+          <Typography mt={0.5}>
+            Drains {branch} life from each character.
+          </Typography>
         </>,
       }
     case 8:
@@ -148,7 +162,7 @@ export const GET_MONSTER = (monsterId, branch = 1) => {
             <Typography color="primary">★ Magical Burden</Typography>
           </Box>
           <Typography mt={0.5}>
-            Spells cost one more to play.
+            Spells cost 1 more energy to play.
           </Typography>
         </>,
       }
@@ -178,7 +192,7 @@ export const GET_MONSTER = (monsterId, branch = 1) => {
             <Typography color="primary">★ Fatique</Typography>
           </Box>
           <Typography mt={0.5}>
-            You replenish one less energy.
+            You replenish 1 less energy.
           </Typography>
         </>,
       }
@@ -283,7 +297,7 @@ export const GET_MONSTER = (monsterId, branch = 1) => {
             <Typography color="primary">★ Piercing Damage</Typography>
           </Box>
           <Typography mt={0.5}>
-            3 damage pierces through your armor
+            {branch} damage pierces through your armor.
           </Typography>
         </>,
       }

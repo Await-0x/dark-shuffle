@@ -14,6 +14,17 @@ export const _styles = {
   }
 }
 
+export const LargeCustomTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} placement={props.position || "top"} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: 420,
+    fontSize: theme.typography.pxToRem(12),
+    border: '1px solid rgba(255, 255, 255, 0.6)',
+    background: '#141920',
+  },
+}));
+
 export const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} placement={props.position || "top"} />
 ))(({ theme }) => ({

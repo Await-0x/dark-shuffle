@@ -73,11 +73,11 @@ mod summon_utils {
         }
 
         else if card.card_id == 7 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, 3 + card.level, 2);
+            battle_utils::damage_monster(ref battle, ref battle_effects, 5 + card.level, 2);
         }
 
         else if card.card_id == 8 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, card.level, 2);
+            battle_utils::damage_monster(ref battle, ref battle_effects, 2 + card.level, 2);
         }
 
         else if card.card_id == 9 {

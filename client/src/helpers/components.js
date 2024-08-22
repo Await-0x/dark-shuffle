@@ -153,7 +153,6 @@ export const components = {
     cardId: Number(),
     cardLevel: Number(),
   },
-
   // Entropy models
   'Entropy': {
     gameId: Number(),

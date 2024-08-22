@@ -4,18 +4,31 @@ import { useLottie } from 'lottie-react';
 import React, { useContext, useEffect, useRef } from "react";
 import { isMobile } from 'react-device-detect';
 import skullAnim from "../../assets/animations/skull.json";
-import { GET_MONSTER } from "../../battle/monsterUtils";
 import { AnimationContext } from '../../contexts/animationHandler';
-import { BattleContext } from "../../contexts/battleContext";
 import { CustomTooltip } from "../../helpers/styles";
 import DamageAnimation from '../animations/damageAnimation';
-import Bigfoot from './monsters/bigfoot';
-import Chimera from './monsters/chimera';
-import Kappa from './monsters/kappa';
-import Lich from './monsters/lich';
-import Minotaur from './monsters/minotaur';
-import Spider from './monsters/spider';
-import Troll from './monsters/troll';
+import Bigfoot from './monsters/Bigfoot';
+import Chimera from './monsters/Chimera';
+import Kappa from './monsters/Kappa';
+import Lich from './monsters/Lich';
+import Minotaur from './monsters/Minotaur';
+import Spider from './monsters/Spider';
+import Troll from './monsters/Troll';
+import Bear from "./monsters/Bear";
+import Cyclops from "./monsters/Cyclops";
+import Golem from "./monsters/Golem";
+import Orc from "./monsters/Orc";
+import Phoenix from "./monsters/Phoenix";
+import Pixie from "./monsters/Pixie";
+import Rat from "./monsters/Rat";
+import Satori from "./monsters/Satori";
+import Snake from "./monsters/Snake";
+import Titan from "./monsters/Titan";
+import Warlock from "./monsters/warlock";
+import Weretiger from "./monsters/Weretiger";
+import Wraith from "./monsters/Wraith";
+import Yeti from "./monsters/Yeti";
+import { delay } from "../../helpers/utilities";
 
 function Monster(props) {
   const animationHandler = useContext(AnimationContext)
@@ -62,12 +75,14 @@ function Monster(props) {
 
   const attackAnimation = async (animation) => {
     const { position, targetPosition } = animation
+    await delay(500)
+
     ref.current.style.background = 'black'
 
     await controls.start({
       x: targetPosition.x - position.x,
       y: position.y - targetPosition.y,
-      zIndex: 100
+      zIndex: 100,
     })
 
     controls.start({
@@ -102,13 +117,29 @@ function Monster(props) {
       {monster.health > 0 && <CustomTooltip position={'right'} title={<Box mb={1}>
         {monster.abilities}
       </Box>}>
-        {monster.name === 'Minotaur' && <Minotaur monster={monster} />}
-        {monster.name === 'Troll' && <Troll monster={monster} />}
-        {monster.name === 'Bigfoot' && <Bigfoot monster={monster} />}
-        {monster.name === 'Chimera' && <Chimera monster={monster} />}
-        {monster.name === 'Kappa' && <Kappa monster={monster} />}
-        {monster.name === 'Spider' && <Spider monster={monster} />}
-        {monster.name === 'Lich' && <Lich monster={monster} />}
+        <Box sx={styles.container}>
+          {monster.name === 'Minotaur' && <Minotaur monster={monster} />}
+          {monster.name === 'Troll' && <Troll monster={monster} />}
+          {monster.name === 'Bigfoot' && <Bigfoot monster={monster} />}
+          {monster.name === 'Chimera' && <Chimera monster={monster} />}
+          {monster.name === 'Kappa' && <Kappa monster={monster} />}
+          {monster.name === 'Spider' && <Spider monster={monster} />}
+          {monster.name === 'Lich' && <Lich monster={monster} />}
+          {monster.name === 'Bear' && <Bear monster={monster} />}
+          {monster.name === 'Cyclops' && <Cyclops monster={monster} />}
+          {monster.name === 'Golem' && <Golem monster={monster} />}
+          {monster.name === 'Orc' && <Orc monster={monster} />}
+          {monster.name === 'Phoenix' && <Phoenix monster={monster} />}
+          {monster.name === 'Pixie' && <Pixie monster={monster} />}
+          {monster.name === 'Rat' && <Rat monster={monster} />}
+          {monster.name === 'Satori' && <Satori monster={monster} />}
+          {monster.name === 'Snake' && <Snake monster={monster} />}
+          {monster.name === 'Titan' && <Titan monster={monster} />}
+          {monster.name === 'Warlock' && <Warlock monster={monster} />}
+          {monster.name === 'Weretiger' && <Weretiger monster={monster} />}
+          {monster.name === 'Wraith' && <Wraith monster={monster} />}
+          {monster.name === 'Yeti' && <Yeti monster={monster} />}
+        </Box>
       </CustomTooltip>}
 
     </motion.div>
@@ -116,3 +147,23 @@ function Monster(props) {
 }
 
 export default Monster
+
+const styles = {
+  container: {
+    position: 'relative',
+    boxSizing: 'border-box',
+    width: '100%',
+    height: '100%',
+    border: '1px solid rgba(255, 255, 255, 0.24)',
+    borderRadius: '4px',
+    p: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    overflow: 'hidden',
+    transition: '0.3s',
+    '&:hover': {
+      border: '1px solid rgba(255, 255, 255, 0.6)',
+    },
+  }
+}

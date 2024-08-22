@@ -17,7 +17,9 @@ export const GameProvider = ({ children }) => {
 
   const [values, setValues] = useState({ ...GAME_VALUES })
   const [gameEffects, setGameEffects] = useState({ ...GAME_EFFECTS })
+
   const [nodes, setNodes] = useState([])
+  const [selectingNode, setSelectingNode] = useState(false)
 
   const [entropy, setEntropy] = useState({
     blockNumber: null,
@@ -89,7 +91,9 @@ export const GameProvider = ({ children }) => {
   }
 
   const selectNode = async (nodeId, deck) => {
+    setSelectingNode(true)
     const res = await dojo.executeTx("node_systems", "select_node", [nodeId, deck])
+    setSelectingNode(false)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -113,7 +117,9 @@ export const GameProvider = ({ children }) => {
   }
 
   const skipNode = async (nodeId) => {
+    setSelectingNode(true)
     const res = await dojo.executeTx("node_systems", "skip_node", [nodeId]);
+    setSelectingNode(false)
 
     if (res) {
       const node = res.find(e => e.componentName === 'Node');
@@ -131,6 +137,7 @@ export const GameProvider = ({ children }) => {
       const nodes = res.filter(e => e.componentName === 'Node')
       const monsterNodes = res.filter(e => e.componentName === 'MonsterNode')
       const potionNodes = res.filter(e => e.componentName === 'PotionNode')
+      const cardNodes = res.filter(e => e.componentName === 'CardNode')
       const gameValues = res.find(e => e.componentName === 'Game')
 
       let computedNodes = nodes.map(node => {
@@ -140,6 +147,8 @@ export const GameProvider = ({ children }) => {
           nodeDetails = { ...monsterNodes.find(n => n.nodeId === node.nodeId), type: 'monster' }
         } else if (node.nodeType === 2 || node.nodeType === 3) {
           nodeDetails = { ...potionNodes.find(n => n.nodeId === node.nodeId), type: node.nodeType === 2 ? 'potion' : 'energy' }
+        } else if (node.nodeType === 4) {
+          nodeDetails = { ...cardNodes.find(n => n.nodeId === node.nodeId), type: 'card' }
         }
 
         return { ...node, ...nodeDetails, active: getNodeStatus(nodes, node) }
@@ -159,6 +168,7 @@ export const GameProvider = ({ children }) => {
         clientOnly,
         gameEffects,
         nodes,
+        selectingNode,
 
         setGame,
         endGame,

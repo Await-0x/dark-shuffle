@@ -39,7 +39,7 @@ export async function getActiveGame(address) {
 export async function getDraftCards(game_id) {
   const document = gql`
   {
-    darkshuffleDraftCardModels(where:{game_id:${game_id}}) {
+    darkshuffleDraftCardModels(where:{game_id:${game_id}}, limit:100) {
       edges {
         node {
           game_id,
@@ -244,7 +244,7 @@ export async function getBattleState(battle_id) {
 
   const res = await request(dojoConfig.toriiUrl, document);
   const result = {
-    battle: res?.entity.models[1],
+    battle: res?.entity.models.find(x => x.monster_id),
     battleEffects: res?.entity.models[0],
     creatures: res?.darkshuffleCreatureModels?.edges.map(edge => edge.node),
     handCards: res?.darkshuffleHandCardModels?.edges.map(edge => edge.node),

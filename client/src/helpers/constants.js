@@ -5,8 +5,8 @@ export const DECK_SIZE = 5;
 export const DISCARD_COST = 1;
 export const MAX_BOARD = 6;
 
-export const START_ENERGY = 7;
-export const START_HEALTH = 30;
+export const START_ENERGY = 8;
+export const START_HEALTH = 50;
 
 export const TOP_NODE_LEVEL = 5;
 export const MAX_CARD_LEVEL = 15;

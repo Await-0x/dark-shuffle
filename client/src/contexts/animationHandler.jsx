@@ -31,6 +31,7 @@ export const AnimationHandler = ({ children }) => {
   }
 
   const addAnimation = (type, animation, animationList) => {
+    console.log(type, animation)
     animation = { id: ANIMATION_COUNTER, ...animation }
 
     switch (type) {

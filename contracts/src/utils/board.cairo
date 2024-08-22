@@ -42,61 +42,73 @@ mod board_utils {
 
         if board.creature1 != 0 {
             let mut creature1: Creature = get!(world, (battle.battle_id, board.creature1), Creature);
-            battle_utils::damage_monster(ref battle, ref battle_effects, creature1.attack, 2);
-            battle_utils::damage_creature(ref creature1, battle.monster_attack);
-            if creature1.health == 0 {
-                board.creature1 = 0;
-                delete!(world, (creature1));
+            if creature1.resting_round < battle.round {
+                battle_utils::damage_monster(ref battle, ref battle_effects, creature1.attack, 2);
+                battle_utils::damage_creature(ref creature1, battle.monster_attack);
+                if creature1.health == 0 {
+                    board.creature1 = 0;
+                    delete!(world, (creature1));
+                }
             }
         }
         
         if board.creature2 != 0 {
             let mut creature2: Creature = get!(world, (battle.battle_id, board.creature2), Creature);
-            battle_utils::damage_monster(ref battle, ref battle_effects, creature2.attack, 2);
-            battle_utils::damage_creature(ref creature2, battle.monster_attack);
-            if creature2.health == 0 {
-                board.creature2 = 0;
-                delete!(world, (creature2));
+            if creature2.resting_round < battle.round {
+                battle_utils::damage_monster(ref battle, ref battle_effects, creature2.attack, 2);
+                battle_utils::damage_creature(ref creature2, battle.monster_attack);
+                if creature2.health == 0 {
+                    board.creature2 = 0;
+                    delete!(world, (creature2));
+                }
             }
         }
 
         if board.creature3 != 0 {
             let mut creature3: Creature = get!(world, (battle.battle_id, board.creature3), Creature);
-            battle_utils::damage_monster(ref battle, ref battle_effects, creature3.attack, 2);
-            battle_utils::damage_creature(ref creature3, battle.monster_attack);
-            if creature3.health == 0 {
-                board.creature3 = 0;
-                delete!(world, (creature3));
+            if creature3.resting_round < battle.round {
+                battle_utils::damage_monster(ref battle, ref battle_effects, creature3.attack, 2);
+                battle_utils::damage_creature(ref creature3, battle.monster_attack);
+                if creature3.health == 0 {
+                    board.creature3 = 0;
+                    delete!(world, (creature3));
+                }
             }
         }
 
         if board.creature4 != 0 {
             let mut creature4: Creature = get!(world, (battle.battle_id, board.creature4), Creature);
-            battle_utils::damage_monster(ref battle, ref battle_effects, creature4.attack, 2);
-            battle_utils::damage_creature(ref creature4, battle.monster_attack);
-            if creature4.health == 0 {
-                board.creature4 = 0;
-                delete!(world, (creature4));
+            if creature4.resting_round < battle.round {
+                battle_utils::damage_monster(ref battle, ref battle_effects, creature4.attack, 2);
+                battle_utils::damage_creature(ref creature4, battle.monster_attack);
+                if creature4.health == 0 {
+                    board.creature4 = 0;
+                    delete!(world, (creature4));
+                }
             }
         }
 
         if board.creature5 != 0 {
             let mut creature5: Creature = get!(world, (battle.battle_id, board.creature5), Creature);
-            battle_utils::damage_monster(ref battle, ref battle_effects, creature5.attack, 2);
-            battle_utils::damage_creature(ref creature5, battle.monster_attack);
-            if creature5.health == 0 {
-                board.creature5 = 0;
-                delete!(world, (creature5));
+            if creature5.resting_round < battle.round {
+                battle_utils::damage_monster(ref battle, ref battle_effects, creature5.attack, 2);
+                battle_utils::damage_creature(ref creature5, battle.monster_attack);
+                if creature5.health == 0 {
+                    board.creature5 = 0;
+                    delete!(world, (creature5));
+                }
             }
         }
 
         if board.creature6 != 0 {
             let mut creature6: Creature = get!(world, (battle.battle_id, board.creature6), Creature);
-            battle_utils::damage_monster(ref battle, ref battle_effects, creature6.attack, 2);
-            battle_utils::damage_creature(ref creature6, battle.monster_attack);
-            if creature6.health == 0 {
-                board.creature6 = 0;
-                delete!(world, (creature6));
+            if creature6.resting_round < battle.round {
+                battle_utils::damage_monster(ref battle, ref battle_effects, creature6.attack, 2);
+                battle_utils::damage_creature(ref creature6, battle.monster_attack);
+                if creature6.health == 0 {
+                    board.creature6 = 0;
+                    delete!(world, (creature6));
+                }
             }
         }
 

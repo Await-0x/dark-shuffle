@@ -13,30 +13,30 @@ export const summonEffect = ({
 }) => {
   const { level, cardId } = creature;
 
-  let updatedBattleEffects = {}
+  let updatedBattleEffects = {};
 
   if (creature.tag == tags.FATIQUE) {
-    setRoundEnergy(prev => Math.max(0, prev - 1))
+    setRoundEnergy(prev => Math.max(0, prev - 1));
   }
 
   if (monster.id === 4) {
-    creature.resting = true
+    creature.resting = true;
   }
 
   if (cardId === 1) {
-    shieldHero(level)
+    shieldHero(level);
   }
 
   else if (cardId === 2) {
-    shieldHero(1 + level)
+    shieldHero(1 + level);
   }
 
   else if (cardId === 3) {
-    shieldHero(1 + level)
+    shieldHero(1 + level);
   }
 
   else if (cardId === 4) {
-    setBoard(prev => prev.map(_creature => ({ ..._creature, health: _creature.health + level })))
+    setBoard(prev => prev.map(_creature => ({ ..._creature, health: _creature.health + level })));
   }
 
   else if (cardId === 5) {
@@ -49,11 +49,11 @@ export const summonEffect = ({
   }
 
   else if (cardId === 7) {
-    damageMonster(3 + level, 'Creature');
+    damageMonster(5 + level, 'Creature');
   }
 
   else if (cardId === 8) {
-    damageMonster(level, 'Creature');
+    damageMonster(2 + level, 'Creature');
   }
 
   else if (cardId === 9) {
@@ -73,7 +73,7 @@ export const summonEffect = ({
   }
 
   else if (cardId === 16 && target) {
-    target.shield = true
+    target.shield = true;
   }
 
   else if (cardId === 21) {
@@ -104,5 +104,5 @@ export const summonEffect = ({
     updatedBattleEffects.freeDiscard = true;
   }
 
-  setBattleEffects(prev => ({ ...prev, ...updatedBattleEffects }))
+  setBattleEffects(prev => ({ ...prev, ...updatedBattleEffects }));
 }

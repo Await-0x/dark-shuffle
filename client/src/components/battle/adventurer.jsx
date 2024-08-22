@@ -8,7 +8,7 @@ import monarch from "../../assets/images/monarch.png";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
 import { GameContext } from '../../contexts/gameContext';
-import { ADVENTURER_ID, START_HEALTH } from '../../helpers/constants';
+import { ADVENTURER_ID, START_ENERGY, START_HEALTH } from '../../helpers/constants';
 import { CustomTooltip, EnergyBar, HealthBar, ShieldBar } from '../../helpers/styles';
 import { normalise } from '../../helpers/utilities';
 import DamageAnimation from '../animations/damageAnimation';
@@ -19,8 +19,8 @@ export default function Adventurer(props) {
   const battle = useContext(BattleContext)
   const damage = animationHandler.damageAnimations.find(x => x.targetId === ADVENTURER_ID)
 
-  const [prevEnergy, setPrevEnergy] = useState(0)
-  const [maxEnergy, setMaxEnergy] = useState(0)
+  const [prevEnergy, setPrevEnergy] = useState(START_ENERGY)
+  const [maxEnergy, setMaxEnergy] = useState(START_ENERGY)
 
   useEffect(() => {
     if (battle.state.adventurer.energy > prevEnergy) {
@@ -66,7 +66,7 @@ export default function Adventurer(props) {
               <Typography color="primary" variant='h6'>Energy</Typography>
             </Box>
             <Typography mt={0.5}>Cards require energy to play.</Typography>
-            <Typography>Your energy replenish each turn.</Typography>
+            <Typography>You replenish {battle.state.roundEnergy} energy each turn.</Typography>
           </Box>
         }>
           <Box width={'80px'} display={'flex'} alignItems={'center'} justifyContent={'flex-end'}>
@@ -78,8 +78,14 @@ export default function Adventurer(props) {
           </Box>
         </CustomTooltip>
 
-        <Box width={'160px'} ml={0.5} mr={'60px'}>
+        <Box width={'160px'} ml={0.5} mr={'60px'} position={'relative'}>
           <EnergyBar variant="determinate" value={normalise(battle.state.adventurer.energy, maxEnergy)} />
+
+          <Box sx={{ position: 'absolute', right: 4, top: 0 }}>
+            <Typography color={battle.state.adventurer.energy < maxEnergy ? 'white' : 'black'} sx={{ fontSize: '10px', lineHeight: '11px' }}>
+              +{battle.state.roundEnergy}
+            </Typography>
+          </Box>
         </Box>
       </Box>
 

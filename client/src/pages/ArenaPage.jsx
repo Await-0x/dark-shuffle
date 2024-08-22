@@ -44,7 +44,7 @@ function ArenaPage() {
         try {
           await draft.fetchDraftCards(data.game_id, data.in_draft)
           let nodes = await getTreeNodes(data.game_id, data.branch)
-          console.log(nodes)
+
           if (nodes) {
             gameState.setNodes(nodes)
           }

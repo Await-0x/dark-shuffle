@@ -49,7 +49,7 @@ export const DojoProvider = ({ children }) => {
       const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
 
       if (receipt.execution_status === "REVERTED") {
-        // enqueueSnackbar('Contract error', { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'right' } })
+        enqueueSnackbar('Contract error', { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'right' } })
         return
       }
 

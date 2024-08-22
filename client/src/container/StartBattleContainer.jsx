@@ -14,12 +14,14 @@ import { BrowserView, MobileView, isMobile } from 'react-device-detect'
 import { useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { DraftContext } from '../contexts/draftContext';
+import { useSnackbar } from 'notistack';
 
 function StartBattleContainer() {
   const game = useContext(GameContext)
   const draft = useContext(DraftContext)
   const battle = useContext(BattleContext)
 
+  const { enqueueSnackbar } = useSnackbar()
   const [cardOverview, setCardOverview] = useState(false)
 
   useEffect(() => {
@@ -28,7 +30,11 @@ function StartBattleContainer() {
     }
   }, [game.entropy.blockHash, game.values.nodeLevel])
 
-  const selectNode = async (nodeId) => {
+  const selectNode = async (nodeId, type) => {
+    if (type === 'battle' && draft.cards.length !== 5) {
+      return enqueueSnackbar('Deck must have 5 cards', { variant: 'warning' })
+    }
+
     const res = await game.actions.selectNode(nodeId, draft.cards.map(card => card.id))
 
     if (!res) return;
@@ -36,6 +42,11 @@ function StartBattleContainer() {
     const battleValues = res.find(e => e.componentName === 'Battle')
     if (battleValues) {
       battle.actions.startBattle(battleValues)
+    }
+
+    const cardValue = res.find(e => e.componentName === 'DraftCard')
+    if (cardValue) {
+      draft.addNodeCard(cardValue)
     }
   }
 

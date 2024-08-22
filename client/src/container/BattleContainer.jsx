@@ -101,7 +101,7 @@ function BattleContainer() {
           <CustomTooltip title={
             <Box mb={1}>
               <Typography color="primary" variant='h6'>Vortex</Typography>
-              <Typography mt={0.5}>Drag cards to the vortex to discard them from your hand. Costs (1) energy.</Typography>
+              <Typography mt={0.5}>Drag cards to the vortex to discard them from your hand. Costs ({battle.state.monster.id === 11 ? 2 : 1}) energy.</Typography>
             </Box>
           }>
             <Box width='140px'>
@@ -125,7 +125,7 @@ function BattleContainer() {
           <Box sx={{ position: 'absolute', right: '20px' }}>
             <CustomTooltip title={<Box mb={1}>
               <Typography color="primary">Attack & End Turn</Typography>
-              <Typography mt={0.5}>Your creatures attack. Monster perform its ability and attack. Yoy replenish energy.</Typography>
+              <Typography mt={0.5}>- Your creatures attack.<br />- Monster perform its ability and attack.<br />- You replenish energy.</Typography>
             </Box>
             }>
               <LoadingButton variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '1px' }}
@@ -170,7 +170,7 @@ function BattleContainer() {
             <CustomTooltip title={
               <Box mb={1}>
                 <Typography color="primary" variant='h6'>Vortex</Typography>
-                <Typography mt={0.5}>Drag cards to the vortex to discard them from your hand. Costs (1) energy.</Typography>
+                <Typography mt={0.5}>Drag cards to the vortex to discard them from your hand. Costs ({battle.state.monster.id === 11 ? 2 : 1}) energy.</Typography>
               </Box>
             }>
               <Box width='140px'>

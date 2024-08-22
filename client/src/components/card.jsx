@@ -7,12 +7,12 @@ import React, { useEffect, useState } from "react";
 import { isMobile } from 'react-device-detect';
 import bolt from "../assets/images/bolt.png";
 import sword from '../assets/images/sword.png';
-import { fetch_image, tagExplainer, types } from "../helpers/cards";
+import { fetch_image, tagExplainer, tagMultiplierName, types } from "../helpers/cards";
 import { levelColors } from '../helpers/constants';
 import { CustomTooltip } from '../helpers/styles';
 
 function Card(props) {
-  const { card, pendingCard, cost } = props
+  const { card, pendingCard, cost, hideTooltip } = props
   const [tooltip, showTooltip] = useState(false)
 
   useEffect(() => {
@@ -22,9 +22,9 @@ function Card(props) {
   let level = card.level - 1
   let levelColor = levelColors[Math.floor(level / 3)]
 
-  return <CustomTooltip position={'bottom'} title={card.tag && tooltip ?
+  return <CustomTooltip position={'bottom'} title={card.tag && tooltip && !hideTooltip ?
     <Box>
-      <Typography color="primary">{card.tag}</Typography>
+      <Typography color="primary">{card.tag} {tagMultiplierName(card.tagMultiplier)}</Typography>
       <Typography mt={0.5} fontSize={'13px'}>{tagExplainer(card.tag)}</Typography>
     </Box>
     : false
@@ -83,7 +83,7 @@ function Card(props) {
 
         <Box>
           <Typography variant="subtitle1" fontSize={isMobile && '12px'}>
-            {card.tag}
+            {card.tag} {tagMultiplierName(card.tagMultiplier)}
           </Typography>
         </Box>
 
@@ -100,7 +100,7 @@ function Card(props) {
         <Box />
 
         <Typography variant="subtitle1" fontSize={isMobile && '12px'}>
-          {card.tag}
+          {card.tag} {tagMultiplierName(card.tagMultiplier)}
         </Typography>
 
         <Box />

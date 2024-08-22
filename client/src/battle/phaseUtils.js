@@ -3,18 +3,19 @@ export const endOfTurnMonsterEffect = ({
   setMonster,
   board,
   damageBoard,
-  setAdventurer
+  setAdventurer,
+  branch
 }) => {
   if (monster.id === 1) {
     setMonster(prev => ({ ...prev, attack: prev.attack + 2 }));
   }
 
   else if (monster.id === 2) {
-    setMonster(prev => ({ ...prev, health: prev.health + 4 }));
+    setMonster(prev => ({ ...prev, health: prev.health + 5 + branch }));
   }
 
   else if (monster.id === 6) {
-    damageBoard(2);
+    damageBoard(branch + 1);
   }
 
   else if (monster.id === 14) {
