@@ -14,19 +14,19 @@ export const spellEffect = ({
   }
 
   if (cardId === 10) {
-    damageMonster(6 + level, 'Spell');
+    damageMonster(level, 'Spell');
   }
 
   else if (cardId === 11) {
-    damageMonster(12 + level, 'Spell');
+    damageMonster(3 + (3 * level), 'Spell');
   }
 
   else if (cardId === 12) {
-    shieldHero(level);
+    shieldHero(1 + level);
   }
 
   else if (cardId === 30) {
-    shieldHero(5);
+    shieldHero(4);
   }
 
   else if (cardId === 31) {
@@ -34,11 +34,11 @@ export const spellEffect = ({
   }
 
   else if (cardId === 32) {
-    damageMonster(21, 'Spell');
+    damageMonster(13, 'Spell');
   }
 
   else if (cardId === 33) {
-    damageMonster(12, 'Spell');
+    damageMonster(11, 'Spell');
   }
 
   else if (cardId === 34) {
@@ -58,7 +58,7 @@ export const spellEffect = ({
   }
 
   else if (cardId === 38) {
-    shieldHero(8);
+    shieldHero(6);
   }
 
   else if (cardId === 39) {
@@ -66,7 +66,7 @@ export const spellEffect = ({
   }
 
   else if (cardId === 40) {
-    pierceDamageAdventurer(3)
+    pierceDamageAdventurer(5)
     updatedBattleEffects.damageImmune = true;
   }
 

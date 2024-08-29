@@ -244,7 +244,10 @@ export const BattleProvider = ({ children }) => {
     setHand(prev => prev.filter(handCard => handCard.id !== creature.id))
     decreaseEnergy(cost)
 
-    summonEffect({ creature, shieldHero, target, setBoard, monster, damageMonster, battleEffects, setBattleEffects, setRoundEnergy })
+    summonEffect({
+      creature, shieldHero, target, setBoard, branch: game.values.branch,
+      monster, damageMonster, battleEffects, setBattleEffects, setRoundEnergy
+    })
 
     let creatureId = creatureIndex + 1;
 

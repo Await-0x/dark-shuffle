@@ -10,7 +10,7 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 tag_multiplier: 1,
-                cost: 3,
+                cost: 6,
                 attack: 6,
                 health: 6,
                 level
@@ -24,9 +24,9 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 tag_multiplier: 1,
-                cost: 3,
-                attack: 5,
-                health: 2,
+                cost: 7,
+                attack: 9,
+                health: 9,
                 level
             };
         }
@@ -38,7 +38,7 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 tag_multiplier: 1,
-                cost: 4,
+                cost: 5,
                 attack: 4,
                 health: 10,
                 level
@@ -51,7 +51,7 @@ mod card_utils {
                 name: 'Eden Priest',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
+                tag_multiplier: 2,
                 cost: 2,
                 attack: 2,
                 health: 8,
@@ -67,7 +67,7 @@ mod card_utils {
                 card_tag: CardTags::ESCALATING,
                 tag_multiplier: 1,
                 cost: 1,
-                attack: 5,
+                attack: 1,
                 health: 2,
                 level
             };
@@ -79,8 +79,8 @@ mod card_utils {
                 name: 'Coyote',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
-                cost: 2,
+                tag_multiplier: 2,
+                cost: 3,
                 attack: 5,
                 health: 5,
                 level
@@ -93,9 +93,9 @@ mod card_utils {
                 name: 'Fiery Demon',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
-                cost: 4,
-                attack: 9,
+                tag_multiplier: 3,
+                cost: 5,
+                attack: 15,
                 health: 12,
                 level
             };
@@ -107,7 +107,7 @@ mod card_utils {
                 name: 'Beetle',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
+                tag_multiplier: 2,
                 cost: 3,
                 attack: 6,
                 health: 6,
@@ -149,7 +149,7 @@ mod card_utils {
                 name: 'Lightning Strike',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
+                tag_multiplier: 3,
                 cost: 3,
                 attack: 0,
                 health: 0,
@@ -164,7 +164,7 @@ mod card_utils {
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::ESCALATING,
                 tag_multiplier: 1,
-                cost: 3,
+                cost: 4,
                 attack: 0,
                 health: 0,
                 level
@@ -179,8 +179,8 @@ mod card_utils {
                 card_tag: CardTags::SCALABLE,
                 tag_multiplier: 1,
                 cost: 2,
-                attack: 3,
-                health: 7,
+                attack: 7,
+                health: 3,
                 level
             };
         }
@@ -205,7 +205,7 @@ mod card_utils {
                 name: 'Gospel Scribe',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
-                tag_multiplier: 1,
+                tag_multiplier: 2,
                 cost: 4,
                 attack: 7,
                 health: 5,
@@ -233,7 +233,7 @@ mod card_utils {
                 name: 'Grim Marauder',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
-                tag_multiplier: 1,
+                tag_multiplier: 2,
                 cost: 2,
                 attack: 5,
                 health: 8,
@@ -249,8 +249,8 @@ mod card_utils {
                 card_tag: CardTags::SCALABLE,
                 tag_multiplier: 1,
                 cost: 3,
-                attack: 7,
-                health: 10,
+                attack: 4,
+                health: 8,
                 level
             };
         }
@@ -261,9 +261,9 @@ mod card_utils {
                 name: 'Jackal',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
-                tag_multiplier: 1,
+                tag_multiplier: 2,
                 cost: 4,
-                attack: 14,
+                attack: 22,
                 health: 2,
                 level
             };
@@ -275,9 +275,9 @@ mod card_utils {
                 name: 'Binturong',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
-                tag_multiplier: 1,
+                tag_multiplier: 2,
                 cost: 4,
-                attack: 9,
+                attack: 12,
                 health: 18,
                 level
             };
@@ -347,8 +347,8 @@ mod card_utils {
                 card_tag: CardTags::RENEWABLE,
                 tag_multiplier: 1,
                 cost: 5,
-                attack: 13,
-                health: 13,
+                attack: 9,
+                health: 12,
                 level
             };
         }
@@ -375,8 +375,8 @@ mod card_utils {
                 card_tag: CardTags::RENEWABLE,
                 tag_multiplier: 1,
                 cost: 6,
-                attack: 15,
-                health: 15,
+                attack: 10,
+                health: 12,
                 level
             };
         }
@@ -389,7 +389,7 @@ mod card_utils {
                 card_tag: CardTags::RENEWABLE,
                 tag_multiplier: 1,
                 cost: 6,
-                attack: 10,
+                attack: 4,
                 health: 9,
                 level
             };
@@ -402,7 +402,7 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 tag_multiplier: 1,
-                cost: 6,
+                cost: 5,
                 attack: 9,
                 health: 12,
                 level
@@ -416,7 +416,7 @@ mod card_utils {
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::RENEWABLE,
                 tag_multiplier: 1,
-                cost: 6,
+                cost: 5,
                 attack: 0,
                 health: 0,
                 level

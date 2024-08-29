@@ -77,3 +77,17 @@ Effect: Creatures has +1 attack
 
 23. Above 50 health, has +10 attack
 Effect: If your hero has more than 20 health, your creatures has +3 attack
+
+
+Balance:
+
+1 dmg = 4 health
+
+1 energy = 15 dmg
+3 energy = 45 dmg
+6 energy = 90 dmg
+
+1 energy = 3 armor
+6 energy = 18 armor
+
+Creatures get -10?

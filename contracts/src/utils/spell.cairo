@@ -19,19 +19,19 @@ mod spell_utils {
         }
 
         if card.card_id == 10 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, card.level + 6, 1);
+            battle_utils::damage_monster(ref battle, ref battle_effects, card.level, 1);
         }
         
         else if card.card_id == 11 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, card.level + 12, 1);
+            battle_utils::damage_monster(ref battle, ref battle_effects, 3 + 3 * card.level, 1);
         }
         
         else if card.card_id == 12 {
-            battle_utils::increase_armor(ref battle, card.level, ref battle_effects);
+            battle_utils::increase_armor(ref battle, 1 + card.level, ref battle_effects);
         }
         
         else if card.card_id == 30 {
-            battle_utils::increase_armor(ref battle, 5, ref battle_effects);
+            battle_utils::increase_armor(ref battle, 4, ref battle_effects);
         }
 
         else if card.card_id == 31 {
@@ -39,11 +39,11 @@ mod spell_utils {
         }
 
         else if card.card_id == 32 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, 21, 1);
+            battle_utils::damage_monster(ref battle, ref battle_effects, 13, 1);
         }
 
         else if card.card_id == 33 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, 12, 1);
+            battle_utils::damage_monster(ref battle, ref battle_effects, 11, 1);
         }
 
         else if card.card_id == 34 {
@@ -63,7 +63,7 @@ mod spell_utils {
         }
 
         else if card.card_id == 38 {
-            battle_utils::increase_armor(ref battle, 8, ref battle_effects);
+            battle_utils::increase_armor(ref battle, 6, ref battle_effects);
         }
 
         else if card.card_id == 39 {
@@ -71,7 +71,7 @@ mod spell_utils {
         }
 
         else if card.card_id == 40 {
-            battle_utils::piercing_damage_hero(ref battle, 3, ref battle_effects);
+            battle_utils::piercing_damage_hero(ref battle, 5, ref battle_effects);
             battle_effects.damage_immune = true;
         }
 

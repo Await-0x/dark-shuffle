@@ -78,10 +78,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         type: types.CREATURE,
         tag: tags.ESCALATING,
         tagMultiplier: 1,
-        cost: 3,
+        cost: 6,
         attack: 6,
         health: 6,
-        text: `Gain ${level} armor`,
+        text: `Gain ${3 + level} armor`,
         level,
       }
     case 2:
@@ -92,10 +92,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         type: types.CREATURE,
         tag: tags.ESCALATING,
         tagMultiplier: 1,
-        cost: 3,
-        attack: 5,
-        health: 2,
-        text: `Gain ${1 + level} armor`,
+        cost: 7,
+        attack: 9,
+        health: 9,
+        text: `Gain ${6 + level} armor`,
         level,
       }
     case 3:
@@ -106,10 +106,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         type: types.CREATURE,
         tag: tags.ESCALATING,
         tagMultiplier: 1,
-        cost: 4,
+        cost: 5,
         attack: 4,
         health: 10,
-        text: `Gain ${1 + level} armor`,
+        text: `Gain ${level} armor`,
         level,
       }
     case 4:
@@ -122,8 +122,8 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         attack: 2,
         health: 8,
         tag: tags.ESCALATING,
-        tagMultiplier: 1,
-        text: `All other friendly creatures get +${level} health`,
+        tagMultiplier: 2,
+        text: `All other friendly creatures get +${level * 2} health`,
         level,
       }
     case 5:
@@ -133,7 +133,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: "Wild Dog",
         type: types.CREATURE,
         cost: 1,
-        attack: 5,
+        attack: 1,
         health: 2,
         tag: tags.ESCALATING,
         tagMultiplier: 1,
@@ -146,12 +146,12 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cardId: 6,
         name: "Coyote",
         type: types.CREATURE,
-        cost: 2,
+        cost: 3,
         attack: 5,
         health: 5,
         tag: tags.ESCALATING,
-        tagMultiplier: 1,
-        text: `Gain +${level}/+${level}`,
+        tagMultiplier: 2,
+        text: `Gain +${2 * level}/+${2 * level}`,
         level,
       }
     case 7:
@@ -160,12 +160,12 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cardId: 7,
         name: "Fiery Demon",
         type: types.CREATURE,
-        cost: 4,
-        attack: 9,
+        cost: 5,
+        attack: 15,
         health: 12,
         tag: tags.ESCALATING,
-        tagMultiplier: 1,
-        text: `Deal ${5 + level} damage`,
+        tagMultiplier: 3,
+        text: `Deal ${10 + (3 * level)} damage`,
         level,
       }
     case 8:
@@ -178,8 +178,8 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         attack: 6,
         health: 6,
         tag: tags.ESCALATING,
-        tagMultiplier: 1,
-        text: `Deal ${2 + level} damage`,
+        tagMultiplier: 2,
+        text: `Deal ${4 + (2 * level)} damage`,
         level,
       }
     case 9:
@@ -207,7 +207,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cost: 1,
         attack: 0,
         health: 0,
-        text: `Deal ${6 + level} damage`,
+        text: `Deal ${level} damage`,
         level,
       }
     case 11:
@@ -217,11 +217,11 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: 'Lightning Strike',
         type: types.SPELL,
         tag: tags.ESCALATING,
-        tagMultiplier: 1,
+        tagMultiplier: 3,
         cost: 3,
         attack: 0,
         health: 0,
-        text: `Deal ${12 + level} damage`,
+        text: `Deal ${3 + (3 * level)} damage`,
         level,
       }
     case 12:
@@ -232,10 +232,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         type: types.SPELL,
         tag: tags.ESCALATING,
         tagMultiplier: 1,
-        cost: 3,
+        cost: 4,
         attack: 0,
         health: 0,
-        text: `Gain ${level} armor`,
+        text: `Gain ${1 + level} armor`,
         level,
       }
 
@@ -249,9 +249,9 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         tag: tags.SCALABLE,
         tagMultiplier: 1,
         cost: 2,
-        attack: 3 + level,
-        health: 7 + level,
-        text: `Gain 1 armor`,
+        attack: 7 + level,
+        health: 3 + level,
+        text: `Gain 2 armor`,
         level,
       }
     case 14:
@@ -261,7 +261,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: 'Blessing Caster',
         type: types.CREATURE,
         tag: tags.SCALABLE,
-        tagMultiplier: 2,
+        tagMultiplier: 1,
         cost: 3,
         attack: 5 + level,
         health: 4 + level,
@@ -275,10 +275,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: 'Gospel Scribe',
         type: types.CREATURE,
         tag: tags.SCALABLE,
-        tagMultiplier: 1,
+        tagMultiplier: 2,
         cost: 4,
-        attack: 7 + level,
-        health: 5 + level,
+        attack: 7 + (2 * level),
+        health: 5 + (2 * level),
         text: `Gain 3 armor`,
         level,
       }
@@ -304,10 +304,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: 'Grim Marauder',
         type: types.CREATURE,
         tag: tags.SCALABLE,
-        tagMultiplier: 1,
+        tagMultiplier: 2,
         cost: 2,
-        attack: 5 + level,
-        health: 8 + level,
+        attack: level * 2,
+        health: level * 2,
         level,
       }
     case 18:
@@ -317,10 +317,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: 'Tasmanian Devil',
         type: types.CREATURE,
         tag: tags.SCALABLE,
-        tagMultiplier: 1,
+        tagMultiplier: 2,
         cost: 3,
-        attack: 7 + level,
-        health: 10 + level,
+        attack: 4 + (level * 2),
+        health: 8 + (level * 2),
         level,
       }
     case 19:
@@ -330,10 +330,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: 'Jackal',
         type: types.CREATURE,
         tag: tags.SCALABLE,
-        tagMultiplier: 1,
+        tagMultiplier: 2,
         cost: 4,
-        attack: 14 + level,
-        health: 2 + level,
+        attack: 22 + (level * 2),
+        health: 2 + (level * 2),
         level,
       }
     case 20:
@@ -343,10 +343,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: 'Binturong',
         type: types.CREATURE,
         tag: tags.SCALABLE,
-        tagMultiplier: 1,
+        tagMultiplier: 2,
         cost: 4,
-        attack: 9 + level,
-        health: 18 + level,
+        attack: 12 + (level * 2),
+        health: 18 + (level * 2),
         level,
       }
 
@@ -361,7 +361,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         attack: 2,
         health: 2,
         tag: tags.RENEWABLE,
-        text: `Gain 5 armor`,
+        text: `Gain 3 armor`,
         level,
       }
     case 22:
@@ -374,7 +374,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         attack: 4,
         health: 4,
         tag: tags.RENEWABLE,
-        text: `Gain 5 armor`,
+        text: `Gain 3 armor`,
         level,
       }
     case 23:
@@ -387,7 +387,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         attack: 7,
         health: 7,
         tag: tags.RENEWABLE,
-        text: `Gain 5 armor`,
+        text: `Gain 3 armor`,
         level,
       }
     case 24:
@@ -411,8 +411,8 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: "Rat",
         type: types.CREATURE,
         cost: 5,
-        attack: 13,
-        health: 13,
+        attack: 9,
+        health: 12,
         tag: tags.RENEWABLE,
         text: ``,
         level,
@@ -427,7 +427,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         attack: 4,
         health: 7,
         tag: tags.RENEWABLE,
-        text: `Deal 12 damage`,
+        text: `Deal 7 damage`,
         level,
       }
     case 27:
@@ -437,8 +437,8 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: "Devourer",
         type: types.CREATURE,
         cost: 6,
-        attack: 15,
-        health: 15,
+        attack: 10,
+        health: 12,
         tag: tags.RENEWABLE,
         text: ``,
         level,
@@ -450,7 +450,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         name: "Rage Infernal",
         type: types.CREATURE,
         cost: 6,
-        attack: 10,
+        attack: 4,
         health: 9,
         tag: tags.RENEWABLE,
         text: `Deal 8 damage`,
@@ -462,7 +462,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cardId: 29,
         name: "Jinx Weaver",
         type: types.CREATURE,
-        cost: 6,
+        cost: 5,
         attack: 9,
         health: 12,
         tag: tags.RENEWABLE,
@@ -475,11 +475,11 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         cardId: 30,
         name: 'Blessed Barrier',
         type: types.SPELL,
-        cost: 6,
+        cost: 5,
         attack: 0,
         health: 0,
         tag: tags.RENEWABLE,
-        text: 'Gain 5 armor',
+        text: 'Gain 4 armor',
         level,
       }
     case 31:
@@ -505,7 +505,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         attack: 0,
         health: 0,
         tag: tags.RENEWABLE,
-        text: `Deal 21 damage`,
+        text: `Deal 13 damage`,
         level,
       }
     case 33:
@@ -518,7 +518,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         attack: 0,
         health: 0,
         tag: tags.RENEWABLE,
-        text: `Deal 12 damage`,
+        text: `Deal 11 damage`,
         level,
       }
     case 34:
@@ -586,7 +586,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         attack: 0,
         health: 0,
         tag: tags.FATIQUE,
-        text: `Gain 8 armor`,
+        text: `Gain 6 armor`,
         level,
       }
     case 39:
@@ -612,7 +612,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         attack: 0,
         health: 0,
         tag: tags.FATIQUE,
-        text: `Your hero loses 3 health and is immune to damage until next turn`,
+        text: `Your hero loses 5 health and is immune to damage until next turn`,
         level,
       }
     default:

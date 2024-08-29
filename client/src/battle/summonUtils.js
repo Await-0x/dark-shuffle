@@ -7,7 +7,7 @@ export const summonEffect = ({
   setBoard,
   monster,
   damageMonster,
-  battleEffects,
+  branch,
   setBattleEffects,
   setRoundEnergy
 }) => {
@@ -24,19 +24,19 @@ export const summonEffect = ({
   }
 
   if (cardId === 1) {
-    shieldHero(level);
+    shieldHero(3 + level);
   }
 
   else if (cardId === 2) {
-    shieldHero(1 + level);
+    shieldHero(6 + level);
   }
 
   else if (cardId === 3) {
-    shieldHero(1 + level);
+    shieldHero(level);
   }
 
   else if (cardId === 4) {
-    setBoard(prev => prev.map(_creature => ({ ..._creature, health: _creature.health + level })));
+    setBoard(prev => prev.map(_creature => ({ ..._creature, health: _creature.health + (level * 2) })));
   }
 
   else if (cardId === 5) {
@@ -44,16 +44,16 @@ export const summonEffect = ({
   }
 
   else if (cardId === 6) {
-    creature.attack += level;
-    creature.health += level;
+    creature.attack += (2 * level);
+    creature.health += (2 * level);
   }
 
   else if (cardId === 7) {
-    damageMonster(5 + level, 'Creature');
+    damageMonster(10 + (3 * level), 'Creature');
   }
 
   else if (cardId === 8) {
-    damageMonster(2 + level, 'Creature');
+    damageMonster(4 + (2 * level), 'Creature');
   }
 
   else if (cardId === 9) {
@@ -61,7 +61,7 @@ export const summonEffect = ({
   }
 
   else if (cardId === 13) {
-    shieldHero(1);
+    shieldHero(2);
   }
 
   else if (cardId === 14) {
@@ -77,15 +77,15 @@ export const summonEffect = ({
   }
 
   else if (cardId === 21) {
-    shieldHero(5);
+    shieldHero(3);
   }
 
   else if (cardId === 22) {
-    shieldHero(5);
+    shieldHero(3);
   }
 
   else if (cardId === 23) {
-    shieldHero(5);
+    shieldHero(3);
   }
 
   else if (cardId === 24 && target) {
@@ -93,7 +93,7 @@ export const summonEffect = ({
   }
 
   else if (cardId === 26) {
-    damageMonster(12, 'Creature');
+    damageMonster(7, 'Creature');
   }
 
   else if (cardId === 28) {
