@@ -91,7 +91,7 @@ function DraggableDeckCard(props) {
   }
 
   let level = card.level - 1;
-  let levelColor = levelColors[Math.floor(level / 3)];
+  let levelColor = levelColors[Math.floor(level / 3)] ?? levelColors[4];
   card.cost = card.tag === tags.RENEWABLE ? Math.max(1, card.cost - (card.level - 1)) : card.cost;
 
   return <>

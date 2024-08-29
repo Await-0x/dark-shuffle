@@ -20,7 +20,7 @@ function Card(props) {
   }, [])
 
   let level = card.level - 1
-  let levelColor = levelColors[Math.floor(level / 3)]
+  let levelColor = levelColors[Math.floor(level / 3)] ?? levelColors[4] 
 
   return <CustomTooltip position={'bottom'} title={card.tag && tooltip && !hideTooltip ?
     <Box>

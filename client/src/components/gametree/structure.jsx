@@ -301,7 +301,7 @@ function Structure(props) {
   }
 
   function renderCard(node) {
-    let levelColor = levelColors[Math.floor(node.cardLevel / 3)]
+    let levelColor = levelColors[Math.floor(node.cardLevel / 3)] ?? levelColors[4]
 
     return <LargeCustomTooltip leaveDelay={300} position={'right'} title={
       <Box sx={styles.cardTooltipContainer}>
