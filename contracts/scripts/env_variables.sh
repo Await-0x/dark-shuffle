@@ -10,7 +10,7 @@ KATANA_TOML_PATH="./manifests/dev/deployment/manifest.toml"
 if [[ ! -z "$1" ]]; then
     if [[ "$1" == "prod" ]]; then
         echo "is prod"
-        STARKNET_RPC_URL="https://api.cartridge.gg/x/darkshuffle/katana/"
+        STARKNET_RPC_URL="https://api.cartridge.gg/x/darkshuffle-4/katana/"
         DOJO_ACCOUNT_ADDRESS="0x6af2ac345307fe6c7b71fbc0b612571082ca402af4ed6a18f9786de1e1f1efd"
         DOJO_PRIVATE_KEY="0x58e48aa7e04ef9b1323b7402ad0c73dee9137741d8c7f915d558ccd5d00d045"
         KATANA_TOML_PATH="./manifests/prod/deployment/manifest.toml"

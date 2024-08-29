@@ -1231,7 +1231,7 @@
     ],
     "address": "0x8d8e73b20e205f98347501a072701e3b7b55c6048ff78562c025aa8a5571a0",
     "transaction_hash": "0x22d2cdefe455966ec85e5311998fad025b9db0e617afebe214e560f0a8620f",
-    "block_number": 30,
+    "block_number": 39,
     "seed": "darkshuffle",
     "metadata": {
       "profile_name": "dev",
@@ -1251,8 +1251,8 @@
     {
       "kind": "DojoContract",
       "address": "0x6eedafdddf29e3a4a551d52faa560ce433daa00bc44f3b5c2194dd77443e635",
-      "class_hash": "0x79980ea55fa86612e5d0049279a2a081f5f52e5655af5af3dfe86a846cd1d92",
-      "original_class_hash": "0x79980ea55fa86612e5d0049279a2a081f5f52e5655af5af3dfe86a846cd1d92",
+      "class_hash": "0x13e8ce127aa900ed0e90761f20f5269aeae72cde66981432491526926fb7b93",
+      "original_class_hash": "0x13e8ce127aa900ed0e90761f20f5269aeae72cde66981432491526926fb7b93",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {

@@ -24,7 +24,7 @@ import Rat from "./monsters/Rat";
 import Satori from "./monsters/Satori";
 import Snake from "./monsters/Snake";
 import Titan from "./monsters/Titan";
-import Warlock from "./monsters/warlock";
+import Warlock from "./monsters/Warlock";
 import Weretiger from "./monsters/Weretiger";
 import Wraith from "./monsters/Wraith";
 import Yeti from "./monsters/Yeti";

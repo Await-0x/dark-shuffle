@@ -37,8 +37,8 @@ mod summon_utils {
         }
 
         if card.card_tag == CardTags::SCALABLE {
-            creature.attack += card.level;
-            creature.health += card.level;
+            creature.attack += (card.level * card.tag_multiplier.into());
+            creature.health += (card.level * card.tag_multiplier.into());
         }
 
         if card.card_tag == CardTags::FATIQUE {
@@ -48,19 +48,19 @@ mod summon_utils {
         }
 
         if card.card_id == 1 {
-            battle_utils::increase_armor(ref battle, card.level, ref battle_effects);
+            battle_utils::increase_armor(ref battle, 3 + card.level, ref battle_effects);
         }
 
         else if card.card_id == 2 {
-            battle_utils::increase_armor(ref battle, 1 + card.level, ref battle_effects);
+            battle_utils::increase_armor(ref battle, 6 + card.level, ref battle_effects);
         }
         
         else if card.card_id == 3 {
-            battle_utils::increase_armor(ref battle, 1 + card.level, ref battle_effects);
+            battle_utils::increase_armor(ref battle, card.level, ref battle_effects);
         }
         
         else if card.card_id == 4 {
-            board_utils::update_creatures(world, battle.battle_id, 0, card.level);
+            board_utils::update_creatures(world, battle.battle_id, 0, (2 * card.level));
         }
 
         else if card.card_id == 5 {
@@ -68,16 +68,16 @@ mod summon_utils {
         }
 
         else if card.card_id == 6 {
-            creature.attack += card.level;
-            creature.health += card.level;
+            creature.attack += (2 * card.level);
+            creature.health += (2 * card.level);
         }
 
         else if card.card_id == 7 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, 5 + card.level, 2);
+            battle_utils::damage_monster(ref battle, ref battle_effects, 10 + (card.level * 3), 2);
         }
 
         else if card.card_id == 8 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, 2 + card.level, 2);
+            battle_utils::damage_monster(ref battle, ref battle_effects, 4 + (card.level * 2), 2);
         }
 
         else if card.card_id == 9 {
@@ -85,7 +85,7 @@ mod summon_utils {
         }
 
         else if card.card_id == 13 {
-            battle_utils::increase_armor(ref battle, 1, ref battle_effects);
+            battle_utils::increase_armor(ref battle, 2, ref battle_effects);
         }
 
         else if card.card_id == 14 {
@@ -101,15 +101,15 @@ mod summon_utils {
         }
 
         else if card.card_id == 21 {
-            battle_utils::increase_armor(ref battle, 5, ref battle_effects);
+            battle_utils::increase_armor(ref battle, 3, ref battle_effects);
         }
 
         else if card.card_id == 22 {
-            battle_utils::increase_armor(ref battle, 5, ref battle_effects);
+            battle_utils::increase_armor(ref battle, 3, ref battle_effects);
         }
 
         else if card.card_id == 23 {
-            battle_utils::increase_armor(ref battle, 5, ref battle_effects);
+            battle_utils::increase_armor(ref battle, 3, ref battle_effects);
         }
 
         else if card.card_id == 24 {
@@ -117,7 +117,7 @@ mod summon_utils {
         }
 
         else if card.card_id == 26 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, 12, 2);
+            battle_utils::damage_monster(ref battle, ref battle_effects, 7, 2);
         }
 
         else if card.card_id == 28 {
