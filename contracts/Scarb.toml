@@ -13,3 +13,5 @@ dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.9" }
 
 [tool.fmt]
 sort-module-level-items = true
+
+[profile.sepolia]

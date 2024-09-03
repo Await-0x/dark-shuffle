@@ -3,4 +3,5 @@ contracts/target
 contracts/torii.db
 contracts/KATANA.toml
 contracts/manifests
-contracts/keystores
+contracts/deploy
+contracts/.DS_Store

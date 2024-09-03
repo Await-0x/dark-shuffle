@@ -1,0 +1,15 @@
+[world]
+seed = "darkshuffle"
+name = "Dark Shuffle"
+description = "Enter the darkness"
+website = "https://darkshuffle.dev/"
+
+[world.socials]
+x = "https://x.com/await_0x"
+github = "https://github.com/Await-0x/dark-shuffle"
+
+[namespace]
+default = "darkshuffle"
+
+[env]
+world_address = "0x28e3b965be742337a50b7200524d1d9f01ab950a6c75baf83640bf5541b0894"
