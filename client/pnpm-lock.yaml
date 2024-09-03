@@ -10,25 +10,25 @@ importers:
     dependencies:
       '@argent/starknet-react-webwallet-connector':
         specifier: ^6.6.0
-        version: 6.6.0(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(get-starknet-core@3.3.2(starknet@5.29.0(encoding@0.1.13)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(starknet@5.29.0(encoding@0.1.13))(zod@3.23.8)
+        version: 6.6.0(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(get-starknet-core@3.3.2(starknet@6.11.0(encoding@0.1.13)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(zod@3.23.8)
       '@dojoengine/core':
-        specifier: 1.0.0-alpha.0
-        version: 1.0.0-alpha.0(starknet@5.29.0(encoding@0.1.13))(typescript@5.5.4)
+        specifier: 1.0.0-alpha.9
+        version: 1.0.0-alpha.9(starknet@6.11.0(encoding@0.1.13))(typescript@5.5.4)
       '@dojoengine/react':
-        specifier: 1.0.0-alpha.0
-        version: 1.0.0-alpha.0(@types/node@22.1.0)(@types/react@18.3.3)(react@18.3.1)(starknet@5.29.0(encoding@0.1.13))(type-fest@0.21.3)(typescript@5.5.4)(zod@3.23.8)
+        specifier: 1.0.0-alpha.9
+        version: 1.0.0-alpha.9(@types/node@22.1.0)(@types/react@18.3.3)(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(type-fest@0.21.3)(typescript@5.5.4)(zod@3.23.8)
       '@dojoengine/recs':
         specifier: ^2.0.13
         version: 2.0.13(typescript@5.5.4)(zod@3.23.8)
       '@dojoengine/state':
-        specifier: 1.0.0-alpha.0
-        version: 1.0.0-alpha.0(@types/node@22.1.0)(@types/react@18.3.3)(react@18.3.1)(starknet@5.29.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)
+        specifier: 1.0.0-alpha.9
+        version: 1.0.0-alpha.9(@types/node@22.1.0)(@types/react@18.3.3)(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)
       '@dojoengine/torii-client':
-        specifier: 1.0.0-alpha.0
-        version: 1.0.0-alpha.0
+        specifier: 1.0.0-alpha.9
+        version: 1.0.0-alpha.9
       '@dojoengine/utils':
-        specifier: 1.0.0-alpha.0
-        version: 1.0.0-alpha.0(starknet@5.29.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)
+        specifier: 1.0.0-alpha.9
+        version: 1.0.0-alpha.9(starknet@6.11.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)
       '@emotion/react':
         specifier: ^11.13.0
         version: 11.13.0(@types/react@18.3.3)(react@18.3.1)
@@ -61,13 +61,13 @@ importers:
         version: 0.1.7
       '@starknet-react/core':
         specifier: ^2.9.0
-        version: 2.9.0(get-starknet-core@3.3.2(starknet@5.29.0(encoding@0.1.13)))(react@18.3.1)(starknet@5.29.0(encoding@0.1.13))
+        version: 2.9.0(get-starknet-core@3.3.2(starknet@6.11.0(encoding@0.1.13)))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))
       framer-motion:
         specifier: ^8.5.5
         version: 8.5.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       get-starknet-core:
         specifier: ^3.3.2
-        version: 3.3.2(starknet@5.29.0(encoding@0.1.13))
+        version: 3.3.2(starknet@6.11.0(encoding@0.1.13))
       graphql:
         specifier: ^16.9.0
         version: 16.9.0
@@ -99,8 +99,8 @@ importers:
         specifier: ^6.26.0
         version: 6.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       starknet:
-        specifier: ^5.29.0
-        version: 5.29.0(encoding@0.1.13)
+        specifier: ^6.11.0
+        version: 6.11.0(encoding@0.1.13)
       vite-plugin-top-level-await:
         specifier: ^1.4.2
         version: 1.4.2(rollup@4.20.0)(vite@5.4.0(@types/node@22.1.0))
@@ -455,14 +455,14 @@ packages:
     resolution: {integrity: sha512-YTnYtra7W9e6/oAZEHj0bJehPRUlLH9/fbpT5LfB0NhQXyALCRkRs3zH9v07IYhkgpqX6Z78FnuccZr/l4Fs4Q==}
     engines: {node: '>=6.9.0'}
 
-  '@dojoengine/core@1.0.0-alpha.0':
-    resolution: {integrity: sha512-rVLD+LWqxpNItdfMxVxdHBE0uNJRP60tYMXQwfr1dqYCVV6cliULpFiX8aEsghBi+ZT1GIWQf1kOWuqxV+SGRQ==}
+  '@dojoengine/core@1.0.0-alpha.9':
+    resolution: {integrity: sha512-frzxDumclPRmo6175RheSK7xIPo4JjtbSDFxAUpd1gbJw87y34+Z0cRfHgY805v/yvToe+guo6Ioqd/UCpSkSg==}
     hasBin: true
     peerDependencies:
       starknet: 6.11.0
 
-  '@dojoengine/react@1.0.0-alpha.0':
-    resolution: {integrity: sha512-WpHXm828fhdB0Q8D2dQJIf19sllOwSB8Trz7/yV9D7DzQZxsvP9SDJhZwQe3ol7wxRTi2sI+BSQuSVeNjFvBBg==}
+  '@dojoengine/react@1.0.0-alpha.9':
+    resolution: {integrity: sha512-yPAR4iCaSh8vxkZeWSC4Py2wdzghfoHHT6sqr4UyDVF7nE4Zw/q2Wii4EEvri6jwpd7EhAnDOdgCEBJsVhFkjg==}
     peerDependencies:
       react: ^18.2.0
       starknet: 6.11.0
@@ -471,19 +471,19 @@ packages:
   '@dojoengine/recs@2.0.13':
     resolution: {integrity: sha512-Cgz4Unlnk2FSDoFTYKrJexX/KiSYPMFMxftxQkC+9LUKS5yNGkgFQM7xu4/L1HvpDAenL7NjUmH6ynRAS7Iifw==}
 
-  '@dojoengine/state@1.0.0-alpha.0':
-    resolution: {integrity: sha512-sSTcHLnJtVxxAYiEwZNviknBy0JmqSpeYXwd6rREi2T2YGDzjufLFUQQbUh/bJrD3OF4F4wZG7HZQDK/kAOdmQ==}
+  '@dojoengine/state@1.0.0-alpha.9':
+    resolution: {integrity: sha512-2So+qDl+dCrgKQJi1nxFLzpz9Dvbib6MBQyOt0Whp7QuMVyniMLdprp6GAVbilfVX2A8LosAnZQLRQWwLyhYRA==}
     peerDependencies:
       starknet: 6.11.0
 
-  '@dojoengine/torii-client@1.0.0-alpha.0':
-    resolution: {integrity: sha512-eEDYpyVjFriAR94v3097AgUzwn2abwoudd63iw+SB43Dr18+k9beGGDYt8GQNDC2tg7ozSePd2KF8p0LQGP6ug==}
+  '@dojoengine/torii-client@1.0.0-alpha.9':
+    resolution: {integrity: sha512-Tvl/ESFUkBmR5V7xmvBsph7FoAhxov6F3BD7kqPqrX+v7heunrrh1tePkfOsaxpGPHeYcCW6/bKXdCrPRZEOKw==}
 
-  '@dojoengine/torii-wasm@1.0.0-alpha.0':
-    resolution: {integrity: sha512-KhrVbKlJhYPvYwGfK6ydlGWbKU9Ke8TgxNrbn2ia0tJETaiuuDBT0bMs8YKyoxugPunZWVwf7AmR/gS5QDzqag==}
+  '@dojoengine/torii-wasm@1.0.0-alpha.9':
+    resolution: {integrity: sha512-vsA6TmsXB6r7pcsGLx9qWQGTGplvNX0r4QLfPRsWKFE3gsqDqCp2Nqp1z2rzx/LiwaH2RGIseHC/r9GtVJxJtw==}
 
-  '@dojoengine/utils@1.0.0-alpha.0':
-    resolution: {integrity: sha512-VUa7xDWGCYxsRlLJeiDj5Ncfzbv5Gwiuu/ry+0eqbHwnyM74+zmgss8Ws/Lo2VU02V/0SCTjtgnjreOOQcTeVw==}
+  '@dojoengine/utils@1.0.0-alpha.9':
+    resolution: {integrity: sha512-i+kIeIimIZkEaXEOXHlEshHcwFraEhG+bSEeGxVuvBRMwkweHoQ13TFdsc1rT0eUXA6osHF3hXRDbAJyJxVlyQ==}
     peerDependencies:
       starknet: 6.11.0
 
@@ -1194,6 +1194,9 @@ packages:
   '@noble/curves@1.3.0':
     resolution: {integrity: sha512-t01iSXPuN+Eqzb4eBX0S5oubSqXbK/xXa1Ne18Hj8f9pStxztHCE2gfboSp/dZRLSqfuLpRK2nDXDK+W9puocA==}
 
+  '@noble/curves@1.4.2':
+    resolution: {integrity: sha512-TavHr8qycMChk8UwMld0ZDRvatedkzWfH8IiaeGCfymOP5i0hSCozz9vHOL0nkwk7HRMlFnAiKpS2jrUmSybcw==}
+
   '@noble/hashes@1.3.0':
     resolution: {integrity: sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==}
 
@@ -1204,6 +1207,14 @@ packages:
   '@noble/hashes@1.3.3':
     resolution: {integrity: sha512-V7/fPHgl+jsVPXqqeOzT8egNj2iBIVt+ECeMMG8TdcnTikP3oaBtUVqpT/gYCR68aEBJSF+XbYUxStjbFMqIIA==}
     engines: {node: '>= 16'}
+
+  '@noble/hashes@1.4.0':
+    resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
+    engines: {node: '>= 16'}
+
+  '@noble/hashes@1.5.0':
+    resolution: {integrity: sha512-1j6kQFb7QRru7eKN3ZDvRcP13rugwdxZqCjbiAVZfIJwgj2A65UmT4TgARXGlXgnRkORLTDTrO19ZErt7+QXgA==}
+    engines: {node: ^14.21.3 || >=16}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1354,36 +1365,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@rometools/cli-darwin-arm64@12.1.3':
-    resolution: {integrity: sha512-AmFTUDYjBuEGQp/Wwps+2cqUr+qhR7gyXAUnkL5psCuNCz3807TrUq/ecOoct5MIavGJTH6R4aaSL6+f+VlBEg==}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@rometools/cli-darwin-x64@12.1.3':
-    resolution: {integrity: sha512-k8MbWna8q4LRlb005N2X+JS1UQ+s3ZLBBvwk4fP8TBxlAJXUz17jLLu/Fi+7DTTEmMhM84TWj4FDKW+rNar28g==}
-    cpu: [x64]
-    os: [darwin]
-
-  '@rometools/cli-linux-arm64@12.1.3':
-    resolution: {integrity: sha512-X/uLhJ2/FNA3nu5TiyeNPqiD3OZoFfNfRvw6a3ut0jEREPvEn72NI7WPijH/gxSz55znfQ7UQ6iM4DZumUknJg==}
-    cpu: [arm64]
-    os: [linux]
-
-  '@rometools/cli-linux-x64@12.1.3':
-    resolution: {integrity: sha512-csP17q1eWiUXx9z6Jr/JJPibkplyKIwiWPYNzvPCGE8pHlKhwZj3YHRuu7Dm/4EOqx0XFIuqqWZUYm9bkIC8xg==}
-    cpu: [x64]
-    os: [linux]
-
-  '@rometools/cli-win32-arm64@12.1.3':
-    resolution: {integrity: sha512-RymHWeod57EBOJY4P636CgUwYA6BQdkQjh56XKk4pLEHO6X1bFyMet2XL7KlHw5qOTalzuzf5jJqUs+vf3jdXQ==}
-    cpu: [arm64]
-    os: [win32]
-
-  '@rometools/cli-win32-x64@12.1.3':
-    resolution: {integrity: sha512-yHSKYidqJMV9nADqg78GYA+cZ0hS1twANAjiFibQdXj9aGzD+s/IzIFEIi/U/OBLvWYg/SCw0QVozi2vTlKFDQ==}
-    cpu: [x64]
-    os: [win32]
-
   '@scure/base@1.1.7':
     resolution: {integrity: sha512-PPNYBslrLNNUQ/Yad37MHYsNQtK67EhWb6WtSvNLLPo7SdVZgkUjD6Dg+5On7zNwmskf8OX7I7Nx5oN+MIWE0g==}
 
@@ -1398,6 +1379,9 @@ packages:
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
+
+  '@starknet-io/types-js@0.7.7':
+    resolution: {integrity: sha512-WLrpK7LIaIb8Ymxu6KF/6JkGW1sso988DweWu7p5QY/3y7waBIiPvzh27D9bX5KIJNRDyOoOVoHVEKYUYWZ/RQ==}
 
   '@starknet-react/chains@0.1.7':
     resolution: {integrity: sha512-UNh97I1SvuJKaAhKOmpEk8JcWuZWMlPG/ba2HcvFYL9x/47BKndJ+Da9V+iJFtkHUjreVnajT1snsaz1XMG+UQ==}
@@ -1602,12 +1586,8 @@ packages:
     resolution: {integrity: sha512-DFLsOG//CrDdIO0x7Q7Ompxj3TZhB4iMDeXpQKY4toSbIbzsKmbwyOkzXMwvV1syxvAtPoHBzyGGtDrPV424FA==}
     engines: {node: '>=18.0.0'}
 
-  abi-wan-kanabi@1.0.3:
-    resolution: {integrity: sha512-Xwva0AnhXx/IVlzo3/kwkI7Oa7ZX7codtcSn+Gmoa2PmjGPF/0jeVud9puasIPtB7V50+uBdUj4Mh3iATqtBvg==}
-    hasBin: true
-
-  abi-wan-kanabi@2.2.2:
-    resolution: {integrity: sha512-sTCv2HyNIj1x2WFUoc9oL8ZT9liosrL+GoqEGZJK1kDND096CfA7lwx06vLxLWMocQ41FQXO3oliwoh/UZHYdQ==}
+  abi-wan-kanabi@2.2.3:
+    resolution: {integrity: sha512-JlqiAl9CPvTm5kKG0QXmVCWNWoC/XyRMOeT77cQlbxXWllgjf6SqUmaNqFon72C2o5OSZids+5FvLdsw6dvWaw==}
     hasBin: true
 
   abitype@1.0.0:
@@ -2134,6 +2114,9 @@ packages:
   fbjs@3.0.5:
     resolution: {integrity: sha512-ztsSx77JBtkuMrEypfhgc3cI0+0h+svqeie7xHbh1k/IKdcydnvadp/mUaGgjAOXQmQSxsqgaRhS3q9fy+1kxg==}
 
+  fetch-cookie@3.0.1:
+    resolution: {integrity: sha512-ZGXe8Y5Z/1FWqQ9q/CrJhkUD73DyBU9VF0hBQmEO/wPHe4A9PKTjplFDLeFX8aOsYypZUcX5Ji/eByn3VCVO3Q==}
+
   figures@3.2.0:
     resolution: {integrity: sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg==}
     engines: {node: '>=8'}
@@ -2203,6 +2186,9 @@ packages:
     resolution: {integrity: sha512-Q5JGyyuWM3Klbw56l8MX+/hvT7UyzuYk7qj1IEwABCNhx7p3Qzd5Y1PF22OyW8pd+3tKwhEMCoyN5vgsd1abTg==}
     peerDependencies:
       starknet: ^5.18.0
+
+  get-starknet-core@4.0.0:
+    resolution: {integrity: sha512-6pLmidQZkC3wZsrHY99grQHoGpuuXqkbSP65F8ov1/JsEI8DDLkhsAuLCKFzNOK56cJp+f1bWWfTJ57e9r5eqQ==}
 
   get-stream@8.0.1:
     resolution: {integrity: sha512-VaUJspBffn/LMCJVoMvSAdmscJyS1auj5Zulnn5UoYcY531UWmdwhRWkcGKnGU93m5HSXP9LP2usOryrBtQowA==}
@@ -2554,8 +2540,8 @@ packages:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
 
-  lossless-json@2.0.11:
-    resolution: {integrity: sha512-BP0vn+NGYvzDielvBZaFain/wgeJ1hTvURCqtKvhr1SCPePdaaTanmmcplrHfEJSJOUql7hk4FHwToNJjWRY3g==}
+  lossless-json@4.0.1:
+    resolution: {integrity: sha512-l0L+ppmgPDnb+JGxNLndPtJZGNf6+ZmVaQzoxQm3u6TXmhdnsA+YtdVR8DjzZd/em58686CQhOFDPewfJ4l7MA==}
 
   lottie-react@2.4.0:
     resolution: {integrity: sha512-pDJGj+AQlnlyHvOHFK7vLdsDcvbuqvwPZdMlJ360wrzGFurXeKPr8SiRCjLf3LrNYKANQtSsh5dz9UYQHuqx4w==}
@@ -2837,6 +2823,9 @@ packages:
   proxy-deep@3.1.1:
     resolution: {integrity: sha512-kppbvLUNJ4IOMZds9/4gz/rtT5OFiesy3XosLsgMKlF3vb6GA5Y3ptyDlzKLcOcUBW+zaY+RiMINTsgE+O6e+Q==}
 
+  psl@1.9.0:
+    resolution: {integrity: sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==}
+
   punycode@1.4.1:
     resolution: {integrity: sha512-jmYNElW7yvO7TV33CjSmvSiE2yco3bV2czu/OzDKdMNVZQWfxCblURLhf+47syQRBntjfLdd/H0egrzIG+oaFQ==}
 
@@ -2850,6 +2839,9 @@ packages:
   pvutils@1.1.3:
     resolution: {integrity: sha512-pMpnA0qRdFp32b1sJl1wOJNxZLQ2cbQx+k6tjNtZ8CpvVhNqEPRgivZ2WOUev2YMajecdH7ctUPDvEe87nariQ==}
     engines: {node: '>=6.0.0'}
+
+  querystringify@2.2.0:
+    resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -2941,6 +2933,9 @@ packages:
   require-main-filename@2.0.0:
     resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
 
+  requires-port@1.0.0:
+    resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
+
   reselect@4.1.8:
     resolution: {integrity: sha512-ab9EmR80F/zQTMNeneUr4cv+jSwPJgIlvEmVwLerwrWVbpLlBuls9XHzIeTFy4cegU2NHBp3va0LKOzU5qFEYQ==}
 
@@ -2975,11 +2970,6 @@ packages:
   rollup@4.20.0:
     resolution: {integrity: sha512-6rbWBChcnSGzIlXeIdNIZTopKYad8ZG8ajhl78lGRLsI2rX8IkaotQhVas2Ma+GPxJav19wrSzvRvuiv0YKzWw==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
-    hasBin: true
-
-  rome@12.1.3:
-    resolution: {integrity: sha512-e+ff72hxDpe/t5/Us7YRBVw3PBET7SeczTQNn6tvrWdrCaAw3qOukQQ+tDCkyFtS4yGsnhjrJbm43ctNbz27Yg==}
-    engines: {node: '>=14.*'}
     hasBin: true
 
   run-async@2.4.1:
@@ -3019,6 +3009,9 @@ packages:
 
   set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
+
+  set-cookie-parser@2.7.0:
+    resolution: {integrity: sha512-lXLOiqpkUumhRdFF3k1osNXCy9akgx/dyPZ5p8qAg9seJzXr5ZrlqZuWIMuY6ejOsVLE6flJ5/h3lsn57fQ/PQ==}
 
   setimmediate@1.0.5:
     resolution: {integrity: sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==}
@@ -3076,8 +3069,8 @@ packages:
   stackback@0.0.2:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
 
-  starknet@5.29.0:
-    resolution: {integrity: sha512-eEcd6uiYIwGvl8MtHOsXGBhREqjJk84M/qUkvPLQ3n/JAMkbKBGnygDlh+HAsvXJsGlMQfwrcVlm6KpDoPha7w==}
+  starknet@6.11.0:
+    resolution: {integrity: sha512-u50KrGDi9fbu1Ogu7ynwF/tSeFlp3mzOg1/Y5x50tYFICImo3OfY4lOz9OtYDk404HK4eUujKkhov9tG7GAKlg==}
 
   std-env@3.7.0:
     resolution: {integrity: sha512-JPbdCEQLj1w5GilpiHAx3qJvFndqybBysA3qUOnznweH4QbNYUsW/ea8QzSrnh0vNsezMMw5bcVool8lM0gwzg==}
@@ -3173,6 +3166,10 @@ packages:
   to-space-case@1.0.0:
     resolution: {integrity: sha512-rLdvwXZ39VOn1IxGL3V6ZstoTbwLRckQmn/U8ZDLuWwIXNpuZDhQ3AiRUlhTbOXFVE9C+dR51wM0CBDhk31VcA==}
 
+  tough-cookie@4.1.4:
+    resolution: {integrity: sha512-Loo5UUvLD9ScZ6jh8beX1T6sO1w2/MpCRpEP7V280GKMVUQ0Jzar2U3UJPsrdbziLEMMhu3Ujnq//rhiFuIeag==}
+    engines: {node: '>=6'}
+
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
 
@@ -3184,6 +3181,9 @@ packages:
 
   ts-log@2.2.5:
     resolution: {integrity: sha512-PGcnJoTBnVGy6yYNFxWVNkdcAuAMstvutN9MgDJIV6L0oG8fB+ZNNy1T+wJzah8RPGor1mZuPQkVfXNDpy9eHA==}
+
+  ts-mixer@6.0.4:
+    resolution: {integrity: sha512-ufKpbmrugz5Aou4wcr5Wc1UUFWOLhq+Fm6qa6P0w0K5Qw2yhaUoiWszhCVuNQyNwrlGiscHOmqYoAox1PtvgjA==}
 
   tslib@2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
@@ -3211,11 +3211,6 @@ packages:
     resolution: {integrity: sha512-EGjWssW7Tsk4DGfE+5yluuljS1OGYWiI1J6e8puZz9nTMM51Oug8CD5Zo4gWMsOhq5BI+1bF+rWTm4Vbj3ivRA==}
     engines: {node: '>= 18'}
 
-  typescript@4.9.5:
-    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-
   typescript@5.5.4:
     resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
     engines: {node: '>=14.17'}
@@ -3233,6 +3228,10 @@ packages:
 
   undici-types@6.13.0:
     resolution: {integrity: sha512-xtFJHudx8S2DSoujjMd1WeWvn7KKWFRESZTMeL1RptAYERu29D6jphMjjY+vn96jvN3kVPDNxU/E13VTaXj6jg==}
+
+  universalify@0.2.0:
+    resolution: {integrity: sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg==}
+    engines: {node: '>= 4.0.0'}
 
   universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
@@ -3259,6 +3258,9 @@ packages:
 
   url-join@4.0.1:
     resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
+
+  url-parse@1.5.10:
+    resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
 
   urlpattern-polyfill@10.0.0:
     resolution: {integrity: sha512-H/A06tKD7sS1O1X2SshBVeA5FLycRpjqiBeqGKmBwBDBy28EnRjORxTNe269KSSr5un5qyWi1iL61wLxpd+ZOg==}
@@ -3535,12 +3537,12 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@argent/starknet-react-webwallet-connector@6.6.0(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(get-starknet-core@3.3.2(starknet@5.29.0(encoding@0.1.13)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(starknet@5.29.0(encoding@0.1.13))(zod@3.23.8)':
+  '@argent/starknet-react-webwallet-connector@6.6.0(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(get-starknet-core@3.3.2(starknet@6.11.0(encoding@0.1.13)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(zod@3.23.8)':
     dependencies:
-      '@argent/web-sdk': 6.4.1(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(starknet@5.29.0(encoding@0.1.13))(zod@3.23.8)
-      '@argent/x-window': 6.4.0(starknet@5.29.0(encoding@0.1.13))(zod@3.23.8)
-      '@starknet-react/core': 2.0.0-next.0(get-starknet-core@3.3.2(starknet@5.29.0(encoding@0.1.13)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(starknet@5.29.0(encoding@0.1.13))
-      starknet: 5.29.0(encoding@0.1.13)
+      '@argent/web-sdk': 6.4.1(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(starknet@6.11.0(encoding@0.1.13))(zod@3.23.8)
+      '@argent/x-window': 6.4.0(starknet@6.11.0(encoding@0.1.13))(zod@3.23.8)
+      '@starknet-react/core': 2.0.0-next.0(get-starknet-core@3.3.2(starknet@6.11.0(encoding@0.1.13)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))
+      starknet: 6.11.0(encoding@0.1.13)
     transitivePeerDependencies:
       - '@trpc/client'
       - '@trpc/server'
@@ -3550,21 +3552,21 @@ snapshots:
       - react-native
       - zod
 
-  '@argent/web-sdk@6.4.1(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(starknet@5.29.0(encoding@0.1.13))(zod@3.23.8)':
+  '@argent/web-sdk@6.4.1(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(starknet@6.11.0(encoding@0.1.13))(zod@3.23.8)':
     dependencies:
-      '@argent/x-window': 6.4.0(starknet@5.29.0(encoding@0.1.13))(zod@3.23.8)
-      get-starknet-core: 3.3.2(starknet@5.29.0(encoding@0.1.13))
+      '@argent/x-window': 6.4.0(starknet@6.11.0(encoding@0.1.13))(zod@3.23.8)
+      get-starknet-core: 3.3.2(starknet@6.11.0(encoding@0.1.13))
       lodash-es: 4.17.21
-      starknet: 5.29.0(encoding@0.1.13)
+      starknet: 6.11.0(encoding@0.1.13)
       trpc-browser: 1.4.2(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)
     transitivePeerDependencies:
       - '@trpc/client'
       - '@trpc/server'
       - zod
 
-  '@argent/x-window@6.4.0(starknet@5.29.0(encoding@0.1.13))(zod@3.23.8)':
+  '@argent/x-window@6.4.0(starknet@6.11.0(encoding@0.1.13))(zod@3.23.8)':
     dependencies:
-      starknet: 5.29.0(encoding@0.1.13)
+      starknet: 6.11.0(encoding@0.1.13)
       zod: 3.23.8
 
   '@babel/code-frame@7.24.7':
@@ -3913,30 +3915,30 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
-  '@dojoengine/core@1.0.0-alpha.0(starknet@5.29.0(encoding@0.1.13))(typescript@5.5.4)':
+  '@dojoengine/core@1.0.0-alpha.9(starknet@6.11.0(encoding@0.1.13))(typescript@5.5.4)':
     dependencies:
       '@dojoengine/recs': 2.0.13(typescript@5.5.4)(zod@3.23.8)
-      starknet: 5.29.0(encoding@0.1.13)
+      starknet: 6.11.0(encoding@0.1.13)
       zod: 3.23.8
     transitivePeerDependencies:
       - bufferutil
       - typescript
       - utf-8-validate
 
-  '@dojoengine/react@1.0.0-alpha.0(@types/node@22.1.0)(@types/react@18.3.3)(react@18.3.1)(starknet@5.29.0(encoding@0.1.13))(type-fest@0.21.3)(typescript@5.5.4)(zod@3.23.8)':
+  '@dojoengine/react@1.0.0-alpha.9(@types/node@22.1.0)(@types/react@18.3.3)(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(type-fest@0.21.3)(typescript@5.5.4)(zod@3.23.8)':
     dependencies:
       '@dojoengine/recs': 2.0.13(typescript@5.5.4)(zod@3.23.8)
-      '@dojoengine/state': 1.0.0-alpha.0(@types/node@22.1.0)(@types/react@18.3.3)(react@18.3.1)(starknet@5.29.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)
-      '@dojoengine/torii-client': 1.0.0-alpha.0
-      '@dojoengine/utils': 1.0.0-alpha.0(starknet@5.29.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)
+      '@dojoengine/state': 1.0.0-alpha.9(@types/node@22.1.0)(@types/react@18.3.3)(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)
+      '@dojoengine/torii-client': 1.0.0-alpha.9
+      '@dojoengine/utils': 1.0.0-alpha.9(starknet@6.11.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)
       '@latticexyz/utils': 2.1.0
       encoding: 0.1.13
       fast-deep-equal: 3.1.3
-      get-starknet-core: 3.3.2(starknet@5.29.0(encoding@0.1.13))
+      get-starknet-core: 3.3.2(starknet@6.11.0(encoding@0.1.13))
       js-cookie: 3.0.5
       react: 18.3.1
       rxjs: 7.5.5
-      starknet: 5.29.0(encoding@0.1.13)
+      starknet: 6.11.0(encoding@0.1.13)
       type-fest: 0.21.3
       zustand: 4.5.4(@types/react@18.3.3)(react@18.3.1)
     transitivePeerDependencies:
@@ -3973,12 +3975,12 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@dojoengine/state@1.0.0-alpha.0(@types/node@22.1.0)(@types/react@18.3.3)(react@18.3.1)(starknet@5.29.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)':
+  '@dojoengine/state@1.0.0-alpha.9(@types/node@22.1.0)(@types/react@18.3.3)(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)':
     dependencies:
       '@dojoengine/recs': 2.0.13(typescript@5.5.4)(zod@3.23.8)
-      '@dojoengine/torii-client': 1.0.0-alpha.0
+      '@dojoengine/torii-client': 1.0.0-alpha.9
       '@latticexyz/utils': 2.1.0
-      starknet: 5.29.0(encoding@0.1.13)
+      starknet: 6.11.0(encoding@0.1.13)
       vitest: 1.6.0(@types/node@22.1.0)
       zustand: 4.5.4(@types/react@18.3.3)(react@18.3.1)
     transitivePeerDependencies:
@@ -4004,20 +4006,20 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@dojoengine/torii-client@1.0.0-alpha.0':
+  '@dojoengine/torii-client@1.0.0-alpha.9':
     dependencies:
-      '@dojoengine/torii-wasm': 1.0.0-alpha.0
+      '@dojoengine/torii-wasm': 1.0.0-alpha.9
       typescript: 5.5.4
 
-  '@dojoengine/torii-wasm@1.0.0-alpha.0': {}
+  '@dojoengine/torii-wasm@1.0.0-alpha.9': {}
 
-  '@dojoengine/utils@1.0.0-alpha.0(starknet@5.29.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)':
+  '@dojoengine/utils@1.0.0-alpha.9(starknet@6.11.0(encoding@0.1.13))(typescript@5.5.4)(zod@3.23.8)':
     dependencies:
       '@dojoengine/recs': 2.0.13(typescript@5.5.4)(zod@3.23.8)
       '@latticexyz/utils': 2.1.0
       mathjs: 12.4.3
       micro-starknet: 0.2.3
-      starknet: 5.29.0(encoding@0.1.13)
+      starknet: 6.11.0(encoding@0.1.13)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -4988,11 +4990,19 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.3.3
 
+  '@noble/curves@1.4.2':
+    dependencies:
+      '@noble/hashes': 1.4.0
+
   '@noble/hashes@1.3.0': {}
 
   '@noble/hashes@1.3.2': {}
 
   '@noble/hashes@1.3.3': {}
+
+  '@noble/hashes@1.4.0': {}
+
+  '@noble/hashes@1.5.0': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -5114,24 +5124,6 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.20.0':
     optional: true
 
-  '@rometools/cli-darwin-arm64@12.1.3':
-    optional: true
-
-  '@rometools/cli-darwin-x64@12.1.3':
-    optional: true
-
-  '@rometools/cli-linux-arm64@12.1.3':
-    optional: true
-
-  '@rometools/cli-linux-x64@12.1.3':
-    optional: true
-
-  '@rometools/cli-win32-arm64@12.1.3':
-    optional: true
-
-  '@rometools/cli-win32-x64@12.1.3':
-    optional: true
-
   '@scure/base@1.1.7': {}
 
   '@scure/bip32@1.3.2':
@@ -5152,31 +5144,33 @@ snapshots:
 
   '@sinclair/typebox@0.27.8': {}
 
+  '@starknet-io/types-js@0.7.7': {}
+
   '@starknet-react/chains@0.1.7': {}
 
-  '@starknet-react/core@2.0.0-next.0(get-starknet-core@3.3.2(starknet@5.29.0(encoding@0.1.13)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(starknet@5.29.0(encoding@0.1.13))':
+  '@starknet-react/core@2.0.0-next.0(get-starknet-core@3.3.2(starknet@6.11.0(encoding@0.1.13)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))':
     dependencies:
       '@starknet-react/chains': 0.1.7
       '@tanstack/react-query': 4.36.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       eventemitter3: 5.0.1
-      get-starknet-core: 3.3.2(starknet@5.29.0(encoding@0.1.13))
+      get-starknet-core: 3.3.2(starknet@6.11.0(encoding@0.1.13))
       immutable: 4.3.7
       react: 18.3.1
-      starknet: 5.29.0(encoding@0.1.13)
+      starknet: 6.11.0(encoding@0.1.13)
       zod: 3.23.8
     transitivePeerDependencies:
       - react-dom
       - react-native
 
-  '@starknet-react/core@2.9.0(get-starknet-core@3.3.2(starknet@5.29.0(encoding@0.1.13)))(react@18.3.1)(starknet@5.29.0(encoding@0.1.13))':
+  '@starknet-react/core@2.9.0(get-starknet-core@3.3.2(starknet@6.11.0(encoding@0.1.13)))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))':
     dependencies:
       '@starknet-react/chains': 0.1.7
       '@tanstack/react-query': 5.51.21(react@18.3.1)
       eventemitter3: 5.0.1
-      get-starknet-core: 3.3.2(starknet@5.29.0(encoding@0.1.13))
+      get-starknet-core: 3.3.2(starknet@6.11.0(encoding@0.1.13))
       immutable: 4.3.7
       react: 18.3.1
-      starknet: 5.29.0(encoding@0.1.13)
+      starknet: 6.11.0(encoding@0.1.13)
       zod: 3.23.8
 
   '@swc/core-darwin-arm64@1.7.6':
@@ -5376,14 +5370,7 @@ snapshots:
       fast-querystring: 1.1.2
       tslib: 2.6.3
 
-  abi-wan-kanabi@1.0.3:
-    dependencies:
-      fs-extra: 10.1.0
-      rome: 12.1.3
-      typescript: 4.9.5
-      yargs: 17.7.2
-
-  abi-wan-kanabi@2.2.2:
+  abi-wan-kanabi@2.2.3:
     dependencies:
       ansicolors: 0.3.2
       cardinal: 2.1.1
@@ -6019,6 +6006,11 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
+  fetch-cookie@3.0.1:
+    dependencies:
+      set-cookie-parser: 2.7.0
+      tough-cookie: 4.1.4
+
   figures@3.2.0:
     dependencies:
       escape-string-regexp: 1.0.5
@@ -6082,10 +6074,14 @@ snapshots:
 
   get-func-name@2.0.2: {}
 
-  get-starknet-core@3.3.2(starknet@5.29.0(encoding@0.1.13)):
+  get-starknet-core@3.3.2(starknet@6.11.0(encoding@0.1.13)):
     dependencies:
       '@module-federation/runtime': 0.1.21
-      starknet: 5.29.0(encoding@0.1.13)
+      starknet: 6.11.0(encoding@0.1.13)
+
+  get-starknet-core@4.0.0:
+    dependencies:
+      '@starknet-io/types-js': 0.7.7
 
   get-stream@8.0.1: {}
 
@@ -6428,7 +6424,7 @@ snapshots:
     dependencies:
       js-tokens: 4.0.0
 
-  lossless-json@2.0.11: {}
+  lossless-json@4.0.1: {}
 
   lottie-react@2.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
@@ -6712,6 +6708,8 @@ snapshots:
 
   proxy-deep@3.1.1: {}
 
+  psl@1.9.0: {}
+
   punycode@1.4.1: {}
 
   punycode@2.3.1: {}
@@ -6721,6 +6719,8 @@ snapshots:
       tslib: 2.6.3
 
   pvutils@1.1.3: {}
+
+  querystringify@2.2.0: {}
 
   queue-microtask@1.2.3: {}
 
@@ -6815,6 +6815,8 @@ snapshots:
 
   require-main-filename@2.0.0: {}
 
+  requires-port@1.0.0: {}
+
   reselect@4.1.8: {}
 
   resolve-from@4.0.0: {}
@@ -6862,15 +6864,6 @@ snapshots:
       '@rollup/rollup-win32-x64-msvc': 4.20.0
       fsevents: 2.3.3
 
-  rome@12.1.3:
-    optionalDependencies:
-      '@rometools/cli-darwin-arm64': 12.1.3
-      '@rometools/cli-darwin-x64': 12.1.3
-      '@rometools/cli-linux-arm64': 12.1.3
-      '@rometools/cli-linux-x64': 12.1.3
-      '@rometools/cli-win32-arm64': 12.1.3
-      '@rometools/cli-win32-x64': 12.1.3
-
   run-async@2.4.1: {}
 
   run-parallel@1.2.0:
@@ -6906,6 +6899,8 @@ snapshots:
       upper-case-first: 2.0.2
 
   set-blocking@2.0.0: {}
+
+  set-cookie-parser@2.7.0: {}
 
   setimmediate@1.0.5: {}
 
@@ -6954,16 +6949,20 @@ snapshots:
 
   stackback@0.0.2: {}
 
-  starknet@5.29.0(encoding@0.1.13):
+  starknet@6.11.0(encoding@0.1.13):
     dependencies:
-      '@noble/curves': 1.3.0
+      '@noble/curves': 1.4.2
+      '@noble/hashes': 1.5.0
       '@scure/base': 1.1.7
       '@scure/starknet': 1.0.0
-      abi-wan-kanabi-v1: abi-wan-kanabi@1.0.3
-      abi-wan-kanabi-v2: abi-wan-kanabi@2.2.2
+      abi-wan-kanabi: 2.2.3
+      fetch-cookie: 3.0.1
+      get-starknet-core: 4.0.0
       isomorphic-fetch: 3.0.0(encoding@0.1.13)
-      lossless-json: 2.0.11
+      lossless-json: 4.0.1
       pako: 2.1.0
+      starknet-types-07: '@starknet-io/types-js@0.7.7'
+      ts-mixer: 6.0.4
       url-join: 4.0.1
     transitivePeerDependencies:
       - encoding
@@ -7048,6 +7047,13 @@ snapshots:
     dependencies:
       to-no-case: 1.0.2
 
+  tough-cookie@4.1.4:
+    dependencies:
+      psl: 1.9.0
+      punycode: 2.3.1
+      universalify: 0.2.0
+      url-parse: 1.5.10
+
   tr46@0.0.3: {}
 
   trpc-browser@1.4.2(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2):
@@ -7056,6 +7062,8 @@ snapshots:
       '@trpc/server': 10.45.2
 
   ts-log@2.2.5: {}
+
+  ts-mixer@6.0.4: {}
 
   tslib@2.4.1: {}
 
@@ -7073,8 +7081,6 @@ snapshots:
 
   typed-function@4.2.1: {}
 
-  typescript@4.9.5: {}
-
   typescript@5.5.4: {}
 
   ua-parser-js@1.0.38: {}
@@ -7084,6 +7090,8 @@ snapshots:
   unc-path-regex@0.1.2: {}
 
   undici-types@6.13.0: {}
+
+  universalify@0.2.0: {}
 
   universalify@2.0.1: {}
 
@@ -7110,6 +7118,11 @@ snapshots:
       punycode: 2.3.1
 
   url-join@4.0.1: {}
+
+  url-parse@1.5.10:
+    dependencies:
+      querystringify: 2.2.0
+      requires-port: 1.0.0
 
   urlpattern-polyfill@10.0.0: {}
 

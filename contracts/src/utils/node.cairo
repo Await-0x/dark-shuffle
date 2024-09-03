@@ -11,7 +11,7 @@ mod node_utils {
     use darkshuffle::utils::random;
     use darkshuffle::utils::hand::hand_utils;
     use darkshuffle::utils::game::game_utils;
-    use darkshuffle::constants::{MONSTER_COUNT, U128_MAX, LCG_PRIME, LAST_NODE_LEVEL, START_ENERGY};
+    use darkshuffle::constants::{MONSTER_COUNT, U128_MAX, LCG_PRIME, LAST_NODE_LEVEL, START_ENERGY, MAX_CARD_LEVEL};
 
     fn node_available(world: IWorldDispatcher, node: Node) -> bool {
         if node.parents.is_empty() {
@@ -198,7 +198,11 @@ mod node_utils {
 
         let mut start_energy = game.hero_energy;
         if monster.monster_id == 13 {
-            start_energy -= game.branch;
+            if game.branch > start_energy {
+                start_energy = 0;
+            } else {
+                start_energy -= game.branch;
+            }
         }
 
         set!(world, (

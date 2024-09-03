@@ -1,6 +1,6 @@
 const ADVENTURER_ID: u16 = 65535;
 const CARD_POOL_SIZE: u16 = 40;
-const DRAFT_SIZE: u8 = 10;
+const DRAFT_SIZE: u8 = 8;
 const DECK_SIZE: u8 = 5;
 const DISCARD_COST: u8 = 1;
 const MAX_BOARD: u8 = 6;

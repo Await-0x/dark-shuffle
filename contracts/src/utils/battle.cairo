@@ -129,7 +129,11 @@ mod battle_utils {
         }
 
         if battle.monster_id == 3 {
-            damage -= battle.branch;
+            if battle.branch >= damage {
+                damage = 0;
+            } else {
+                damage -= battle.branch;
+            }
         }
 
         if battle.monster_health < damage {

@@ -1,8 +1,8 @@
 {
   "world": {
     "kind": "WorldContract",
-    "class_hash": "0x458d0ce5b14a4844092bdb62050f462d53362304a13febbac6d973691d61be2",
-    "original_class_hash": "0x458d0ce5b14a4844092bdb62050f462d53362304a13febbac6d973691d61be2",
+    "class_hash": "0xa349b743d361ce4567361475a89b84a386bb383448c6926954e5fe0b525597",
+    "original_class_hash": "0xa349b743d361ce4567361475a89b84a386bb383448c6926954e5fe0b525597",
     "abi": [
       {
         "type": "impl",
@@ -1229,9 +1229,9 @@
         ]
       }
     ],
-    "address": "0x8d8e73b20e205f98347501a072701e3b7b55c6048ff78562c025aa8a5571a0",
-    "transaction_hash": "0x22d2cdefe455966ec85e5311998fad025b9db0e617afebe214e560f0a8620f",
-    "block_number": 39,
+    "address": "0x28e3b965be742337a50b7200524d1d9f01ab950a6c75baf83640bf5541b0894",
+    "transaction_hash": "0x7070de3ce669f4c694b123fbcabe01f0177a587899b89d01b5d6d200211b426",
+    "block_number": 35,
     "seed": "darkshuffle",
     "metadata": {
       "profile_name": "dev",
@@ -1250,9 +1250,9 @@
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": "0x6eedafdddf29e3a4a551d52faa560ce433daa00bc44f3b5c2194dd77443e635",
-      "class_hash": "0x13e8ce127aa900ed0e90761f20f5269aeae72cde66981432491526926fb7b93",
-      "original_class_hash": "0x13e8ce127aa900ed0e90761f20f5269aeae72cde66981432491526926fb7b93",
+      "address": "0x7bed547b88db5b3505e588253a8339ccf5651d1289a96ef6a84abaa92a24a36",
+      "class_hash": "0x3dbb86072f8848d90c89cbd4beb1629b338a02950bf95eee4f75a1100ada94d",
+      "original_class_hash": "0x3dbb86072f8848d90c89cbd4beb1629b338a02950bf95eee4f75a1100ada94d",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1540,7 +1540,18 @@
         }
       ],
       "reads": [],
-      "writes": [],
+      "writes": [
+        "darkshuffle-Game",
+        "darkshuffle-Battle",
+        "darkshuffle-HandCard",
+        "darkshuffle-BattleEffects",
+        "darkshuffle-Creature",
+        "darkshuffle-Board",
+        "darkshuffle-Entropy",
+        "darkshuffle-Leaderboard",
+        "darkshuffle-Node",
+        "darkshuffle-DraftCard"
+      ],
       "init_calldata": [],
       "tag": "darkshuffle-battle_systems",
       "systems": [
@@ -1553,9 +1564,9 @@
     },
     {
       "kind": "DojoContract",
-      "address": "0x72a49db04b8714afe5e91874a38c60f7338a652b6ae0b29e80eba2c89246058",
-      "class_hash": "0x5e63f1d3a8e2cd740908fc3e1e45aef627d1a43f0ad4be3ebc2a105ca674925",
-      "original_class_hash": "0x5e63f1d3a8e2cd740908fc3e1e45aef627d1a43f0ad4be3ebc2a105ca674925",
+      "address": "0x2baec515faecd3fbd18da5675507bbad08f60bd4d9b4b58c5c8df7f8ff33844",
+      "class_hash": "0x6ea526f57c6ae399f309bd2965b5ee4d265041c7107908bacf9ad4830984b6e",
+      "original_class_hash": "0x6ea526f57c6ae399f309bd2965b5ee4d265041c7107908bacf9ad4830984b6e",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1807,7 +1818,13 @@
         }
       ],
       "reads": [],
-      "writes": [],
+      "writes": [
+        "darkshuffle-Game",
+        "darkshuffle-Draft",
+        "darkshuffle-Entropy",
+        "darkshuffle-DraftOption",
+        "darkshuffle-DraftCard"
+      ],
       "init_calldata": [],
       "tag": "darkshuffle-draft_systems",
       "systems": [
@@ -1818,9 +1835,9 @@
     },
     {
       "kind": "DojoContract",
-      "address": "0x522d7e6a110aa33633fb7e85a22bf08d13c1a928b25def0fc6c6b4f0094ff58",
-      "class_hash": "0x2b92cb74b874a7c2661fa616ddd47828eea3200b62fd77b6f89d60ebcd88c56",
-      "original_class_hash": "0x2b92cb74b874a7c2661fa616ddd47828eea3200b62fd77b6f89d60ebcd88c56",
+      "address": "0x4b8ed7aa36d76178a91b06ca9843cfaad897dc389839557cc08a5fc83a739db",
+      "class_hash": "0x6a656ce56cdc77dfb0601a6b675f1aae6a5a1198de0075871054edba2e36f59",
+      "original_class_hash": "0x6a656ce56cdc77dfb0601a6b675f1aae6a5a1198de0075871054edba2e36f59",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -2052,7 +2069,11 @@
         }
       ],
       "reads": [],
-      "writes": [],
+      "writes": [
+        "darkshuffle-Game",
+        "darkshuffle-Draft",
+        "darkshuffle-Entropy"
+      ],
       "init_calldata": [],
       "tag": "darkshuffle-game_systems",
       "systems": [
@@ -2062,9 +2083,9 @@
     },
     {
       "kind": "DojoContract",
-      "address": "0x4345f7c6d9cad2507c0820d014ccda1f8b4694cec691a9ec117c7ceefa01dd0",
-      "class_hash": "0x10e1f0898afb123ff58262064ebf3e93ca57003d563ddcdacde2210f2f9c742",
-      "original_class_hash": "0x10e1f0898afb123ff58262064ebf3e93ca57003d563ddcdacde2210f2f9c742",
+      "address": "0x58e526c76da04b0b69d2d17ed7ee8db750166db7a53b9cd260cae5e53fd6931",
+      "class_hash": "0x52667c86e8d06faf0bf8a62c4100e64f80d4e774e78b4ee3a094a56bb75deee",
+      "original_class_hash": "0x52667c86e8d06faf0bf8a62c4100e64f80d4e774e78b4ee3a094a56bb75deee",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -2338,7 +2359,19 @@
         }
       ],
       "reads": [],
-      "writes": [],
+      "writes": [
+        "darkshuffle-Game",
+        "darkshuffle-Draft",
+        "darkshuffle-Entropy",
+        "darkshuffle-DraftCard",
+        "darkshuffle-Node",
+        "darkshuffle-MonsterNode",
+        "darkshuffle-PotionNode",
+        "darkshuffle-CardNode",
+        "darkshuffle-Battle",
+        "darkshuffle-BattleEffects",
+        "darkshuffle-HandCard"
+      ],
       "init_calldata": [],
       "tag": "darkshuffle-node_systems",
       "systems": [
@@ -2891,6 +2924,7 @@
         }
       ],
       "tag": "darkshuffle-Battle",
+      "qualified_path": "darkshuffle::models::battle::battle",
       "manifest_name": "darkshuffle-Battle-6adbb0ba"
     },
     {
@@ -3358,6 +3392,7 @@
         }
       ],
       "tag": "darkshuffle-BattleEffects",
+      "qualified_path": "darkshuffle::models::battle::battle_effects",
       "manifest_name": "darkshuffle-BattleEffects-157af533"
     },
     {
@@ -3829,6 +3864,7 @@
         }
       ],
       "tag": "darkshuffle-Board",
+      "qualified_path": "darkshuffle::models::battle::board",
       "manifest_name": "darkshuffle-Board-359638a3"
     },
     {
@@ -4264,6 +4300,7 @@
         }
       ],
       "tag": "darkshuffle-CardNode",
+      "qualified_path": "darkshuffle::models::node::card_node",
       "manifest_name": "darkshuffle-CardNode-4003bd66"
     },
     {
@@ -4758,6 +4795,7 @@
         }
       ],
       "tag": "darkshuffle-Creature",
+      "qualified_path": "darkshuffle::models::battle::creature",
       "manifest_name": "darkshuffle-Creature-3d4ce02a"
     },
     {
@@ -5184,6 +5222,7 @@
         }
       ],
       "tag": "darkshuffle-Draft",
+      "qualified_path": "darkshuffle::models::draft::draft",
       "manifest_name": "darkshuffle-Draft-2febb181"
     },
     {
@@ -5628,6 +5667,7 @@
         }
       ],
       "tag": "darkshuffle-DraftCard",
+      "qualified_path": "darkshuffle::models::draft::draft_card",
       "manifest_name": "darkshuffle-DraftCard-5a0f843e"
     },
     {
@@ -6072,6 +6112,7 @@
         }
       ],
       "tag": "darkshuffle-DraftOption",
+      "qualified_path": "darkshuffle::models::draft::draft_option",
       "manifest_name": "darkshuffle-DraftOption-13e9bfb1"
     },
     {
@@ -6516,6 +6557,7 @@
         }
       ],
       "tag": "darkshuffle-Entropy",
+      "qualified_path": "darkshuffle::models::entropy::entropy",
       "manifest_name": "darkshuffle-Entropy-239af4ee"
     },
     {
@@ -7064,6 +7106,7 @@
         }
       ],
       "tag": "darkshuffle-Game",
+      "qualified_path": "darkshuffle::models::game::game",
       "manifest_name": "darkshuffle-Game-1a3b9b6c"
     },
     {
@@ -7490,6 +7533,7 @@
         }
       ],
       "tag": "darkshuffle-GameEffects",
+      "qualified_path": "darkshuffle::models::game::game_effects",
       "manifest_name": "darkshuffle-GameEffects-1c0e9539"
     },
     {
@@ -7934,6 +7978,7 @@
         }
       ],
       "tag": "darkshuffle-HandCard",
+      "qualified_path": "darkshuffle::models::battle::hand_card",
       "manifest_name": "darkshuffle-HandCard-5bc24229"
     },
     {
@@ -8378,6 +8423,7 @@
         }
       ],
       "tag": "darkshuffle-Leaderboard",
+      "qualified_path": "darkshuffle::models::game::leaderboard",
       "manifest_name": "darkshuffle-Leaderboard-dbeecd6e"
     },
     {
@@ -8822,6 +8868,7 @@
         }
       ],
       "tag": "darkshuffle-MonsterNode",
+      "qualified_path": "darkshuffle::models::node::monster_node",
       "manifest_name": "darkshuffle-MonsterNode-7fe0a5de"
     },
     {
@@ -9326,6 +9373,7 @@
         }
       ],
       "tag": "darkshuffle-Node",
+      "qualified_path": "darkshuffle::models::node::node",
       "manifest_name": "darkshuffle-Node-9b3c32ba"
     },
     {
@@ -9752,6 +9800,7 @@
         }
       ],
       "tag": "darkshuffle-PotionNode",
+      "qualified_path": "darkshuffle::models::node::potion_node",
       "manifest_name": "darkshuffle-PotionNode-2ca66fae"
     }
   ]

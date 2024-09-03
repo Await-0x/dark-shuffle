@@ -8,13 +8,8 @@ sozo build
 echo "----- Migrating World -----"
 sozo migrate apply
 
-echo "----- Auth and World Contracts: Set 0.1s ----- "
-source scripts/env_variables.sh dev
-./scripts/set_writer.sh --interval 0.1  --mode dev
-
 cp ../contracts/manifests/dev/deployment/manifest.json ../client/manifest.json
-cp ../contracts/manifests/prod/deployment/manifest.json ../client/prod-manifest.json
 
 echo "-----  Started indexer ----- "
 rm torii.db
-torii --world 0x8d8e73b20e205f98347501a072701e3b7b55c6048ff78562c025aa8a5571a0 --database torii.db --allowed-origins "*"
+torii --world 0x28e3b965be742337a50b7200524d1d9f01ab950a6c75baf83640bf5541b0894 --database torii.db --allowed-origins "*"

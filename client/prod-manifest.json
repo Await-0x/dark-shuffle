@@ -1235,7 +1235,7 @@
     "seed": "darkshuffle",
     "metadata": {
       "profile_name": "release",
-      "rpc_url": "https://api.cartridge.gg/x/darkshuffle-4/katana/"
+      "rpc_url": "https://api.cartridge.gg/x/darkshuffle-5/katana/"
     },
     "manifest_name": "dojo-world"
   },
