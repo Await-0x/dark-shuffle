@@ -8,24 +8,35 @@ import { translateEvent } from "../helpers/events";
 import { useEffect } from "react";
 import { createBurnerAccount } from "../api/starknet";
 import { useState } from "react";
+import { useAccount, useConnect, useNetwork } from "@starknet-react/core";
 
 export const DojoContext = createContext()
 
 export const DojoProvider = ({ children }) => {
+  const { connect, connectors } = useConnect();
+  let cartridgeConnector = connectors.find(conn => conn.id === 'cartridge')
+
   const { enqueueSnackbar } = useSnackbar()
 
   const dojoProvider = new _dojoProvider(dojoConfig.manifest, dojoConfig.rpcUrl);
   const rpcProvider = useMemo(() => new RpcProvider({ nodeUrl: dojoConfig.rpcUrl, }), []);
 
-  const [account, setAccount] = useState();
+  const { account, address, isConnecting } = useAccount()
+  const { chain } = useNetwork()
+  const [burner, setBurner] = useState();
+
   const [creatingBurner, setCreatingBurner] = useState();
 
   useEffect(() => {
+    if (dojoConfig.chain !== 'katana') {
+      return
+    }
+
     if (localStorage.getItem('burner')) {
       let burner = JSON.parse(localStorage.getItem('burner'))
 
       if (burner.version === dojoConfig.version) {
-        setAccount(new Account(rpcProvider, burner.address, burner.privateKey, "1"))
+        setBurner(new Account(rpcProvider, burner.address, burner.privateKey, "1"))
       } else {
         createBurner()
       }
@@ -35,18 +46,25 @@ export const DojoProvider = ({ children }) => {
   }, [])
 
   const executeTx = async (contractName, entrypoint, calldata) => {
-    if (!account) {
+    let signer = dojoConfig.chain === 'katana' ? burner : account
+
+    if (!signer) {
+      dojoConfig.chain === 'katana' ? createBurner() : connect({ connector: cartridgeConnector })
       return
     }
 
     try {
-      const tx = await dojoProvider.execute(account, {
-        contractName,
-        entrypoint,
-        calldata
-      }, 'darkshuffle', { maxFee: 0 });
+      const tx = await dojoProvider.execute(signer,
+        {
+          contractName,
+          entrypoint,
+          calldata
+        },
+        'darkshuffle',
+        dojoConfig.environment === 'katana' ? { maxFee: 0 } : {}
+      );
 
-      const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
+      const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
 
       if (receipt.execution_status === "REVERTED") {
         enqueueSnackbar('Contract error', { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'right' } })
@@ -80,10 +98,11 @@ export const DojoProvider = ({ children }) => {
   return (
     <DojoContext.Provider
       value={{
-        address: account?.address,
+        address: address ?? burner?.address,
+        connecting: creatingBurner || isConnecting,
+        network: chain.network,
         executeTx,
         createBurner,
-        creatingBurner
       }}
     >
       {children}

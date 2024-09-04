@@ -28,7 +28,7 @@ function Main() {
           <StyledEngineProvider injectFirst>
 
             <ThemeProvider theme={mainTheme}>
-              <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'center' }} preventDuplicate>
+              <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'center' }} preventDuplicate autoHideDuration={3000}>
                 <AnimationHandler>
 
                   <StarknetProvider>

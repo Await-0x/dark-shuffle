@@ -6,7 +6,7 @@ import background from "../../assets/images/cards/gospel_scribe.png";
 import { DraftContext } from '../../contexts/draftContext';
 import { fadeVariant } from "../../helpers/variants";
 
-function TestNet(props) {
+function ChooseName(props) {
   const { open, close } = props
 
   const draft = useContext(DraftContext)
@@ -67,7 +67,7 @@ function TestNet(props) {
   )
 }
 
-export default TestNet
+export default ChooseName
 
 const styles = {
   wizardContainer: {

@@ -6,15 +6,15 @@ import PersonIcon from '@mui/icons-material/Person';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
+import XIcon from '@mui/icons-material/X';
 import { Box, Divider, IconButton, List, Typography } from '@mui/material';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { default as React, useContext, useEffect, useState } from 'react';
+import { default as React, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DojoContext } from '../contexts/dojoContext';
 import { DraftContext } from '../contexts/draftContext';
 import { ellipseAddress } from '../helpers/utilities';
-import XIcon from '@mui/icons-material/X';
-import TestNet from './header/testnet';
+import ChooseName from './dialogs/chooseName';
 
 const menuItems = [
   {
@@ -38,13 +38,6 @@ function MobileHeader(props) {
   const [menu, toggleMenu] = useState(false)
   const [nameDialog, openNameDialog] = useState(false)
 
-  useEffect(() => {
-    if (connectWallet) {
-      openAccountDialog(0)
-      showConnectWallet(false)
-    }
-  }, [connectWallet])
-
   return <Box sx={styles.mobileHeader}>
     <Box />
 
@@ -52,7 +45,7 @@ function MobileHeader(props) {
       <IconButton onClick={() => toggleMenu(true)} size='large'>
         <MenuIcon />
       </IconButton>
-
+  
       <SwipeableDrawer
         anchor={'top'}
         open={menu}
@@ -128,7 +121,7 @@ function MobileHeader(props) {
       </SwipeableDrawer>
     </Box>
 
-    <TestNet open={nameDialog} close={openNameDialog} />
+    <ChooseName open={nameDialog} close={openNameDialog} />
   </Box>
 }
 

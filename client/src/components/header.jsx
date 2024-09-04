@@ -1,17 +1,19 @@
 import InfoIcon from '@mui/icons-material/Info';
 import PersonIcon from '@mui/icons-material/Person';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Typography } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+import { useConnect } from "@starknet-react/core";
+import React, { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
+import { dojoConfig } from '../../dojo.config';
 import logo from '../assets/images/cards.png';
 import { DojoContext } from '../contexts/dojoContext';
 import { DraftContext } from '../contexts/draftContext';
 import { ellipseAddress } from '../helpers/utilities';
-import OnboardingWizard from './header/onboardingWizard';
-import ProfileMenu from './header/profileMenu';
-import TestNet from './header/testnet';
+import ChooseName from './dialogs/chooseName';
 import TutorialDialog from './dialogs/tutorial';
+import ProfileMenu from './header/profileMenu';
 
 const menuItems = [
   {
@@ -27,12 +29,12 @@ const menuItems = [
 ]
 
 function Header(props) {
-  const { connectWallet, showConnectWallet } = props
+  const { connect, connectors } = useConnect();
+  let cartridgeConnector = connectors.find(conn => conn.id === 'cartridge')
 
   const dojo = useContext(DojoContext)
   const draft = useContext(DraftContext)
 
-  const [accountDialog, openAccountDialog] = useState(false)
   const [nameDialog, openNameDialog] = useState(false)
   const [tutorial, openTutorial] = useState(false)
 
@@ -45,13 +47,6 @@ function Header(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  useEffect(() => {
-    if (connectWallet) {
-      openAccountDialog(0)
-      showConnectWallet(false)
-    }
-  }, [connectWallet])
 
   return (
     <Box sx={styles.header}>
@@ -74,6 +69,10 @@ function Header(props) {
         <Button onClick={() => { openTutorial(true) }}>Tutorial</Button>
       </Box>
 
+      {(dojo.address && dojo.network !== dojoConfig.chain) && <Typography color={'red'}>
+        Wrong Network
+      </Typography>}
+
       <Box>
         {dojo.address
           ? <Button onClick={handleClick} endIcon={<PersonIcon fontSize='large' />} size='large'>
@@ -88,14 +87,16 @@ function Header(props) {
               </Typography>}
           </Button>
 
-          : <LoadingButton loading={dojo.creatingBurner} variant='outlined' sx={{ width: '130px', height: '32px' }}>
+          : <LoadingButton loading={dojo.connecting} variant='outlined' onClick={() => connect({ connector: cartridgeConnector })} size='large' startIcon={<SportsEsportsIcon />}>
+            <Typography color='primary'>
+              Connect
+            </Typography>
           </LoadingButton>
         }
       </Box>
 
-      <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openAccountDialog={openAccountDialog} openNameDialog={openNameDialog} />
-      <OnboardingWizard open={accountDialog !== false} close={openAccountDialog} step={accountDialog || 0} />
-      <TestNet open={nameDialog} close={openNameDialog} />
+      <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openNameDialog={openNameDialog} />
+      <ChooseName open={nameDialog} close={openNameDialog} />
       <TutorialDialog open={tutorial} close={openTutorial} />
     </Box>
   );

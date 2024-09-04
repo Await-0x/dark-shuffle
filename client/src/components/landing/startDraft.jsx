@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react'
 import { BrowserView, MobileView } from 'react-device-detect'
 import { DraftContext } from '../../contexts/draftContext'
 import { _styles } from '../../helpers/styles'
-import TestNet from '../header/testnet'
+import ChooseName from '../dialogs/chooseName'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
 
@@ -144,7 +144,7 @@ function StartDraft() {
         </Box >
       </BrowserView>
 
-      {nameDialog && <TestNet open={nameDialog} close={() => { showNameDialog(false); beginDraft(); }} />}
+      {nameDialog && <ChooseName open={nameDialog} close={() => { showNameDialog(false); beginDraft(); }} />}
     </>
   )
 }
