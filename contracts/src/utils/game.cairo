@@ -1,17 +1,20 @@
 mod game_utils {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use starknet::{get_caller_address, get_block_info};
+    use starknet::{get_caller_address, get_block_info, get_tx_info};
     use starknet::syscalls::get_block_hash_syscall;
+    use starknet::SyscallResultTrait;
 
-    use darkshuffle::constants::{DECK_SIZE, MONSTER_KILL_SCORE, BRANCH_SCORE_MULTIPLIER, START_ENERGY, LAST_NODE_LEVEL};
-    use darkshuffle::models::game::{Game, Leaderboard};
+    use darkshuffle::constants::{DECK_SIZE, MONSTER_KILL_SCORE, BRANCH_SCORE_MULTIPLIER, START_ENERGY, LAST_NODE_LEVEL, MAINNET_CHAIN_ID};
+    use darkshuffle::models::game::{Game};
     use darkshuffle::models::battle::{Battle};
     use darkshuffle::models::entropy::{Entropy};
     use darkshuffle::models::node::{Node};
+    use darkshuffle::models::season::{Season, SeasonOwnerTrait};
 
     use darkshuffle::utils::{
         monsters::monster_utils,
-        draft::draft_utils
+        draft::draft_utils,
+        season::season_utils
     };
 
     fn is_battle_over(battle: Battle) -> bool {
@@ -58,42 +61,42 @@ mod game_utils {
         game.active_battle_id = 0;
         game.hero_health = 0;
 
-        update_leaderboard(ref game, ref battle, world);
+        verify_game(ref game, world);
         set!(world, (game, battle));
     }
 
-    fn verify_draft(game_id: usize, world: IWorldDispatcher) {
-        // let mut i = 1;
+    fn verify_game(ref game: Game, world: IWorldDispatcher) {
+        let chain_id = get_tx_info().unbox().chain_id;
 
-        // while (i <= DECK_SIZE) {
-        //     let draft_entropy = get!(world, (game_id, i), Entropy);
+        if chain_id == MAINNET_CHAIN_ID {
+            get!(world, (game.season_id), Season).assert_season();
+        }
 
-        //     assert(draft_entropy.block_hash == get_block_hash_syscall(draft_entropy.block_number).unwrap_syscall(), 'Entropy failed');
+        let mut i = 1;
+        let mut verified = true;
 
-        //     i += 1;
-        // };
-    }
+        if game.node_level == LAST_NODE_LEVEL - 1 {
+            game.entropy_count -= 1;
+        }
 
-    fn update_leaderboard(ref game: Game, ref battle: Battle, world: IWorldDispatcher) {
-        // verify_draft(game.game_id, world);
-        
-        set!(world, (
-            Leaderboard {
-                game_id: game.game_id,
-                player: starknet::get_caller_address(),
-                player_name: game.player_name,
-                score: game.hero_xp
+        while (i <= game.entropy_count) {
+            let draft_entropy = get!(world, (game.game_id, i), Entropy);
+
+            if draft_entropy.block_hash != get_block_hash_syscall(draft_entropy.block_number).unwrap_syscall() {
+                verified = false;
+                break;
             }
-        ))
+
+            i += 1;
+        };
+
+        if verified {
+            game.entropy_verified = true;
+            season_utils::score_game(game, world);
+        }
     }
 
     fn complete_node(ref game: Game, world: IWorldDispatcher) {
         game.node_level += 1;
-
-        if game.node_level == LAST_NODE_LEVEL {
-            let mut next_block = get_block_info().unbox().block_number.into() + 1;
-            game.entropy_count += 1;
-            set!(world, (Entropy { game_id: game.game_id, number: game.entropy_count, block_number: next_block, block_hash: 0 }));
-        }
     }
 }

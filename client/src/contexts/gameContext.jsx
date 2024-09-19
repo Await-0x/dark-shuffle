@@ -52,6 +52,7 @@ export const GameProvider = ({ children }) => {
   }
 
   const fetchBlockHash = async (blockNumber) => {
+    console.log('fetching block hash', blockNumber)
     let latestBlock = await getLatestBlock()
 
     if (latestBlock?.block_number === blockNumber) {
@@ -92,7 +93,7 @@ export const GameProvider = ({ children }) => {
 
   const selectNode = async (nodeId, deck) => {
     setSelectingNode(true)
-    const res = await dojo.executeTx("node_systems", "select_node", [nodeId, deck])
+    const res = await dojo.executeTx("node_systems", "select_node", [nodeId, deck], values.isDemo)
     setSelectingNode(false)
 
     if (res) {
@@ -118,7 +119,7 @@ export const GameProvider = ({ children }) => {
 
   const skipNode = async (nodeId) => {
     setSelectingNode(true)
-    const res = await dojo.executeTx("node_systems", "skip_node", [nodeId]);
+    const res = await dojo.executeTx("node_systems", "skip_node", [nodeId], values.isDemo);
     setSelectingNode(false)
 
     if (res) {
@@ -131,7 +132,7 @@ export const GameProvider = ({ children }) => {
   }
 
   const generateNodes = async () => {
-    const res = await dojo.executeTx("node_systems", "generate_tree", [values.gameId, entropy.blockHash]);
+    const res = await dojo.executeTx("node_systems", "generate_tree", [values.gameId, entropy.blockHash], values.isDemo);
 
     if (res) {
       const nodes = res.filter(e => e.componentName === 'Node')

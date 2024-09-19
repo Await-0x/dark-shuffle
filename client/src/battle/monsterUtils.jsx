@@ -260,9 +260,9 @@ export const GET_MONSTER = (monsterId, branch = 1) => {
       return {
         id: 17,
         monsterId: 17,
-        name: 'Snake',
+        name: 'Hydra',
         abilities: <>
-          <Typography color="primary" variant='h6'>Snake</Typography>
+          <Typography color="primary" variant='h6'>Hydra</Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
             <Typography color="primary">★ Burn</Typography>
           </Box>

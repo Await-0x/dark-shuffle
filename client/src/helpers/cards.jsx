@@ -47,11 +47,11 @@ export const tagMultiplierName = (m) => {
 export const tagExplainer = (tag) => {
   switch (tag) {
     case tags.ESCALATING:
-      return "Effect increases each tier."
+      return "Card effect increases each tier."
     case tags.SCALABLE:
-      return "Stats increases each tier."
+      return "Attack and health increases each tier."
     case tags.RENEWABLE:
-      return "Cost decreases each tier."
+      return "Cost to play decreases each tier."
     case tags.UNSTABLE:
       return "Can only be played once each battle."
     case tags.FATIQUE:
@@ -332,8 +332,8 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         tag: tags.SCALABLE,
         tagMultiplier: 2,
         cost: 4,
-        attack: 22 + (level * 2),
-        health: 2 + (level * 2),
+        attack: 16 + (level * 2),
+        health: 4 + (level * 2),
         level,
       }
     case 20:
@@ -346,7 +346,7 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         tagMultiplier: 2,
         cost: 4,
         attack: 12 + (level * 2),
-        health: 18 + (level * 2),
+        health: 14 + (level * 2),
         level,
       }
 

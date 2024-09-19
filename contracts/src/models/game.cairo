@@ -7,6 +7,7 @@ use darkshuffle::constants::{LAST_NODE_LEVEL};
 struct Game {
     #[key]
     game_id: usize,
+    season_id: usize,
     player: ContractAddress,
     player_name: felt252,
     active: bool,
@@ -22,6 +23,7 @@ struct Game {
     node_level: u8,
     monsters_slain: u16,
     entropy_count: u16,
+    entropy_verified: bool
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -30,16 +32,6 @@ struct GameEffects {
     #[key]
     game_id: usize,
     bonus_attack: u16
-}
-
-#[derive(Copy, Drop, Serde)]
-#[dojo::model]
-struct Leaderboard {
-    #[key]
-    game_id: usize,
-    player: ContractAddress,
-    player_name: felt252,
-    score: u32,
 }
 
 #[generate_trait]

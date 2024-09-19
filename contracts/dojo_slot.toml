@@ -1,0 +1,17 @@
+[world]
+seed = "darkshuffle"
+name = "Dark Shuffle"
+description = "Enter the darkness"
+website = "https://darkshuffle.dev/"
+
+[world.socials]
+x = "https://x.com/await_0x"
+github = "https://github.com/Await-0x/dark-shuffle"
+
+[namespace]
+default = "darkshuffle"
+
+[env]
+rpc_url = "https://api.cartridge.gg/x/darkshuffle0/katana"
+account_address = "0x65f3b7299f967e9c44d91a251d60b3f539eb9b84c2484c4d39dffbb282b49d6"
+private_key = "0x7efab5ac1d4b67edf8688dc5dc2011573be3a619f6696b0201d741150461d63"

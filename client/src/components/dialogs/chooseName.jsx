@@ -5,14 +5,20 @@ import { isBrowser, isMobile } from 'react-device-detect';
 import background from "../../assets/images/cards/gospel_scribe.png";
 import { DraftContext } from '../../contexts/draftContext';
 import { fadeVariant } from "../../helpers/variants";
+import { useSnackbar } from 'notistack';
 
 function ChooseName(props) {
   const { open, close } = props
+  const { enqueueSnackbar } = useSnackbar()
 
   const draft = useContext(DraftContext)
   const [name, setName] = useState('')
 
   const applyName = () => {
+    if (name.length < 2 || name.length > 31) {
+      return enqueueSnackbar('Name must be between 2 and 31 characters', { variant: 'warning' })
+    }
+
     localStorage.setItem('playerName', name);
     draft.setPlayerName(name)
   }

@@ -1,13 +1,14 @@
 [package]
 cairo-version = "=2.7.0"
 name = "darkshuffle"
-version = "0.4.0"
+version = "0.4.2"
 
 [cairo]
 sierra-replace-ids = true
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.9" }
+openzeppelin = { git = "https://github.com/OpenZeppelin/cairo-contracts", tag = "v0.15.1" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.11" }
 
 [[target.dojo]]
 
@@ -15,3 +16,5 @@ dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.9" }
 sort-module-level-items = true
 
 [profile.sepolia]
+[profile.slot]
+[profile.mainnet]

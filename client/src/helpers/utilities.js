@@ -27,6 +27,16 @@ export function ellipseAddress(address, start, end) {
   return `${address.slice(0, start)}...${address.slice(-end)}`.toUpperCase();
 }
 
+export function formatNumber(num) {
+  if (Math.abs(num) >= 1000000) {
+    return parseFloat((num / 1000000).toFixed(2)) + "m";
+  } else if (Math.abs(num) >= 1000) {
+    return parseFloat((num / 1000).toFixed(2)) + "k";
+  } else {
+    return num.toFixed(2);
+  }
+}
+
 export function calculateDistance(x1, y1, x2, y2) {
   var deltaX = x2 - x1;
   var deltaY = y2 - y1;
@@ -42,6 +52,6 @@ export function getNodeStatus(nodes, node) {
   return false
 }
 
-export function normalise (value, max) {
+export function normalise(value, max) {
   return Math.min(100, (value * 100) / max)
 } 

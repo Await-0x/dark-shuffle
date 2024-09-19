@@ -21,6 +21,8 @@ function PreloadCardImages() {
   </>
 }
 
+const BANNER_COUNT = 12
+
 function Monsters() {
   const [isLoading, setIsLoading] = useState(0);
   const [monsters] = useState(shuffle(fetchMonsterList()));
@@ -31,9 +33,9 @@ function Monsters() {
         monsters.map(monster =>
           <LazyLoadImage
             alt={""}
-            height={0}
+            height={1}
             src={fetchMonsterImage(monster.name)}
-            width={0}
+            width={1}
             onLoad={() => { setIsLoading(prev => prev + 1) }}
           />
         ))}
@@ -42,16 +44,18 @@ function Monsters() {
 
   return (
     <Box sx={[_styles.customBox, _styles.linearBg, styles.container]} width={'100%'} height={'150px'}>
-      {isLoading < 9
-        ? PreloadMonsterImages(monsters.slice(9))
+      {isLoading < 5
+        ? PreloadMonsterImages(monsters.slice(BANNER_COUNT))
 
         : <>
           {React.Children.toArray(
-            monsters.slice(0, 9).map(monster => <img alt='' src={fetchMonsterImage(monster.name)} height={'80%'} />)
+            monsters.slice(0, BANNER_COUNT).map(monster => <Box sx={{ minWidth: '120px', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <img alt='' src={fetchMonsterImage(monster.name)} height={'80%'} />
+            </Box>)
           )}
 
           {PreloadCardImages()}
-          {PreloadMonsterImages(monsters.slice(9))}
+          {PreloadMonsterImages(monsters.slice(BANNER_COUNT))}
         </>}
     </Box>
   )
@@ -61,9 +65,10 @@ export default Monsters
 
 const styles = {
   container: {
+    overflow: 'hidden',
     display: 'flex',
     alignItems: 'center',
-    gap: 4,
+    gap: 5,
     px: 2,
 
     animationName: 'fadeInAnimation',

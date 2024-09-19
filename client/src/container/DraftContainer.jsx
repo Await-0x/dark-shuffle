@@ -27,10 +27,10 @@ function DraftContainer() {
   }
 
   useEffect(() => {
-    if (game.values.inDraft && game.entropy.blockHash) {
+    if (game.values.inDraft && game.entropy.blockHash && draft.options.length === 0) {
       draft.getDraftOptions()
     }
-  }, [game.entropy.blockHash])
+  }, [game.entropy.blockHash, draft.options])
 
   if (isMobile) {
     return <Box sx={[styles.container]}>

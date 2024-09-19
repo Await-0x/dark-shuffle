@@ -6,6 +6,7 @@ import {
   voyager
 } from "@starknet-react/core";
 import React from "react";
+import { dojoConfig } from "../../dojo.config";
 
 const cartridge = new CartridgeConnector()
 
@@ -13,7 +14,7 @@ export function StarknetProvider({ children }) {
   return (
     <StarknetConfig
       chains={[mainnet, sepolia]}
-      provider={jsonRpcProvider({ rpc: () => ({ nodeUrl: import.meta.env.VITE_PUBLIC_NODE_URL }) })}
+      provider={jsonRpcProvider({ rpc: () => ({ nodeUrl: dojoConfig.rpcUrl }) })}
       connectors={[cartridge]}
       explorer={voyager}
       autoConnect

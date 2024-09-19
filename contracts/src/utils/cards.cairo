@@ -247,7 +247,7 @@ mod card_utils {
                 name: 'Tasmanian Devil',
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
-                tag_multiplier: 1,
+                tag_multiplier: 2,
                 cost: 3,
                 attack: 4,
                 health: 8,
@@ -263,8 +263,8 @@ mod card_utils {
                 card_tag: CardTags::SCALABLE,
                 tag_multiplier: 2,
                 cost: 4,
-                attack: 22,
-                health: 2,
+                attack: 16 + (level * 2),
+                health: 4 + (level * 2),
                 level
             };
         }
@@ -278,7 +278,7 @@ mod card_utils {
                 tag_multiplier: 2,
                 cost: 4,
                 attack: 12,
-                health: 18,
+                health: 14,
                 level
             };
         }

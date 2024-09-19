@@ -7,13 +7,13 @@ import { useConnect } from "@starknet-react/core";
 import React, { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
 import { dojoConfig } from '../../dojo.config';
-import logo from '../assets/images/cards.png';
 import { DojoContext } from '../contexts/dojoContext';
 import { DraftContext } from '../contexts/draftContext';
 import { ellipseAddress } from '../helpers/utilities';
 import ChooseName from './dialogs/chooseName';
 import TutorialDialog from './dialogs/tutorial';
 import ProfileMenu from './header/profileMenu';
+import logo from '../assets/images/logo.svg';
 
 const menuItems = [
   {
@@ -21,17 +21,12 @@ const menuItems = [
     path: '/',
     icon: <InfoIcon />
   },
-  {
-    name: 'Cards',
-    path: '/library',
-    icon: <InfoIcon />
-  }
 ]
 
 function Header(props) {
   const { connect, connectors } = useConnect();
-  let cartridgeConnector = connectors.find(conn => conn.id === 'cartridge')
-
+  let cartridgeConnector = connectors.find(conn => conn.id === "controller")
+  
   const dojo = useContext(DojoContext)
   const draft = useContext(DraftContext)
 
@@ -51,8 +46,8 @@ function Header(props) {
   return (
     <Box sx={styles.header}>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-        <Box height={32} sx={{ opacity: 0.9 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+        <Box height={32} sx={{ opacity: 1 }}>
           <img alt='' src={logo} height='32' />
         </Box>
 
@@ -66,25 +61,15 @@ function Header(props) {
           </Link>
         })}
 
-        <Button onClick={() => { openTutorial(true) }}>Tutorial</Button>
+        {/* <Button onClick={() => { openTutorial(true) }}>Tutorial</Button> */}
       </Box>
-
-      {(dojo.address && dojo.network !== dojoConfig.chain) && <Typography color={'red'}>
-        Wrong Network
-      </Typography>}
 
       <Box>
         {dojo.address
           ? <Button onClick={handleClick} endIcon={<PersonIcon fontSize='large' />} size='large'>
-
-            {draft.playerName
-              ? <Typography color='primary'>
-                {draft.playerName}
-              </Typography>
-
-              : <Typography color='primary' sx={{ fontSize: '12px' }}>
-                {ellipseAddress(dojo.address, 4, 4)}
-              </Typography>}
+            <Typography color='primary' sx={{ fontSize: '12px' }}>
+              {ellipseAddress(dojo.address, 4, 4)}
+            </Typography>
           </Button>
 
           : <LoadingButton loading={dojo.connecting} variant='outlined' onClick={() => connect({ connector: cartridgeConnector })} size='large' startIcon={<SportsEsportsIcon />}>
@@ -112,7 +97,8 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    px: 4,
+    px: 2,
+    pl: 3,
     boxSizing: 'border-box',
     gap: 4
   },

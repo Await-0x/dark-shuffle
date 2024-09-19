@@ -1,42 +1,55 @@
 import { DojoProvider as _dojoProvider } from "@dojoengine/core";
 import { getEvents } from "@dojoengine/utils";
+import { useAccount, useConnect, useContract, useNetwork } from "@starknet-react/core";
 import { useSnackbar } from "notistack";
-import React, { createContext, useMemo } from "react";
-import { RpcProvider, Account } from 'starknet';
+import React, { createContext, useEffect, useMemo, useState } from "react";
+import { Account, RpcProvider } from 'starknet';
 import { dojoConfig } from "../../dojo.config";
+import EthBalanceFragment from "../abi/EthBalanceFragment.json";
+import Lords from "../abi/Lords.json";
+import { createBurnerAccount, fetchBalances } from "../api/starknet";
 import { translateEvent } from "../helpers/events";
-import { useEffect } from "react";
-import { createBurnerAccount } from "../api/starknet";
-import { useState } from "react";
-import { useAccount, useConnect, useNetwork } from "@starknet-react/core";
 
 export const DojoContext = createContext()
 
 export const DojoProvider = ({ children }) => {
-  const { connect, connectors } = useConnect();
-  let cartridgeConnector = connectors.find(conn => conn.id === 'cartridge')
+  const { contract: lordsContract } = useContract({ address: dojoConfig.lordsAddress, abi: Lords });
+  const { contract: ethContract } = useContract({ address: dojoConfig.ethAddress, abi: EthBalanceFragment });
 
+  const { chain } = useNetwork()
+  const { account, address, isConnecting } = useAccount()
+  const { connect, connectors } = useConnect();
   const { enqueueSnackbar } = useSnackbar()
 
-  const dojoProvider = new _dojoProvider(dojoConfig.manifest, dojoConfig.rpcUrl);
-  const rpcProvider = useMemo(() => new RpcProvider({ nodeUrl: dojoConfig.rpcUrl, }), []);
-
-  const { account, address, isConnecting } = useAccount()
-  const { chain } = useNetwork()
+  const [balances, setBalances] = useState({ eth: BigInt(0), lords: BigInt(0) })
   const [burner, setBurner] = useState();
-
   const [creatingBurner, setCreatingBurner] = useState();
 
-  useEffect(() => {
-    if (dojoConfig.chain !== 'katana') {
-      return
-    }
+  const dojoProvider = new _dojoProvider(dojoConfig.manifest, dojoConfig.rpcUrl);
 
+  const demoRpcProvider = useMemo(() => new RpcProvider({ nodeUrl: dojoConfig.demoRpcUrl, }), []);
+  const demoDojoProvider = new _dojoProvider(dojoConfig.devManifest, dojoConfig.demoRpcUrl);
+
+  let cartridgeConnector = connectors.find(conn => conn.id === "controller")
+
+  const getBalances = async () => {
+    let balanceData = await fetchBalances(address ?? "0x0", ethContract, lordsContract)
+
+    setBalances(balanceData)
+  }
+
+  useEffect(() => {
+    if (account) {
+      getBalances();
+    }
+  }, [account]);
+
+  useEffect(() => {
     if (localStorage.getItem('burner')) {
       let burner = JSON.parse(localStorage.getItem('burner'))
 
       if (burner.version === dojoConfig.version) {
-        setBurner(new Account(rpcProvider, burner.address, burner.privateKey, "1"))
+        setBurner(new Account(demoRpcProvider, burner.address, burner.privateKey, "1"))
       } else {
         createBurner()
       }
@@ -45,23 +58,24 @@ export const DojoProvider = ({ children }) => {
     }
   }, [])
 
-  const executeTx = async (contractName, entrypoint, calldata) => {
-    let signer = dojoConfig.chain === 'katana' ? burner : account
+  const executeTx = async (contractName, entrypoint, calldata, isDemo) => {
+    let signer = isDemo ? burner : account
+    let provider = isDemo ? demoDojoProvider : dojoProvider
 
     if (!signer) {
-      dojoConfig.chain === 'katana' ? createBurner() : connect({ connector: cartridgeConnector })
+      isDemo ? createBurner() : connect({ connector: cartridgeConnector })
       return
     }
 
     try {
-      const tx = await dojoProvider.execute(signer,
+      const tx = await provider.execute(signer,
         {
           contractName,
           entrypoint,
           calldata
         },
         'darkshuffle',
-        dojoConfig.environment === 'katana' ? { maxFee: 0 } : {}
+        isDemo ? { maxFee: 0 } : {}
       );
 
       const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
@@ -85,9 +99,9 @@ export const DojoProvider = ({ children }) => {
   const createBurner = async () => {
     setCreatingBurner(true)
 
-    let account = await createBurnerAccount(rpcProvider)
+    let account = await createBurnerAccount(demoRpcProvider)
     if (account) {
-      setAccount(account)
+      setBurner(account)
     } else {
       enqueueSnackbar('Failed to create burner', { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'right' } })
     }
@@ -98,11 +112,13 @@ export const DojoProvider = ({ children }) => {
   return (
     <DojoContext.Provider
       value={{
-        address: address ?? burner?.address,
-        connecting: creatingBurner || isConnecting,
+        address: address,
+        connecting: isConnecting,
         network: chain.network,
+        balances,
         executeTx,
         createBurner,
+        getBalances,
       }}
     >
       {children}

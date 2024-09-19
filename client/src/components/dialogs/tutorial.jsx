@@ -1,20 +1,37 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import StarIcon from '@mui/icons-material/Star';
+import React, { useState } from 'react'
 import { Box, Dialog, Typography } from '@mui/material';
-import vortex from "../../assets/images/vortex.png";
-import { GET_MONSTER } from '../../battle/monsterUtils';
-import { fetch_image } from '../../helpers/cards';
-import { levelColors } from '../../helpers/constants';
+import { CardSize, fetchCardList } from '../../helpers/cards';
+import Card from '../card';
 
 function TutorialDialog(props) {
   const { open, close } = props
+
+  const [step, setStep] = useState(0)
+
+  const RenderDraftPhase = () => {
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
+        <Typography color='primary' variant='h2'>
+          1. Drafting Phase
+        </Typography>
+
+        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+          {React.Children.toArray(
+            fetchCardList().slice(10, 13).map(card => {
+              return <Box sx={styles.cardContainer}>
+                <Card card={card} />
+              </Box>
+            }))}
+        </Box>
+      </Box>
+    )
+  }
 
   return (
     <Dialog
       open={open}
       onClose={() => close(false)}
-      maxWidth={'md'}
+      maxWidth={'lg'}
       PaperProps={{
         sx: { background: 'rgba(0, 0, 0, 0.98)', border: '1px solid rgba(255, 255, 255, 0.5)' }
       }}
@@ -22,105 +39,8 @@ function TutorialDialog(props) {
 
       <Box sx={styles.container}>
 
-        <Typography color='primary' variant='h2'>
-          Tutorial
-        </Typography>
+        {step === 0 && <RenderDraftPhase />}
 
-        <Box sx={styles.guideRow}>
-          <Box width='40%'>
-            <Typography variant='h5' color='primary'>
-              Card Tiers
-            </Typography>
-            <Typography mt={1}>
-              Defeat beasts to level up your cards.
-            </Typography>
-            <Typography>
-              Cards improve based on their type.
-            </Typography>
-          </Box>
-
-          <Box width='40%' display={'flex'} alignItems={'center'} justifyContent={'center'} gap={0.5}>
-            {Array(5).fill(0).map((_, i) => {
-              return <Box sx={styles.levelContainer} key={i}>
-                <BookmarkIcon htmlColor={levelColors[i].bg} fontSize='large' />
-                <StarIcon htmlColor={levelColors[i].star} sx={{ position: 'absolute', top: '6px', left: '12px', fontSize: '10px' }} />
-                <StarIcon htmlColor={levelColors[i].star} sx={{ position: 'absolute', top: '15px', left: '12px', fontSize: '10px' }} />
-              </Box>
-            })}
-          </Box>
-        </Box>
-
-        <Box sx={styles.guideRow}>
-
-          <Box width='40%'>
-            <Typography variant='h5' color='primary'>
-              Play cards for energy
-            </Typography>
-            <Typography mt={1}>
-              Cards cost energy to play.
-            </Typography>
-            <Typography>
-              Your energy replenish each round.
-            </Typography>
-          </Box>
-
-          <Box width='40%' display={'flex'} gap={1} height={'30px'} alignItems={'center'} justifyContent={'flex-end'}>
-            <ArrowForwardIcon fontSize='large' color='primary' />
-
-            <Box sx={styles.card}>
-              <Box sx={styles.circle} border={'1px solid #FFE97F'}>
-                <Typography>
-                  1
-                </Typography>
-              </Box>
-
-              <Typography>
-                Wild Dog
-              </Typography>
-            </Box>
-          </Box>
-
-        </Box>
-
-        <Box sx={styles.guideRow}>
-          <Box width='40%'>
-            <Typography variant='h5' color='primary'>
-              Discard cards for (1) energy
-            </Typography>
-            <Typography mt={1}>
-              Drag cards to the vortex to discard them.
-            </Typography>
-          </Box>
-
-          <Box width='40%' display={'flex'} alignItems={'center'} justifyContent={'flex-end'}>
-            <Box width='140px' zIndex={999} mr={5}>
-              <img src={vortex} alt='' />
-            </Box>
-          </Box>
-        </Box>
-
-        <Box sx={styles.guideRow}>
-          <Box width='40%'>
-            <Typography variant='h5' color='primary'>
-              Attack Beast
-            </Typography>
-            <Typography mt={1}>
-              Use your creatures or spells to damage the beast.
-            </Typography>
-          </Box>
-
-          <Box width='40%' display={'flex'} alignItems={'center'} justifyContent={'center'} gap={1}>
-            <Box sx={{ ...styles.card, height: '75px', width: '75px', justifyContent: 'center' }}>
-              <img alt='' src={fetch_image('Wild Dog')} height={'100%'} />
-            </Box>
-
-            <ArrowForwardIcon color='primary' fontSize='large' />
-
-            <Box height={'100px'}>
-              {GET_MONSTER(1).image}
-            </Box>
-          </Box>
-        </Box>
 
       </Box>
 
@@ -133,7 +53,7 @@ export default TutorialDialog
 const styles = {
   container: {
     boxSizing: 'border-box',
-    width: '800px',
+    width: '1000px',
     height: '660px',
     py: 4,
     gap: 2,
@@ -149,6 +69,11 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-evenly',
     alignItems: 'center'
+  },
+  cardContainer: {
+    height: '300px',
+    width: '240px',
+    margin: '0 12px'
   },
   card: {
     background: '#141920',

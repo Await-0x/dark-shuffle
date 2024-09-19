@@ -17,14 +17,14 @@ function parseData(value, type) {
 
 export function translateEvent(event) {
   const name = translateName(event[0]);
-  const keysNumber = parseInt(event[1]);
-  const keys = event.slice(2, 2 + keysNumber).map((key) => BigInt(key));
+  const keysNumber = parseInt(event[2]);
+  const keys = event.slice(3, 3 + keysNumber).map((key) => BigInt(key));
   const entityId = getEntityIdFromKeys(keys);
 
   if (!components[name]) return;
 
   const component = components[name];
-  let values = [...event.slice(2, 2 + keysNumber), ...event.slice(keysNumber + 3)];
+  let values = [...event.slice(3, 3 + keysNumber), ...event.slice(keysNumber + 4)];
 
   const parsedFields = Object.keys(component).reduce((acc, key, index) => {
     if (component[key] === 'array') {

@@ -1,11 +1,11 @@
 mod node_utils {
+    use starknet::{get_caller_address, get_block_info, get_block_timestamp, get_tx_info, get_contract_address};
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use core::{
-        array::{ArrayTrait},
-    };
+    use core::{array::{ArrayTrait},};
 
     use darkshuffle::models::battle::{Battle, BattleEffects};
     use darkshuffle::models::game::{Game};
+    use darkshuffle::models::entropy::{Entropy};
     use darkshuffle::models::draft::{Draft, DraftCard};
     use darkshuffle::models::node::{Node, MonsterNode, PotionNode, CardNode};
     use darkshuffle::utils::random;
@@ -138,7 +138,7 @@ mod node_utils {
         seed = random::LCG(seed);
         let attack_multiplier = random::get_random_number(seed, 5);
 
-        let health = 35 + (branch * health_multiplier) + (branch * 5);
+        let health = 45 + (branch * health_multiplier) + (branch * 5);
         let attack = 2 + (branch * attack_multiplier) + branch;
 
         MonsterNode {
@@ -226,6 +226,7 @@ mod node_utils {
                 branch: game.branch,
                 deck,
             },
+
             BattleEffects {
                 battle_id: battle_id,
                 next_spell_reduction: 0,
@@ -234,6 +235,12 @@ mod node_utils {
                 damage_immune: false
             }
         ));
+
+        if game.node_level == LAST_NODE_LEVEL - 1 {
+            let mut next_block = get_block_info().unbox().block_number.into() + 1;
+            game.entropy_count += 1;
+            set!(world, (Entropy { game_id: game.game_id, number: game.entropy_count, block_number: next_block, block_hash: 0 }));
+        }
     }
 
     fn take_potion(ref game: Game, ref node: Node, potion: PotionNode, world: IWorldDispatcher) {

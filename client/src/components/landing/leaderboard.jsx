@@ -9,6 +9,7 @@ function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
+  const [tab, setTab] = useState('one')
 
   const handleChange = (event, newValue) => {
     setLoading(true)
@@ -19,7 +20,7 @@ function Leaderboard() {
     async function fetchLeaderboard() {
       setLoading(true)
 
-      const data = await getLeaderboard(page - 1)
+      const data = await getLeaderboard(page - 1, tab === 'one')
 
       setLeaderboard(data ?? [])
       setLoading(false)
@@ -31,10 +32,11 @@ function Leaderboard() {
   return (
     <Box sx={styles.container}>
       <Tabs
-        value={'one'}
+        value={tab}
         indicatorColor="primary"
       >
-        <Tab value={'one'} label="Leaderboard" />
+        <Tab value={'one'} label="Demo" />
+        <Tab value={'two'} label="Season" />
 
         <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'flex-end' }}>
           <Pagination count={10} shape="rounded" color='primary' size='small' page={page} onChange={handleChange} />
@@ -57,7 +59,7 @@ function Leaderboard() {
 
       {loading && <Box />}
 
-      <Scrollbars style={{ width: '100%', height: '100%', paddingBottom: '20px', minHeight: '240px' }}>
+      <Scrollbars style={{ width: '100%', paddingBottom: '20px', height: '220px' }}>
         {!loading && React.Children.toArray(
           leaderboard.map((player, i) => {
             return <>
@@ -71,7 +73,7 @@ function Leaderboard() {
                 </Box>
 
                 <Box width='100px' textAlign={'center'}>
-                  <Typography>{player.score}</Typography>
+                  <Typography>{player.hero_xp}</Typography>
                 </Box>
               </Box>
             </>

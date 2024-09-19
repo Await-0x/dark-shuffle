@@ -13,7 +13,8 @@ import React, { useContext } from 'react';
 import { dojoConfig } from '../../../dojo.config';
 import { DojoContext } from '../../contexts/dojoContext';
 import { DraftContext } from '../../contexts/draftContext';
-import { ellipseAddress } from '../../helpers/utilities';
+import { ellipseAddress, formatNumber } from '../../helpers/utilities';
+import EthIcon from '../ethIcon';
 
 function ProfileMenu(props) {
   const { handleClose, anchorEl, openNameDialog } = props
@@ -26,7 +27,7 @@ function ProfileMenu(props) {
 
   const copyAddress = async () => {
     await navigator.clipboard.writeText(address)
-    enqueueSnackbar('Address copied', { variant: 'info', autoHideDuration: 1000 })
+    enqueueSnackbar('Address copied', { variant: 'info', autoHideDuration: 2000 })
   }
 
   return (
@@ -34,7 +35,7 @@ function ProfileMenu(props) {
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} sx={styles.menu}>
         <Box width={260} mt={1} display={'flex'} flexDirection={'column'} gap={0.5}>
 
-          {dojoConfig.environment === 'katana'
+          {dojoConfig.chain === 'katana'
             ? <Box px={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'} mb={0.5}>
               <Typography color='primary' variant='h6'>
                 Burner Wallet
@@ -42,22 +43,23 @@ function ProfileMenu(props) {
             </Box>
 
             : <Box px={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'} mb={0.5}>
-              <Typography color='primary' variant='h6'>
+              <Typography color='primary'>
                 Account
               </Typography>
 
               <Box display={'flex'} gap={2} alignItems={'center'}>
-                <Box display={'flex'} gap={0.5} alignItems={'center'}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFE97F" height={14}><path d="M0 12v2h1v2h6V4h2v12h6v-2h1v-2h-2v2h-3V4h2V0h-2v2H9V0H7v2H5V0H3v4h2v10H2v-2z"></path></svg>
-                  <Typography color={'primary'} sx={{ fontSize: '13px' }}>
-                    0
+                <Box display={'flex'} alignItems={'center'}>
+                  <EthIcon />
+
+                  <Typography color={'primary'} sx={{ fontSize: '12px' }}>
+                    {formatNumber(parseInt(dojo.balances.eth.toString()) / 10 ** 18)}
                   </Typography>
                 </Box>
 
                 <Box display={'flex'} gap={0.5} alignItems={'center'}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFE97F" height={14}><path d="M0 12v2h1v2h6V4h2v12h6v-2h1v-2h-2v2h-3V4h2V0h-2v2H9V0H7v2H5V0H3v4h2v10H2v-2z"></path></svg>
-                  <Typography color={'primary'} sx={{ fontSize: '13px' }}>
-                    0
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFE97F" height={12}><path d="M0 12v2h1v2h6V4h2v12h6v-2h1v-2h-2v2h-3V4h2V0h-2v2H9V0H7v2H5V0H3v4h2v10H2v-2z"></path></svg>
+                  <Typography color={'primary'} sx={{ fontSize: '12px' }}>
+                    {formatNumber(parseInt(dojo.balances.lords.toString()) / 10 ** 18)}
                   </Typography>
                 </Box>
               </Box>
@@ -86,12 +88,11 @@ function ProfileMenu(props) {
               <AccountBalanceWalletIcon fontSize="small" />
 
               <Typography sx={{ fontSize: '12px' }}>
-                {address && ellipseAddress(address, 4, 8)}
+                {dojo.address && ellipseAddress(dojo.address, 4, 8)}
               </Typography>
             </Box>
 
-
-            {dojoConfig.environment === 'katana'
+            {dojoConfig.chain === 'katana'
               ? <IconButton onClick={() => { dojo.createBurner() }}>
                 <RefreshIcon fontSize='small' />
               </IconButton>

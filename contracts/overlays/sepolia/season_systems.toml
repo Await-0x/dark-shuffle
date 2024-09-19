@@ -1,0 +1,5 @@
+tag = "darkshuffle-season_systems"
+writes = [
+    "darkshuffle-Season",
+    "darkshuffle-PlayerReward",
+]

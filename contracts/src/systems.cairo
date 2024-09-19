@@ -10,3 +10,6 @@ mod battle {
 mod node {
     mod contracts;
 }
+mod season {
+    mod contracts;
+}

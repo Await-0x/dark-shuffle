@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab'
-import { Box, Typography } from '@mui/material'
+import { Box, List, Typography } from '@mui/material'
 import React, { useContext, useState } from 'react'
 import { BrowserView, MobileView } from 'react-device-detect'
 import { DraftContext } from '../../contexts/draftContext'
@@ -7,6 +7,7 @@ import { _styles } from '../../helpers/styles'
 import ChooseName from '../dialogs/chooseName'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
+import logo from '../../assets/images/logo.svg';
 
 function StartDraft() {
   const draft = useContext(DraftContext)
@@ -14,14 +15,14 @@ function StartDraft() {
 
   const [nameDialog, showNameDialog] = useState(false)
 
-  async function beginDraft() {
+  async function beginDraft(isDemo) {
     if (!draft.playerName) {
       return showNameDialog(true)
     }
 
     setLoading(true)
 
-    await draft.startDraft()
+    await draft.startDraft(isDemo)
 
     setLoading(false)
   }
@@ -37,6 +38,7 @@ function StartDraft() {
             <Typography variant='h5' color='primary'>
               0 $LORDS
             </Typography>
+
           </Box>
 
           <Box sx={[styles.kpi, { width: '100%', height: '110px', mb: 2 }]}>
@@ -71,30 +73,49 @@ function StartDraft() {
       <BrowserView>
         <Box sx={styles.browserContainer}>
 
-          <Box width={'100%'} display={'flex'} justifyContent={'space-between'} gap={2}>
-            <Box>
-              <Typography variant='h5' color='primary' mb={1}>
-                Season Of Discovery
-              </Typography>
-              <Typography>
-                Roguelike deck-building game coming to starknet, powered by Realms L3 and $Lords. <br />
-                Your feedback and in-game decisions will be instrumental in refining and balancing the game.
+          <Box width={'100%'} display={'flex'} alignItems={'flex-start'} justifyContent={'space-between'} gap={2}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pl: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant='h2' color='primary' fontSize={'30px'}>
+                  Dark Shu
+                </Typography>
+
+                <Box mb={'-19px'} ml={'-8px'} mr={'-7px'}>
+                  <img alt='' src={logo} height='42' />
+                </Box>
+
+                <Typography variant='h2' color='primary' fontSize={'30px'}>
+                  le
+                </Typography>
+              </Box>
+
+              <Typography variant='h6'>
+                A Provable Roguelike Deck-building Game on Starknet, powered by $LORDS.
               </Typography>
             </Box>
 
             <Box display='flex' gap={2}>
               <Box sx={[styles.kpi]}>
                 <Typography>
-                  Season ends in
+                  Season 0
                 </Typography>
                 <Typography variant='h6' color='primary'>
-                  0 Blocks
+                  Coming Soon
                 </Typography>
               </Box>
 
               <Box sx={styles.kpi}>
                 <Typography>
-                  Season reward
+                  Season Entry
+                </Typography>
+                <Typography variant='h6' color='primary'>
+                  0 $LORDS
+                </Typography>
+              </Box>
+
+              <Box sx={styles.kpi}>
+                <Typography>
+                  Season Pool
                 </Typography>
                 <Typography variant='h6' color='primary'>
                   0 $LORDS
@@ -108,32 +129,52 @@ function StartDraft() {
           <Box sx={[_styles.customBox, _styles.linearBg, { display: 'flex', justifyContent: 'space-between', p: 2 }]} width={'100%'}>
 
             <Box sx={{ maxWidth: '800px' }}>
-              <Typography variant='h2'>
-                Enter the Cave
+              <Typography variant='h3'>
+                Season 0: New beginnings
               </Typography>
 
-              <Typography color={'primary'} mt={4}>
-                Assemble a team of mighty creatures and mystical spells, each with their unique abilities and powers.
-              </Typography>
+              <ul style={{ paddingLeft: '16px', color: '#FFE97F' }}>
+                <li>
+                  <Typography mt={3} style={{ fontSize: '15px' }} color={'primary'}>
+                    Draft 8 powerful cards to kickstart your journey, shaping your strategy from the very beginning.
+                  </Typography>
+                </li>
 
-              <Typography color={'primary'} mt={1.5}>
-                Venture into the perilous depths of the cave, a treacherous place teeming with monstrous adversaries and enigmatic challenges.
+                <li>
+                  <Typography mt={2} style={{ fontSize: '15px' }} color={'primary'}>
+                    Explore randomly generated maps filled with branching paths and unpredictable challenges.
+                  </Typography>
+                </li>
 
-                With every step and every battle, your strategic prowess and the synergies of your team will be put to the test.
-              </Typography>
+                <li>
+                  <Typography mt={2} style={{ fontSize: '15px' }} color={'primary'}>
+                    Engage in strategic card-based battles against fierce beasts, earning experience to level up your deck and strengthen your abilities with each victory.
+                  </Typography>
+                </li>
 
-              <Typography color={'primary'} mt={1.5}>
-                But tread carefully, brave adventurer, for the cave shows no mercy. A single defeat, a mere moment of weakness, spells the end of your journey. In this high-stakes adventure, death is final, and glory is earned.
-              </Typography>
+                <li>
+                  <Typography mt={2} style={{ fontSize: '15px' }} color={'primary'}>
+                    Climb the leaderboard to earn a share of the season reward pool and prove your mastery.
+                  </Typography>
+                </li>
+              </ul>
 
               <Box mt={4} display={'flex'} alignItems={'center'} gap={2}>
-                <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
-                  Start draft
-                </LoadingButton>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
+                  <LoadingButton disabled={true} variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                    Play Season
+                  </LoadingButton>
+                </Box>
+
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
+                  <LoadingButton color='secondary' variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                    Play Demo
+                  </LoadingButton>
+                </Box>
               </Box>
             </Box>
 
-            <Box width={'450px'} sx={_styles.customBox}>
+            <Box width={'500px'} sx={_styles.customBox}>
 
               <Leaderboard />
 
@@ -170,14 +211,26 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     boxSizing: 'border-box',
-    gap: 6,
+    gap: 3.5,
     p: 4,
+    pl: 2,
+    pt: 2
   },
   startContainer: {
-    width: '100%'
+    maxWidth: 'calc(100% - 500px)',
+    width: '800px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 2
+  },
+  seasonContainer: {
+    width: '500px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 2
   },
   kpi: {
-    width: '250px',
+    width: '220px',
     height: '90px',
     background: 'linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5))',
     boxSizing: 'border-box',

@@ -1,8 +1,8 @@
 {
   "world": {
     "kind": "WorldContract",
-    "class_hash": "0x458d0ce5b14a4844092bdb62050f462d53362304a13febbac6d973691d61be2",
-    "original_class_hash": "0x458d0ce5b14a4844092bdb62050f462d53362304a13febbac6d973691d61be2",
+    "class_hash": "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e",
+    "original_class_hash": "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e",
     "abi": [
       {
         "type": "impl",
@@ -945,6 +945,11 @@
             "kind": "data"
           },
           {
+            "name": "entity_id",
+            "type": "core::felt252",
+            "kind": "data"
+          },
+          {
             "name": "keys",
             "type": "core::array::Span::<core::felt252>",
             "kind": "data"
@@ -1229,13 +1234,13 @@
         ]
       }
     ],
-    "address": "0x8d8e73b20e205f98347501a072701e3b7b55c6048ff78562c025aa8a5571a0",
-    "transaction_hash": "0xc7138e3f7261e3062e41639a6c6b5a1b3fea11b1ba134c7b0e93f2578c6dcc",
-    "block_number": 12,
+    "address": "0x1daff27c57cad231614299bb448215f8ec880926054c45c4eb9459c34c91a47",
+    "transaction_hash": "0x76a7b59d000d5e4da6e62a0ca301cd0966f3c57df76e324f01ccb6719648390",
+    "block_number": 55,
     "seed": "darkshuffle",
     "metadata": {
-      "profile_name": "release",
-      "rpc_url": "https://api.cartridge.gg/x/darkshuffle-5/katana/"
+      "profile_name": "dev",
+      "rpc_url": "http://localhost:5050/"
     },
     "manifest_name": "dojo-world"
   },
@@ -1243,16 +1248,16 @@
     "kind": "Class",
     "class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
     "original_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
-    "abi": "manifests/release/deployment/abis/dojo-base.json",
+    "abi": "manifests/dev/deployment/abis/dojo-base.json",
     "tag": "dojo-base",
     "manifest_name": "dojo-base"
   },
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": "0x6eedafdddf29e3a4a551d52faa560ce433daa00bc44f3b5c2194dd77443e635",
-      "class_hash": "0x13e8ce127aa900ed0e90761f20f5269aeae72cde66981432491526926fb7b93",
-      "original_class_hash": "0x13e8ce127aa900ed0e90761f20f5269aeae72cde66981432491526926fb7b93",
+      "address": "0x3b715a3491a166757c6d1e804f2ebf0d9778c647ad458fe0b793d98234f324e",
+      "class_hash": "0x2f95e3bbaf7d119a5fe9dea74d101e80fc48a3be5599572fa7024f9853b6f28",
+      "original_class_hash": "0x2f95e3bbaf7d119a5fe9dea74d101e80fc48a3be5599572fa7024f9853b6f28",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1540,7 +1545,18 @@
         }
       ],
       "reads": [],
-      "writes": [],
+      "writes": [
+        "darkshuffle-Game",
+        "darkshuffle-Battle",
+        "darkshuffle-HandCard",
+        "darkshuffle-BattleEffects",
+        "darkshuffle-Creature",
+        "darkshuffle-Board",
+        "darkshuffle-Entropy",
+        "darkshuffle-Leaderboard",
+        "darkshuffle-Node",
+        "darkshuffle-DraftCard"
+      ],
       "init_calldata": [],
       "tag": "darkshuffle-battle_systems",
       "systems": [
@@ -1553,9 +1569,9 @@
     },
     {
       "kind": "DojoContract",
-      "address": "0x72a49db04b8714afe5e91874a38c60f7338a652b6ae0b29e80eba2c89246058",
-      "class_hash": "0x5e63f1d3a8e2cd740908fc3e1e45aef627d1a43f0ad4be3ebc2a105ca674925",
-      "original_class_hash": "0x5e63f1d3a8e2cd740908fc3e1e45aef627d1a43f0ad4be3ebc2a105ca674925",
+      "address": "0x3dcc3b7c95e1949540638bb308d04cc8c534ca06d5ba854d9188ce948bdafc2",
+      "class_hash": "0x531213abcdf1c69148cfcdaed7f0859c1695abb8e0af30f96aea4aa1cfe66d7",
+      "original_class_hash": "0x531213abcdf1c69148cfcdaed7f0859c1695abb8e0af30f96aea4aa1cfe66d7",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1807,7 +1823,13 @@
         }
       ],
       "reads": [],
-      "writes": [],
+      "writes": [
+        "darkshuffle-Game",
+        "darkshuffle-Draft",
+        "darkshuffle-Entropy",
+        "darkshuffle-DraftOption",
+        "darkshuffle-DraftCard"
+      ],
       "init_calldata": [],
       "tag": "darkshuffle-draft_systems",
       "systems": [
@@ -1818,9 +1840,9 @@
     },
     {
       "kind": "DojoContract",
-      "address": "0x522d7e6a110aa33633fb7e85a22bf08d13c1a928b25def0fc6c6b4f0094ff58",
-      "class_hash": "0x2b92cb74b874a7c2661fa616ddd47828eea3200b62fd77b6f89d60ebcd88c56",
-      "original_class_hash": "0x2b92cb74b874a7c2661fa616ddd47828eea3200b62fd77b6f89d60ebcd88c56",
+      "address": "0x19fea5236f8ffb7d85c615dbe069e03275c9f16ac1fa27722d38e1911812ee7",
+      "class_hash": "0x293138465391877e8a9f4a089bd8b3fac36e092e98c603be786d2a02f0be540",
+      "original_class_hash": "0x293138465391877e8a9f4a089bd8b3fac36e092e98c603be786d2a02f0be540",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1964,8 +1986,36 @@
               "name": "start_game",
               "inputs": [
                 {
+                  "name": "season_id",
+                  "type": "core::integer::u32"
+                },
+                {
                   "name": "name",
                   "type": "core::felt252"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            },
+            {
+              "type": "function",
+              "name": "verify_game",
+              "inputs": [
+                {
+                  "name": "game_id",
+                  "type": "core::integer::u32"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            },
+            {
+              "type": "function",
+              "name": "abandon_game",
+              "inputs": [
+                {
+                  "name": "game_id",
+                  "type": "core::integer::u32"
                 }
               ],
               "outputs": [],
@@ -2052,19 +2102,27 @@
         }
       ],
       "reads": [],
-      "writes": [],
+      "writes": [
+        "darkshuffle-Game",
+        "darkshuffle-Draft",
+        "darkshuffle-Entropy",
+        "darkshuffle-Season",
+        "darkshuffle-Leaderboard"
+      ],
       "init_calldata": [],
       "tag": "darkshuffle-game_systems",
       "systems": [
-        "start_game"
+        "start_game",
+        "verify_game",
+        "abandon_game"
       ],
       "manifest_name": "darkshuffle-game_systems-289f5c06"
     },
     {
       "kind": "DojoContract",
-      "address": "0x4345f7c6d9cad2507c0820d014ccda1f8b4694cec691a9ec117c7ceefa01dd0",
-      "class_hash": "0x10e1f0898afb123ff58262064ebf3e93ca57003d563ddcdacde2210f2f9c742",
-      "original_class_hash": "0x10e1f0898afb123ff58262064ebf3e93ca57003d563ddcdacde2210f2f9c742",
+      "address": "0x7d564e4cc0d96da35014bdd990a6716e2a8b48738fcf068411eb5fcb7fe9191",
+      "class_hash": "0x1127fa810a8a8868ca92125339fa3772520699e842db257a4312f3c2d15968b",
+      "original_class_hash": "0x1127fa810a8a8868ca92125339fa3772520699e842db257a4312f3c2d15968b",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -2338,7 +2396,19 @@
         }
       ],
       "reads": [],
-      "writes": [],
+      "writes": [
+        "darkshuffle-Game",
+        "darkshuffle-Draft",
+        "darkshuffle-Entropy",
+        "darkshuffle-DraftCard",
+        "darkshuffle-Node",
+        "darkshuffle-MonsterNode",
+        "darkshuffle-PotionNode",
+        "darkshuffle-CardNode",
+        "darkshuffle-Battle",
+        "darkshuffle-BattleEffects",
+        "darkshuffle-HandCard"
+      ],
       "init_calldata": [],
       "tag": "darkshuffle-node_systems",
       "systems": [
@@ -2347,6 +2417,284 @@
         "skip_node"
       ],
       "manifest_name": "darkshuffle-node_systems-6f0ce8b9"
+    },
+    {
+      "kind": "DojoContract",
+      "address": "0x574f75b5934db1d592031d030a3b41f1a47ab7b7744a90ecfd5bbf3e9803a8e",
+      "class_hash": "0x301829119ef7b894f1663609b988b724d115a5d8422697e7eb451c27f527d89",
+      "original_class_hash": "0x301829119ef7b894f1663609b988b724d115a5d8422697e7eb451c27f527d89",
+      "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "ContractImpl",
+          "interface_name": "dojo::contract::contract::IContract"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::contract::IContract",
+          "items": [
+            {
+              "type": "function",
+              "name": "contract_name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "tag",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "name_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "selector",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "WorldProviderImpl",
+          "interface_name": "dojo::world::world_contract::IWorldProvider"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::world_contract::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::world::world_contract::IWorldProvider",
+          "items": [
+            {
+              "type": "function",
+              "name": "world",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::world::world_contract::IWorldDispatcher"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "SeasonContractImpl",
+          "interface_name": "darkshuffle::systems::season::contracts::ISeasonContract"
+        },
+        {
+          "type": "struct",
+          "name": "core::integer::u256",
+          "members": [
+            {
+              "name": "low",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "high",
+              "type": "core::integer::u128"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "darkshuffle::systems::season::contracts::ISeasonContract",
+          "items": [
+            {
+              "type": "function",
+              "name": "start_season",
+              "inputs": [
+                {
+                  "name": "duration",
+                  "type": "core::integer::u64"
+                },
+                {
+                  "name": "entry_amount",
+                  "type": "core::integer::u256"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            },
+            {
+              "type": "function",
+              "name": "end_season",
+              "inputs": [
+                {
+                  "name": "season_id",
+                  "type": "core::integer::u32"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "IDojoInitImpl",
+          "interface_name": "darkshuffle::systems::season::contracts::season_systems::IDojoInit"
+        },
+        {
+          "type": "interface",
+          "name": "darkshuffle::systems::season::contracts::season_systems::IDojoInit",
+          "items": [
+            {
+              "type": "function",
+              "name": "dojo_init",
+              "inputs": [],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "UpgradableImpl",
+          "interface_name": "dojo::contract::upgradeable::IUpgradeable"
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::upgradeable::IUpgradeable",
+          "items": [
+            {
+              "type": "function",
+              "name": "upgrade",
+              "inputs": [
+                {
+                  "name": "new_class_hash",
+                  "type": "core::starknet::class_hash::ClassHash"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::upgradeable::upgradeable::Upgraded",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "class_hash",
+              "type": "core::starknet::class_hash::ClassHash",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::upgradeable::upgradeable::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "Upgraded",
+              "type": "dojo::contract::upgradeable::upgradeable::Upgraded",
+              "kind": "nested"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "darkshuffle::systems::season::contracts::season_systems::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "UpgradeableEvent",
+              "type": "dojo::contract::upgradeable::upgradeable::Event",
+              "kind": "nested"
+            }
+          ]
+        }
+      ],
+      "reads": [],
+      "writes": [
+        "darkshuffle-Season",
+        "darkshuffle-PlayerReward"
+      ],
+      "init_calldata": [],
+      "tag": "darkshuffle-season_systems",
+      "systems": [
+        "start_season",
+        "end_season"
+      ],
+      "manifest_name": "darkshuffle-season_systems-22c760ac"
     }
   ],
   "models": [
@@ -2891,6 +3239,7 @@
         }
       ],
       "tag": "darkshuffle-Battle",
+      "qualified_path": "darkshuffle::models::battle::battle",
       "manifest_name": "darkshuffle-Battle-6adbb0ba"
     },
     {
@@ -3358,6 +3707,7 @@
         }
       ],
       "tag": "darkshuffle-BattleEffects",
+      "qualified_path": "darkshuffle::models::battle::battle_effects",
       "manifest_name": "darkshuffle-BattleEffects-157af533"
     },
     {
@@ -3829,6 +4179,7 @@
         }
       ],
       "tag": "darkshuffle-Board",
+      "qualified_path": "darkshuffle::models::battle::board",
       "manifest_name": "darkshuffle-Board-359638a3"
     },
     {
@@ -4264,6 +4615,7 @@
         }
       ],
       "tag": "darkshuffle-CardNode",
+      "qualified_path": "darkshuffle::models::node::card_node",
       "manifest_name": "darkshuffle-CardNode-4003bd66"
     },
     {
@@ -4758,6 +5110,7 @@
         }
       ],
       "tag": "darkshuffle-Creature",
+      "qualified_path": "darkshuffle::models::battle::creature",
       "manifest_name": "darkshuffle-Creature-3d4ce02a"
     },
     {
@@ -5184,6 +5537,7 @@
         }
       ],
       "tag": "darkshuffle-Draft",
+      "qualified_path": "darkshuffle::models::draft::draft",
       "manifest_name": "darkshuffle-Draft-2febb181"
     },
     {
@@ -5628,6 +5982,7 @@
         }
       ],
       "tag": "darkshuffle-DraftCard",
+      "qualified_path": "darkshuffle::models::draft::draft_card",
       "manifest_name": "darkshuffle-DraftCard-5a0f843e"
     },
     {
@@ -6072,6 +6427,7 @@
         }
       ],
       "tag": "darkshuffle-DraftOption",
+      "qualified_path": "darkshuffle::models::draft::draft_option",
       "manifest_name": "darkshuffle-DraftOption-13e9bfb1"
     },
     {
@@ -6516,6 +6872,7 @@
         }
       ],
       "tag": "darkshuffle-Entropy",
+      "qualified_path": "darkshuffle::models::entropy::entropy",
       "manifest_name": "darkshuffle-Entropy-239af4ee"
     },
     {
@@ -6525,6 +6882,11 @@
           "name": "game_id",
           "type": "usize",
           "key": true
+        },
+        {
+          "name": "season_id",
+          "type": "usize",
+          "key": false
         },
         {
           "name": "player",
@@ -6590,10 +6952,15 @@
           "name": "entropy_count",
           "type": "u16",
           "key": false
+        },
+        {
+          "name": "entropy_verified",
+          "type": "bool",
+          "key": false
         }
       ],
-      "class_hash": "0x7683f25dc1935610289bb3a5961d49ff48523c6fd98d5de78814c3cc192ce0b",
-      "original_class_hash": "0x7683f25dc1935610289bb3a5961d49ff48523c6fd98d5de78814c3cc192ce0b",
+      "class_hash": "0x25a1cdba1876bea5efbc78882379d07cbf4da950318a6f811d4aed0dc6d2e28",
+      "original_class_hash": "0x25a1cdba1876bea5efbc78882379d07cbf4da950318a6f811d4aed0dc6d2e28",
       "abi": [
         {
           "type": "impl",
@@ -6985,6 +7352,10 @@
               "type": "core::integer::u32"
             },
             {
+              "name": "season_id",
+              "type": "core::integer::u32"
+            },
+            {
               "name": "player",
               "type": "core::starknet::contract_address::ContractAddress"
             },
@@ -7035,6 +7406,10 @@
             {
               "name": "entropy_count",
               "type": "core::integer::u16"
+            },
+            {
+              "name": "entropy_verified",
+              "type": "core::bool"
             }
           ]
         },
@@ -7064,6 +7439,7 @@
         }
       ],
       "tag": "darkshuffle-Game",
+      "qualified_path": "darkshuffle::models::game::game",
       "manifest_name": "darkshuffle-Game-1a3b9b6c"
     },
     {
@@ -7490,6 +7866,7 @@
         }
       ],
       "tag": "darkshuffle-GameEffects",
+      "qualified_path": "darkshuffle::models::game::game_effects",
       "manifest_name": "darkshuffle-GameEffects-1c0e9539"
     },
     {
@@ -7934,14 +8311,20 @@
         }
       ],
       "tag": "darkshuffle-HandCard",
+      "qualified_path": "darkshuffle::models::battle::hand_card",
       "manifest_name": "darkshuffle-HandCard-5bc24229"
     },
     {
       "kind": "DojoModel",
       "members": [
         {
-          "name": "game_id",
+          "name": "season_id",
           "type": "usize",
+          "key": true
+        },
+        {
+          "name": "rank",
+          "type": "u8",
           "key": true
         },
         {
@@ -7950,18 +8333,13 @@
           "key": false
         },
         {
-          "name": "player_name",
-          "type": "felt252",
-          "key": false
-        },
-        {
           "name": "score",
           "type": "u32",
           "key": false
         }
       ],
-      "class_hash": "0x240d07c62ec4d0f6d925e1b1703ccda95cb4946fdb77648d5b1eeb966e2c6dd",
-      "original_class_hash": "0x240d07c62ec4d0f6d925e1b1703ccda95cb4946fdb77648d5b1eeb966e2c6dd",
+      "class_hash": "0x6516f4f7241950c6a5d76caeea123c88462444fe81b6acedadf39ca07f8a977",
+      "original_class_hash": "0x6516f4f7241950c6a5d76caeea123c88462444fe81b6acedadf39ca07f8a977",
       "abi": [
         {
           "type": "impl",
@@ -8328,23 +8706,23 @@
         {
           "type": "impl",
           "name": "leaderboardImpl",
-          "interface_name": "darkshuffle::models::game::Ileaderboard"
+          "interface_name": "darkshuffle::models::season::Ileaderboard"
         },
         {
           "type": "struct",
-          "name": "darkshuffle::models::game::Leaderboard",
+          "name": "darkshuffle::models::season::Leaderboard",
           "members": [
             {
-              "name": "game_id",
+              "name": "season_id",
               "type": "core::integer::u32"
+            },
+            {
+              "name": "rank",
+              "type": "core::integer::u8"
             },
             {
               "name": "player",
               "type": "core::starknet::contract_address::ContractAddress"
-            },
-            {
-              "name": "player_name",
-              "type": "core::felt252"
             },
             {
               "name": "score",
@@ -8354,7 +8732,7 @@
         },
         {
           "type": "interface",
-          "name": "darkshuffle::models::game::Ileaderboard",
+          "name": "darkshuffle::models::season::Ileaderboard",
           "items": [
             {
               "type": "function",
@@ -8362,7 +8740,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "darkshuffle::models::game::Leaderboard"
+                  "type": "darkshuffle::models::season::Leaderboard"
                 }
               ],
               "outputs": [],
@@ -8372,12 +8750,13 @@
         },
         {
           "type": "event",
-          "name": "darkshuffle::models::game::leaderboard::Event",
+          "name": "darkshuffle::models::season::leaderboard::Event",
           "kind": "enum",
           "variants": []
         }
       ],
       "tag": "darkshuffle-Leaderboard",
+      "qualified_path": "darkshuffle::models::season::leaderboard",
       "manifest_name": "darkshuffle-Leaderboard-dbeecd6e"
     },
     {
@@ -8822,6 +9201,7 @@
         }
       ],
       "tag": "darkshuffle-MonsterNode",
+      "qualified_path": "darkshuffle::models::node::monster_node",
       "manifest_name": "darkshuffle-MonsterNode-7fe0a5de"
     },
     {
@@ -9326,7 +9706,458 @@
         }
       ],
       "tag": "darkshuffle-Node",
+      "qualified_path": "darkshuffle::models::node::node",
       "manifest_name": "darkshuffle-Node-9b3c32ba"
+    },
+    {
+      "kind": "DojoModel",
+      "members": [
+        {
+          "name": "season_id",
+          "type": "usize",
+          "key": true
+        },
+        {
+          "name": "player",
+          "type": "ContractAddress",
+          "key": true
+        },
+        {
+          "name": "reward",
+          "type": "u256",
+          "key": false
+        }
+      ],
+      "class_hash": "0x17a0949d3f85d70525d194d086c592503e62a96cc241dfe08fb52921696d0d5",
+      "original_class_hash": "0x17a0949d3f85d70525d194d086c592503e62a96cc241dfe08fb52921696d0d5",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "DojoModelImpl",
+          "interface_name": "dojo::model::model::IModel"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "core::option::Option::<core::integer::u32>",
+          "variants": [
+            {
+              "name": "Some",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "None",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u8>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u8>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::layout::FieldLayout",
+          "members": [
+            {
+              "name": "selector",
+              "type": "core::felt252"
+            },
+            {
+              "name": "layout",
+              "type": "dojo::model::layout::Layout"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::FieldLayout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::Layout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::Layout>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::layout::Layout",
+          "variants": [
+            {
+              "name": "Fixed",
+              "type": "core::array::Span::<core::integer::u8>"
+            },
+            {
+              "name": "Struct",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            },
+            {
+              "name": "Enum",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Member",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "ty",
+              "type": "dojo::model::introspect::Ty"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Member>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Struct",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Enum",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Ty>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Ty>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::introspect::Ty",
+          "variants": [
+            {
+              "name": "Primitive",
+              "type": "core::felt252"
+            },
+            {
+              "name": "Struct",
+              "type": "dojo::model::introspect::Struct"
+            },
+            {
+              "name": "Enum",
+              "type": "dojo::model::introspect::Enum"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::model::model::IModel",
+          "items": [
+            {
+              "type": "function",
+              "name": "name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "tag",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "version",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::integer::u8"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "selector",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "name_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "unpacked_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "packed_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "layout",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::layout::Layout"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "schema",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::introspect::Ty"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "player_rewardImpl",
+          "interface_name": "darkshuffle::models::season::Iplayer_reward"
+        },
+        {
+          "type": "struct",
+          "name": "core::integer::u256",
+          "members": [
+            {
+              "name": "low",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "high",
+              "type": "core::integer::u128"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "darkshuffle::models::season::PlayerReward",
+          "members": [
+            {
+              "name": "season_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "player",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "reward",
+              "type": "core::integer::u256"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "darkshuffle::models::season::Iplayer_reward",
+          "items": [
+            {
+              "type": "function",
+              "name": "ensure_abi",
+              "inputs": [
+                {
+                  "name": "model",
+                  "type": "darkshuffle::models::season::PlayerReward"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "darkshuffle::models::season::player_reward::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ],
+      "tag": "darkshuffle-PlayerReward",
+      "qualified_path": "darkshuffle::models::season::player_reward",
+      "manifest_name": "darkshuffle-PlayerReward-5494aa17"
     },
     {
       "kind": "DojoModel",
@@ -9752,7 +10583,499 @@
         }
       ],
       "tag": "darkshuffle-PotionNode",
+      "qualified_path": "darkshuffle::models::node::potion_node",
       "manifest_name": "darkshuffle-PotionNode-2ca66fae"
+    },
+    {
+      "kind": "DojoModel",
+      "members": [
+        {
+          "name": "season_id",
+          "type": "usize",
+          "key": true
+        },
+        {
+          "name": "start",
+          "type": "u64",
+          "key": false
+        },
+        {
+          "name": "end",
+          "type": "u64",
+          "key": false
+        },
+        {
+          "name": "entry_amount",
+          "type": "u256",
+          "key": false
+        },
+        {
+          "name": "reward_pool",
+          "type": "u256",
+          "key": false
+        },
+        {
+          "name": "finalized",
+          "type": "bool",
+          "key": false
+        }
+      ],
+      "class_hash": "0x7aff8599c93cb38f0d14f2499f920a2fe088c756013bb9a999fedb7b246f376",
+      "original_class_hash": "0x7aff8599c93cb38f0d14f2499f920a2fe088c756013bb9a999fedb7b246f376",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "DojoModelImpl",
+          "interface_name": "dojo::model::model::IModel"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "core::option::Option::<core::integer::u32>",
+          "variants": [
+            {
+              "name": "Some",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "None",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u8>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u8>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::layout::FieldLayout",
+          "members": [
+            {
+              "name": "selector",
+              "type": "core::felt252"
+            },
+            {
+              "name": "layout",
+              "type": "dojo::model::layout::Layout"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::FieldLayout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::Layout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::Layout>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::layout::Layout",
+          "variants": [
+            {
+              "name": "Fixed",
+              "type": "core::array::Span::<core::integer::u8>"
+            },
+            {
+              "name": "Struct",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            },
+            {
+              "name": "Enum",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Member",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "ty",
+              "type": "dojo::model::introspect::Ty"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Member>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Struct",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Enum",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Ty>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Ty>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::introspect::Ty",
+          "variants": [
+            {
+              "name": "Primitive",
+              "type": "core::felt252"
+            },
+            {
+              "name": "Struct",
+              "type": "dojo::model::introspect::Struct"
+            },
+            {
+              "name": "Enum",
+              "type": "dojo::model::introspect::Enum"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::model::model::IModel",
+          "items": [
+            {
+              "type": "function",
+              "name": "name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "tag",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "version",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::integer::u8"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "selector",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "name_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "unpacked_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "packed_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "layout",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::layout::Layout"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "schema",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::introspect::Ty"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "seasonImpl",
+          "interface_name": "darkshuffle::models::season::Iseason"
+        },
+        {
+          "type": "struct",
+          "name": "core::integer::u256",
+          "members": [
+            {
+              "name": "low",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "high",
+              "type": "core::integer::u128"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "darkshuffle::models::season::Season",
+          "members": [
+            {
+              "name": "season_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "start",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "end",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "entry_amount",
+              "type": "core::integer::u256"
+            },
+            {
+              "name": "reward_pool",
+              "type": "core::integer::u256"
+            },
+            {
+              "name": "finalized",
+              "type": "core::bool"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "darkshuffle::models::season::Iseason",
+          "items": [
+            {
+              "type": "function",
+              "name": "ensure_abi",
+              "inputs": [
+                {
+                  "name": "model",
+                  "type": "darkshuffle::models::season::Season"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "darkshuffle::models::season::season::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ],
+      "tag": "darkshuffle-Season",
+      "qualified_path": "darkshuffle::models::season::season",
+      "manifest_name": "darkshuffle-Season-28c4cd34"
     }
   ]
 }

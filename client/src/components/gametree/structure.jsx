@@ -11,7 +11,7 @@ import skull from "../../assets/images/skull.png";
 import sword from "../../assets/images/sword.png";
 import { GET_MONSTER, fetchMonsterImage } from '../../battle/monsterUtils';
 import { GameContext } from '../../contexts/gameContext';
-import { CARD_DETAILS, CardSize, fetch_image } from '../../helpers/cards';
+import { CARD_DETAILS, CardSize, fetch_image, tags } from '../../helpers/cards';
 import { TOP_NODE_LEVEL, levelColors } from '../../helpers/constants';
 import { CustomTooltip, LargeCustomTooltip } from '../../helpers/styles';
 import Card from '../card';
@@ -229,7 +229,7 @@ function Structure(props) {
           {renderCard(node)}
           {RenderConnector(node, 'horizontal', 1, { width: '29px' })}
         </Box>
-        {RenderConnector(node, 'vertical', null, { height: '17px' })}
+        {RenderConnector(node, 'vertical', null, { height: '17px', mr: '1px' })}
       </Box>}
 
       {connector === 'reversedSplit' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -302,11 +302,13 @@ function Structure(props) {
 
   function renderCard(node) {
     let levelColor = levelColors[Math.floor(node.cardLevel / 3)] ?? levelColors[4]
+    let card = CARD_DETAILS(node.cardId, 1, node.cardLevel);
+    card.cost = card.tag === tags.RENEWABLE ? Math.max(1, card.cost - (card.level - 1)) : card.cost;
 
     return <LargeCustomTooltip leaveDelay={300} position={'right'} title={
       <Box sx={styles.cardTooltipContainer}>
         <Box sx={styles.displayCard}>
-          <Card card={CARD_DETAILS(node.cardId, 1, node.cardLevel)} hideTooltip={true} />
+          <Card card={card} hideTooltip={true} />
         </Box>
 
         {node.active && <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
@@ -419,7 +421,7 @@ function Structure(props) {
           {node.type === 'potion' ? renderPotionNode(node) : renderEnergyNode(node)}
           {RenderConnector(node, 'horizontal', 1, { width: '25px' })}
         </Box>
-        {RenderConnector(node, 'vertical', null, { height: '25px' })}
+        {RenderConnector(node, 'vertical', null, { height: '26px', mr: '1px' })}
       </Box>}
 
       {connector === 'reversedSplit' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -433,9 +435,9 @@ function Structure(props) {
       </Box>}
 
       {connector === 'connected' && <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        {RenderConnector(node, 'vertical', 0, { height: '24px' })}
+        {RenderConnector(node, 'vertical', 0, { height: '25px' })}
         {node.type === 'potion' ? renderPotionNode(node) : renderEnergyNode(node)}
-        {RenderConnector(node, 'vertical', null, { height: '24px' })}
+        {RenderConnector(node, 'vertical', null, { height: '25px' })}
       </Box>}
     </Box >
   }
@@ -452,7 +454,7 @@ function Structure(props) {
       <Box display={'flex'} alignItems={'flex-end'}>
         {RenderConnector(node, 'curved', 0, { borderLeft: '1px solid #FFF', width: '40px' })}
         {RenderType(node, 'split')}
-        {RenderConnector(node, 'curved', 1, { borderRight: '1px solid #FFF', width: '40px' })}
+        {RenderConnector(node, 'curved', 1, { borderRight: '1px solid #FFF', width: '39px' })}
       </Box>
     </>
   }
@@ -625,8 +627,8 @@ const styles = {
     cursor: 'pointer'
   },
   smallCircle: {
-    width: '70px',
-    height: '70px',
+    width: '68px',
+    height: '68px',
     borderRadius: '100%',
     background: 'rgba(0, 0, 0, 0.6)',
     border: '1px solid #FFF',

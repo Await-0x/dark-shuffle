@@ -22,7 +22,7 @@ import Phoenix from "./monsters/Phoenix";
 import Pixie from "./monsters/Pixie";
 import Rat from "./monsters/Rat";
 import Satori from "./monsters/Satori";
-import Snake from "./monsters/Snake";
+import Hydra from "./monsters/Hydra";
 import Titan from "./monsters/Titan";
 import Warlock from "./monsters/Warlock";
 import Weretiger from "./monsters/Weretiger";
@@ -133,7 +133,7 @@ function Monster(props) {
           {monster.name === 'Pixie' && <Pixie monster={monster} />}
           {monster.name === 'Rat' && <Rat monster={monster} />}
           {monster.name === 'Satori' && <Satori monster={monster} />}
-          {monster.name === 'Snake' && <Snake monster={monster} />}
+          {monster.name === 'Hydra' && <Hydra monster={monster} />}
           {monster.name === 'Titan' && <Titan monster={monster} />}
           {monster.name === 'Warlock' && <Warlock monster={monster} />}
           {monster.name === 'Weretiger' && <Weretiger monster={monster} />}

@@ -1,0 +1,13 @@
+tag = "darkshuffle-battle_systems"
+writes = [
+    "darkshuffle-Game",
+    "darkshuffle-Battle",
+    "darkshuffle-HandCard",
+    "darkshuffle-BattleEffects",
+    "darkshuffle-Creature",
+    "darkshuffle-Board",
+    "darkshuffle-Entropy",
+    "darkshuffle-Leaderboard",
+    "darkshuffle-Node",
+    "darkshuffle-DraftCard",
+]

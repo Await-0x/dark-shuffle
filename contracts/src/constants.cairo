@@ -1,4 +1,3 @@
-const ADVENTURER_ID: u16 = 65535;
 const CARD_POOL_SIZE: u16 = 40;
 const DRAFT_SIZE: u8 = 8;
 const DECK_SIZE: u8 = 5;
@@ -13,7 +12,13 @@ const START_HEALTH: u16 = 50;
 
 const MONSTER_KILL_SCORE: u16 = 100;
 const BRANCH_SCORE_MULTIPLIER: u16 = 5;
-const PRIZES: u8 = 5;
+
+const PRIZES: u8 = 10;
+const SEASON_DURATION_SECONDS: u32 = 1209600;
+
+const MAINNET_CHAIN_ID: felt252 = 0x534e5f4d41494e;
+const SEPOLIA_CHAIN_ID: felt252 = 0x534e5f5345504f4c4941;
+const KATANA_CHAIN_ID: felt252 = 0x4b4154414e41;
 
 mod CardTypes {
     const CREATURE: felt252 = 'Creature'; 

@@ -60,12 +60,12 @@ function DeathDialog(props) {
 
       {isBrowser && <>
         <Typography mt={6}>
-          Your journey ends here, brave adventurer, swallowed by the unforgiving darkness of The Cave.
+          Your journey ends here, brave hero, swallowed by the unforgiving darkness of the mist.
           In this silent tomb, your valor and strife are sealed away, a whisper lost among the echoes of countless others who dared to challenge the abyss.
         </Typography>
 
         <Typography mt={4}>
-          The Cave remains, eternal and unyielding, its secrets forever guarded by shadows.
+          This place remains, eternal and unyielding, its secrets forever guarded by shadows.
         </Typography>
       </>}
 
@@ -87,7 +87,7 @@ const styles = {
     top: 0,
     opacity: 0,
     background: 'rgb(0, 0, 0)',
-    zIndex: 99,
+    zIndex: 999,
     boxSizing: 'border-box',
     width: '100%',
     height: 'calc(100% - 55px)',

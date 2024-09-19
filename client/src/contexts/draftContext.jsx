@@ -5,6 +5,7 @@ import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
 import { DECK_SIZE } from "../helpers/constants";
 import { useEffect } from "react";
+import { dojoConfig } from "../../dojo.config";
 
 export const DraftContext = createContext()
 
@@ -88,10 +89,12 @@ export const DraftProvider = ({ children }) => {
     setTagCount(currentTagCount)
   }
 
-  const startDraft = async () => {
+  const startDraft = async (isDemo) => {
     initializeState()
 
-    const res = await dojo.executeTx("game_systems", "start_game", [playerName ?? 'Anonymous'])
+    game.setGame({ isDemo })
+
+    const res = await dojo.executeTx("game_systems", "start_game", [dojoConfig.season, playerName ?? 'Anonymous'], isDemo)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -103,12 +106,14 @@ export const DraftProvider = ({ children }) => {
   }
 
   const getDraftOptions = async () => {
-    const res = await dojo.executeTx("draft_systems", "get_draft_options", [game.values.gameId, game.entropy.blockHash])
+    const res = await dojo.executeTx("draft_systems", "get_draft_options", [game.values.gameId, game.entropy.blockHash], game.values.isDemo)
 
     if (res) {
       const draftOptions = res.filter(e => e.componentName === 'DraftOption')
-
       setOptions(draftOptions.map(option => CARD_DETAILS(option.cardId, option.optionId, option.level)))
+
+      const entropy = res.find(e => e.componentName === 'Entropy')
+      game.setGameEntropy(entropy)
     }
   }
 
@@ -117,7 +122,7 @@ export const DraftProvider = ({ children }) => {
 
     setPendingCard(card.id)
 
-    const res = await dojo.executeTx("draft_systems", "pick_card", [game.values.gameId, card.id])
+    const res = await dojo.executeTx("draft_systems", "pick_card", [game.values.gameId, card.id], game.values.isDemo)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -138,9 +143,6 @@ export const DraftProvider = ({ children }) => {
       if (gameValues) {
         game.setGame(gameValues)
       }
-
-      const entropy = res.find(e => e.componentName === 'Entropy')
-      game.setGameEntropy(entropy)
     }
 
     setPendingCard()

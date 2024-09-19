@@ -28,7 +28,22 @@ mod draft_systems {
             let seed: u128 = random::get_entropy(entropy_hash);
             let (option_1, option_2, option_3) = draft_utils::get_draft_options(game_id, seed); 
 
-            set!(world, (option_1, option_2, option_3, entropy));
+            game.entropy_count += 1;
+
+            let mut next_block = get_block_info().unbox().block_number.into() + 1;
+
+            if next_block <= entropy.block_number {
+                next_block = entropy.block_number + 1;
+            }
+
+            set!(world, (
+                option_1,
+                option_2,
+                option_3,
+                Entropy { game_id, number: game.entropy_count, block_number: next_block, block_hash: 0 },
+                entropy,
+                game
+            ));
         }
 
         fn pick_card(ref world: IWorldDispatcher, game_id: usize, option_id: u8) {
@@ -36,17 +51,10 @@ mod draft_systems {
             game.assert_draft();
 
             let mut draft = get!(world, (game_id), Draft);
-            let mut entropy: Entropy = get!(world, (game_id, game.entropy_count), Entropy);
-            
-            let mut next_block = get_block_info().unbox().block_number.into();
-            if next_block <= entropy.block_number {
-                next_block = entropy.block_number + 1;
-            }
 
             let mut choice = get!(world, (game_id, option_id), DraftOption);
             
             draft.card_count += 1;
-            game.entropy_count += 1;
 
             set!(world, (
                 draft,
@@ -57,10 +65,7 @@ mod draft_systems {
                 game.in_draft = false;
             } 
             
-            set!(world, (
-                game,
-                Entropy { game_id, number: game.entropy_count, block_number: next_block, block_hash: 0 }
-            ));
+            set!(world, (game));
         }
     }
 }

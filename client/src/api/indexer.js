@@ -13,6 +13,7 @@ export async function getActiveGame(address) {
       edges {
         node {
           game_id,
+          season_id,
           player,
           player_name,
           active,
@@ -252,25 +253,25 @@ export async function getBattleState(battle_id) {
   return result;
 }
 
-export async function getLeaderboard(page) {
-  let pageSize = 10
+export async function getLeaderboard(page, isDemo) {
+  let pageSize = 10;
 
   try {
     const document = gql`
     {
-      darkshuffleLeaderboardModels (order:{field:SCORE, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+      darkshuffleGameModels (where: {active: false}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
         edges {
           node {
             player_name,
-            score
+            hero_xp
           }
         }
       }
     }
   `
-    const res = await request(dojoConfig.toriiUrl, document)
+    const res = await request(isDemo ? dojoConfig.demoTorii : dojoConfig.toriiUrl, document);
 
-    return res?.darkshuffleLeaderboardModels?.edges.map(edge => edge.node)
+    return res?.darkshuffleGameModels?.edges.map(edge => edge.node);
   } catch (ex) {
     console.log(ex)
   }

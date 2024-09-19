@@ -63,7 +63,7 @@ export const BattleProvider = ({ children }) => {
 
   useEffect(() => {
     if (endState && (monster.health < 1 || adventurer.health < 1)) {
-      endGame()
+      endBattle()
     }
   }, [endState, monster.health, adventurer.health])
 
@@ -150,7 +150,7 @@ export const BattleProvider = ({ children }) => {
   const submitBattleAction = async ({ contract, name, data }) => {
     setPendingTx(true)
 
-    const res = await dojo.executeTx(contract, name, data)
+    const res = await dojo.executeTx(contract, name, data, game.values.isDemo)
 
     if (!res) {
       setTxQueue([])
@@ -163,25 +163,15 @@ export const BattleProvider = ({ children }) => {
     const gameValues = res.find(e => e.componentName === 'Game')
     const leaderboard = res.find(e => e.componentName === 'Leaderboard')
     const node = res.find(e => e.componentName === 'Node')
-    const entropy = res.find(e => e.componentName === 'Entropy')
-
-    if (entropy) {
-      game.setGameEntropy(entropy);
-    }
-
-    if (leaderboard) {
-      setEndState({ score: Math.max(1, leaderboard.score) })
-      return
-    }
 
     if (gameValues) {
-      setEndState({ gameValues, node })
+      setEndState({ gameValues, node, leaderboard })
     }
   }
 
-  const endGame = async () => {
-    if (endState.score) {
-      game.setScore(Math.max(1, endState.score))
+  const endBattle = async () => {
+    if (!endState.gameValues.active) {
+      game.setScore(Math.max(1, endState.gameValues.heroXp))
     } else {
       draft.levelUpCards();
 

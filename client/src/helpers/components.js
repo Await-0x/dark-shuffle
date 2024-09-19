@@ -6,6 +6,8 @@ export const translateName = (address) => {
       return 'BattleEffects'
     case '0x359638a3b7e5908f2efe696ef928787916140c8bb3ce20b956a1fb37ddc0957':
       return 'Board'
+    case '0x4003bd660d2358d7dedc99e3fd20f996915c9674814788bc99c748e935458b2':
+      return 'CardNode'
     case '0x3d4ce02a10392d8ce0660e04285ad75b4c723b1030eba13a3904de397479e54':
       return 'Creature'
     case '0x2febb181a7f6e5196432f8079e21fb0fdacc61b9a78805402d318c49133b66e':
@@ -18,18 +20,22 @@ export const translateName = (address) => {
       return 'Entropy'
     case '0x1a3b9b6c5802b83d9a8a21a24d6472b1a47b0529b4b6c805f26f744c22a35a9':
       return 'Game'
+    case '0x1c0e9539fbce953b02e41710151458afe69463e676129a87998ab3ad86568da':
+      return 'GameEffects'
     case '0x5bc24229f65f3fe6c3b0c0aa714b5962449dae463dbb418154054a24cb9cadb':
       return 'HandCard'
-    case '0xdbeecd6ebdc49d0c7692b3576e074dfa43fcd48c6b060ca8f7379b672e390e':
+    case '0x0dbeecd6ebdc49d0c7692b3576e074dfa43fcd48c6b060ca8f7379b672e390e':
       return 'Leaderboard'
     case '0x7fe0a5deeba29dc6878ffaa61f30d6e6be2138f1539cc1fb4973e3b08b6c33':
       return 'MonsterNode'
     case '0x9b3c32ba54b0d942bc7303f8a10b99ea5a23135550520e5750957cfaa08db8':
       return 'Node'
+    case '0x5494aa17ccbd1b2a9dc209ee2e1d9ade0098ef02e0bbdad88e64508910e5fa9':
+      return 'PlayerReward'
     case '0x2ca66fae0338d1ff831ca7ad5ade77cc8ad555c2f5904a958868adc4f5d7ba7':
       return 'PotionNode'
-    case '0x4003bd660d2358d7dedc99e3fd20f996915c9674814788bc99c748e935458b2':
-      return 'CardNode'
+    case '0x28c4cd34d5c7b81b84b329dbd437cb86ed946217214a2f6c67f49506b4c26e':
+      return 'Season'
   }
 }
 
@@ -37,6 +43,7 @@ export const components = {
   // Game Models
   'Game': {
     gameId: Number(),
+    seasonId: Number(),
     player: null,
     player_name: String(),
     active: Boolean(),
@@ -49,13 +56,8 @@ export const components = {
     branch: Number(),
     nodeLevel: Number(),
     monstersSlain: Number(),
-    entropyCount: Number()
-  },
-  'Leaderboard': {
-    gameId: Number(),
-    player: null,
-    player_name: String(),
-    score: Number()
+    entropyCount: Number(),
+    entropyVerified: Boolean()
   },
 
   // Draft Models
@@ -153,11 +155,33 @@ export const components = {
     cardId: Number(),
     cardLevel: Number(),
   },
+
   // Entropy models
   'Entropy': {
     gameId: Number(),
     number: Number(),
     blockNumber: Number(),
     blockHash: null
-  }
+  },
+
+  // Season models
+  'Season': {
+    seasonId: Number(),
+    start: Number(),
+    end: Number(),
+    entryAmount: Number(),
+    rewardPool: Number(),
+    finalized: Boolean()
+  },
+  'Leaderboard': {
+    gameId: Number(),
+    player: null,
+    player_name: String(),
+    score: Number()
+  },
+  'PlayerReward': {
+    seasonId: Number(),
+    player: null,
+    reward: Number(),
+  },
 }
