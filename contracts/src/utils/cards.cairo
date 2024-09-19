@@ -263,8 +263,8 @@ mod card_utils {
                 card_tag: CardTags::SCALABLE,
                 tag_multiplier: 2,
                 cost: 4,
-                attack: 16 + (level * 2),
-                health: 4 + (level * 2),
+                attack: 16,
+                health: 4,
                 level
             };
         }

@@ -156,14 +156,6 @@ export const DraftProvider = ({ children }) => {
 
     setCards(cards.slice(0, 5).sort((a, b) => a.cost - b.cost));
     setBench(cards.slice(5).sort((a, b) => a.cost - b.cost));
-
-    if (inDraft) {
-      const entropy = await getEntropy(gameId, data.length + 1)
-
-      game.setGameEntropy({
-        blockNumber: parseInt(entropy.block_number)
-      })
-    }
   }
 
   const levelUpCards = async () => {

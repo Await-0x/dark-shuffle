@@ -1,7 +1,7 @@
 import { useSnackbar } from 'notistack'
 import React, { useContext, useEffect, useState } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { getActiveGame, getTreeNodes } from '../api/indexer'
+import { getActiveGame, getEntropy, getTreeNodes } from '../api/indexer'
 import ReconnectDialog from '../components/dialogs/reconnecting'
 import StartDraft from '../components/landing/startDraft'
 import BattleContainer from '../container/BattleContainer'
@@ -42,6 +42,12 @@ function ArenaPage() {
         setReconnecting(true)
 
         try {
+          const entropy = await getEntropy(data.game_id, data.entropy_count)
+
+          gameState.setGameEntropy({
+            blockNumber: parseInt(entropy.block_number)
+          })
+
           await draft.fetchDraftCards(data.game_id, data.in_draft)
           let nodes = await getTreeNodes(data.game_id, data.branch)
 
@@ -55,6 +61,7 @@ function ArenaPage() {
 
           gameState.setGame({
             isDemo: true,
+            seasonId: data.season_id,
             gameId: data.game_id,
             player: data.player,
             player_name: hexToAscii(data.player_name),

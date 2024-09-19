@@ -7,4 +7,4 @@ echo "Building client..."
 pnpm build
 
 echo "Deploying client..."
-gcloud app deploy ./.gcloud/app.yaml
+gcloud app deploy

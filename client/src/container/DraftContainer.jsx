@@ -43,7 +43,7 @@ function DraftContainer() {
               {draft.pendingCard
                 ? <Box display={'flex'} alignItems={'baseline'}>
                   <Typography variant='h5' color='primary'>
-                    Selecting card
+                    Selecting Card
                   </Typography>
                   <div className='dotLoader' style={{ width: '24px' }} />
                 </Box>
@@ -102,7 +102,7 @@ function DraftContainer() {
               {draft.pendingCard
                 ? <Box display={'flex'} alignItems={'baseline'}>
                   <Typography variant='h2' color='primary'>
-                    Selecting card
+                    Selecting Card
                   </Typography>
                   <div className='dotLoader' style={{ width: '24px' }} />
                 </Box>
