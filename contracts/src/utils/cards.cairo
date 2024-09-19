@@ -10,7 +10,7 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 tag_multiplier: 1,
-                cost: 6,
+                cost: 5,
                 attack: 6,
                 health: 6,
                 level
@@ -24,7 +24,7 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 tag_multiplier: 1,
-                cost: 7,
+                cost: 6,
                 attack: 9,
                 health: 9,
                 level
@@ -38,7 +38,7 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::ESCALATING,
                 tag_multiplier: 1,
-                cost: 5,
+                cost: 4,
                 attack: 4,
                 health: 10,
                 level
@@ -164,7 +164,7 @@ mod card_utils {
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::ESCALATING,
                 tag_multiplier: 1,
-                cost: 4,
+                cost: 3,
                 attack: 0,
                 health: 0,
                 level
@@ -192,7 +192,7 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
                 tag_multiplier: 1,
-                cost: 3,
+                cost: 2,
                 attack: 5,
                 health: 4,
                 level
@@ -206,7 +206,7 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::SCALABLE,
                 tag_multiplier: 2,
-                cost: 4,
+                cost: 3,
                 attack: 7,
                 health: 5,
                 level
@@ -318,7 +318,7 @@ mod card_utils {
                 card_type: CardTypes::CREATURE,
                 card_tag: CardTags::RENEWABLE,
                 tag_multiplier: 1,
-                cost: 7,
+                cost: 5,
                 attack: 7,
                 health: 7,
                 level
@@ -416,7 +416,7 @@ mod card_utils {
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::RENEWABLE,
                 tag_multiplier: 1,
-                cost: 5,
+                cost: 4,
                 attack: 0,
                 health: 0,
                 level
