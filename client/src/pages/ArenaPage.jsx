@@ -54,6 +54,7 @@ function ArenaPage() {
           }
 
           gameState.setGame({
+            isDemo: true,
             gameId: data.game_id,
             player: data.player,
             player_name: hexToAscii(data.player_name),
