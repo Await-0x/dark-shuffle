@@ -1,4 +1,4 @@
-const CARD_POOL_SIZE: u16 = 40;
+const CARD_POOL_SIZE: u16 = 39;
 const DRAFT_SIZE: u8 = 8;
 const DECK_SIZE: u8 = 5;
 const DISCARD_COST: u8 = 1;

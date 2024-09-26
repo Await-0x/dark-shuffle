@@ -510,7 +510,7 @@ mod card_utils {
         else if id == 37 {
             return Card {
                 card_id: 37,
-                name: 'Power Injection',
+                name: 'Shifting Aegis',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::FATIQUE,
                 tag_multiplier: 1,
@@ -524,7 +524,7 @@ mod card_utils {
         else if id == 38 {
             return Card {
                 card_id: 38,
-                name: 'Shifting Aegis',
+                name: 'Chaotic Blast',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::FATIQUE,
                 tag_multiplier: 1,
@@ -538,20 +538,6 @@ mod card_utils {
         else if id == 39 {
             return Card {
                 card_id: 39,
-                name: 'Chaotic Blast',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::FATIQUE,
-                tag_multiplier: 1,
-                cost: 1,
-                attack: 0,
-                health: 0,
-                level
-            };
-        }
-
-        else if id == 40 {
-            return Card {
-                card_id: 40,
                 name: 'Divine Sacrifice',
                 card_type: CardTypes::SPELL,
                 card_tag: CardTags::FATIQUE,

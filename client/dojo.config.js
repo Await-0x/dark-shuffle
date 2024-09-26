@@ -17,7 +17,7 @@ const {
 
 export const dojoConfig = {
   season: 1,
-  version: "0.4.5",
+  version: "0.4.6",
   chain: VITE_PUBLIC_STARKNET_CHAIN,
   rpcUrl: VITE_PUBLIC_NODE_URL,
   toriiUrl: VITE_PUBLIC_TORII,

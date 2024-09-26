@@ -567,19 +567,6 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
       return {
         id,
         cardId: 37,
-        name: "Power Injection",
-        type: types.SPELL,
-        cost: 1,
-        attack: 0,
-        health: 0,
-        tag: tags.FATIQUE,
-        text: `Gain 3 energy`,
-        level,
-      }
-    case 38:
-      return {
-        id,
-        cardId: 38,
         name: "Shifting Aegis",
         type: types.SPELL,
         cost: 1,
@@ -589,10 +576,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         text: `Gain 6 armor`,
         level,
       }
-    case 39:
+    case 38:
       return {
         id,
-        cardId: 39,
+        cardId: 38,
         name: "Chaotic Blast",
         type: types.SPELL,
         cost: 1,
@@ -602,10 +589,10 @@ export const CARD_DETAILS = (cardId, id, level = 1) => {
         text: `Deal 15 damage`,
         level,
       }
-    case 40:
+    case 39:
       return {
         id,
-        cardId: 40,
+        cardId: 39,
         name: "Divine Sacrifice",
         type: types.SPELL,
         cost: 1,

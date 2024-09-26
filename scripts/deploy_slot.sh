@@ -13,6 +13,7 @@ slot deployments delete darkshuffle0 torii
 slot deployments create darkshuffle0 katana --version v1.0.0-alpha.11 --disable-fee true --block-time 1000 --accounts 10
 
 # echo "Migrating world..."
+sozo -P slot migrate plan
 sozo -P slot migrate apply
 
 # echo "Setting up remote indexer on slot..."

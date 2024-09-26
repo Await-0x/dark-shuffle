@@ -54,18 +54,14 @@ export const spellEffect = ({
   }
 
   else if (cardId === 37) {
-    increaseEnergy(3);
-  }
-
-  else if (cardId === 38) {
     shieldHero(6);
   }
 
-  else if (cardId === 39) {
+  else if (cardId === 38) {
     damageMonster(15, 'Spell');
   }
 
-  else if (cardId === 40) {
+  else if (cardId === 39) {
     pierceDamageAdventurer(5)
     updatedBattleEffects.damageImmune = true;
   }

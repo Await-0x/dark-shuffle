@@ -49,12 +49,12 @@
     "@graphql-codegen/typescript": "^4.0.9",
     "@graphql-codegen/typescript-graphql-request": "^5.0.0",
     "@graphql-codegen/typescript-operations": "^4.2.3",
-    "@types/react": "^18.3.7",
+    "@types/react": "^18.3.8",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^8.57.1",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.3.5",
-    "vite": "^5.4.6"
+    "vite": "^5.4.7"
   }
 }

@@ -1,5 +1,5 @@
 export const ADVENTURER_ID = 65535;
-export const CARD_POOL_SIZE = 40;
+export const CARD_POOL_SIZE = 39;
 export const DRAFT_SIZE = 8;
 export const DECK_SIZE = 5;
 export const DISCARD_COST = 1;

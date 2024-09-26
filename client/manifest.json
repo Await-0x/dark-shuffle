@@ -1236,7 +1236,7 @@
     ],
     "address": "0x1daff27c57cad231614299bb448215f8ec880926054c45c4eb9459c34c91a47",
     "transaction_hash": "0x30bb96b9900aee75ec60e5475d52e1f5495050af8fc7a1878fe11108ec82210",
-    "block_number": 178,
+    "block_number": 52,
     "seed": "darkshuffle",
     "metadata": {
       "profile_name": "slot",
@@ -1256,8 +1256,8 @@
     {
       "kind": "DojoContract",
       "address": "0x3b715a3491a166757c6d1e804f2ebf0d9778c647ad458fe0b793d98234f324e",
-      "class_hash": "0x1f169e1386e3768e0d4a47f1aee816b6c00a9951d6a99c143a08ec9cc818237",
-      "original_class_hash": "0x1f169e1386e3768e0d4a47f1aee816b6c00a9951d6a99c143a08ec9cc818237",
+      "class_hash": "0x6acbfa3922869c1e325e44d70bfe5d79d332e2e6e937e6157d323423ab15f46",
+      "original_class_hash": "0x6acbfa3922869c1e325e44d70bfe5d79d332e2e6e937e6157d323423ab15f46",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1570,8 +1570,8 @@
     {
       "kind": "DojoContract",
       "address": "0x3dcc3b7c95e1949540638bb308d04cc8c534ca06d5ba854d9188ce948bdafc2",
-      "class_hash": "0x531213abcdf1c69148cfcdaed7f0859c1695abb8e0af30f96aea4aa1cfe66d7",
-      "original_class_hash": "0x531213abcdf1c69148cfcdaed7f0859c1695abb8e0af30f96aea4aa1cfe66d7",
+      "class_hash": "0x7c8e57ea8e1d349770f26a1e35066fdcb1c84e132e2f1d9763240b2ecec0117",
+      "original_class_hash": "0x7c8e57ea8e1d349770f26a1e35066fdcb1c84e132e2f1d9763240b2ecec0117",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -2121,8 +2121,8 @@
     {
       "kind": "DojoContract",
       "address": "0x7d564e4cc0d96da35014bdd990a6716e2a8b48738fcf068411eb5fcb7fe9191",
-      "class_hash": "0x1127fa810a8a8868ca92125339fa3772520699e842db257a4312f3c2d15968b",
-      "original_class_hash": "0x1127fa810a8a8868ca92125339fa3772520699e842db257a4312f3c2d15968b",
+      "class_hash": "0x6b31f11a3dba86b6113de64a651373d1259d8c6fd7befaebfde128c740236bf",
+      "original_class_hash": "0x6b31f11a3dba86b6113de64a651373d1259d8c6fd7befaebfde128c740236bf",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {

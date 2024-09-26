@@ -59,18 +59,14 @@ mod spell_utils {
         }
 
         else if card.card_id == 37 {
-            battle.hero_energy += 3;
-        }
-
-        else if card.card_id == 38 {
             battle_utils::increase_armor(ref battle, 6, ref battle_effects);
         }
 
-        else if card.card_id == 39 {
+        else if card.card_id == 38 {
             battle_utils::damage_monster(ref battle, ref battle_effects, 15, 1);
         }
 
-        else if card.card_id == 40 {
+        else if card.card_id == 39 {
             battle_utils::piercing_damage_hero(ref battle, 5, ref battle_effects);
             battle_effects.damage_immune = true;
         }

@@ -92,8 +92,6 @@ export const DraftProvider = ({ children }) => {
   const startDraft = async (isDemo) => {
     initializeState()
 
-    game.setGame({ isDemo })
-
     const res = await dojo.executeTx("game_systems", "start_game", [dojoConfig.season, playerName ?? 'Anonymous'], isDemo)
 
     if (res) {

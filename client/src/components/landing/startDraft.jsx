@@ -8,14 +8,19 @@ import ChooseName from '../dialogs/chooseName'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
 import logo from '../../assets/images/logo.svg';
+import { GameContext } from '../../contexts/gameContext'
 
 function StartDraft() {
+  const game = useContext(GameContext)
   const draft = useContext(DraftContext)
+
   const [loading, setLoading] = useState(false)
 
   const [nameDialog, showNameDialog] = useState(false)
 
   async function beginDraft(isDemo) {
+    game.setGame({ isDemo })
+
     if (!draft.playerName) {
       return showNameDialog(true)
     }
@@ -185,7 +190,7 @@ function StartDraft() {
         </Box >
       </BrowserView>
 
-      {nameDialog && <ChooseName open={nameDialog} close={() => { showNameDialog(false); beginDraft(); }} />}
+      {nameDialog && <ChooseName open={nameDialog} close={() => { showNameDialog(false); beginDraft(game.values.isDemo); }} />}
     </>
   )
 }

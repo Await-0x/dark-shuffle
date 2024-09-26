@@ -170,7 +170,7 @@ mod node_utils {
         seed = random::LCG(seed);
         let card_id = random::get_random_card_id(seed);
         seed = random::LCG(seed);
-        let mut card_level = random::get_random_number(seed, branch * 3);
+        let mut card_level = random::get_random_number(seed, branch * 4);
 
         if card_level >= MAX_CARD_LEVEL {
             card_level = MAX_CARD_LEVEL;
