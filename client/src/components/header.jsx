@@ -3,8 +3,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Typography } from '@mui/material';
-import { useConnect } from "@starknet-react/core";
-import React, { useContext, useState } from 'react';
+import { useAccount, useConnect } from "@starknet-react/core";
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { dojoConfig } from '../../dojo.config';
 import { DojoContext } from '../contexts/dojoContext';
@@ -14,6 +14,11 @@ import ChooseName from './dialogs/chooseName';
 import TutorialDialog from './dialogs/tutorial';
 import ProfileMenu from './header/profileMenu';
 import logo from '../assets/images/logo.svg';
+import { argent } from '@starknet-react/core';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import MyGames from './header/myGames';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import { useSeason } from '../contexts/seasonContext';
 
 const menuItems = [
   {
@@ -21,19 +26,26 @@ const menuItems = [
     path: '/',
     icon: <InfoIcon />
   },
+  {
+    name: 'Donations',
+    path: '/donations',
+    icon: <InfoIcon />
+  },
 ]
 
 function Header(props) {
   const { connect, connectors } = useConnect();
   let cartridgeConnector = connectors.find(conn => conn.id === "controller")
-  
+
   const dojo = useContext(DojoContext)
   const draft = useContext(DraftContext)
+  const season = useSeason()
 
   const [nameDialog, openNameDialog] = useState(false)
   const [tutorial, openTutorial] = useState(false)
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [myGamesAnchorEl, setMyGamesAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -42,6 +54,16 @@ function Header(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleMyGamesClick = (event) => {
+    setMyGamesAnchorEl(event.currentTarget);
+  };
+
+  const handleMyGamesClose = () => {
+    setMyGamesAnchorEl(null);
+  };
+
+  let unverifiedGames = season.unverifiedGames.filter(_game => _game.block_number <= (season.latestBlock?.block_number ?? 0) - 10)
 
   return (
     <Box sx={styles.header}>
@@ -64,15 +86,26 @@ function Header(props) {
         {/* <Button onClick={() => { openTutorial(true) }}>Tutorial</Button> */}
       </Box>
 
-      <Box>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        {dojo.address && <Button variant='text' size='large' endIcon={<ArrowDropDownIcon />} onClick={handleMyGamesClick} startIcon={unverifiedGames.length > 0 ? <PriorityHighIcon fontSize="small" color='warning' /> : null}>
+          <Typography color='primary'>
+            Games
+          </Typography>
+        </Button>
+        }
+
         {dojo.address
-          ? <Button onClick={handleClick} endIcon={<PersonIcon fontSize='large' />} size='large'>
-            <Typography color='primary' sx={{ fontSize: '12px' }}>
-              {ellipseAddress(dojo.address, 4, 4)}
-            </Typography>
+          ? <Button onClick={handleClick} startIcon={<SportsEsportsIcon />} size='large'>
+            {draft?.playerName
+              ? <Typography color='primary'>
+                {draft?.playerName}
+              </Typography>
+              : <Typography color='primary' sx={{ fontSize: '12px' }}>
+                {ellipseAddress(dojo.address, 4, 4)}
+              </Typography>}
           </Button>
 
-          : <LoadingButton loading={dojo.connecting} variant='outlined' onClick={() => connect({ connector: cartridgeConnector })} size='large' startIcon={<SportsEsportsIcon />}>
+          : <LoadingButton loading={dojo.connecting} variant='outlined' onClick={() => connect({ connector: argent() })} size='large' startIcon={<SportsEsportsIcon />}>
             <Typography color='primary'>
               Connect
             </Typography>
@@ -80,6 +113,7 @@ function Header(props) {
         }
       </Box>
 
+      <MyGames handleClose={handleMyGamesClose} anchorEl={myGamesAnchorEl} />
       <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openNameDialog={openNameDialog} />
       <ChooseName open={nameDialog} close={openNameDialog} />
       <TutorialDialog open={tutorial} close={openTutorial} />

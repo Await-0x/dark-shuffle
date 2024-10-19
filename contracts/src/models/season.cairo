@@ -10,7 +10,8 @@ struct Season {
     end: u64,
     entry_amount: u256,
     reward_pool: u256,
-    finalized: bool
+    finalized: bool,
+    contract_address: ContractAddress
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -34,6 +35,18 @@ struct PlayerReward {
     reward: u256
 }
 
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+struct Donation {
+    #[key]
+    season_id: usize,
+    #[key]
+    address: ContractAddress,
+    name: felt252,
+    social: felt252,
+    amount: u256
+}
+
 #[generate_trait]
 impl SeasonOwnerImpl of SeasonOwnerTrait {
     fn assert_season(self: Season) {
@@ -46,5 +59,10 @@ impl SeasonOwnerImpl of SeasonOwnerTrait {
         let current_time = get_block_timestamp();
         assert(current_time > self.end, 'Season not over');
         assert(!self.finalized, 'Season has been finalized');
+    }
+
+    fn assert_donation(self: Season, amount: u256) {
+        assert(!self.finalized, 'Season has been finalized');
+        assert(amount >= 10000000000000000000, 'Minimum donation is 10 $LORDS');
     }
 }

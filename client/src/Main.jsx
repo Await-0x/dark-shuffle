@@ -10,6 +10,7 @@ import { BattleProvider } from "./contexts/battleContext";
 import { DojoProvider } from "./contexts/dojoContext";
 import { DraftProvider } from "./contexts/draftContext";
 import { GameProvider } from "./contexts/gameContext";
+import { SeasonProvider } from "./contexts/seasonContext";
 import { routes } from './helpers/routes';
 import { mainTheme } from './helpers/themes';
 
@@ -33,8 +34,9 @@ function Main() {
 
                   <StarknetProvider>
                     <DojoProvider showConnectWallet={showConnectWallet}>
-                      <GameProvider>
-                        <DraftProvider>
+                      <SeasonProvider>
+                        <GameProvider>
+                          <DraftProvider>
                           <BattleProvider>
 
                             <Box className='main'>
@@ -53,8 +55,9 @@ function Main() {
                             </Box>
 
                           </BattleProvider>
-                        </DraftProvider>
-                      </GameProvider>
+                          </DraftProvider>
+                        </GameProvider>
+                      </SeasonProvider>
                     </DojoProvider>
                   </StarknetProvider>
 

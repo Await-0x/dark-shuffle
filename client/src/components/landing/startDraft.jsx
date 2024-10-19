@@ -1,16 +1,20 @@
 import { LoadingButton } from '@mui/lab'
-import { Box, List, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import React, { useContext, useState } from 'react'
 import { BrowserView, MobileView } from 'react-device-detect'
+import logo from '../../assets/images/logo.svg'
 import { DraftContext } from '../../contexts/draftContext'
+import { GameContext } from '../../contexts/gameContext'
+import { useSeason } from '../../contexts/seasonContext'
 import { _styles } from '../../helpers/styles'
+import { formatTimeUntil } from '../../helpers/utilities'
 import ChooseName from '../dialogs/chooseName'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
-import logo from '../../assets/images/logo.svg';
-import { GameContext } from '../../contexts/gameContext'
+import { Link } from 'react-router-dom'
 
 function StartDraft() {
+  const season = useSeason()
   const game = useContext(GameContext)
   const draft = useContext(DraftContext)
 
@@ -102,10 +106,10 @@ function StartDraft() {
             <Box display='flex' gap={2}>
               <Box sx={[styles.kpi]}>
                 <Typography>
-                  Season 0
+                  {season.values.end > (Date.now() / 1000) ? `Season 0 ${season.values.start > (Date.now() / 1000) ? 'begins in' : 'ends in'}` : 'Season 0'}
                 </Typography>
-                <Typography variant='h6' color='primary'>
-                  Coming Soon
+                <Typography variant='h5' color='primary'>
+                  {season.values.start > (Date.now() / 1000) ? `${formatTimeUntil(season.values.start)}` : (season.values.end > (Date.now() / 1000) ? `${formatTimeUntil(season.values.end)}` : 'Finished')}
                 </Typography>
               </Box>
 
@@ -113,17 +117,24 @@ function StartDraft() {
                 <Typography>
                   Season Entry
                 </Typography>
-                <Typography variant='h6' color='primary'>
-                  0 $LORDS
+                <Typography variant={'h5'} color='primary'>
+                  {Math.floor(season.values.entryFee / 1e18)} $LORDS
                 </Typography>
               </Box>
 
               <Box sx={styles.kpi}>
-                <Typography>
-                  Season Pool
-                </Typography>
-                <Typography variant='h6' color='primary'>
-                  0 $LORDS
+                <Box display={'flex'} justifyContent={'space-between'}>
+                  <Typography>
+                    Season Pool
+                  </Typography>
+                  <Link to='/donations'>  
+                    <Typography color={'secondary'} fontSize={'12px'} sx={{ cursor: 'pointer' }}>
+                      Donate
+                    </Typography>
+                  </Link>
+                </Box>
+                <Typography variant={'h5'} color='primary'>
+                  {Math.floor(season.values.rewardPool / 1e18)} $LORDS
                 </Typography>
               </Box>
             </Box>
@@ -166,7 +177,7 @@ function StartDraft() {
 
               <Box mt={4} display={'flex'} alignItems={'center'} gap={2}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
-                  <LoadingButton disabled={true} variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                  <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
                     Play Season
                   </LoadingButton>
                 </Box>

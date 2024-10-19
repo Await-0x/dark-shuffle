@@ -4,12 +4,19 @@ import { useEffect } from 'react';
 import { getLeaderboard } from '../../api/indexer';
 import { hexToAscii } from '@dojoengine/utils';
 import { Scrollbars } from 'react-custom-scrollbars';
+import { dojoConfig } from '../../../dojo.config';
 
 function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState('one')
+
+  const changeLeaderboard = (event, newValue) => {
+    setLoading(true)
+    setPage(1);
+    setTab(newValue);
+  }
 
   const handleChange = (event, newValue) => {
     setLoading(true)
@@ -20,23 +27,26 @@ function Leaderboard() {
     async function fetchLeaderboard() {
       setLoading(true)
 
-      const data = await getLeaderboard(page - 1, tab === 'one')
+      const data = await getLeaderboard(dojoConfig.seasonId, page - 1, tab === 'two')
 
       setLeaderboard(data ?? [])
       setLoading(false)
     }
 
     fetchLeaderboard()
-  }, [page])
+  }, [page, tab])
+
+
 
   return (
     <Box sx={styles.container}>
       <Tabs
         value={tab}
         indicatorColor="primary"
+        onChange={changeLeaderboard}
       >
-        <Tab value={'one'} label="Demo" />
-        <Tab value={'two'} label="Season" />
+        <Tab value={'one'} label="Season" />
+        <Tab value={'two'} label="Demo" />
 
         <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'flex-end' }}>
           <Pagination count={10} shape="rounded" color='primary' size='small' page={page} onChange={handleChange} />

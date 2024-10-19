@@ -10,7 +10,7 @@ mod season_utils {
         let mut i = PRIZES;
 
         while i >= 0 {
-            if get!(world, (game.season_id, i), Leaderboard).score > game.hero_xp {
+            if get!(world, (game.season_id, i), Leaderboard).score > game.hero_xp || i == 0 {
                 update_leaderboard(game, i + 1, world);
                 break;
             }
@@ -74,7 +74,7 @@ mod season_utils {
 
     fn get_lords_address(chain_id: felt252) -> ContractAddress {
         if chain_id == SEPOLIA_CHAIN_ID {
-            contract_address_const::<0x064fd80fcb41d00214430574a0aa19d21cc5d6452aeb4996f31b6e9ba4f466a0>()
+            contract_address_const::<0x019c92fa87f4d5e3be25c3dd6a284f30282a07e87cd782f5fd387b82c8142017>()
         } else if chain_id == MAINNET_CHAIN_ID {
             contract_address_const::<0x0124aeb495b947201f5fac96fd1138e326ad86195b98df6dec9009158a533b49>()
         } else {

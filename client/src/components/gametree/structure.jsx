@@ -444,7 +444,7 @@ function Structure(props) {
 
   function RenderConnectedNode(node) {
     return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {RenderConnector(node, 'vertical', (node.nodeId === nodes[0].nodeId && tree.length > 1) ? 1 : 0, { height: '50px' })}
+      {RenderConnector(node, 'vertical', (node.nodeId === nodes[0].nodeId && tree.length > 1 && node.type !== 'monster') ? 1 : 0, { height: '50px' })}
       {RenderType(node, 'connected')}
     </Box>
   }

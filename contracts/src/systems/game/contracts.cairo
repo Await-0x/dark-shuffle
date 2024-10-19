@@ -12,7 +12,7 @@ mod game_systems {
     };
     use starknet::{get_caller_address, get_block_info, get_tx_info, get_contract_address};
 
-    use darkshuffle::constants::{DECK_SIZE, START_ENERGY, START_HEALTH, LAST_NODE_LEVEL, MAINNET_CHAIN_ID};
+    use darkshuffle::constants::{DECK_SIZE, START_ENERGY, START_HEALTH, LAST_NODE_LEVEL, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID};
     use darkshuffle::models::game::{Game};
     use darkshuffle::models::draft::{Draft};
     use darkshuffle::models::entropy::{Entropy};
@@ -31,16 +31,16 @@ mod game_systems {
 
             let chain_id = get_tx_info().unbox().chain_id;
 
-            if chain_id == MAINNET_CHAIN_ID {
+            if chain_id == MAINNET_CHAIN_ID || chain_id == SEPOLIA_CHAIN_ID {
                 season.assert_season();
                 
                 let payment_dispatcher = IERC20Dispatcher { contract_address: season_utils::get_lords_address(chain_id) };
 
-                let season_distribution = season.entry_amount / 100 * 80;
-                let dev_distribution = season.entry_amount / 100 * 20;
+                let season_distribution = season.entry_amount;
+                payment_dispatcher.transfer_from(get_caller_address(), season.contract_address, season_distribution);
 
-                payment_dispatcher.transfer_from(get_caller_address(), get_contract_address(), season_distribution);
-                payment_dispatcher.transfer_from(get_caller_address(), season_utils::get_developer_address(chain_id), dev_distribution);
+                // let dev_distribution = season.entry_amount / 100 * 20;
+                // payment_dispatcher.transfer_from(get_caller_address(), season_utils::get_developer_address(chain_id), dev_distribution);
                 season.reward_pool += season_distribution;
             }
 
@@ -72,7 +72,7 @@ mod game_systems {
                 Entropy {
                     game_id,
                     number: 1,
-                    block_number: get_block_info().unbox().block_number.into() + 1,
+                    block_number: get_block_info().unbox().block_number.into(),
                     block_hash: 0
                 },
                 season

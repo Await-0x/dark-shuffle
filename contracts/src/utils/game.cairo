@@ -4,7 +4,7 @@ mod game_utils {
     use starknet::syscalls::get_block_hash_syscall;
     use starknet::SyscallResultTrait;
 
-    use darkshuffle::constants::{DECK_SIZE, MONSTER_KILL_SCORE, BRANCH_SCORE_MULTIPLIER, START_ENERGY, LAST_NODE_LEVEL, MAINNET_CHAIN_ID};
+    use darkshuffle::constants::{DECK_SIZE, MONSTER_KILL_SCORE, BRANCH_SCORE_MULTIPLIER, START_ENERGY, LAST_NODE_LEVEL, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID};
     use darkshuffle::models::game::{Game};
     use darkshuffle::models::battle::{Battle};
     use darkshuffle::models::entropy::{Entropy};
@@ -68,19 +68,26 @@ mod game_utils {
     fn verify_game(ref game: Game, world: IWorldDispatcher) {
         let chain_id = get_tx_info().unbox().chain_id;
 
-        if chain_id == MAINNET_CHAIN_ID {
+        if chain_id == MAINNET_CHAIN_ID || chain_id == SEPOLIA_CHAIN_ID {
             get!(world, (game.season_id), Season).assert_season();
         }
 
         let mut i = 1;
         let mut verified = true;
 
-        if game.node_level == LAST_NODE_LEVEL - 1 {
-            game.entropy_count -= 1;
+        let mut current_block = get_block_info().unbox().block_number.into();
+        let last_entropy = get!(world, (game.game_id, game.entropy_count), Entropy);
+
+        if last_entropy.block_number > current_block - 10 {
+            return;
         }
 
         while (i <= game.entropy_count) {
             let draft_entropy = get!(world, (game.game_id, i), Entropy);
+
+            if draft_entropy.block_hash == '0x0' {
+                break;
+            }
 
             if draft_entropy.block_hash != get_block_hash_syscall(draft_entropy.block_number).unwrap_syscall() {
                 verified = false;

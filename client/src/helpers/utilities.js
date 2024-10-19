@@ -1,3 +1,6 @@
+
+import { differenceInMinutes, differenceInHours, differenceInDays } from 'date-fns';
+
 export function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
@@ -55,3 +58,22 @@ export function getNodeStatus(nodes, node) {
 export function normalise(value, max) {
   return Math.min(100, (value * 100) / max)
 } 
+
+export function formatTimeUntil(timestamp) {
+  if (!timestamp) return ''
+
+  const now = new Date();
+  const target = new Date(timestamp * 1000);
+
+  // Get total differences
+  const totalMinutes = differenceInMinutes(target, now);
+  const totalHours = differenceInHours(target, now);
+  const totalDays = differenceInDays(target, now);
+
+  // Break it down
+  const days = totalDays;
+  const hours = totalHours - (days * 24);
+  const minutes = totalMinutes - (totalHours * 60);
+
+  return `${days}d ${hours}h ${minutes}m`;
+}

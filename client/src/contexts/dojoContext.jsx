@@ -25,7 +25,7 @@ export const DojoProvider = ({ children }) => {
   const [burner, setBurner] = useState();
   const [creatingBurner, setCreatingBurner] = useState();
 
-  const dojoProvider = new _dojoProvider(dojoConfig.manifest, dojoConfig.rpcUrl);
+  const dojoprovider = new _dojoProvider(dojoConfig.manifest, dojoConfig.rpcUrl);
 
   const demoRpcProvider = useMemo(() => new RpcProvider({ nodeUrl: dojoConfig.demoRpcUrl, }), []);
   const demoDojoProvider = new _dojoProvider(dojoConfig.devManifest, dojoConfig.demoRpcUrl);
@@ -58,9 +58,9 @@ export const DojoProvider = ({ children }) => {
     }
   }, [])
 
-  const executeTx = async (contractName, entrypoint, calldata, isDemo) => {
+  const executeTx = async (txs, isDemo) => {
     let signer = isDemo ? burner : account
-    let provider = isDemo ? demoDojoProvider : dojoProvider
+    let provider = isDemo ? demoDojoProvider : dojoprovider
 
     if (!signer) {
       isDemo ? createBurner() : connect({ connector: cartridgeConnector })
@@ -68,15 +68,7 @@ export const DojoProvider = ({ children }) => {
     }
 
     try {
-      const tx = await provider.execute(signer,
-        {
-          contractName,
-          entrypoint,
-          calldata
-        },
-        'darkshuffle',
-        isDemo ? { maxFee: 0 } : {}
-      );
+      const tx = await provider.execute(signer, txs, 'darkshuffle', { maxFee: 10000000000000000, version: "1" });
 
       const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
 

@@ -8,7 +8,9 @@ sierra-replace-ids = true
 
 [dependencies]
 openzeppelin = { git = "https://github.com/OpenZeppelin/cairo-contracts", tag = "v0.15.1" }
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.11" }
+openzeppelin_token = { git = "https://github.com/OpenZeppelin/cairo-contracts", tag = "v0.15.1" }
+openzeppelin_access = { git = "https://github.com/OpenZeppelin/cairo-contracts", tag = "v0.15.1" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.17" }
 
 [[target.dojo]]
 

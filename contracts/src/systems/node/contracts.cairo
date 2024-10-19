@@ -24,6 +24,7 @@ mod node_systems {
             let mut game = get!(world, (game_id), Game);
             game.assert_generate_tree();
 
+            assert(entropy_hash != '0x0', 'Invalid entropy hash');
             let mut entropy: Entropy = get!(world, (game_id, game.entropy_count), Entropy);
             entropy.block_hash = entropy_hash;
             

@@ -6,12 +6,15 @@ import { GameContext } from "./gameContext";
 import { DECK_SIZE } from "../helpers/constants";
 import { useEffect } from "react";
 import { dojoConfig } from "../../dojo.config";
+import { getContractByName } from "@dojoengine/core";
+import { useSeason } from "./seasonContext";
 
 export const DraftContext = createContext()
 
 export const DraftProvider = ({ children }) => {
   const dojo = useContext(DojoContext)
   const game = useContext(GameContext)
+  const season = useSeason()
 
   const [pendingTx, setPendingTx] = useState()
   const [pendingCard, setPendingCard] = useState()
@@ -92,7 +95,18 @@ export const DraftProvider = ({ children }) => {
   const startDraft = async (isDemo) => {
     initializeState()
 
-    const res = await dojo.executeTx("game_systems", "start_game", [dojoConfig.season, playerName ?? 'Anonymous'], isDemo)
+    const res = await dojo.executeTx([
+      {
+        contractAddress: dojoConfig.lordsAddress,
+        entrypoint: "approve",
+        calldata: [getContractByName(dojoConfig.manifest, "darkshuffle", "game_systems")?.address, season.values.entryFee, "0"]
+      },
+      {
+        contractName: "game_systems",
+        entrypoint: "start_game",
+        calldata: [dojoConfig.seasonId, '0x' + (playerName || 'Anonymous').split('').map(char => char.charCodeAt(0).toString(16)).join('')]
+      }
+    ], isDemo)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -104,7 +118,7 @@ export const DraftProvider = ({ children }) => {
   }
 
   const getDraftOptions = async () => {
-    const res = await dojo.executeTx("draft_systems", "get_draft_options", [game.values.gameId, game.entropy.blockHash], game.values.isDemo)
+    const res = await dojo.executeTx([{ contractName: "draft_systems", entrypoint: "get_draft_options", calldata: [game.values.gameId, game.entropy.blockHash] }], game.values.isDemo)
 
     if (res) {
       const draftOptions = res.filter(e => e.componentName === 'DraftOption')
@@ -120,7 +134,7 @@ export const DraftProvider = ({ children }) => {
 
     setPendingCard(card.id)
 
-    const res = await dojo.executeTx("draft_systems", "pick_card", [game.values.gameId, card.id], game.values.isDemo)
+    const res = await dojo.executeTx([{ contractName: "draft_systems", entrypoint: "pick_card", calldata: [game.values.gameId, card.id] }], game.values.isDemo)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')

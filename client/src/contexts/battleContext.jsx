@@ -147,10 +147,10 @@ export const BattleProvider = ({ children }) => {
     }
   }, [attackingOrder])
 
-  const submitBattleAction = async ({ contract, name, data }) => {
+  const submitBattleAction = async ({ contractName, entrypoint, calldata }) => {
     setPendingTx(true)
 
-    const res = await dojo.executeTx(contract, name, data, game.values.isDemo)
+    const res = await dojo.executeTx([{ contractName, entrypoint, calldata }], game.values.isDemo)
 
     if (!res) {
       setTxQueue([])
@@ -226,7 +226,7 @@ export const BattleProvider = ({ children }) => {
       return enqueueSnackbar('Board is full', { variant: 'warning' })
     }
 
-    setTxQueue(prev => [...prev, { contract: "battle_systems", name: "summon_creature", data: [battleId, creature.id, target?.id ?? 0] }])
+    setTxQueue(prev => [...prev, { contractName: "battle_systems", entrypoint: "summon_creature", calldata: [battleId, creature.id, target?.id ?? 0] }])
 
     animationHandler.addAnimation('monster', { type: 'intimidate' })
 
@@ -260,7 +260,7 @@ export const BattleProvider = ({ children }) => {
 
     spellEffect({ spell, shieldHero, target, damageMonster, increaseEnergy, healHero, battleEffects, setBattleEffects, setRoundEnergy, pierceDamageAdventurer })
 
-    setTxQueue(prev => [...prev, { contract: "battle_systems", name: "cast_spell", data: [battleId, spell.id, target?.id ?? 0] }])
+    setTxQueue(prev => [...prev, { contractName: "battle_systems", entrypoint: "cast_spell", calldata: [battleId, spell.id, target?.id ?? 0] }])
 
     setTargetFriendlyCreature()
   }
@@ -284,12 +284,12 @@ export const BattleProvider = ({ children }) => {
 
     setHand(prev => prev.filter(handCard => (handCard.id !== card.id)))
 
-    setTxQueue(prev => [...prev, { contract: "battle_systems", name: "discard", data: [battleId, card.id] }])
+    setTxQueue(prev => [...prev, { contractName: "battle_systems", entrypoint: "discard", calldata: [battleId, card.id] }])
   }
 
   const endTurn = () => {
     setEndingTurn(true)
-    setTxQueue(prev => [...prev, { contract: "battle_systems", name: "end_turn", data: [battleId] }])
+    setTxQueue(prev => [...prev, { contractName: "battle_systems", entrypoint: "end_turn", calldata: [battleId] }])
   }
 
   const beginTurn = () => {

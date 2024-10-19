@@ -16,7 +16,7 @@ const {
 } = import.meta.env;
 
 export const dojoConfig = {
-  season: 1,
+  seasonId: 97,
   version: "0.4.6",
   chain: VITE_PUBLIC_STARKNET_CHAIN,
   rpcUrl: VITE_PUBLIC_NODE_URL,

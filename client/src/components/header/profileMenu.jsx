@@ -73,7 +73,7 @@ function ProfileMenu(props) {
               <PersonIcon fontSize='small' />
 
               <Typography>
-                {draft.playerName || 'Anonymous'}
+                {draft?.playerName || 'Anonymous'}
               </Typography>
             </Box>
 

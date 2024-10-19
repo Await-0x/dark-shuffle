@@ -22,6 +22,7 @@ mod draft_systems {
             let mut game = get!(world, (game_id), Game);
             game.assert_draft();
 
+            assert(entropy_hash != '0x0', 'Invalid entropy hash');
             let mut entropy: Entropy = get!(world, (game_id, game.entropy_count), Entropy);
             entropy.block_hash = entropy_hash;
             
@@ -30,7 +31,7 @@ mod draft_systems {
 
             game.entropy_count += 1;
 
-            let mut next_block = get_block_info().unbox().block_number.into() + 1;
+            let mut next_block = get_block_info().unbox().block_number.into();
 
             if next_block <= entropy.block_number {
                 next_block = entropy.block_number + 1;
