@@ -1,6 +1,6 @@
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct Entropy {
+pub struct Entropy {
     #[key]
     game_id: usize,
     #[key]

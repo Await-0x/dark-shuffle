@@ -1,10 +1,12 @@
+use dojo::model::ModelStorage;
+use dojo::world::WorldStorage;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use starknet::{ContractAddress, get_caller_address};
 use darkshuffle::models::game::Game;
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct Battle {
+pub struct Battle {
     #[key]
     battle_id: usize,
     game_id: usize,
@@ -29,7 +31,7 @@ struct Battle {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct Creature {
+pub struct Creature {
     #[key]
     battle_id: usize,
     #[key]
@@ -44,7 +46,7 @@ struct Creature {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct Board {   
+pub struct Board {   
     #[key]
     battle_id: usize,
     creature1: u16,
@@ -57,7 +59,7 @@ struct Board {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct HandCard {   
+pub struct HandCard {   
     #[key]
     battle_id: usize,
     #[key]
@@ -68,7 +70,7 @@ struct HandCard {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct BattleEffects {   
+pub struct BattleEffects {   
     #[key]
     battle_id: usize,
     next_spell_reduction: u16,
@@ -78,7 +80,7 @@ struct BattleEffects {
 }
 
 #[derive(Copy, Drop)]
-struct Card {
+pub struct Card {
     card_id: u16,
     name: felt252,
     card_type: felt252,
@@ -92,8 +94,8 @@ struct Card {
 
 #[generate_trait]
 impl BattleOwnerImpl of BattleOwnerTrait { 
-    fn assert_battle(self: Battle, world: IWorldDispatcher) {
-        let game: Game = get!(world, self.game_id, Game);
+    fn assert_battle(self: Battle, world: WorldStorage) {
+        let game: Game = world.read_model(self.game_id);
         assert(game.player == get_caller_address(), 'Not Owner');
         assert(self.hero_health > 0, 'Battle over');
         assert(self.monster_health > 0, 'Battle over');

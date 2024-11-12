@@ -1,7 +1,11 @@
-mod battle_utils {
-    use darkshuffle::constants::{CardTypes, CardTags};
-    use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects, BattleOwnerTrait};
+use dojo::model::ModelStorage;
+use dojo::world::WorldStorage;
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use darkshuffle::constants::{CardTypes, CardTags};
+use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects, BattleOwnerTrait};
 
+#[generate_trait]
+impl BattleUtilsImpl of BattleUtilsTrait {
     fn discard_cost(ref battle: Battle, ref battle_effects: BattleEffects) {
         let mut cost = 1;
 
@@ -113,7 +117,7 @@ mod battle_utils {
             }
 
             if battle.monster_id == 15 {
-                damage_hero(ref battle, battle.branch, ref battle_effects);
+                Self::damage_hero(ref battle, battle.branch, ref battle_effects);
             }
         }
 
@@ -124,7 +128,7 @@ mod battle_utils {
             }
 
             if battle.monster_id == 16 {
-                damage_hero(ref battle, battle.branch, ref battle_effects);
+                Self::damage_hero(ref battle, battle.branch, ref battle_effects);
             }
         }
 

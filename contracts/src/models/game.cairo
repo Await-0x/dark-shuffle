@@ -4,7 +4,7 @@ use darkshuffle::constants::{LAST_NODE_LEVEL};
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct Game {
+pub struct Game {
     #[key]
     game_id: usize,
     season_id: usize,
@@ -28,7 +28,7 @@ struct Game {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct GameEffects {   
+pub struct GameEffects {   
     #[key]
     game_id: usize,
     bonus_attack: u16

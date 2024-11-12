@@ -3,7 +3,7 @@ version = 1
 
 [[package]]
 name = "darkshuffle"
-version = "0.4.2"
+version = "1.0.0"
 dependencies = [
  "dojo",
  "openzeppelin",
@@ -13,8 +13,16 @@ dependencies = [
 
 [[package]]
 name = "dojo"
-version = "1.0.0-alpha.4"
-source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0-alpha.17#e6bab2d0066c3cf1acfc5ee41a27294b5b23697d"
+version = "1.0.0"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0#74280d48fa2828095331487dede59f9b2e378cd3"
+dependencies = [
+ "dojo_plugin",
+]
+
+[[package]]
+name = "dojo_plugin"
+version = "2.8.4"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0#74280d48fa2828095331487dede59f9b2e378cd3"
 
 [[package]]
 name = "openzeppelin"

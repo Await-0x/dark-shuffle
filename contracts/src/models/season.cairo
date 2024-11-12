@@ -3,7 +3,7 @@ use openzeppelin::token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTr
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct Season {
+pub struct Season {
     #[key]
     season_id: usize,
     start: u64,
@@ -16,7 +16,7 @@ struct Season {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct Leaderboard {
+pub struct Leaderboard {
     #[key]
     season_id: usize,
     #[key]
@@ -27,7 +27,7 @@ struct Leaderboard {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct PlayerReward {
+pub struct PlayerReward {
     #[key]
     season_id: usize,
     #[key]
@@ -37,7 +37,7 @@ struct PlayerReward {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct Donation {
+pub struct Donation {
     #[key]
     season_id: usize,
     #[key]

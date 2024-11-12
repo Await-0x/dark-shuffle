@@ -1,17 +1,22 @@
-mod season_utils {
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use starknet::{get_caller_address, get_block_info, ContractAddress, contract_address_const};
+use dojo::model::ModelStorage;
+use dojo::world::WorldStorage;
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use starknet::{ContractAddress, contract_address_const};
 
-    use darkshuffle::constants::{PRIZES, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID};
-    use darkshuffle::models::season::{Leaderboard};
-    use darkshuffle::models::game::{Game};
+use darkshuffle::constants::{PRIZES, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID};
+use darkshuffle::models::season::{Leaderboard};
+use darkshuffle::models::game::{Game};
 
-    fn score_game(game: Game, world: IWorldDispatcher) {
+#[generate_trait]
+impl SeasonUtilsImpl of SeasonUtilsTrait {
+    fn score_game(ref world: WorldStorage, game: Game) {
         let mut i = PRIZES;
 
         while i >= 0 {
-            if get!(world, (game.season_id, i), Leaderboard).score > game.hero_xp || i == 0 {
-                update_leaderboard(game, i + 1, world);
+            let leaderboard: Leaderboard = world.read_model((game.season_id, i));
+
+            if leaderboard.score > game.hero_xp || i == 0 {
+                Self::update_leaderboard(ref world, game, i + 1);
                 break;
             }
 
@@ -19,14 +24,14 @@ mod season_utils {
         };
     }
 
-    fn update_leaderboard(game: Game, rank: u8, world: IWorldDispatcher) {
+    fn update_leaderboard(ref world: WorldStorage, game: Game, rank: u8) {
         if rank > PRIZES {
             return;
         }
 
         let mut i = rank;
-        let mut previous_position = get!(world, (game.season_id, rank), Leaderboard);
-        set!(world, Leaderboard { season_id: game.season_id, rank, player: game.player, score: game.hero_xp });  
+        let mut previous_position: Leaderboard = world.read_model((game.season_id, rank));
+        world.write_model(@Leaderboard { season_id: game.season_id, rank, player: game.player, score: game.hero_xp });  
 
         while true {
             i += 1;
@@ -35,10 +40,10 @@ mod season_utils {
                 break;
             }
             
-            let mut next_position = get!(world, (game.season_id, i), Leaderboard);
+            let mut next_position: Leaderboard = world.read_model((game.season_id, i));
             
             previous_position.rank = i;
-            set!(world, (previous_position));
+            world.write_model(@previous_position);
 
             previous_position = next_position;
         };

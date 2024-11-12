@@ -1,7 +1,8 @@
-mod card_utils {
-    use darkshuffle::models::battle::{Card};
-    use darkshuffle::constants::{CardTypes, CardTags};
+use darkshuffle::models::battle::{Card};
+use darkshuffle::constants::{CardTypes, CardTags};
 
+#[generate_trait]
+impl CardUtilsImpl of CardUtilsTrait {
     fn get_card(id: u16, level: u16) -> Card {
         if id == 1 {
             return Card {

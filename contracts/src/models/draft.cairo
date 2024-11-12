@@ -1,6 +1,6 @@
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct Draft {
+pub struct Draft {
     #[key]
     game_id: usize,
     card_count: u8,
@@ -8,7 +8,7 @@ struct Draft {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct DraftOption {
+pub struct DraftOption {
     #[key]
     game_id: usize,
     #[key]
@@ -19,7 +19,7 @@ struct DraftOption {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct DraftCard {
+pub struct DraftCard {
     #[key]
     game_id: usize,
     #[key]

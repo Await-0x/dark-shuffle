@@ -1,12 +1,15 @@
-mod monster_utils {
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use darkshuffle::models::battle::{Battle, BattleEffects};
-    use darkshuffle::utils::{
-        board::board_utils,
-        battle::battle_utils
-    };
+use dojo::model::ModelStorage;
+use dojo::world::WorldStorage;
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use darkshuffle::models::battle::{Battle, BattleEffects};
+use darkshuffle::utils::{
+    board::BoardUtilsImpl,
+    battle::BattleUtilsImpl
+};
 
-    fn monster_ability(world: IWorldDispatcher, ref battle: Battle, ref battle_effects: BattleEffects) {
+#[generate_trait]
+impl MonsterUtilsImpl of MonsterUtilsTrait {
+    fn monster_ability(ref world: WorldStorage, ref battle: Battle, ref battle_effects: BattleEffects) {
         if battle.monster_id == 1 {
             battle.monster_attack += 2;
         }
@@ -16,13 +19,13 @@ mod monster_utils {
         }
 
         if battle.monster_id == 6 {
-            board_utils::damage_board(world, battle.battle_id, battle.branch + 1);
+            BoardUtilsImpl::damage_board(ref world, battle.battle_id, battle.branch + 1);
         }
 
         if battle.monster_id == 7 {
-            battle.monster_health += (board_utils::count_board(world, battle.battle_id) + 1) * battle.branch;
-            board_utils::damage_board(world, battle.battle_id, battle.branch);
-            battle_utils::damage_hero(ref battle, battle.branch, ref battle_effects);
+            battle.monster_health += (BoardUtilsImpl::count_board(ref world, battle.battle_id) + 1) * battle.branch;
+            BoardUtilsImpl::damage_board(ref world, battle.battle_id, battle.branch);
+            BattleUtilsImpl::damage_hero(ref battle, battle.branch, ref battle_effects);
         }
 
         if battle.monster_id == 14 {
@@ -40,7 +43,7 @@ mod monster_utils {
         }
 
         if battle.monster_id == 19 {
-            battle_utils::piercing_damage_hero(ref battle, battle.branch, ref battle_effects);
+            BattleUtilsImpl::piercing_damage_hero(ref battle, battle.branch, ref battle_effects);
             monster_attack -= battle.branch;
         }
 
@@ -48,6 +51,6 @@ mod monster_utils {
             monster_attack += 10;
         }
 
-        battle_utils::damage_hero(ref battle, monster_attack, ref battle_effects);
+        BattleUtilsImpl::damage_hero(ref battle, monster_attack, ref battle_effects);
     }
 }

@@ -1,13 +1,17 @@
-mod spell_utils {
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects};
-    use darkshuffle::constants::{CardTags};
-    use darkshuffle::utils::{
-        battle::battle_utils,
-    };
+use dojo::model::ModelStorage;
+use dojo::world::WorldStorage;
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects};
+use darkshuffle::constants::{CardTags};
+use darkshuffle::utils::{
+    battle::BattleUtilsImpl,
+};
 
-    fn cast_spell(world: IWorldDispatcher, target_id: u16, ref battle: Battle, ref battle_effects: BattleEffects, card: Card) {
-        let mut target: Creature = get!(world, (battle.battle_id, target_id), Creature);
+#[generate_trait]
+impl SpellUtilsImpl of SpellUtilsTrait {
+    fn cast_spell(ref world: WorldStorage, target_id: u16, ref battle: Battle, ref battle_effects: BattleEffects, card: Card) {
+        let mut target: Creature = world.read_model((battle.battle_id, target_id));
+
         if target.creature_id > 0 {
             assert(target.health > 0, 'Creature is dead');
         }
@@ -19,31 +23,31 @@ mod spell_utils {
         }
 
         if card.card_id == 10 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, card.level, 1);
+            BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, card.level, 1);
         }
         
         else if card.card_id == 11 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, 3 + 3 * card.level, 1);
+            BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 3 + 3 * card.level, 1);
         }
         
         else if card.card_id == 12 {
-            battle_utils::increase_armor(ref battle, 1 + card.level, ref battle_effects);
+            BattleUtilsImpl::increase_armor(ref battle, 1 + card.level, ref battle_effects);
         }
         
         else if card.card_id == 30 {
-            battle_utils::increase_armor(ref battle, 4, ref battle_effects);
+            BattleUtilsImpl::increase_armor(ref battle, 4, ref battle_effects);
         }
 
         else if card.card_id == 31 {
-            battle_utils::increase_armor(ref battle, 4, ref battle_effects);
+            BattleUtilsImpl::increase_armor(ref battle, 4, ref battle_effects);
         }
 
         else if card.card_id == 32 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, 13, 1);
+            BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 13, 1);
         }
 
         else if card.card_id == 33 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, 11, 1);
+            BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 11, 1);
         }
 
         else if card.card_id == 34 {
@@ -59,18 +63,19 @@ mod spell_utils {
         }
 
         else if card.card_id == 37 {
-            battle_utils::increase_armor(ref battle, 6, ref battle_effects);
+            BattleUtilsImpl::increase_armor(ref battle, 6, ref battle_effects);
         }
 
         else if card.card_id == 38 {
-            battle_utils::damage_monster(ref battle, ref battle_effects, 15, 1);
+            BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 15, 1);
         }
 
         else if card.card_id == 39 {
-            battle_utils::piercing_damage_hero(ref battle, 5, ref battle_effects);
+            BattleUtilsImpl::piercing_damage_hero(ref battle, 5, ref battle_effects);
             battle_effects.damage_immune = true;
         }
 
-        set!(world, (battle_effects, target));
+        world.write_model(@battle_effects);
+        world.write_model(@target);
     }
 }

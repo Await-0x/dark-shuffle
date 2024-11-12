@@ -1,6 +1,6 @@
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct Node {
+pub struct Node {
     #[key]
     node_id: usize,
     game_id: usize,
@@ -14,7 +14,7 @@ struct Node {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct MonsterNode {
+pub struct MonsterNode {
     #[key]
     node_id: usize,
     monster_id: u16,
@@ -24,7 +24,7 @@ struct MonsterNode {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct PotionNode {
+pub struct PotionNode {
     #[key]
     node_id: usize,
     amount: u16
@@ -32,7 +32,7 @@ struct PotionNode {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct CardNode {
+pub struct CardNode {
     #[key]
     node_id: usize,
     card_id: u16,
