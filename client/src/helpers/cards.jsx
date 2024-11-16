@@ -4,12 +4,9 @@ export const types = {
 }
 
 export const tags = {
-  SCALABLE: 'Scalable',
-  RENEWABLE: 'Renewable',
-  ESCALATING: 'Escalating',
-  FATIQUE: 'Fatique',
-  UNSTABLE: 'Unstable',
-  SHIELD: 'Shield',
+  MAGICAL: 'Magical',
+  HUNTER: 'Hunter',
+  BRUTE: 'Brute',
 }
 
 export const fetch_image = (name) => {
@@ -30,589 +27,1076 @@ export const fetchBoardCreatures = (data) => {
   }))
 }
 
-export const tagMultiplierName = (m) => {
-  if (m === 1) {
-    return "I"
-  }
-
-  if (m === 2) {
-    return "II"
-  }
-
-  if (m === 3) {
-    return "III"
-  }
-}
-
-export const tagExplainer = (tag) => {
-  switch (tag) {
-    case tags.ESCALATING:
-      return "Card effect increases each tier."
-    case tags.SCALABLE:
-      return "Attack and health increases each tier."
-    case tags.RENEWABLE:
-      return "Cost to play decreases each tier."
-    case tags.UNSTABLE:
-      return "Can only be played once each battle."
-    case tags.FATIQUE:
-      return "Replenish one less energy each turn."
-    case tags.SHIELD:
-      return "Prevents the first source of damage."
-  }
-}
-
 export const fetchCardList = () => {
-  return Array(39).fill(0).map((_, i) => {
+  return Array(74).fill(0).map((_, i) => {
     return CARD_DETAILS(i + 1, i + 1)
   })
 }
 
-export const CARD_DETAILS = (cardId, id, level = 1) => {
+export const CARD_DETAILS = (cardId, id) => {
   switch (cardId) {
-    // ESCALATING
     case 1:
       return {
-        id,
-        cardId: 1,
-        name: 'Wisdom Bringer',
-        type: types.CREATURE,
-        tag: tags.ESCALATING,
-        tagMultiplier: 1,
-        cost: 5,
-        attack: 6,
-        health: 6,
-        text: `Gain ${3 + level} armor`,
-        level,
-      }
+          id,
+          card_id: 1,
+          name: 'Warlock',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.MAGICAL,
+          cost: 2,
+          attack: 3,
+          health: 4,
+          text: "When Played: Magical allies gains +2 attack. If no other Magical ally is in play, reduce the enemy's attack by 2"
+      };
+
     case 2:
       return {
-        id,
-        cardId: 2,
-        name: 'Faith Guardian',
-        type: types.CREATURE,
-        tag: tags.ESCALATING,
-        tagMultiplier: 1,
-        cost: 6,
-        attack: 9,
-        health: 9,
-        text: `Gain ${6 + level} armor`,
-        level,
-      }
+          id,
+          card_id: 2,
+          name: 'Typhon',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.MAGICAL,
+          cost: 5,
+          attack: 6,
+          health: 6,
+          text: "On Attack: Heals the hero by 2 if the enemy is a Brute and gains +1 health for every Magical ally in play"
+      };
+  
     case 3:
       return {
-        id,
-        cardId: 3,
-        name: 'Solace Bringer',
-        type: types.CREATURE,
-        tag: tags.ESCALATING,
-        tagMultiplier: 1,
-        cost: 4,
-        attack: 4,
-        health: 10,
-        text: `Gain ${level} armor`,
-        level,
-      }
+          id,
+          card_id: 3,
+          name: 'Jiangshi',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.MAGICAL,
+          cost: 3,
+          attack: 5,
+          health: 4,
+          text: "On Death: Reduce the enemy's attack by 2. All other Magical allies gain +2 attack if the enemy is a Brute"
+      };
+  
     case 4:
       return {
-        id,
-        cardId: 4,
-        name: "Eden Priest",
-        type: types.CREATURE,
-        cost: 2,
-        attack: 2,
-        health: 8,
-        tag: tags.ESCALATING,
-        tagMultiplier: 2,
-        text: `All other friendly creatures get +${level * 2} health`,
-        level,
-      }
+          id,
+          card_id: 4,
+          name: 'Anansi',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.MAGICAL,
+          cost: 4,
+          attack: 4,
+          health: 5,
+          text: "When Played: Grants all allies +2 attack. If the enemy is a Brute, inflict 3 damage immediately"
+      };
+  
     case 5:
       return {
-        id,
-        cardId: 5,
-        name: "Wild Dog",
-        type: types.CREATURE,
-        cost: 1,
-        attack: 1,
-        health: 2,
-        tag: tags.ESCALATING,
-        tagMultiplier: 1,
-        text: `Gain +${level} attack`,
-        level,
-      }
+          id,
+          card_id: 5,
+          name: 'Basilisk',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.MAGICAL,
+          cost: 1,
+          attack: 3,
+          health: 2,
+          text: "On Attack: Deals an additional 2 damage if two or more Magical allies are in play. Prevents the enemy from healing if Basilisk is in play"
+      };
+
     case 6:
       return {
-        id,
-        cardId: 6,
-        name: "Coyote",
-        type: types.CREATURE,
-        cost: 3,
-        attack: 5,
-        health: 5,
-        tag: tags.ESCALATING,
-        tagMultiplier: 2,
-        text: `Gain +${2 * level}/+${2 * level}`,
-        level,
-      }
+          id,
+          card_id: 6,
+          name: 'Griffin',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.HUNTER,
+          cost: 5,
+          attack: 6,
+          health: 4,
+          text: "On Attack: Deals 5 extra damage if the enemy is Magical"
+      };
+  
     case 7:
       return {
-        id,
-        cardId: 7,
-        name: "Fiery Demon",
-        type: types.CREATURE,
-        cost: 5,
-        attack: 15,
-        health: 12,
-        tag: tags.ESCALATING,
-        tagMultiplier: 3,
-        text: `Deal ${10 + (3 * level)} damage`,
-        level,
-      }
+          id,
+          card_id: 7,
+          name: 'Manticore',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.HUNTER,
+          cost: 3,
+          attack: 4,
+          health: 5,
+          text: "When Played: Marks the enemy to take 2 additional damage. If the enemy is Magical, increase this to 3"
+      };
+  
     case 8:
       return {
-        id,
-        cardId: 8,
-        name: "Beetle",
-        type: types.CREATURE,
-        cost: 3,
-        attack: 6,
-        health: 6,
-        tag: tags.ESCALATING,
-        tagMultiplier: 2,
-        text: `Deal ${4 + (2 * level)} damage`,
-        level,
-      }
+          id,
+          card_id: 8,
+          name: 'Phoenix',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.HUNTER,
+          cost: 1,
+          attack: 3,
+          health: 2,
+          text: "On Attack: Gains +1 attack for each Hunter ally in play"
+      };
+  
     case 9:
       return {
-        id,
-        cardId: 9,
-        name: "Zephyr",
-        type: types.CREATURE,
-        cost: 2,
-        attack: 5,
-        health: 8,
-        tag: tags.ESCALATING,
-        tagMultiplier: 1,
-        text: `Your next spell cost ${level} less energy`,
-        level,
-      }
+          id,
+          card_id: 9,
+          name: 'Dragon',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.HUNTER,
+          cost: 2,
+          attack: 4,
+          health: 3,
+          text: "When Played: Deals 4 damage if the enemy is Magical. Otherwise, deals 2 damage"
+      };
+
     case 10:
       return {
-        id,
-        cardId: 10,
-        name: 'Fireball',
-        type: types.SPELL,
-        tag: tags.ESCALATING,
-        tagMultiplier: 1,
-        cost: 1,
-        attack: 0,
-        health: 0,
-        text: `Deal ${level} damage`,
-        level,
-      }
+          id,
+          card_id: 10,
+          name: 'Minotaur',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.HUNTER,
+          cost: 4,
+          attack: 5,
+          health: 4,
+          text: "On Death: Grants +2 attack to the next Hunter played. If the enemy is Magical, the bonus increases to +4 attack"
+      };
+  
     case 11:
       return {
-        id,
-        cardId: 11,
-        name: 'Lightning Strike',
-        type: types.SPELL,
-        tag: tags.ESCALATING,
-        tagMultiplier: 3,
-        cost: 3,
-        attack: 0,
-        health: 0,
-        text: `Deal ${3 + (3 * level)} damage`,
-        level,
-      }
+          id,
+          card_id: 11,
+          name: 'Kraken',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.BRUTE,
+          cost: 1,
+          attack: 3,
+          health: 5,
+          text: "On Death: Grants all Brute allies +2 attack. If the enemy is a Hunter, it loses 2 attack"
+      };
+  
     case 12:
       return {
-        id,
-        cardId: 12,
-        name: 'First Aid',
-        type: types.SPELL,
-        tag: tags.ESCALATING,
-        tagMultiplier: 1,
-        cost: 3,
-        attack: 0,
-        health: 0,
-        text: `Gain ${1 + level} armor`,
-        level,
-      }
-
-    // Scalable
+          id,
+          card_id: 12,
+          name: 'Colossus',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.BRUTE,
+          cost: 5,
+          attack: 5,
+          health: 7,
+          text: "When Played: Reduces all damage to the hero by 1 for the rest of the battle"
+      };
+  
     case 13:
       return {
-        id,
-        cardId: 13,
-        name: 'Grace Warden',
-        type: types.CREATURE,
-        tag: tags.SCALABLE,
-        tagMultiplier: 1,
-        cost: 2,
-        attack: 7 + level,
-        health: 3 + level,
-        text: `Gain 2 armor`,
-        level,
-      }
+          id,
+          card_id: 13,
+          name: 'Balrog',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.BRUTE,
+          cost: 3,
+          attack: 4,
+          health: 6,
+          text: "On Attack: Deals an extra 2 damage if the enemy is a Hunter and gains +1 attack if another Brute is in play"
+      };
+
     case 14:
       return {
-        id,
-        cardId: 14,
-        name: 'Blessing Caster',
-        type: types.CREATURE,
-        tag: tags.SCALABLE,
-        tagMultiplier: 1,
-        cost: 2,
-        attack: 5 + level,
-        health: 4 + level,
-        text: `Gain 2 armor`,
-        level,
-      }
+          id,
+          card_id: 14,
+          name: 'Leviathan',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.BRUTE,
+          cost: 2,
+          attack: 4,
+          health: 3,
+          text: "When Played: Gains +2 health if another Brute ally is in play. Deals an additional 3 damage to Hunters when it attacks"
+      };
+
     case 15:
       return {
-        id,
-        cardId: 15,
-        name: 'Gospel Scribe',
-        type: types.CREATURE,
-        tag: tags.SCALABLE,
-        tagMultiplier: 2,
-        cost: 3,
-        attack: 7 + (2 * level),
-        health: 5 + (2 * level),
-        text: `Gain 3 armor`,
-        level,
-      }
+          id,
+          card_id: 15,
+          name: 'Tarrasque',
+          card_type: types.CREATURE,
+          card_tier: 1,
+          creature_type: tags.BRUTE,
+          cost: 4,
+          attack: 3,
+          health: 5,
+          text: "On Death: Grants +3 health to the next Brute played. If the enemy is a Hunter, grants +5 health instead"
+      };
+
     case 16:
       return {
-        id,
-        cardId: 16,
-        name: 'Chant Monk',
-        type: types.CREATURE,
-        tag: tags.SCALABLE,
-        tagMultiplier: 1,
-        cost: 3,
-        attack: level,
-        health: level,
-        text: `Give a friendly minion Shield`,
-        level,
-        requiresTarget: true
-      }
+          id,
+          card_id: 16,
+          name: 'Gorgon',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.MAGICAL,
+          cost: 2,
+          attack: 3,
+          health: 3,
+          text: "On Death: Reduces the enemy's attack by 1 if the enemy is a Brute. All other Magical allies gain +1 attack"
+      };
+
     case 17:
       return {
-        id,
-        cardId: 17,
-        name: 'Grim Marauder',
-        type: types.CREATURE,
-        tag: tags.SCALABLE,
-        tagMultiplier: 2,
-        cost: 2,
-        attack: level * 2,
-        health: level * 2,
-        level,
-      }
+          id,
+          card_id: 17,
+          name: 'Kitsune',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.MAGICAL,
+          cost: 4,
+          attack: 4,
+          health: 3,
+          text: "When Played: Gain +1 attack if the enemy is a Brute. Gain +1 attack if a Magical ally is in play"
+      };
+
     case 18:
       return {
-        id,
-        cardId: 18,
-        name: 'Tasmanian Devil',
-        type: types.CREATURE,
-        tag: tags.SCALABLE,
-        tagMultiplier: 2,
-        cost: 3,
-        attack: 4 + (level * 2),
-        health: 8 + (level * 2),
-        level,
-      }
+          id,
+          card_id: 18,
+          name: 'Lich',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.MAGICAL,
+          cost: 5,
+          attack: 2,
+          health: 4,
+          text: "When Played: Increase the hero's mana by 1. Grants +1 health to the hero if another Magical ally is in play"
+      };
+
     case 19:
       return {
-        id,
-        cardId: 19,
-        name: 'Jackal',
-        type: types.CREATURE,
-        tag: tags.SCALABLE,
-        tagMultiplier: 2,
-        cost: 4,
-        attack: 16 + (level * 2),
-        health: 4 + (level * 2),
-        level,
-      }
+          id,
+          card_id: 19,
+          name: 'Chimera',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.MAGICAL,
+          cost: 3,
+          attack: 3,
+          health: 4,
+          text: "On Death: Deals 2 damage to the enemy. If the enemy is a Brute, also reduce their attack by 1"
+      };
+
     case 20:
       return {
-        id,
-        cardId: 20,
-        name: 'Binturong',
-        type: types.CREATURE,
-        tag: tags.SCALABLE,
-        tagMultiplier: 2,
-        cost: 4,
-        attack: 12 + (level * 2),
-        health: 14 + (level * 2),
-        level,
-      }
+          id,
+          card_id: 20,
+          name: 'Wendigo',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.MAGICAL,
+          cost: 1,
+          attack: 1,
+          health: 1,
+          text: "On Attack: Reduces the enemy's attack by 1 if the enemy is a Brute. Grants 1 energy to the hero if another Magical ally is in play"
+      };
 
-    // Renewable
     case 21:
       return {
-        id,
-        cardId: 21,
-        name: "Virtue Curate",
-        type: types.CREATURE,
-        cost: 5,
-        attack: 2,
-        health: 2,
-        tag: tags.RENEWABLE,
-        text: `Gain 3 armor`,
-        level,
-      }
+          id,
+          card_id: 21,
+          name: 'Qilin',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.HUNTER,
+          cost: 1,
+          attack: 3,
+          health: 2,
+          text: "On Attack: Deals 1 extra damage if the enemy is Magical. Gains +1 health if it survives combat"
+      };
+
     case 22:
       return {
-        id,
-        cardId: 22,
-        name: "Mercy Giver",
-        type: types.CREATURE,
-        cost: 6,
-        attack: 4,
-        health: 4,
-        tag: tags.RENEWABLE,
-        text: `Gain 3 armor`,
-        level,
-      }
+          id,
+          card_id: 22,
+          name: 'Ammit',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.HUNTER,
+          cost: 4,
+          attack: 5,
+          health: 2,
+          text: "When Played: Gains +2 attack if there are no other Hunter allies in play"
+      };
+
     case 23:
       return {
-        id,
-        cardId: 23,
-        name: "Celestial Minister",
-        type: types.CREATURE,
-        cost: 5,
-        attack: 7,
-        health: 7,
-        tag: tags.RENEWABLE,
-        text: `Gain 3 armor`,
-        level,
-      }
+          id,
+          card_id: 23,
+          name: 'Nue',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.HUNTER,
+          cost: 3,
+          attack: 4,
+          health: 2,
+          text: "On Attack: Gains +1 attack if the enemy is Magical and deals 1 extra damage if another Hunter ally is in play"
+      };
+
     case 24:
       return {
-        id,
-        cardId: 24,
-        name: "Peace Keeper",
-        type: types.CREATURE,
-        cost: 4,
-        attack: 6,
-        health: 6,
-        tag: tags.RENEWABLE,
-        text: `Give a friendly creature 6 attack`,
-        level,
-        requiresTarget: true
-      }
+          id,
+          card_id: 24,
+          name: 'Skinwalker',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.HUNTER,
+          cost: 5,
+          attack: 5,
+          health: 3,
+          text: "When Played: Marks the enemy to take 1 additional damage. If the enemy is Magical, increase the damage to 2"
+      };
+
     case 25:
       return {
-        id,
-        cardId: 25,
-        name: "Rat",
-        type: types.CREATURE,
-        cost: 5,
-        attack: 9,
-        health: 12,
-        tag: tags.RENEWABLE,
-        text: ``,
-        level,
-      }
+          id,
+          card_id: 25,
+          name: 'Chupacabra',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.HUNTER,
+          cost: 2,
+          attack: 2,
+          health: 3,
+          text: "On Death: Grants +2 attack to the next Hunter played. Also grants +2 health if the enemy is Magical"
+      };
+
     case 26:
       return {
-        id,
-        cardId: 26,
-        name: "Bald Eagle",
-        type: types.CREATURE,
-        cost: 5,
-        attack: 4,
-        health: 7,
-        tag: tags.RENEWABLE,
-        text: `Deal 7 damage`,
-        level,
-      }
+          id,
+          card_id: 26,
+          name: 'Titan',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.BRUTE,
+          cost: 2,
+          attack: 3,
+          health: 5,
+          text: "On Death: Restores 2 health to the hero if the enemy is a Hunter"
+      };
+
     case 27:
       return {
-        id,
-        cardId: 27,
-        name: "Devourer",
-        type: types.CREATURE,
-        cost: 6,
-        attack: 10,
-        health: 12,
-        tag: tags.RENEWABLE,
-        text: ``,
-        level,
-      }
+          id,
+          card_id: 27,
+          name: 'Nephilim',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.BRUTE,
+          cost: 5,
+          attack: 4,
+          health: 4,
+          text: "Nephilim takes 1 less damage from all sources. If another Brute ally is in play, increase this to 2"
+      };
+
     case 28:
       return {
-        id,
-        cardId: 28,
-        name: "Rage Infernal",
-        type: types.CREATURE,
-        cost: 6,
-        attack: 4,
-        health: 9,
-        tag: tags.RENEWABLE,
-        text: `Deal 8 damage`,
-        level,
-      }
+          id,
+          card_id: 28,
+          name: 'Behemoth',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.BRUTE,
+          cost: 3,
+          attack: 4,
+          health: 3,
+          text: "On Attack: Gains +2 health if the enemy is a Hunter"
+      };
+
     case 29:
       return {
-        id,
-        cardId: 29,
-        name: "Jinx Weaver",
-        type: types.CREATURE,
-        cost: 5,
-        attack: 9,
-        health: 12,
-        tag: tags.RENEWABLE,
-        text: `Your next discard cost no energy`,
-        level,
-      }
+          id,
+          card_id: 29,
+          name: 'Hydra',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.BRUTE,
+          cost: 1,
+          attack: 3,
+          health: 2,
+          text: "On Death: Grants +2 health to the next Brute played"
+      };
+
     case 30:
       return {
-        id,
-        cardId: 30,
-        name: 'Blessed Barrier',
-        type: types.SPELL,
-        cost: 4,
-        attack: 0,
-        health: 0,
-        tag: tags.RENEWABLE,
-        text: 'Gain 4 armor',
-        level,
-      }
+          id,
+          card_id: 30,
+          name: 'Juggernaut',
+          card_type: types.CREATURE,
+          card_tier: 2,
+          creature_type: tags.BRUTE,
+          cost: 4,
+          attack: 3,
+          health: 4,
+          text: "On Death: Grants +1 attack to the next Brute played"
+      };
+
     case 31:
       return {
-        id,
-        cardId: 31,
-        name: 'Barricade',
-        type: types.SPELL,
-        cost: 4,
-        attack: 0,
-        health: 0,
-        tag: tags.RENEWABLE,
-        text: 'Gain 4 armor',
-        level,
-      }
+          id,
+          card_id: 31,
+          name: 'Rakshasa',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.MAGICAL,
+          cost: 3,
+          attack: 4,
+          health: 4,
+          text: "When Played: If the enemy is a Brute, reduce the enemy's attack by 1 and grant +1 health to other Magical allies"
+      };
+
     case 32:
       return {
-        id,
-        cardId: 32,
-        name: "Natures Wrath",
-        type: types.SPELL,
-        cost: 5,
-        attack: 0,
-        health: 0,
-        tag: tags.RENEWABLE,
-        text: `Deal 13 damage`,
-        level,
-      }
+          id,
+          card_id: 32,
+          name: 'Werewolf',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.MAGICAL,
+          cost: 2,
+          attack: 3,
+          health: 3,
+          text: "On Attack: Deals 1 extra damage if another Magical ally is in play. Gains +1 health if it survives combat"
+      };
+
     case 33:
       return {
-        id,
-        cardId: 33,
-        name: "Spark",
-        type: types.SPELL,
-        cost: 2,
-        attack: 0,
-        health: 0,
-        tag: tags.RENEWABLE,
-        text: `Deal 11 damage`,
-        level,
-      }
+          id,
+          card_id: 33,
+          name: 'Banshee',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.MAGICAL,
+          cost: 5,
+          attack: 5,
+          health: 3,
+          text: "On Death: Grants +1 health to the hero if the enemy is a Brute. All other Magical allies gain +1 attack"
+      };
+
     case 34:
       return {
-        id,
-        cardId: 34,
-        name: "Divine Intervention",
-        type: types.SPELL,
-        cost: 4,
-        attack: 0,
-        health: 0,
-        tag: tags.RENEWABLE,
-        text: `Give a friendly creature Shield`,
-        level,
-        requiresTarget: true
-      }
+          id,
+          card_id: 34,
+          name: 'Draugr',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.MAGICAL,
+          cost: 1,
+          attack: 2,
+          health: 2,
+          text: "When Played: Magical allies gain +1 attack. If there are two or more other Magical allies, gain 1 energy"
+      };
+
     case 35:
       return {
-        id,
-        cardId: 35,
-        name: "Energy Transfer",
-        type: types.SPELL,
-        cost: 1,
-        attack: 0,
-        health: 0,
-        text: `Your next card cost 1 less energy`,
-        level,
-      }
+          id,
+          card_id: 35,
+          name: 'Vampire',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.MAGICAL,
+          cost: 4,
+          attack: 4,
+          health: 3,
+          text: "On Attack: Deals 1 extra damage to the enemy if it's a Brute. If Vampire is the only Magical ally in play, it gains +1 attack"
+      };
 
-
-    // Unstable
     case 36:
       return {
-        id,
-        cardId: 36,
-        name: "Greater Heal",
-        type: types.SPELL,
-        cost: 1,
-        attack: 0,
-        health: 0,
-        tag: tags.FATIQUE,
-        text: `Gain 1 health`,
-        level,
-      }
+          id,
+          card_id: 36,
+          name: 'Weretiger',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.HUNTER,
+          cost: 5,
+          attack: 5,
+          health: 3,
+          text: "When Played: Marks the enemy, causing it to take 1 additional damage."
+      };
+
     case 37:
       return {
-        id,
-        cardId: 37,
-        name: "Shifting Aegis",
-        type: types.SPELL,
-        cost: 1,
-        attack: 0,
-        health: 0,
-        tag: tags.FATIQUE,
-        text: `Gain 6 armor`,
-        level,
-      }
+          id,
+          card_id: 37,
+          name: 'Wyvern',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.HUNTER,
+          cost: 1,
+          attack: 3,
+          health: 2,
+          text: "On Attack: Deals 1 extra damage if there is another Hunter ally in play and gains +1 attack if enemy is Magical"
+      };
+
     case 38:
       return {
-        id,
-        cardId: 38,
-        name: "Chaotic Blast",
-        type: types.SPELL,
-        cost: 1,
-        attack: 0,
-        health: 0,
-        tag: tags.FATIQUE,
-        text: `Deal 15 damage`,
-        level,
-      }
+          id,
+          card_id: 38,
+          name: 'Roc',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.HUNTER,
+          cost: 4,
+          attack: 4,
+          health: 4,
+          text: "On Death: Grants +1 attack to the next Hunter played. Also gains +1 health if the enemy is Magical"
+      };
+
     case 39:
       return {
-        id,
-        cardId: 39,
-        name: "Divine Sacrifice",
-        type: types.SPELL,
-        cost: 1,
-        attack: 0,
-        health: 0,
-        tag: tags.FATIQUE,
-        text: `Your hero loses 5 health and is immune to damage until next turn`,
-        level,
-      }
+          id,
+          card_id: 39,
+          name: 'Harpy',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.HUNTER,
+          cost: 2,
+          attack: 3,
+          health: 3,
+          text: "When Played: Gain +1 attack if another Hunter ally is in play. If the enemy is Magical, Hunter allies gain +1 attack"
+      };
+
+    case 40:
+      return {
+          id,
+          card_id: 40,
+          name: 'Pegasus',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.HUNTER,
+          cost: 3,
+          attack: 4,
+          health: 2,
+          text: "On Attack: Deals 1 extra damage if the enemy is Magical. Gains +1 attack each time the hero takes damage"
+      };
+
+    case 41:
+      return {
+          id,
+          card_id: 41,
+          name: 'Oni',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.BRUTE,
+          cost: 3,
+          attack: 3,
+          health: 5,
+          text: "On Death: Grants +1 attack to all Brute allies if the enemy is a Hunter"
+      };
+
+    case 42:
+      return {
+          id,
+          card_id: 42,
+          name: 'Jotunn',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.BRUTE,
+          cost: 2,
+          attack: 4,
+          health: 3,
+          text: "When Played: Gains +1 attack if another Brute ally is in play. If the enemy is a Hunter, it also gains +1 health"
+      };
+
+    case 43:
+      return {
+          id,
+          card_id: 43,
+          name: 'Ettin',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.BRUTE,
+          cost: 5,
+          attack: 5,
+          health: 3,
+          text: "On Attack: Gains +2 health if the enemy is a Hunter"
+      };
+
+    case 44:
+      return {
+          id,
+          card_id: 44,
+          name: 'Cyclops',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.BRUTE,
+          cost: 4,
+          attack: 3,
+          health: 4,
+          text: "When Played: Reduce the enemy's attack by 1 if the enemy is a Hunter. If another Brute ally is in play, Cyclops gains +1 attack"
+      };
+
+    case 45:
+      return {
+          id,
+          card_id: 45,
+          name: 'Giant',
+          card_type: types.CREATURE,
+          card_tier: 3,
+          creature_type: tags.BRUTE,
+          cost: 1,
+          attack: 2,
+          health: 3,
+          text: "On Death: Grants +1 health to the hero if the enemy is a Hunter. If Giant is the only Brute in play, this bonus is doubled"
+      };
+
+    case 46:
+      return {
+          id,
+          card_id: 46,
+          name: 'Goblin',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.MAGICAL,
+          cost: 2,
+          attack: 2,
+          health: 3,
+          text: "On Attack: Deals 1 extra damage if the enemy is a Brute. Gains +1 attack after it attacks"
+      };
+
+    case 47:
+      return {
+          id,
+          card_id: 47,
+          name: 'Ghoul',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.MAGICAL,
+          cost: 1,
+          attack: 2,
+          health: 2,
+          text: "When Played: Reduce the enemy's attack by 1 if it's a Brute"
+      };
+
+    case 48:
+      return {
+          id,
+          card_id: 48,
+          name: 'Wraith',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.MAGICAL,
+          cost: 3,
+          attack: 3,
+          health: 2,
+          text: "On Death: Grants +1 health to the hero if another Magical ally is in play. If no other Magical ally is in play, it grants +1 energy instead"
+      };
+
+    case 49:
+      return {
+          id,
+          card_id: 49,
+          name: 'Sprite',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.MAGICAL,
+          cost: 2,
+          attack: 2,
+          health: 3,
+          text: "When Played: Increase the attack of all other Magical allies by 1"
+      };
+
+    case 50:
+      return {
+          id,
+          card_id: 50,
+          name: 'Kappa',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.MAGICAL,
+          cost: 4,
+          attack: 3,
+          health: 3,
+          text: "On Attack: Gains +1 attack if the enemy is a Brute"
+      };
+
+    case 51:
+      return {
+          id,
+          card_id: 51,
+          name: 'Hippogriff',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.HUNTER,
+          cost: 1,
+          attack: 3,
+          health: 1,
+          text: "When Played: Deals 1 damage if the enemy is Magical"
+      };
+
+    case 52:
+      return {
+          id,
+          card_id: 52,
+          name: 'Fenrir',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.HUNTER,
+          cost: 2,
+          attack: 2,
+          health: 2,
+          text: "On Attack: Deals 1 extra damage if another Hunter ally is in play. Gains +1 health if there are no other Hunter allies"
+      };
+
+    case 53:
+      return {
+          id,
+          card_id: 53,
+          name: 'Jaguar',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.HUNTER,
+          cost: 3,
+          attack: 2,
+          health: 3,
+          text: "On Death: Grants +1 attack to the next Hunter played if the enemy is Magical"
+      };
+
+    case 54:
+      return {
+          id,
+          card_id: 54,
+          name: 'Satori',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.HUNTER,
+          cost: 4,
+          attack: 4,
+          health: 2,
+          text: "When Played: Marks the enemy to take 1 additional damage if it's Magical"
+      };
+
+    case 55:
+      return {
+          id,
+          card_id: 55,
+          name: 'Direwolf',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.HUNTER,
+          cost: 2,
+          attack: 2,
+          health: 2,
+          text: "On Attack: Deals 1 extra damage to the enemy if it's Magical"
+      };
+
+    case 56:
+      return {
+          id,
+          card_id: 56,
+          name: 'NemeanLion',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.BRUTE,
+          cost: 3,
+          attack: 2,
+          health: 4,
+          text: "On Death: Grants +1 attack to all Brute allies if the enemy is a Hunter"
+      };
+
+    case 57:
+      return {
+          id,
+          card_id: 57,
+          name: 'Berserker',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.BRUTE,
+          cost: 2,
+          attack: 3,
+          health: 2,
+          text: "On Attack: Deals 1 extra damage to the enemy if the enemy is a Hunter"
+      };
+
+    case 58:
+      return {
+          id,
+          card_id: 58,
+          name: 'Yeti',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.BRUTE,
+          cost: 1,
+          attack: 3,
+          health: 2,
+          text: "When Played: Gains +1 health if there is another Brute ally in play"
+      };
+
+    case 59:
+      return {
+          id,
+          card_id: 59,
+          name: 'Golem',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.BRUTE,
+          cost: 4,
+          attack: 4,
+          health: 2,
+          text: "When Played: Reduce the enemy's attack by 1 if the enemy is a Hunter"
+      };
+
+    case 60:
+      return {
+          id,
+          card_id: 60,
+          name: 'Ent',
+          card_type: types.CREATURE,
+          card_tier: 4,
+          creature_type: tags.BRUTE,
+          cost: 2,
+          attack: 2,
+          health: 3,
+          text: "On Death: Grants +1 health to the hero if the enemy is a Hunter"
+      };
+
+    case 61:
+      return {
+          id,
+          card_id: 61,
+          name: 'Fairy',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.MAGICAL,
+          cost: 4,
+          attack: 3,
+          health: 3,
+          text: "On Death: Reduce the enemy's attack by 1 if it's a Brute"
+      };
+
+    case 62:
+      return {
+          id,
+          card_id: 62,
+          name: 'Leprechaun',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.MAGICAL,
+          cost: 2,
+          attack: 2,
+          health: 2,
+          text: "On Attack: Deals 1 extra damage if there is another Magical ally in play"
+      };
+
+    case 63:
+      return {
+          id,
+          card_id: 63,
+          name: 'Kelpie',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.MAGICAL,
+          cost: 1,
+          attack: 1,
+          health: 2,
+          text: "When Played: Gain +2 attack if the enemy is a Brute"
+      };
+
+    case 64:
+      return {
+          id,
+          card_id: 64,
+          name: 'Pixie',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.MAGICAL,
+          cost: 3,
+          attack: 2,
+          health: 3,
+          text: "On Death: Grants +1 health to the hero if the enemy is a Brute"
+      };
+
+    case 65:
+      return {
+          id,
+          card_id: 65,
+          name: 'Gnome',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.MAGICAL,
+          cost: 5,
+          attack: 4,
+          health: 3,
+          text: "On Attack: Deals 1 extra damage if the enemy is a Brute"
+      };
+
+    case 66:
+      return {
+          id,
+          card_id: 66,
+          name: 'Bear',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.HUNTER,
+          cost: 4,
+          attack: 3,
+          health: 3,
+          text: "When Played: Deals 1 damage if the enemy is Magical"
+      };
+
+    case 67:
+      return {
+          id,
+          card_id: 67,
+          name: 'Wolf',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.HUNTER,
+          cost: 2,
+          attack: 2,
+          health: 2,
+          text: "On Attack: Deals 1 extra damage if another Hunter ally is in play"
+      };
+
+    case 68:
+      return {
+          id,
+          card_id: 68,
+          name: 'Mantis',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.HUNTER,
+          cost: 1,
+          attack: 1,
+          health: 1,
+          text: "On Death: Grants +1 attack to the next Hunter played if the enemy is Magical"
+      };
+
+    case 69:
+      return {
+          id,
+          card_id: 69,
+          name: 'Spider',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.HUNTER,
+          cost: 3,
+          attack: 3,
+          health: 2,
+          text: "On Attack: Deals 1 extra damage if the enemy is Magical"
+      };
+
+    case 70:
+      return {
+          id,
+          card_id: 70,
+          name: 'Rat',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.HUNTER,
+          cost: 5,
+          attack: 4,
+          health: 4,
+          text: "When Played: Gains +1 attack if there's another Hunter ally in play"
+      };
+
+    case 71:
+      return {
+          id,
+          card_id: 71,
+          name: 'Troll',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.BRUTE,
+          cost: 4,
+          attack: 3,
+          health: 4,
+          text: "On Death: Grants +1 attack to all Brute allies if the enemy is a Hunter"
+      };
+
+    case 72:
+      return {
+          id,
+          card_id: 72,
+          name: 'Bigfoot',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.BRUTE,
+          cost: 2,
+          attack: 3,
+          health: 2,
+          text: "When Played: Deals 1 damage if the enemy is a Hunter"
+      };
+
+    case 73:
+      return {
+          id,
+          card_id: 73,
+          name: 'Ogre',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.BRUTE,
+          cost: 1,
+          attack: 1,
+          health: 2,
+          text: "On Death: Grants +1 health to the hero if the enemy is a Hunter"
+      };
+
+    case 74:
+      return {
+          id,
+          card_id: 74,
+          name: 'Orc',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.BRUTE,
+          cost: 3,
+          attack: 2,
+          health: 3,
+          text: "When Played: Reduce the enemy's attack by 1 if it's a Hunter"
+      };
+
+    case 75:
+      return {
+          id,
+          card_id: 75,
+          name: 'Skeleton',
+          card_type: types.CREATURE,
+          card_tier: 5,
+          creature_type: tags.BRUTE,
+          cost: 5,
+          attack: 4,
+          health: 3,
+          text: "On Attack: Deals 1 extra damage if there is another Brute ally in play"
+      };
+
     default:
       return {
-        id: 0,
-        cardId: 0,
+        id,
+        card_id: 0,
         name: 'Unknown',
-        type: types.CREATURE,
-        tag: tags.RENEWABLE,
+        card_type: 'None',
+        creature_type: 'None',
+        card_tier: 0,
         cost: 2,
         attack: 0,
         health: 0,
-        level: 0,
+        text: ""
       }
   }
 }

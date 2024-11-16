@@ -15,7 +15,7 @@ impl SeasonUtilsImpl of SeasonUtilsTrait {
         while i >= 0 {
             let leaderboard: Leaderboard = world.read_model((game.season_id, i));
 
-            if leaderboard.score > game.hero_xp || i == 0 {
+            if leaderboard.score > game.monsters_slain || i == 0 {
                 Self::update_leaderboard(ref world, game, i + 1);
                 break;
             }
@@ -31,7 +31,7 @@ impl SeasonUtilsImpl of SeasonUtilsTrait {
 
         let mut i = rank;
         let mut previous_position: Leaderboard = world.read_model((game.season_id, rank));
-        world.write_model(@Leaderboard { season_id: game.season_id, rank, player: game.player, score: game.hero_xp });  
+        world.write_model(@Leaderboard { season_id: game.season_id, rank, player: game.player, score: game.monsters_slain });  
 
         while true {
             i += 1;

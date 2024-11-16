@@ -1,8 +1,4 @@
-use dojo::model::ModelStorage;
-use dojo::world::WorldStorage;
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use darkshuffle::models::battle::{Battle, Creature, Card, BattleEffects};
-use darkshuffle::constants::{CardTags};
+use darkshuffle::models::battle::{Battle, BattleEffects, Creature, Card, Board, BoardStats, CreatureType};
 use darkshuffle::utils::{
     battle::BattleUtilsImpl,
     board::BoardUtilsImpl,
@@ -12,128 +8,210 @@ use darkshuffle::utils::{
 #[generate_trait]
 impl SummonUtilsImpl of SummonUtilsTrait {
     fn summon_creature(
-        ref world: WorldStorage,
-        creature_id: u16,
-        target_id: u16,
+        card: Card,
         ref battle: Battle,
         ref battle_effects: BattleEffects,
-        card: Card,
-    ) {
-        let mut target: Creature = world.read_model((battle.battle_id, target_id));
-
-        if target.creature_id > 0 {
-            assert(target.health > 0, 'Creature is dead');
-        }
-
+        ref board: Board,
+        ref board_stats: BoardStats
+    ) -> Creature {
         let mut creature: Creature = Creature {
-            battle_id: battle.battle_id,
-            creature_id,
             card_id: card.card_id,
             cost: card.cost,
             attack: card.attack,
             health: card.health,
-            shield: false,
-            resting_round: 0,
+            creature_type: card.creature_type,
         };
 
-        if battle.monster_id == 4 {
-            creature.resting_round = battle.round;
-        }
-
-        if card.card_tag == CardTags::SCALABLE {
-            creature.attack += (card.level * card.tag_multiplier.into());
-            creature.health += (card.level * card.tag_multiplier.into());
-        }
-
-        if card.card_tag == CardTags::FATIQUE {
-            if battle.round_energy > 0 {
-                battle.round_energy -= 1;
-            }
+        if creature.creature_type == CreatureType::Hunter {
+            creature.attack += battle_effects.next_hunter_attack_bonus;
+            creature.health += battle_effects.next_hunter_health_bonus;
+            battle_effects.next_hunter_attack_bonus = 0;
+            battle_effects.next_hunter_health_bonus = 0;
+        } else if creature.creature_type == CreatureType::Brute {
+            creature.health += battle_effects.next_brute_health_bonus;
+            creature.attack += battle_effects.next_brute_attack_bonus;
+            battle_effects.next_brute_health_bonus = 0;
+            battle_effects.next_brute_attack_bonus = 0;
         }
 
         if card.card_id == 1 {
-            BattleUtilsImpl::increase_armor(ref battle, 3 + card.level, ref battle_effects);
+            if board_stats.magical_count == 0 {
+                BattleUtilsImpl::reduce_monster_attack(ref battle, 2);
+            } else {
+                BoardUtilsImpl::update_creatures(ref board, CreatureType::Magical, 2, 0);
+            }
         }
 
-        else if card.card_id == 2 {
-            BattleUtilsImpl::increase_armor(ref battle, 6 + card.level, ref battle_effects);
-        }
-        
-        else if card.card_id == 3 {
-            BattleUtilsImpl::increase_armor(ref battle, card.level, ref battle_effects);
-        }
-        
         else if card.card_id == 4 {
-            BoardUtilsImpl::update_creatures(ref world, battle.battle_id, 0, (2 * card.level));
+            BoardUtilsImpl::update_creatures(ref board, CreatureType::All, 2, 0);
+            if battle.monster_type == CreatureType::Brute {
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 3);
+            }
         }
-
-        else if card.card_id == 5 {
-            creature.attack += card.level;
-        }
-
-        else if card.card_id == 6 {
-            creature.attack += (2 * card.level);
-            creature.health += (2 * card.level);
-        }
-
+        
         else if card.card_id == 7 {
-            BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 10 + (card.level * 3), 2);
+            if battle.monster_type == CreatureType::Magical {
+                battle_effects.enemy_marks += 3;
+            } else {
+                battle_effects.enemy_marks += 2;
+            }
         }
-
-        else if card.card_id == 8 {
-            BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 4 + (card.level * 2), 2);
-        }
-
+        
         else if card.card_id == 9 {
-            battle_effects.next_spell_reduction = card.level;
+            if battle.monster_type == CreatureType::Magical {
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 4);
+            } else {
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 2);
+            }
         }
 
-        else if card.card_id == 13 {
-            BattleUtilsImpl::increase_armor(ref battle, 2, ref battle_effects);
+        else if card.card_id == 12 {
+            battle_effects.hero_dmg_reduction += 1;
         }
 
         else if card.card_id == 14 {
-            BattleUtilsImpl::increase_armor(ref battle, 2, ref battle_effects);
+            if board_stats.brute_count > 0 {
+                creature.health += 2;
+            }
         }
 
-        else if card.card_id == 15 {
-            BattleUtilsImpl::increase_armor(ref battle, 3, ref battle_effects);
-        }
+        else if card.card_id == 17 {
+            if battle.monster_type == CreatureType::Brute {
+                creature.attack += 1;
+            }
 
-        else if card.card_id == 16 && target.card_id != 0 {
-            target.shield = true;
-        }
-
-        else if card.card_id == 21 {
-            BattleUtilsImpl::increase_armor(ref battle, 3, ref battle_effects);
+            if board_stats.magical_count > 0 {
+                creature.attack += 1;
+            }
         }
 
         else if card.card_id == 22 {
-            BattleUtilsImpl::increase_armor(ref battle, 3, ref battle_effects);
-        }
-
-        else if card.card_id == 23 {
-            BattleUtilsImpl::increase_armor(ref battle, 3, ref battle_effects);
+            if board_stats.hunter_count == 0 {
+                creature.attack += 2;
+            }
         }
 
         else if card.card_id == 24 {
-            target.attack += 6;
+            if battle.monster_type == CreatureType::Magical {
+                battle_effects.enemy_marks += 2;
+            } else {
+                battle_effects.enemy_marks += 1;
+            }
         }
 
-        else if card.card_id == 26 {
-            BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 7, 2);
+        else if card.card_id == 31 {
+            if battle.monster_type == CreatureType::Brute {
+                BattleUtilsImpl::reduce_monster_attack(ref battle, 1);
+                BoardUtilsImpl::update_creatures(ref board, CreatureType::Magical, 0, 1);
+            }
         }
 
-        else if card.card_id == 28 {
-            BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 8, 2);
+        else if card.card_id == 34 {
+            BoardUtilsImpl::update_creatures(ref board, CreatureType::Magical, 1, 0);
+
+            if board_stats.magical_count >= 2 {
+                battle.hero_energy += 1;
+            }
         }
 
-        else if card.card_id == 29 {
-            battle_effects.free_discard = true;
+        else if card.card_id == 36 {
+            battle_effects.enemy_marks += 1;
+        }
+
+        else if card.card_id == 39 {
+            if board_stats.hunter_count > 0 {
+                creature.attack += 1;
+            }
+
+            if battle.monster_type == CreatureType::Magical {
+                BoardUtilsImpl::update_creatures(ref board, CreatureType::Hunter, 1, 0);
+            }
+        }
+
+        else if card.card_id == 42 {
+            if board_stats.brute_count > 0 {
+                creature.attack += 1;
+            }
+
+            if battle.monster_type == CreatureType::Hunter {
+                creature.health += 1;
+            }
+        }
+
+        else if card.card_id == 44 {
+            if board_stats.brute_count > 0 {
+                creature.attack += 1;
+            }
+
+            if battle.monster_type == CreatureType::Hunter {
+                BattleUtilsImpl::reduce_monster_attack(ref battle, 1);
+            }
+        }
+
+        else if card.card_id == 47 {
+            if battle.monster_type == CreatureType::Brute {
+                BattleUtilsImpl::reduce_monster_attack(ref battle, 1);
+            }
+        }
+
+        else if card.card_id == 49 {
+            BoardUtilsImpl::update_creatures(ref board, CreatureType::Magical, 1, 0);
+        }
+
+        else if card.card_id == 51 {
+            if battle.monster_type == CreatureType::Magical {
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 1);
+            }
+        }
+
+        else if card.card_id == 54 {
+            if battle.monster_type == CreatureType::Magical {
+                battle_effects.enemy_marks += 1;
+            }
+        }
+
+        else if card.card_id == 58 {
+            if board_stats.brute_count > 0 {
+                creature.health += 1;
+            }
+        }
+
+        else if card.card_id == 59 {
+            if battle.monster_type == CreatureType::Hunter {
+                BattleUtilsImpl::reduce_monster_attack(ref battle, 1);
+            }
         }
         
-        world.write_model(@creature);
-        world.write_model(@battle_effects);
-        world.write_model(@target);
+        else if card.card_id == 63 {
+            if battle.monster_type == CreatureType::Brute {
+                creature.attack += 2;
+            }
+        }
+
+        else if card.card_id == 66 {
+            if battle.monster_type == CreatureType::Magical {
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 1);
+            }
+        }
+
+        else if card.card_id == 70 {
+            if board_stats.hunter_count > 0 {
+                creature.attack += 1;
+            }
+        }
+
+        else if card.card_id == 72 {
+            if battle.monster_type == CreatureType::Hunter {
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 1);
+            }
+        }
+
+        else if card.card_id == 74 {
+            if battle.monster_type == CreatureType::Hunter {
+                BattleUtilsImpl::reduce_monster_attack(ref battle, 1);
+            }
+        }
+
+        creature
     }
 }

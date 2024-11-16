@@ -1,7 +1,6 @@
 #[starknet::interface]
 trait IGameContract<T> {
     fn start_game(ref self: T, season_id: usize, name: felt252);
-    fn verify_game(ref self: T, game_id: usize);
     fn abandon_game(ref self: T, game_id: usize);
 }
 
@@ -12,18 +11,18 @@ mod game_systems {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use openzeppelin::token::erc20::interface::{
-        IERC20Camel, IERC20Dispatcher, IERC20DispatcherTrait, IERC20CamelLibraryDispatcher
+        IERC20Dispatcher, IERC20DispatcherTrait
     };
-    use starknet::{get_caller_address, get_block_info, get_tx_info, get_contract_address};
+    use starknet::{get_caller_address, get_tx_info};
 
-    use darkshuffle::constants::{DECK_SIZE, START_ENERGY, START_HEALTH, LAST_NODE_LEVEL, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID, DEFAULT_NS};
+    use darkshuffle::constants::{START_HEALTH, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID, DEFAULT_NS};
     use darkshuffle::models::game::{Game};
     use darkshuffle::models::draft::{Draft};
-    use darkshuffle::models::entropy::{Entropy};
     use darkshuffle::models::season::{Season, SeasonOwnerTrait};
     use darkshuffle::utils::{
-        game::GameUtilsImpl,
-        season::SeasonUtilsImpl
+        season::SeasonUtilsImpl,
+        draft::DraftUtilsImpl,
+        random
     };
 
     #[abi(embed_v0)]
@@ -50,6 +49,10 @@ mod game_systems {
                 season.reward_pool += season_distribution;
             }
 
+            let random_hash = random::get_random_hash();
+            let seed: u128 = random::get_entropy(random_hash);
+            let options = DraftUtilsImpl::get_draft_options(seed); 
+
             world.write_model(@Game {
                 game_id,
                 season_id,
@@ -61,39 +64,20 @@ mod game_systems {
                 active_battle_id: 0,
 
                 hero_health: START_HEALTH,
-                hero_energy: START_ENERGY,
-                hero_xp: 1,
-
-                branch: 0,
-                node_level: LAST_NODE_LEVEL,
                 monsters_slain: 0,
-                entropy_count: 1,
-                entropy_verified: false
+
+                map_level: 1,
+                map_depth: 1,
+                last_node_id: 0,
             });
 
             world.write_model(@Draft {
                 game_id,
-                card_count: 0
-            });
-
-            world.write_model(@Entropy {
-                game_id,
-                number: 1,
-                block_number: get_block_info().unbox().block_number.into(),
-                block_hash: 0
+                options,
+                cards: array![].span()
             });
 
             world.write_model(@season);
-        }
-
-        fn verify_game(ref self: ContractState, game_id: usize) {
-            let mut world: WorldStorage = self.world(DEFAULT_NS());
-
-            let mut game: Game = world.read_model(game_id);
-            assert(!game.active, 'Game Active');
-
-            GameUtilsImpl::verify_game(ref world, ref game);
-            world.write_model(@game);
         }
 
         fn abandon_game(ref self: ContractState, game_id: usize) {
@@ -106,7 +90,7 @@ mod game_systems {
             game.active = false;
             game.hero_health = 0;
 
-            GameUtilsImpl::verify_game(ref world, ref game);
+            SeasonUtilsImpl::score_game(ref world, game);
             world.write_model(@game);
         }
     }

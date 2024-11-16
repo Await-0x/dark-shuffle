@@ -48,8 +48,7 @@ export async function getActiveGame(address, demo) {
           hero_xp,
           branch,
           node_level,
-          monsters_slain,
-          entropy_count,
+          monsters_slain
         }
       }
     }
@@ -308,7 +307,6 @@ export async function getUnverifiedGames(address, seasonId) {
       edges {
         node {
           game_id
-          entropy_count
         }
       }
     }

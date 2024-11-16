@@ -1,565 +1,992 @@
-use darkshuffle::models::battle::{Card};
-use darkshuffle::constants::{CardTypes, CardTags};
+use darkshuffle::models::battle::{Card, CardType, CreatureType, CardTier};
 
 #[generate_trait]
 impl CardUtilsImpl of CardUtilsTrait {
-    fn get_card(id: u16, level: u16) -> Card {
+    fn get_card(id: u8) -> Card {
         if id == 1 {
             return Card {
                 card_id: 1,
-                name: 'Wisdom Bringer',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
-                cost: 5,
-                attack: 6,
-                health: 6,
-                level
+                name: 'Warlock',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Magical,
+                cost: 2,
+                attack: 3,
+                health: 4,
             };
         }
 
         else if id == 2 {
             return Card {
                 card_id: 2,
-                name: 'Faith Guardian',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
-                cost: 6,
-                attack: 9,
-                health: 9,
-                level
+                name: 'Typhon',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Magical,
+                cost: 5,
+                attack: 6,
+                health: 6,
             };
         }
         
         else if id == 3 {
             return Card {
                 card_id: 3,
-                name: 'Solace Bringer',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
-                cost: 4,
-                attack: 4,
-                health: 10,
-                level
+                name: 'Jiangshi',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Magical,
+                cost: 3,
+                attack: 5,
+                health: 4,
             };
         }
         
         else if id == 4 {
             return Card {
                 card_id: 4,
-                name: 'Eden Priest',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 2,
-                cost: 2,
-                attack: 2,
-                health: 8,
-                level
+                name: 'Anansi',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Magical,
+                cost: 4,
+                attack: 4,
+                health: 5,
             };
         }
         
         else if id == 5 {
             return Card {
                 card_id: 5,
-                name: 'Wild Dog',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
+                name: 'Basilisk',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Magical,
                 cost: 1,
-                attack: 1,
+                attack: 3,
                 health: 2,
-                level
             };
         }
-        
+
         else if id == 6 {
             return Card {
                 card_id: 6,
-                name: 'Coyote',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 2,
-                cost: 3,
-                attack: 5,
-                health: 5,
-                level
+                name: 'Griffin',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Hunter,
+                cost: 5,
+                attack: 6,
+                health: 4,
             };
         }
         
         else if id == 7 {
             return Card {
                 card_id: 7,
-                name: 'Fiery Demon',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 3,
-                cost: 5,
-                attack: 15,
-                health: 12,
-                level
+                name: 'Manticore',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Hunter,
+                cost: 3,
+                attack: 4,
+                health: 5,
             };
         }
         
         else if id == 8 {
             return Card {
                 card_id: 8,
-                name: 'Beetle',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 2,
-                cost: 3,
-                attack: 6,
-                health: 6,
-                level
+                name: 'Phoenix',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Hunter,
+                cost: 1,
+                attack: 3,
+                health: 2,
             };
         }
         
         else if id == 9 {
             return Card {
                 card_id: 9,
-                name: 'Zephyr',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
+                name: 'Dragon',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Hunter,
                 cost: 2,
-                attack: 5,
-                health: 8,
-                level
+                attack: 4,
+                health: 3,
             };
         }
-        
+
         else if id == 10 {
             return Card {
                 card_id: 10,
-                name: 'Fireball',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
-                cost: 1,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Minotaur',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Hunter,
+                cost: 4,
+                attack: 5,
+                health: 4,
             };
         }
         
         else if id == 11 {
             return Card {
                 card_id: 11,
-                name: 'Lightning Strike',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 3,
-                cost: 3,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Kraken',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Brute,
+                cost: 1,
+                attack: 3,
+                health: 5,
             };
         }
         
         else if id == 12 {
             return Card {
                 card_id: 12,
-                name: 'First Aid',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::ESCALATING,
-                tag_multiplier: 1,
-                cost: 3,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Colossus',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Brute,
+                cost: 5,
+                attack: 5,
+                health: 7,
             };
         }
         
         else if id == 13 {
             return Card {
                 card_id: 13,
-                name: 'Grace Warden',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCALABLE,
-                tag_multiplier: 1,
-                cost: 2,
-                attack: 7,
-                health: 3,
-                level
+                name: 'Balrog',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Brute,
+                cost: 3,
+                attack: 4,
+                health: 6,
             };
         }
-        
+
         else if id == 14 {
             return Card {
                 card_id: 14,
-                name: 'Blessing Caster',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCALABLE,
-                tag_multiplier: 1,
+                name: 'Leviathan',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Brute,
                 cost: 2,
                 attack: 5,
-                health: 4,
-                level
+                health: 3,
             };
         }
-        
+
         else if id == 15 {
-            return Card   {
+            return Card {
                 card_id: 15,
-                name: 'Gospel Scribe',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCALABLE,
-                tag_multiplier: 2,
-                cost: 3,
-                attack: 7,
+                name: 'Tarrasque',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Brute,
+                cost: 4,
+                attack: 3,
                 health: 5,
-                level
             };
         }
-        
+
         else if id == 16 {
             return Card {
                 card_id: 16,
-                name: 'Chant Monk',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCALABLE,
-                tag_multiplier: 1,
-                cost: 3,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Gorgon',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Magical,
+                cost: 2,
+                attack: 3,
+                health: 3,
             };
         }
-        
+
         else if id == 17 {
             return Card {
                 card_id: 17,
-                name: 'Grim Marauder',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCALABLE,
-                tag_multiplier: 2,
-                cost: 2,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Kitsune',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Magical,
+                cost: 4,
+                attack: 4,
+                health: 3,
             };
         }
-        
+
         else if id == 18 {
             return Card {
                 card_id: 18,
-                name: 'Tasmanian Devil',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCALABLE,
-                tag_multiplier: 2,
-                cost: 3,
-                attack: 4,
-                health: 8,
-                level
+                name: 'Lich',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Magical,
+                cost: 5,
+                attack: 2,
+                health: 4,
             };
         }
-        
+
         else if id == 19 {
             return Card {
                 card_id: 19,
-                name: 'Jackal',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCALABLE,
-                tag_multiplier: 2,
-                cost: 4,
-                attack: 16,
+                name: 'Chimera',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Magical,
+                cost: 3,
+                attack: 3,
                 health: 4,
-                level
             };
         }
-        
+
         else if id == 20 {
             return Card {
                 card_id: 20,
-                name: 'Binturong',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::SCALABLE,
-                tag_multiplier: 2,
-                cost: 4,
-                attack: 12,
-                health: 14,
-                level
+                name: 'Wendigo',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Magical,
+                cost: 1,
+                attack: 2,
+                health: 3,
             };
         }
-        
+
         else if id == 21 {
             return Card {
                 card_id: 21,
-                name: 'Virtue Curate',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 5,
-                attack: 2,
+                name: 'Qilin',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Hunter,
+                cost: 1,
+                attack: 3,
                 health: 2,
-                level
             };
         }
-        
+
         else if id == 22 {
             return Card {
                 card_id: 22,
-                name: 'Mercy Giver',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 6,
-                attack: 4,
-                health: 4,
-                level
+                name: 'Ammit',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Hunter,
+                cost: 4,
+                attack: 5,
+                health: 2,
             };
         }
-        
+
         else if id == 23 {
             return Card {
                 card_id: 23,
-                name: 'Celestial Minister',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 5,
-                attack: 7,
-                health: 7,
-                level
+                name: 'Nue',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Hunter,
+                cost: 3,
+                attack: 4,
+                health: 2,
             };
         }
-        
+
         else if id == 24 {
             return Card {
                 card_id: 24,
-                name: 'Peace Keeper',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 4,
-                attack: 6,
-                health: 6,
-                level
+                name: 'Skinwalker',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Hunter,
+                cost: 5,
+                attack: 4,
+                health: 3,
             };
         }
 
         else if id == 25 {
             return Card {
                 card_id: 25,
-                name: 'Rat',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 5,
-                attack: 9,
-                health: 12,
-                level
+                name: 'Chupacabra',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Hunter,
+                cost: 2,
+                attack: 2,
+                health: 3,
             };
         }
 
         else if id == 26 {
             return Card {
                 card_id: 26,
-                name: 'Bald Eagle',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 5,
-                attack: 4,
-                health: 7,
-                level
+                name: 'Titan',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Brute,
+                cost: 2,
+                attack: 3,
+                health: 5,
             };
         }
 
         else if id == 27 {
             return Card {
                 card_id: 27,
-                name: 'Devourer',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 6,
-                attack: 10,
-                health: 12,
-                level
+                name: 'Nephilim',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Brute,
+                cost: 5,
+                attack: 4,
+                health: 4,
             };
         }
 
         else if id == 28 {
             return Card {
                 card_id: 28,
-                name: 'Rage Infernal',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 6,
+                name: 'Behemoth',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Brute,
+                cost: 3,
                 attack: 4,
-                health: 9,
-                level
+                health: 3,
             };
         }
 
         else if id == 29 {
             return Card {
                 card_id: 29,
-                name: 'Jinx Weaver',
-                card_type: CardTypes::CREATURE,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 5,
-                attack: 9,
-                health: 12,
-                level
+                name: 'Hydra',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Brute,
+                cost: 1,
+                attack: 3,
+                health: 2,
             };
         }
 
         else if id == 30 {
             return Card {
                 card_id: 30,
-                name: 'Blessed Barrier',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
+                name: 'Juggernaut',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Brute,
                 cost: 4,
-                attack: 0,
-                health: 0,
-                level
+                attack: 3,
+                health: 4,
             };
         }
 
         else if id == 31 {
             return Card {
                 card_id: 31,
-                name: 'Barricade',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 4,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Rakshasa',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Magical,
+                cost: 3,
+                attack: 4,
+                health: 4,
             };
         }
 
         else if id == 32 {
             return Card {
                 card_id: 32,
-                name: 'Natures Wrath',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 5,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Werewolf',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Magical,
+                cost: 2,
+                attack: 3,
+                health: 3,
             };
         }
 
         else if id == 33 {
             return Card {
                 card_id: 33,
-                name: 'Spark',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 2,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Banshee',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Magical,
+                cost: 5,
+                attack: 5,
+                health: 3,
             };
         }
 
         else if id == 34 {
             return Card {
                 card_id: 34,
-                name: 'Divine Intervention',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::RENEWABLE,
-                tag_multiplier: 1,
-                cost: 4,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Draugr',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Magical,
+                cost: 1,
+                attack: 2,
+                health: 2,
             };
         }
 
         else if id == 35 {
             return Card {
                 card_id: 35,
-                name: 'Energy Transfer',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::NONE,
-                tag_multiplier: 1,
-                cost: 1,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Vampire',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Magical,
+                cost: 4,
+                attack: 4,
+                health: 3,
             };
         }
 
         else if id == 36 {
             return Card {
                 card_id: 36,
-                name: 'Greater Heal',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::FATIQUE,
-                tag_multiplier: 1,
-                cost: 1,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Weretiger',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Hunter,
+                cost: 5,
+                attack: 6,
+                health: 3,
             };
         }
 
         else if id == 37 {
             return Card {
                 card_id: 37,
-                name: 'Shifting Aegis',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::FATIQUE,
-                tag_multiplier: 1,
+                name: 'Wyvern',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Hunter,
                 cost: 1,
-                attack: 0,
-                health: 0,
-                level
+                attack: 3,
+                health: 2,
             };
         }
 
         else if id == 38 {
             return Card {
                 card_id: 38,
-                name: 'Chaotic Blast',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::FATIQUE,
-                tag_multiplier: 1,
-                cost: 1,
-                attack: 0,
-                health: 0,
-                level
+                name: 'Roc',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Hunter,
+                cost: 4,
+                attack: 4,
+                health: 4,
             };
         }
 
         else if id == 39 {
             return Card {
                 card_id: 39,
-                name: 'Divine Sacrifice',
-                card_type: CardTypes::SPELL,
-                card_tag: CardTags::FATIQUE,
-                tag_multiplier: 1,
+                name: 'Harpy',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Hunter,
+                cost: 2,
+                attack: 3,
+                health: 3,
+            };
+        }
+
+        else if id == 40 {
+            return Card {
+                card_id: 40,
+                name: 'Pegasus',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Hunter,
+                cost: 3,
+                attack: 4,
+                health: 2,
+            };
+        }
+
+        else if id == 41 {
+            return Card {
+                card_id: 41,
+                name: 'Oni',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Brute,
+                cost: 3,
+                attack: 3,
+                health: 5,
+            };
+        }
+
+        else if id == 42 {
+            return Card {
+                card_id: 42,
+                name: 'Jotunn',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Brute,
+                cost: 2,
+                attack: 4,
+                health: 3,
+            };
+        }
+
+        else if id == 43 {
+            return Card {
+                card_id: 43,
+                name: 'Ettin',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Brute,
+                cost: 5,
+                attack: 5,
+                health: 3,
+            };
+        }
+
+        else if id == 44 {
+            return Card {
+                card_id: 44,
+                name: 'Cyclops',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Brute,
+                cost: 4,
+                attack: 3,
+                health: 4,
+            };
+        }
+
+        else if id == 45 {
+            return Card {
+                card_id: 45,
+                name: 'Giant',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Brute,
                 cost: 1,
-                attack: 0,
-                health: 0,
-                level
+                attack: 2,
+                health: 3,
+            };
+        }
+
+        else if id == 46 {
+            return Card {
+                card_id: 46,
+                name: 'Goblin',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Magical,
+                cost: 2,
+                attack: 2,
+                health: 3,
+            };
+        }
+
+        else if id == 47 {
+            return Card {
+                card_id: 47,
+                name: 'Ghoul',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Magical,
+                cost: 1,
+                attack: 2,
+                health: 2,
+            };
+        }
+
+        else if id == 48 {
+            return Card {
+                card_id: 48,
+                name: 'Wraith',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Magical,
+                cost: 3,
+                attack: 3,
+                health: 2,
+            };
+        }
+
+        else if id == 49 {
+            return Card {
+                card_id: 49,
+                name: 'Sprite',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Magical,
+                cost: 2,
+                attack: 2,
+                health: 3,
+            };
+        }
+
+        else if id == 50 {
+            return Card {
+                card_id: 50,
+                name: 'Kappa',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Magical,
+                cost: 4,
+                attack: 3,
+                health: 3,
+            };
+        }
+
+        else if id == 51 {
+            return Card {
+                card_id: 51,
+                name: 'Hippogriff',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Hunter,
+                cost: 1,
+                attack: 3,
+                health: 1,
+            };
+        }
+
+        else if id == 52 {
+            return Card {
+                card_id: 52,
+                name: 'Fenrir',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Hunter,
+                cost: 2,
+                attack: 2,
+                health: 2,
+            };
+        }
+
+        else if id == 53 {
+            return Card {
+                card_id: 53,
+                name: 'Jaguar',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Hunter,
+                cost: 3,
+                attack: 2,
+                health: 3,
+            };
+        }
+
+        else if id == 54 {
+            return Card {
+                card_id: 54,
+                name: 'Satori',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Hunter,
+                cost: 4,
+                attack: 4,
+                health: 2,
+            };
+        }
+
+        else if id == 55 {
+            return Card {
+                card_id: 55,
+                name: 'Direwolf',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Hunter,
+                cost: 2,
+                attack: 2,
+                health: 2,
+            };
+        }
+
+        else if id == 56 {
+            return Card {
+                card_id: 56,
+                name: 'NemeanLion',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Brute,
+                cost: 3,
+                attack: 2,
+                health: 4,
+            };
+        }
+
+        else if id == 57 {
+            return Card {
+                card_id: 57,
+                name: 'Berserker',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Brute,
+                cost: 2,
+                attack: 3,
+                health: 2,
+            };
+        }
+
+        else if id == 58 {
+            return Card {
+                card_id: 58,
+                name: 'Yeti',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Brute,
+                cost: 1,
+                attack: 3,
+                health: 2,
+            };
+        }
+
+        else if id == 59 {
+            return Card {
+                card_id: 59,
+                name: 'Golem',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Brute,
+                cost: 4,
+                attack: 4,
+                health: 2,
+            };
+        }
+
+        else if id == 60 {
+            return Card {
+                card_id: 60,
+                name: 'Ent',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Brute,
+                cost: 2,
+                attack: 2,
+                health: 3,
+            };
+        }
+
+        else if id == 61 {
+            return Card {
+                card_id: 61,
+                name: 'Fairy',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Magical,
+                cost: 4,
+                attack: 3,
+                health: 3,
+            };
+        }
+
+        else if id == 62 {
+            return Card {
+                card_id: 62,
+                name: 'Leprechaun',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Magical,
+                cost: 2,
+                attack: 2,
+                health: 2,
+            };
+        }
+
+        else if id == 63 {
+            return Card {
+                card_id: 63,
+                name: 'Kelpie',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Magical,
+                cost: 1,
+                attack: 1,
+                health: 1,
+            };
+        }
+
+        else if id == 64 {
+            return Card {
+                card_id: 64,
+                name: 'Pixie',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Magical,
+                cost: 3,
+                attack: 2,
+                health: 3,
+            };
+        }
+
+        else if id == 65 {
+            return Card {
+                card_id: 65,
+                name: 'Gnome',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Magical,
+                cost: 5,
+                attack: 4,
+                health: 3,
+            };
+        }
+
+        else if id == 66 {
+            return Card {
+                card_id: 66,
+                name: 'Bear',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Hunter,
+                cost: 4,
+                attack: 3,
+                health: 2,
+            };
+        }
+
+        else if id == 67 {
+            return Card {
+                card_id: 67,
+                name: 'Wolf',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Hunter,
+                cost: 2,
+                attack: 2,
+                health: 2,
+            };
+        }
+
+        else if id == 68 {
+            return Card {
+                card_id: 68,
+                name: 'Mantis',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Hunter,
+                cost: 1,
+                attack: 1,
+                health: 1,
+            };
+        }
+
+        else if id == 69 {
+            return Card {
+                card_id: 69,
+                name: 'Spider',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Hunter,
+                cost: 3,
+                attack: 3,
+                health: 2,
+            };
+        }
+
+        else if id == 70 {
+            return Card {
+                card_id: 70,
+                name: 'Rat',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Hunter,
+                cost: 5,
+                attack: 4,
+                health: 4,
+            };
+        }
+
+        else if id == 71 {
+            return Card {
+                card_id: 71,
+                name: 'Troll',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Brute,
+                cost: 4,
+                attack: 3,
+                health: 4,
+            };
+        }
+
+        else if id == 72 {
+            return Card {
+                card_id: 72,
+                name: 'Bigfoot',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Brute,
+                cost: 2,
+                attack: 3,
+                health: 2,
+            };
+        }
+
+        else if id == 73 {
+            return Card {
+                card_id: 73,
+                name: 'Ogre',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Brute,
+                cost: 1,
+                attack: 1,
+                health: 2,
+            };
+        }
+
+        else if id == 74 {
+            return Card {
+                card_id: 74,
+                name: 'Orc',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Brute,
+                cost: 3,
+                attack: 2,
+                health: 3,
+            };
+        }
+
+        else if id == 75 {
+            return Card {
+                card_id: 75,
+                name: 'Skeleton',
+                card_type: CardType::Creature,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Brute,
+                cost: 5,
+                attack: 4,
+                health: 3,
             };
         }
 
         Card {
             card_id: 0,
-            name: 'Unknown',
-            card_type: 'None',
-            card_tag: 'None',
-            tag_multiplier: 1,
+            name: 'None',
+            card_type: CardType::Creature,
+            card_tier: CardTier::T1,
+            creature_type: CreatureType::None,
             cost: 0,
             attack: 0,
             health: 0,
-            level: 0
         }
     }
 }

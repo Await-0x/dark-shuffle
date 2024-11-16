@@ -10,62 +10,19 @@ pub struct Battle {
     #[key]
     battle_id: usize,
     game_id: usize,
-    node_id: usize,
 
-    round: u16,
-    card_index: u16,
-    round_energy: u16,
+    round: u8,
+    hero_health: u8,
+    hero_energy: u8,
 
-    hero_health: u16,
-    hero_energy: u16,
-    hero_armor: u16,
-    hero_burn: u16,
-
-    monster_id: u16,
-    monster_attack: u16,
-    monster_health: u16,
+    monster_id: u8,
+    monster_attack: u8,
+    monster_health: u8,
+    monster_type: CreatureType,
     
-    branch: u16,
+    hand: Span<u8>,
     deck: Span<u8>,
-}
-
-#[derive(Copy, Drop, Serde)]
-#[dojo::model]
-pub struct Creature {
-    #[key]
-    battle_id: usize,
-    #[key]
-    creature_id: u16,
-    card_id: u16,
-    cost: u16,
-    attack: u16,
-    health: u16,
-    shield: bool,
-    resting_round: u16,
-}
-
-#[derive(Copy, Drop, Serde)]
-#[dojo::model]
-pub struct Board {   
-    #[key]
-    battle_id: usize,
-    creature1: u16,
-    creature2: u16,
-    creature3: u16,
-    creature4: u16,
-    creature5: u16,
-    creature6: u16,
-}
-
-#[derive(Copy, Drop, Serde)]
-#[dojo::model]
-pub struct HandCard {   
-    #[key]
-    battle_id: usize,
-    #[key]
-    hand_card_number: u8,
-    card_id: u16,
-    level: u16
+    deck_index: u8,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -73,23 +30,78 @@ pub struct HandCard {
 pub struct BattleEffects {   
     #[key]
     battle_id: usize,
-    next_spell_reduction: u16,
-    next_card_reduction: u16,
-    free_discard: bool,
-    damage_immune: bool
+    enemy_marks: u8,
+    hero_dmg_reduction: u8,
+    next_hunter_attack_bonus: u8,
+    next_hunter_health_bonus: u8,
+    next_brute_attack_bonus: u8,
+    next_brute_health_bonus: u8,
+}
+
+#[derive(Introspect, Copy, Drop, Serde)]
+#[dojo::model]
+pub struct Board {   
+    #[key]
+    battle_id: usize,
+    creature1: Creature,
+    creature2: Creature,
+    creature3: Creature,
+    creature4: Creature,
+    creature5: Creature,
+    creature6: Creature,
+}
+
+#[derive(Introspect, Copy, Drop, Serde)]
+pub struct Creature {
+    card_id: u8,
+    cost: u8,
+    attack: u8,
+    health: u8,
+    creature_type: CreatureType,
+}
+
+#[derive(Copy, Drop, Serde)]
+pub struct BoardStats {
+    magical_count: u8,
+    brute_count: u8,
+    hunter_count: u8,
 }
 
 #[derive(Copy, Drop)]
 pub struct Card {
-    card_id: u16,
+    card_id: u8,
     name: felt252,
-    card_type: felt252,
-    card_tag: felt252,
-    tag_multiplier: u8,
-    cost: u16,
-    attack: u16,
-    health: u16,
-    level: u16
+    card_type: CardType,
+    card_tier: CardTier,
+    creature_type: CreatureType,
+    cost: u8,
+    attack: u8,
+    health: u8,
+}
+
+#[derive(PartialEq, Introspect, Copy, Drop, Serde)]
+pub enum CardType {
+    Creature,
+    Spell,
+}
+
+#[derive(PartialEq, Introspect, Copy, Drop, Serde)]
+pub enum CreatureType {
+    Hunter,
+    Brute,
+    Magical,
+    Spell,
+    All,
+    None
+}
+
+#[derive(Introspect, Copy, Drop, Serde)]
+pub enum CardTier {
+    T1,
+    T2,
+    T3,
+    T4,
+    T5,
 }
 
 #[generate_trait]
@@ -101,16 +113,65 @@ impl BattleOwnerImpl of BattleOwnerTrait {
         assert(self.monster_health > 0, 'Battle over');
     }
 
-    fn assert_energy(self: Battle, cost: u16) {
-        assert(self.hero_energy >= cost, 'Not enough energy');
-    }
+    fn card_in_hand(self: Battle, card_id: u8) -> bool {
+        let mut is_in_hand = false;
 
-    fn assert_hand_card(self: HandCard) {
-        assert(self.card_id != 0, 'Card already played');
+        let mut i = 0;
+        while i < self.hand.len() {
+            if *self.hand.at(i) == card_id {
+                is_in_hand = true;
+                break;
+            }
+
+            i += 1;
+        };
+
+        is_in_hand
     }
 
     fn assert_creature(self: Creature) {
         assert(self.card_id != 0, 'Creature not found');
         assert(self.health > 0, 'Creature dead');
+    }
+
+    fn remove_hand_card(mut self: Battle, card_id: u8) {
+        let mut card_removed = false;
+        let mut new_hand = array![];
+
+        let mut i = 0;
+        while i < self.hand.len() {
+            if *self.hand.at(i) == card_id && !card_removed {
+                card_removed = true;
+            } else {
+                new_hand.append(*self.hand.at(i));
+            }
+
+            i += 1;
+        };
+
+        self.hand = new_hand.span();
+    }
+
+    fn draw_cards(mut self: Battle, shuffled_deck: Span<u8>, amount: u8, skip: u8) {
+        let mut new_hand = array![];
+
+        let mut i = 0;
+        while i < self.hand.len() {
+            new_hand.append(*self.hand.at(i));
+            i += 1;
+        };
+
+        i = 0;
+        while i < amount.into() {
+            if skip.into() + i >= shuffled_deck.len() {
+                break;
+            }
+
+            new_hand.append(*shuffled_deck.at(skip.into() + i));
+            self.deck_index += 1;
+            i += 1;
+        };
+
+        self.hand = new_hand.span();
     }
 }

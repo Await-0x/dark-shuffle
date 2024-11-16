@@ -22,7 +22,7 @@ pub struct Leaderboard {
     #[key]
     rank: u8,
     player: ContractAddress,
-    score: u32,
+    score: u16,
 }
 
 #[derive(Copy, Drop, Serde)]

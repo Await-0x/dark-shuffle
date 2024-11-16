@@ -7,7 +7,7 @@ pub mod game {
 pub mod battle {
     pub mod contracts;
 }
-pub mod node {
+pub mod map {
     pub mod contracts;
 }
 pub mod season {

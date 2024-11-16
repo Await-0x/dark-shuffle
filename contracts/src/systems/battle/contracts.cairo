@@ -1,9 +1,6 @@
 #[starknet::interface]
 trait IBattleContract<T> {
-    fn summon_creature(ref self: T, battle_id: usize, hand_card_number: u8, target_id: u16);
-    fn cast_spell(ref self: T, battle_id: usize, hand_card_number: u8, target_id: u16);
-    fn discard(ref self: T, battle_id: usize, hand_card_number: u8);
-    fn end_turn(ref self: T, battle_id: usize);
+    fn battle_actions(ref self: T, battle_id: usize, actions: Span<Span<u8>>);
 }
 
 #[dojo::contract]
@@ -12,142 +9,94 @@ mod battle_systems {
     use dojo::world::WorldStorage;
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
-    use darkshuffle::constants::{START_ENERGY, CardTags, DEFAULT_NS};
-    use darkshuffle::models::battle::{Battle, BattleOwnerTrait, HandCard, Card, Creature, BattleEffects};
+    use darkshuffle::constants::{DEFAULT_NS};
+    use darkshuffle::models::battle::{Battle, BattleOwnerTrait, Card, Creature, BattleEffects, Board, BoardStats, CardType};
     use darkshuffle::utils::{
         summon::SummonUtilsImpl,
         cards::CardUtilsImpl,
         board::BoardUtilsImpl,
-        spell::SpellUtilsImpl,
         battle::BattleUtilsImpl,
         game::GameUtilsImpl,
         monsters::MonsterUtilsImpl,
-        hand::HandUtilsImpl,
-        draft::DraftUtilsImpl
+        random
     };
 
     #[abi(embed_v0)]
     impl BattleContractImpl of super::IBattleContract<ContractState> {
-        fn summon_creature(ref self: ContractState, battle_id: usize, hand_card_number: u8, target_id: u16) {
+        fn battle_actions(ref self: ContractState, battle_id: usize, actions: Span<Span<u8>>) {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 
             let mut battle: Battle = world.read_model(battle_id);
             battle.assert_battle(world);
 
-            let hand_card: HandCard = world.read_model((battle_id, hand_card_number));
-            hand_card.assert_hand_card();
+            let mut battle_effects: BattleEffects = world.read_model(battle_id);
+            let mut board: Board = world.read_model(battle_id);
+            let mut board_stats: BoardStats = BoardUtilsImpl::get_board_stats(board);
 
-            let card: Card = CardUtilsImpl::get_card(hand_card.card_id, hand_card.level);
-            
-            let mut battle_effects: BattleEffects = world.read_model(battle.battle_id);
-            
-            BattleUtilsImpl::energy_cost(ref battle, ref battle_effects, card);
+            let mut action_index = 0;
+            while action_index < actions.len() {
+                let action = *actions.at(action_index);
 
-            battle.card_index += 1;
-            BoardUtilsImpl::add_creature_to_board(ref world, battle.card_index, battle_id);
-            SummonUtilsImpl::summon_creature(ref world, battle.card_index, target_id, ref battle, ref battle_effects, card);
-            
-            if GameUtilsImpl::is_battle_over(battle) {
-                GameUtilsImpl::end_battle(ref world, ref battle);
-            } else {
-                world.erase_model(@hand_card);
+                match *action.at(0) {
+                    0 => {
+                        assert(battle.card_in_hand(*action.at(1)), 'Card not in hand');
+                        let card: Card = CardUtilsImpl::get_card(*action.at(1));
+                        BattleUtilsImpl::energy_cost(ref battle, ref battle_effects, card);
 
-                if HandUtilsImpl::count_cards(world, battle_id) == 0 {
-                    HandUtilsImpl::draw_cards(ref world, battle_id, battle.game_id, battle.deck);
+                        if card.card_type == CardType::Creature {
+                            let creature: Creature = SummonUtilsImpl::summon_creature(card, ref battle, ref battle_effects, ref board, ref board_stats);
+                            BoardUtilsImpl::add_creature_to_board(creature, ref board, ref board_stats);
+                        }
+
+                        battle.remove_hand_card(*action.at(1));
+                    },
+
+                    1 => {
+                        assert(action_index == actions.len() - 1, 'Invalid action');
+                        BoardUtilsImpl::attack_monster(ref battle, ref battle_effects, ref board, board_stats);
+                        BoardUtilsImpl::clean_board(ref battle, ref battle_effects, ref board, board_stats);
+                    },
+
+                    _ => {
+                        assert(false, 'Invalid action');
+                    }
                 }
 
-                world.write_model(@battle);
-                world.write_model(@battle_effects);
-            }
-        }
-
-        fn cast_spell(ref self: ContractState, battle_id: usize, hand_card_number: u8, target_id: u16) {
-            let mut world: WorldStorage = self.world(DEFAULT_NS());
-
-            let mut battle: Battle = world.read_model(battle_id);
-            battle.assert_battle(world);
-
-            let hand_card: HandCard = world.read_model((battle_id, hand_card_number));
-            hand_card.assert_hand_card();
-
-            let card: Card = CardUtilsImpl::get_card(hand_card.card_id, hand_card.level);
-            
-            let mut battle_effects: BattleEffects = world.read_model(battle.battle_id);
-            
-            BattleUtilsImpl::energy_cost(ref battle, ref battle_effects, card);
-            SpellUtilsImpl::cast_spell(ref world, target_id, ref battle, ref battle_effects, card);
-            
-            if GameUtilsImpl::is_battle_over(battle) {
-                GameUtilsImpl::end_battle(ref world,ref battle);
-            } else {
-                world.erase_model(@hand_card);
-
-                if HandUtilsImpl::count_cards(world, battle_id) == 0 {
-                    HandUtilsImpl::draw_cards(ref world, battle_id, battle.game_id, battle.deck);
+                if GameUtilsImpl::is_battle_over(battle) {
+                    break;
                 }
-    
-                world.write_model(@battle);
-                world.write_model(@battle_effects);
-            }
-        }
 
-        fn discard(ref self: ContractState, battle_id: usize, hand_card_number: u8) {
-            let mut world: WorldStorage = self.world(DEFAULT_NS());
-
-            let mut battle: Battle = world.read_model(battle_id);
-            battle.assert_battle(world);
-
-            let hand_card: HandCard = world.read_model((battle_id, hand_card_number));
-            hand_card.assert_hand_card();
-
-            let mut battle_effects: BattleEffects = world.read_model(battle.battle_id);
-
-            BattleUtilsImpl::discard_cost(ref battle, ref battle_effects);
-
-            if GameUtilsImpl::is_battle_over(battle) {
-                GameUtilsImpl::end_battle(ref world, ref battle);
-            } else {
-                world.erase_model(@hand_card);
-
-                if HandUtilsImpl::count_cards(world, battle_id) == 0 {
-                    HandUtilsImpl::draw_cards(ref world, battle_id, battle.game_id, battle.deck);
-                }
-                
-                world.write_model(@battle);
-                world.write_model(@battle_effects);
-            }
-        }
-
-        fn end_turn(ref self: ContractState, battle_id: usize) {
-            let mut world: WorldStorage = self.world(DEFAULT_NS());
-
-            let mut battle: Battle = world.read_model(battle_id);
-            battle.assert_battle(world);
-
-            let mut battle_effects: BattleEffects = world.read_model(battle.battle_id);
-
-            BoardUtilsImpl::attack_monster(ref world, ref battle, ref battle_effects);
+                action_index += 1;
+            };
 
             if GameUtilsImpl::is_battle_over(battle) {
                 GameUtilsImpl::end_battle(ref world, ref battle);
                 return;
-            }
+            };
 
-            MonsterUtilsImpl::monster_ability(ref world, ref battle, ref battle_effects);
-
-            if battle.hero_burn > 0 {
-                BattleUtilsImpl::damage_hero(ref battle, battle.hero_burn, ref battle_effects);
-            }
+            MonsterUtilsImpl::monster_ability(ref battle, ref battle_effects);
+            BoardUtilsImpl::clean_board(ref battle, ref battle_effects, ref board, board_stats);
 
             if GameUtilsImpl::is_battle_over(battle) {
                 GameUtilsImpl::end_battle(ref world, ref battle);
             } else {
                 battle.round += 1;
-                battle.hero_energy = battle.round_energy;
-                battle_effects.damage_immune = false;
+                if battle.round > 10 {  
+                    battle.hero_energy = 10;
+                } else {
+                    battle.hero_energy = battle.round;
+                }
+
+                let random_hash = random::get_random_hash();
+                let seed: u128 = random::get_entropy(random_hash);
+                let shuffled_deck = random::shuffle_deck(seed, battle.deck, battle.deck_index);
+
+                battle.draw_cards(shuffled_deck, 1, battle.deck_index);
+                battle.deck = shuffled_deck;
 
                 world.write_model(@battle);
                 world.write_model(@battle_effects);
+                world.write_model(@board);
             }
         }
     }
