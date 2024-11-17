@@ -3,6 +3,7 @@ use dojo::world::WorldStorage;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use starknet::{ContractAddress, get_caller_address};
 use darkshuffle::models::game::Game;
+use darkshuffle::constants::MAX_HAND_SIZE;
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
@@ -163,7 +164,7 @@ impl BattleOwnerImpl of BattleOwnerTrait {
 
         i = 0;
         while i < amount.into() {
-            if skip.into() + i >= shuffled_deck.len() {
+            if new_hand.len() >= MAX_HAND_SIZE.into() || skip.into() + i >= shuffled_deck.len() {
                 break;
             }
 

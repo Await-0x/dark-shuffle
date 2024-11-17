@@ -1,17 +1,15 @@
 use dojo::model::ModelStorage;
 use dojo::world::WorldStorage;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use starknet::{get_caller_address, get_block_info, get_block_timestamp, get_tx_info, get_contract_address};
-use core::{array::ArrayTrait};
 
-use darkshuffle::models::battle::{Battle, BattleEffects, CreatureType};
+use darkshuffle::models::battle::{Battle, BattleEffects};
 use darkshuffle::models::game::{Game};
 use darkshuffle::models::draft::{Draft};
 use darkshuffle::models::map::{Map, MonsterNode};
 use darkshuffle::utils::random;
 use darkshuffle::utils::hand::HandUtilsImpl;
-use darkshuffle::utils::game::GameUtilsImpl;
-use darkshuffle::constants::{MONSTER_COUNT, LAST_NODE_DEPTH, STARTING_HAND_SIZE};
+use darkshuffle::utils::cards::CardUtilsImpl;
+use darkshuffle::constants::{STARTING_HAND_SIZE};
 
 #[generate_trait]
 impl MapUtilsImpl of MapUtilsTrait {
@@ -87,7 +85,16 @@ impl MapUtilsImpl of MapUtilsTrait {
 
     fn get_monster_node(map: Map, node_id: u8) -> MonsterNode {
         let seed = random::LCG(map.seed, node_id);
-        let monster_id = random::get_random_number(seed, MONSTER_COUNT);
+
+        let mut monster_range = 0;
+        if map.level > 4 {
+            monster_range = 0;
+        } else {
+            monster_range = 75 - (15 * map.level);
+        }
+
+        let monster_id = random::get_random_number(seed, 75 - monster_range);
+        let card = CardUtilsImpl::get_card(monster_id);
 
         let health = 35 + (map.level * 5);
         let attack = (map.level * 2);
@@ -96,7 +103,7 @@ impl MapUtilsImpl of MapUtilsTrait {
             monster_id,
             attack,
             health,
-            monster_type: CreatureType::Magical
+            monster_type: card.creature_type
         }
     }
 

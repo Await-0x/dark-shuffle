@@ -9,7 +9,6 @@ mod draft_systems {
     use dojo::world::WorldStorage;
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
-    use starknet::{get_caller_address, get_block_info};
     use darkshuffle::models::game::{Game, GameOwnerTrait};
     use darkshuffle::models::draft::{Draft, DraftOwnerTrait};
     use darkshuffle::utils::{

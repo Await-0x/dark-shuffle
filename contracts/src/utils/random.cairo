@@ -4,7 +4,6 @@ use starknet::{get_block_info, get_tx_info, ContractAddress, contract_address_co
 use cartridge_vrf::{IVrfProviderDispatcher, IVrfProviderDispatcherTrait, Source};
 
 use core::{
-    array::{SpanTrait, ArrayTrait},
     integer::{u256_try_as_non_zero, U256DivRem},
 };
 

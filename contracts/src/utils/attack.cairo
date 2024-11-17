@@ -1,8 +1,6 @@
-use darkshuffle::models::battle::{Battle, BattleEffects, Creature, Card, Board, BoardStats, CreatureType};
+use darkshuffle::models::battle::{Battle, BattleEffects, Creature, Board, BoardStats, CreatureType};
 use darkshuffle::utils::{
-    battle::BattleUtilsImpl,
-    board::BoardUtilsImpl,
-    hand::HandUtilsImpl
+    battle::BattleUtilsImpl
 };
 
 #[generate_trait]

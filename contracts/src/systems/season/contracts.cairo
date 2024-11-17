@@ -12,9 +12,9 @@ mod season_systems {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use openzeppelin::token::erc20::interface::{
-        IERC20Camel, IERC20Dispatcher, IERC20DispatcherTrait, IERC20CamelLibraryDispatcher
+        IERC20Dispatcher, IERC20DispatcherTrait
     };
-    use starknet::{get_caller_address, get_block_info, get_block_timestamp, get_tx_info, get_contract_address};
+    use starknet::{get_caller_address, get_tx_info, get_contract_address};
 
     use darkshuffle::constants::{PRIZES, DEFAULT_NS};
     use darkshuffle::models::season::{Season, SeasonOwnerTrait, Leaderboard, PlayerReward, Donation};
