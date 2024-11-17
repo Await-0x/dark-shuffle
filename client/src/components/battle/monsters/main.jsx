@@ -3,11 +3,11 @@ import { Box, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { isMobile } from 'react-device-detect';
 import sword from "../../../assets/images/sword.png";
-import { fetchMonsterImage } from '../../../battle/monsterUtils';
 import { AnimationContext } from '../../../contexts/animationHandler';
 import { EnemyHealthBar } from '../../../helpers/styles';
 import { normalise } from '../../../helpers/utilities';
 import DamageAnimation from '../../animations/damageAnimation';
+import { fetch_beast_image } from '../../../helpers/cards';
 
 export default function MonsterMain(props) {
     const { monster } = props
@@ -22,7 +22,7 @@ export default function MonsterMain(props) {
         {damage && <DamageAnimation id={damage.id} damage={damage.damage} />}
 
         <Box sx={styles.imageContainer}>
-            {<img alt='' src={fetchMonsterImage(monster.name)} height={'100%'} />}
+            {<img alt='' src={fetch_beast_image(monster.name)} height={'100%'} />}
         </Box>
 
         <Box sx={styles.bottomContainer}>

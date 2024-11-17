@@ -6,10 +6,9 @@ echo "----- Building World -----"
 sozo build
 
 echo "----- Migrating World -----"
-sozo migrate apply
+sozo migrate
 
-cp ../contracts/manifests/dev/deployment/manifest.json ../client/dev_manifest.json
+cp ../contracts/manifest_dev.json ../client/manifest_dev.json
 
 echo "-----  Started indexer ----- "
-rm torii.db
-torii --world 0x1daff27c57cad231614299bb448215f8ec880926054c45c4eb9459c34c91a47 --database torii.db --allowed-origins "*"
+torii --world 0x043dd69c43f42ed0a62a1216e9710aaa9508d04579fd1fbec2b4530c55710e48 --http.cors_origins "*"

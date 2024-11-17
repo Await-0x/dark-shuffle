@@ -1,3 +1,11 @@
+export const fetch_beast_image = (name) => {
+  try {
+    return new URL(`../assets/images/beasts/${name.toLowerCase()}.png`, import.meta.url).href
+  } catch (ex) {
+    return ""
+  }
+}
+
 export const types = {
   CREATURE: 'Creature',
   SPELL: 'Spell'
@@ -9,21 +17,9 @@ export const tags = {
   BRUTE: 'Brute',
 }
 
-export const fetch_image = (name) => {
-  try {
-    return new URL(`../assets/images/cards/${name.replace(" ", "_").toLowerCase()}.png`, import.meta.url).href
-  } catch (ex) {
-    return ""
-  }
-}
-
 export const fetchBoardCreatures = (data) => {
   return data.creatures.map(card => ({
-    ...CARD_DETAILS(card.card_id, card.creature_id, card.level),
-    attack: card.attack,
-    health: card.health,
-    shield: card.shield,
-    resting: card.resting_round >= data.battle.round
+    ...CARD_DETAILS(card.card_id, card.creature_id),
   }))
 }
 
@@ -809,7 +805,7 @@ export const CARD_DETAILS = (cardId, id) => {
       return {
           id,
           card_id: 56,
-          name: 'NemeanLion',
+          name: 'Nemeanlion',
           card_type: types.CREATURE,
           card_tier: 4,
           creature_type: tags.BRUTE,

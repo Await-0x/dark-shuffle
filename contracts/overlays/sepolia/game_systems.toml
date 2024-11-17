@@ -1,8 +1,0 @@
-tag = "darkshuffle-game_systems"
-writes = [
-    "darkshuffle-Game",
-    "darkshuffle-Draft",
-    "darkshuffle-Entropy",
-    "darkshuffle-Season",
-    "darkshuffle-Leaderboard",
-]

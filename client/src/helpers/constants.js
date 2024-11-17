@@ -28,10 +28,10 @@ export const BATTLE_EFFECTS = {
   damageImmune: false
 }
 
-export const levelColors = [
-  { bg: '#90EE90', star: '#000' },
-  { bg: '#FFFF00', star: '#000' },
-  { bg: '#FFA500', star: '#000' },
-  { bg: '#FF0000', star: '#000' },
-  { bg: '#800080', star: '#FFD700' },
-]
+export const tierColors = {
+  5: '#90EE90',
+  4: '#FFFF00',
+  3: '#FFA500',
+  2: '#FF0000',
+  1: '#800080',
+}

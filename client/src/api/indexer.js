@@ -79,27 +79,6 @@ export async function getDraftCards(game_id, demo) {
   return res?.darkshuffleDraftCardModels?.edges.map(edge => edge.node)
 }
 
-export async function getEntropy(game_id, number, demo) {
-  const document = gql`
-  {
-    darkshuffleEntropyModels(where:{game_id:${game_id},number:${number}}) {
-      edges {
-        node {
-          game_id,
-          number,
-          block_number,
-          block_hash
-        }
-      }
-    }
-  }
-  `
-  
-  const res = await request(demo ? dojoConfig.demoTorii : dojoConfig.toriiUrl, document)
-
-  return res?.darkshuffleEntropyModels?.edges[0]?.node
-}
-
 export async function getTreeNodes(game_id, branch, demo) {
   const document = gql`
   {
@@ -282,7 +261,7 @@ export async function getLeaderboard(seasonId, page, demo) {
   try {
     const document = gql`
     {
-      darkshuffleGameModels (where: {entropy_verified: true, active: false, season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+      darkshuffleGameModels (where: {active: false, season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
         edges {
           node {
             player_name,
@@ -298,24 +277,6 @@ export async function getLeaderboard(seasonId, page, demo) {
   } catch (ex) {
     console.log(ex)
   }
-}
-
-export async function getUnverifiedGames(address, seasonId) {
-  const document = gql`
-  {
-    darkshuffleGameModels(where:{active:false, player:"${address}", entropy_verified:false, season_id:${seasonId}}) {
-      edges {
-        node {
-          game_id
-        }
-      }
-    }
-  }
-  `
-
-  const res = await request(dojoConfig.toriiUrl, document);
-
-  return res?.darkshuffleGameModels?.edges.map(edge => edge.node);
 }
 
 export async function getDonations(seasonId, page) {

@@ -3,12 +3,14 @@ import { getEvents } from "@dojoengine/utils";
 import { useAccount, useConnect, useContract, useNetwork } from "@starknet-react/core";
 import { useSnackbar } from "notistack";
 import React, { createContext, useEffect, useMemo, useState } from "react";
-import { Account, RpcProvider } from 'starknet';
+import { RpcProvider } from 'starknet';
 import { dojoConfig } from "../../dojo.config";
 import EthBalanceFragment from "../abi/EthBalanceFragment.json";
 import Lords from "../abi/Lords.json";
-import { createBurnerAccount, fetchBalances } from "../api/starknet";
+import { fetchBalances } from "../api/starknet";
 import { translateEvent } from "../helpers/events";
+import { Account } from "starknet";
+import { translateName } from "../helpers/components";
 
 export const DojoContext = createContext()
 
@@ -22,13 +24,12 @@ export const DojoProvider = ({ children }) => {
   const { enqueueSnackbar } = useSnackbar()
 
   const [balances, setBalances] = useState({ eth: BigInt(0), lords: BigInt(0) })
-  const [burner, setBurner] = useState();
-  const [creatingBurner, setCreatingBurner] = useState();
 
   const dojoprovider = new _dojoProvider(dojoConfig.manifest, dojoConfig.rpcUrl);
 
   const demoRpcProvider = useMemo(() => new RpcProvider({ nodeUrl: dojoConfig.demoRpcUrl, }), []);
-  const demoDojoProvider = new _dojoProvider(dojoConfig.devManifest, dojoConfig.demoRpcUrl);
+  const demoDojoProvider = new _dojoProvider(dojoConfig.manifest_dev, dojoConfig.demoRpcUrl);
+  const demoAccount = new Account(demoRpcProvider, dojoConfig.masterAddress, dojoConfig.masterPrivateKey);
 
   let cartridgeConnector = connectors.find(conn => conn.id === "controller")
 
@@ -44,31 +45,17 @@ export const DojoProvider = ({ children }) => {
     }
   }, [account]);
 
-  useEffect(() => {
-    if (localStorage.getItem('burner')) {
-      let burner = JSON.parse(localStorage.getItem('burner'))
-
-      if (burner.version === dojoConfig.version) {
-        setBurner(new Account(demoRpcProvider, burner.address, burner.privateKey, "1"))
-      } else {
-        createBurner()
-      }
-    } else {
-      createBurner()
-    }
-  }, [])
-
   const executeTx = async (txs, isDemo) => {
-    let signer = isDemo ? burner : account
+    let signer = isDemo ? demoAccount : account
     let provider = isDemo ? demoDojoProvider : dojoprovider
 
     if (!signer) {
-      isDemo ? createBurner() : connect({ connector: cartridgeConnector })
+      connect({ connector: cartridgeConnector })
       return
     }
 
     try {
-      const tx = await provider.execute(signer, txs, 'darkshuffle', { maxFee: 10000000000000000, version: "1" });
+      const tx = await provider.execute(signer, txs, 'darkshuffle', { maxFee: 1000000000000000, version: "1" });
 
       const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
 
@@ -77,28 +64,14 @@ export const DojoProvider = ({ children }) => {
         return
       }
 
-      const events = getEvents(receipt)
-      console.log(events)
-      const translatedEvents = events.map(event => translateEvent(event.data))
-      console.log(translatedEvents)
+      console.log('receipt', receipt)
+      const translatedEvents = receipt.events.map(event => translateEvent(event))
+      console.log('translatedEvents', translatedEvents)
       return translatedEvents
     } catch (ex) {
       console.log(ex)
       enqueueSnackbar(ex.issues ? ex.issues[0].message : 'Something went wrong', { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'right' } })
     }
-  }
-
-  const createBurner = async () => {
-    setCreatingBurner(true)
-
-    let account = await createBurnerAccount(demoRpcProvider)
-    if (account) {
-      setBurner(account)
-    } else {
-      enqueueSnackbar('Failed to create burner', { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'right' } })
-    }
-
-    setCreatingBurner(false)
   }
 
   return (
@@ -109,7 +82,6 @@ export const DojoProvider = ({ children }) => {
         network: chain.network,
         balances,
         executeTx,
-        createBurner,
         getBalances,
       }}
     >

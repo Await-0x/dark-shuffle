@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { AnimationContext } from '../../../contexts/animationHandler';
 import MonsterMain from "./main";
 
-function Snake(props) {
+function Hydra(props) {
   const animationHandler = useContext(AnimationContext)
 
   const { monster } = props
@@ -25,4 +25,4 @@ function Snake(props) {
   </>
 }
 
-export default Snake
+export default Hydra

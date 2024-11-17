@@ -15,3 +15,12 @@ default = "darkshuffle"
 rpc_url = "https://api.cartridge.gg/x/darkshuffle0/katana"
 account_address = "0x65f3b7299f967e9c44d91a251d60b3f539eb9b84c2484c4d39dffbb282b49d6"
 private_key = "0x7efab5ac1d4b67edf8688dc5dc2011573be3a619f6696b0201d741150461d63"
+
+[writers]
+"darkshuffle" = [
+    "darkshuffle-game_systems",
+    "darkshuffle-battle_systems",
+    "darkshuffle-season_systems",
+    "darkshuffle-draft_systems",
+    "darkshuffle-map_systems",
+]

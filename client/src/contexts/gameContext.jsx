@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
-import { getBlockWithTxs, getLatestBlock } from "../api/starknet";
 import { GAME_EFFECTS } from "../helpers/constants";
-import { delay, getNodeStatus } from "../helpers/utilities";
+import { getNodeStatus } from "../helpers/utilities";
 import { DojoContext } from "./dojoContext";
 
 export const GameContext = createContext()
@@ -21,11 +20,6 @@ export const GameProvider = ({ children }) => {
   const [nodes, setNodes] = useState([])
   const [selectingNode, setSelectingNode] = useState(false)
 
-  const [entropy, setEntropy] = useState({
-    blockNumber: null,
-    blockHash: null
-  })
-
   const [score, setScore] = useState()
 
   // Client only states
@@ -38,50 +32,6 @@ export const GameProvider = ({ children }) => {
   const endGame = () => {
     setValues({ ...GAME_VALUES })
     setScore()
-  }
-
-  const setGameEntropy = (gameEntropy) => {
-    if (!gameEntropy) return;
-
-    setEntropy({
-      blockNumber: gameEntropy.blockNumber,
-      blockHash: null
-    })
-
-    fetchBlockHash(gameEntropy.blockNumber);
-  }
-
-  const fetchBlockHash = async (blockNumber) => {
-    console.log('fetching block hash', blockNumber)
-    let latestBlock = await getLatestBlock()
-    console.log(latestBlock)
-    if (latestBlock?.block_number === blockNumber) {
-      return setEntropy(prev => ({
-        ...prev,
-        blockHash: latestBlock.block_hash
-      }))
-    }
-
-    if (latestBlock?.block_number > blockNumber) {
-      return specificBlockHash(blockNumber)
-    }
-
-    await delay(1000);
-    return fetchBlockHash(blockNumber);
-  }
-
-  const specificBlockHash = async (blockNumber) => {
-    let block = await getBlockWithTxs(blockNumber)
-
-    if (block?.block_hash) {
-      return setEntropy(prev => ({
-        ...prev,
-        blockHash: block.block_hash
-      }))
-    }
-
-    await delay(1000);
-    return specificBlockHash(blockNumber);
   }
 
   const updateNodeStatus = (nodeId, status) => {
@@ -99,11 +49,6 @@ export const GameProvider = ({ children }) => {
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
       const node = res.find(e => e.componentName === 'Node')
-      const entropy = res.find(e => e.componentName === 'Entropy')
-
-      if (entropy) {
-        setGameEntropy(entropy);
-      }
 
       if (node?.status) {
         updateNodeStatus(node.nodeId, node.status);
@@ -115,20 +60,6 @@ export const GameProvider = ({ children }) => {
     }
 
     return res;
-  }
-
-  const skipNode = async (nodeId) => {
-    setSelectingNode(true)
-    const res = await dojo.executeTx([{ contractName: "node_systems", entrypoint: "skip_node", calldata: [nodeId] }], values.isDemo);
-    setSelectingNode(false)
-
-    if (res) {
-      const node = res.find(e => e.componentName === 'Node');
-      const gameValues = res.find(e => e.componentName === 'Game');
-
-      updateNodeStatus(node.nodeId, node.status);
-      setGame(gameValues);
-    }
   }
 
   const generateNodes = async () => {
@@ -165,7 +96,6 @@ export const GameProvider = ({ children }) => {
       value={{
         values,
         score,
-        entropy,
         clientOnly,
         gameEffects,
         nodes,
@@ -174,14 +104,12 @@ export const GameProvider = ({ children }) => {
         setGame,
         endGame,
         setClientOnly,
-        setGameEntropy,
         setScore,
         setGameEffects,
         setNodes,
 
         actions: {
           selectNode,
-          skipNode,
           generateNodes,
           updateNodeStatus
         }

@@ -9,10 +9,10 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import bolt from "../../assets/images/bolt.png";
 import skull from "../../assets/images/skull.png";
 import sword from "../../assets/images/sword.png";
-import { GET_MONSTER, fetchMonsterImage } from '../../battle/monsterUtils';
+import { GET_MONSTER } from '../../battle/monsterUtils';
 import { GameContext } from '../../contexts/gameContext';
-import { CARD_DETAILS, CardSize, fetch_image, tags } from '../../helpers/cards';
-import { TOP_NODE_LEVEL, levelColors } from '../../helpers/constants';
+import { CARD_DETAILS, fetch_beast_image, CardSize } from '../../helpers/cards';
+import { TOP_NODE_LEVEL } from '../../helpers/constants';
 import { CustomTooltip, LargeCustomTooltip } from '../../helpers/styles';
 import Card from '../card';
 
@@ -267,7 +267,7 @@ function Structure(props) {
       }>
         <Box sx={[styles.monsterCircle, nodeStyle(node)]}>
           <Box sx={{ width: '100%', height: '75%', display: 'flex', justifyContent: 'center', opacity: node.status !== 0 ? 0.5 : 1 }}>
-            {<img alt='' src={fetchMonsterImage(monster.name)} height={'100%'} />}
+            {<img alt='' src={fetch_beast_image(monster.name)} height={'100%'} />}
           </Box>
 
           <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
@@ -301,9 +301,7 @@ function Structure(props) {
   }
 
   function renderCard(node) {
-    let levelColor = levelColors[Math.floor(node.cardLevel / 3)] ?? levelColors[4]
     let card = CARD_DETAILS(node.cardId, 1, node.cardLevel);
-    card.cost = card.tag === tags.RENEWABLE ? Math.max(1, card.cost - (card.level - 1)) : card.cost;
 
     return <LargeCustomTooltip leaveDelay={300} position={'right'} title={
       <Box sx={styles.cardTooltipContainer}>
@@ -322,8 +320,8 @@ function Structure(props) {
       </Box>
     }>
       <Box sx={[styles.square, nodeStyle(node)]}>
-        <img alt='' src={fetch_image(CARD_DETAILS(node.cardId).name)} style={{ width: '75%', opacity: node.status !== 0 ? 0.5 : 1 }} />
-        <Box sx={{ width: '40%', height: '2px', opacity: node.status !== 0 ? 0.5 : 1 }} bgcolor={levelColor.bg} />
+        <img alt='' src={fetch_beast_image(CARD_DETAILS(node.cardId).name)} style={{ width: '75%', opacity: node.status !== 0 ? 0.5 : 1 }} />
+        <Box sx={{ width: '40%', height: '2px', opacity: node.status !== 0 ? 0.5 : 1 }} />
 
         {node.status === 1 && <Box sx={{ position: 'absolute', top: 25, left: 13 }}>
           <CheckIcon htmlColor='#FFE97F' sx={{ fontSize: '32px' }} />

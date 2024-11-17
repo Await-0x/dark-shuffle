@@ -25,10 +25,10 @@ function StartBattleContainer() {
   const [cardOverview, setCardOverview] = useState(false)
 
   useEffect(() => {
-    if (game.values.nodeLevel === 6 && game.entropy.blockHash) {
+    if (game.values.mapDepth === 6) {
       game.actions.generateNodes()
     }
-  }, [game.entropy.blockHash, game.values.nodeLevel])
+  }, [game.values.mapDepth])
 
   const selectNode = async (nodeId, type) => {
     if (type === 'battle' && draft.cards.length !== 5) {

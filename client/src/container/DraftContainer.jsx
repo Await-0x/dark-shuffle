@@ -2,35 +2,28 @@ import EastIcon from '@mui/icons-material/East';
 import WestIcon from '@mui/icons-material/West';
 import { Box, IconButton, Typography } from '@mui/material';
 import { motion } from "framer-motion";
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import BlockRevealAnimation from '../components/animations/blockRevealAnimation';
 import Card from '../components/card';
 import DraftStats from '../components/draft/draftStats';
 import Overview from '../components/draft/overview';
 import { DraftContext } from '../contexts/draftContext';
-import { GameContext } from '../contexts/gameContext';
 import { CardSize } from '../helpers/cards';
 import { DRAFT_SIZE } from '../helpers/constants';
 import { fadeChildrenContainer, fadeChildrenItem } from '../helpers/variants';
 
 function DraftContainer() {
-  const game = useContext(GameContext)
   const draft = useContext(DraftContext)
+  const { pendingCard, options, cards } = draft.getState
 
   const [cardOverview, setCardOverview] = useState(false)
 
-  const selectCard = (card) => {
-    if (draft.pendingCard) return;
+  const selectCard = (index) => {
+    if (pendingCard) return;
 
-    draft.selectCard(card)
+    draft.actions.selectCard(index)
   }
-
-  useEffect(() => {
-    if (game.values.inDraft && game.entropy.blockHash && draft.options.length === 0) {
-      draft.getDraftOptions()
-    }
-  }, [game.entropy.blockHash, draft.options])
 
   if (isMobile) {
     return <Box sx={[styles.container]}>
@@ -38,9 +31,9 @@ function DraftContainer() {
       <Box sx={styles.mobileDraftContainer}>
 
         <Box sx={styles.mobileMainContainer}>
-          {draft.options.length > 0
+          {options.length > 0
             ? <>
-              {draft.pendingCard
+              {pendingCard
                 ? <Box display={'flex'} alignItems={'baseline'}>
                   <Typography variant='h5' color='primary'>
                     Selecting Card
@@ -52,13 +45,13 @@ function DraftContainer() {
                 </Typography>
               }
 
-              <motion.div key={draft.cards.length} style={styles.cards} variants={fadeChildrenContainer} initial="hidden" animate="visible">
+              <motion.div key={cards.length} style={styles.cards} variants={fadeChildrenContainer} initial="hidden" animate="visible">
                 {React.Children.toArray(
-                  draft.options.map(card =>
+                  options.map((card, index) =>
                     <motion.div style={styles.mobileCardContainer}
-                      onClick={() => selectCard(card)}
+                      onClick={() => selectCard(index)}
                       variants={fadeChildrenItem}>
-                      <Card card={card} pendingCard={draft.pendingCard} />
+                      <Card card={card} pendingCard={pendingCard} draftIndex={index} />
                     </motion.div>
                   ))}
               </motion.div>
@@ -75,7 +68,7 @@ function DraftContainer() {
           <WestIcon htmlColor='white' />
         </IconButton>
 
-        <Typography color='primary'>{draft.cards.length}</Typography>
+        <Typography color='primary'>{cards.length}</Typography>
         <Typography color={'primary'}>/</Typography>
         <Typography color='primary'>{DRAFT_SIZE}</Typography>
       </Box>}
@@ -97,9 +90,9 @@ function DraftContainer() {
       <Box sx={styles.draftContainer}>
 
         <Box sx={styles.mainContainer}>
-          {draft.options.length > 0
+          {options.length > 0
             ? <>
-              {draft.pendingCard
+              {pendingCard
                 ? <Box display={'flex'} alignItems={'baseline'}>
                   <Typography variant='h2' color='primary'>
                     Selecting Card
@@ -111,13 +104,13 @@ function DraftContainer() {
                 </Typography>
               }
 
-              <motion.div key={draft.cards.length} style={styles.cards} variants={fadeChildrenContainer} initial="hidden" animate="visible">
+              <motion.div key={cards.length} style={styles.cards} variants={fadeChildrenContainer} initial="hidden" animate="visible">
                 {React.Children.toArray(
-                  draft.options.map(card =>
+                  options.map((card, index) =>
                     <motion.div style={styles.cardContainer}
-                      onClick={() => selectCard(card)}
+                      onClick={() => selectCard(index)}
                       variants={fadeChildrenItem}>
-                      <Card card={card} pendingCard={draft.pendingCard} />
+                      <Card card={card} pendingCard={pendingCard} draftIndex={index} />
                     </motion.div>
                   ))}
               </motion.div>

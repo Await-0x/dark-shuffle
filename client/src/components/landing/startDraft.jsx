@@ -25,13 +25,13 @@ function StartDraft() {
   async function beginDraft(isDemo) {
     game.setGame({ isDemo })
 
-    if (!draft.playerName) {
+    if (!isDemo && !draft.getState.playerName) {
       return showNameDialog(true)
     }
 
     setLoading(true)
 
-    await draft.startDraft(isDemo)
+    await draft.actions.startDraft(isDemo)
 
     setLoading(false)
   }
@@ -59,16 +59,12 @@ function StartDraft() {
             </Typography>
           </Box>
 
-          <Typography variant='h2'>
-            Enter the Cave
-          </Typography>
-
-          <Typography color={'primary'}>
-            Do you have the courage and wit to navigate the trials of the cave, overcoming its monstrous denizens and uncovering its ancient secrets? Assemble your cards, ready your team, and step forth into the unknown.
+          <Typography variant='h3'>
+            Season 0: New beginnings
           </Typography>
 
           <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
-            Start draft
+            Play Season
           </LoadingButton>
 
           <Box width={'100%'} sx={_styles.customBox} mt={2}>
@@ -127,11 +123,6 @@ function StartDraft() {
                   <Typography>
                     Season Pool
                   </Typography>
-                  <Link to='/donations'>  
-                    <Typography color={'secondary'} fontSize={'12px'} sx={{ cursor: 'pointer' }}>
-                      Donate
-                    </Typography>
-                  </Link>
                 </Box>
                 <Typography variant={'h5'} color='primary'>
                   {Math.floor(season.values.rewardPool / 1e18)} $LORDS
@@ -152,7 +143,7 @@ function StartDraft() {
               <ul style={{ paddingLeft: '16px', color: '#FFE97F' }}>
                 <li>
                   <Typography mt={3} style={{ fontSize: '15px' }} color={'primary'}>
-                    Draft 8 powerful cards to kickstart your journey, shaping your strategy from the very beginning.
+                    Draft 20 powerful cards to kickstart your journey, shaping your strategy from the very beginning.
                   </Typography>
                 </li>
 
@@ -164,7 +155,7 @@ function StartDraft() {
 
                 <li>
                   <Typography mt={2} style={{ fontSize: '15px' }} color={'primary'}>
-                    Engage in strategic card-based battles against fierce beasts, earning experience to level up your deck and strengthen your abilities with each victory.
+                    Engage in strategic card-based battles against fierce beasts.
                   </Typography>
                 </li>
 
@@ -229,7 +220,7 @@ const styles = {
     boxSizing: 'border-box',
     gap: 3.5,
     p: 4,
-    pl: 2,
+    px: 2,
     pt: 2
   },
   startContainer: {

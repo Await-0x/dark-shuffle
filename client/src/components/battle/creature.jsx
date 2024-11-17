@@ -12,7 +12,7 @@ import shield from "../../assets/images/shield.png";
 import sword from "../../assets/images/sword.png";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
-import { CardSize, fetch_image, types } from '../../helpers/cards';
+import { CardSize, fetch_beast_image, types } from '../../helpers/cards';
 import DamageAnimation from '../animations/damageAnimation';
 import SleepAnimation from '../animations/sleepAnimation';
 import Card from '../card';
@@ -154,7 +154,7 @@ function Creature(props) {
         {tauntAnim.View}
 
         <Box sx={styles.imageContainer}>
-          <img alt='' src={fetch_image(creature.name)} height={'100%'} />
+          <img alt='' src={fetch_beast_image(creature.name)} height={'100%'} />
         </Box>
 
         <Box sx={styles.bottomContainer}>
@@ -183,7 +183,7 @@ function Creature(props) {
     </motion.div>
 
     {displayCard && <Box sx={styles.displayCard}>
-      <Card card={displayCard} cost={battle.utils.getCardCost(displayCard)} />
+      <Card card={displayCard} />
     </Box>}
   </Box>
 }

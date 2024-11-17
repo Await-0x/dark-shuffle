@@ -7,9 +7,17 @@ import { DRAFT_SIZE } from "../../helpers/constants";
 
 function DraftStats() {
   const draft = useContext(DraftContext)
+  const { cards } = draft.getState
 
-  const creatures = draft.cards.filter(card => card.type === types.CREATURE).length
-  const spells = draft.cards.filter(card => card.type === types.SPELL).length
+  const manaCurve = cards.reduce((acc, card) => {
+    acc[card.cost] = (acc[card.cost] || 0) + 1
+    return acc
+  }, {})
+
+  const typeCount = cards.reduce((acc, card) => {
+    acc[card.creature_type] = (acc[card.creature_type] || 0) + 1
+    return acc
+  }, {})
 
   return <Box sx={styles.container}>
 
@@ -18,7 +26,7 @@ function DraftStats() {
         Draft
       </Typography>
       <Typography variant="h2" color='primary' mb={1}>
-        {draft.cards.length + draft.bench.length}/{DRAFT_SIZE}
+        {cards.length}/{DRAFT_SIZE}
       </Typography>
     </Box>
 
@@ -40,7 +48,7 @@ function DraftStats() {
             hideTooltip: true
           },
         ]}
-        series={Object.entries(draft.manaCurve).map(([key, value]) => {
+        series={Object.entries(manaCurve).map(([key, value]) => {
           return {
             label: key,
             data: value,
@@ -54,13 +62,13 @@ function DraftStats() {
     <Box sx={styles.tagContainer}>
 
       {React.Children.toArray(
-        Object.values(tags).map((tag, i) => {
-          const count = draft.tagCount[i]
+        Object.values(types).map((type, i) => {
+          const count = typeCount[i]
 
           if (count > 0) {
             return <Box sx={styles.chip}>
               <Typography>
-                {`${count} ${tag}`}
+                {`${count} ${type}`}
               </Typography>
             </Box>
           }

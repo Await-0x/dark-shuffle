@@ -26,9 +26,7 @@ mod draft_systems {
             game.assert_draft();
 
             let mut draft: Draft = world.read_model(game_id);
-            draft.assert_option(option_id);
-
-            draft.add_card(option_id);
+            draft.add_card(*draft.options.at(option_id.into()));
 
             if draft.cards.len() == DRAFT_SIZE.into() {
                 game.in_draft = false;

@@ -547,7 +547,7 @@ export const BattleProvider = ({ children }) => {
       damageImmune: data.battleEffects.damage_immune
     })
 
-    setHand(data.handCards.map(card => CARD_DETAILS(card.card_id, card.hand_card_number, card.level)))
+    setHand(data.handCards.map(card => CARD_DETAILS(card.card_id, card.hand_card_number)))
     setBoard(fetchBoardCreatures(data))
 
     setMonster({
@@ -589,10 +589,6 @@ export const BattleProvider = ({ children }) => {
 
     if (monster.id === 10 && card.type === types.SPELL) {
       cost += 1;
-    }
-
-    if (card.tag === tags.RENEWABLE) {
-      cost = Math.max(1, cost - (card.level - 1));
     }
 
     if (card.type === types.SPELL) {

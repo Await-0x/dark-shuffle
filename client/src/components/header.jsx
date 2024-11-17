@@ -1,24 +1,17 @@
 import InfoIcon from '@mui/icons-material/Info';
-import PersonIcon from '@mui/icons-material/Person';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Typography } from '@mui/material';
-import { useAccount, useConnect } from "@starknet-react/core";
-import React, { useContext, useState, useEffect } from 'react';
+import { argent, useConnect } from "@starknet-react/core";
+import React, { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
-import { dojoConfig } from '../../dojo.config';
+import logo from '../assets/images/logo.svg';
 import { DojoContext } from '../contexts/dojoContext';
 import { DraftContext } from '../contexts/draftContext';
 import { ellipseAddress } from '../helpers/utilities';
 import ChooseName from './dialogs/chooseName';
 import TutorialDialog from './dialogs/tutorial';
 import ProfileMenu from './header/profileMenu';
-import logo from '../assets/images/logo.svg';
-import { argent } from '@starknet-react/core';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import MyGames from './header/myGames';
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import { useSeason } from '../contexts/seasonContext';
 
 const menuItems = [
   {
@@ -39,13 +32,11 @@ function Header(props) {
 
   const dojo = useContext(DojoContext)
   const draft = useContext(DraftContext)
-  const season = useSeason()
 
   const [nameDialog, openNameDialog] = useState(false)
   const [tutorial, openTutorial] = useState(false)
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [myGamesAnchorEl, setMyGamesAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -54,16 +45,6 @@ function Header(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const handleMyGamesClick = (event) => {
-    setMyGamesAnchorEl(event.currentTarget);
-  };
-
-  const handleMyGamesClose = () => {
-    setMyGamesAnchorEl(null);
-  };
-
-  let unverifiedGames = season.unverifiedGames.filter(_game => _game.block_number <= (season.latestBlock?.block_number ?? 0) - 10)
 
   return (
     <Box sx={styles.header}>
@@ -87,13 +68,6 @@ function Header(props) {
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        {dojo.address && <Button variant='text' size='large' endIcon={<ArrowDropDownIcon />} onClick={handleMyGamesClick} startIcon={unverifiedGames.length > 0 ? <PriorityHighIcon fontSize="small" color='warning' /> : null}>
-          <Typography color='primary'>
-            Games
-          </Typography>
-        </Button>
-        }
-
         {dojo.address
           ? <Button onClick={handleClick} startIcon={<SportsEsportsIcon />} size='large'>
             {draft?.playerName
@@ -113,7 +87,6 @@ function Header(props) {
         }
       </Box>
 
-      <MyGames handleClose={handleMyGamesClose} anchorEl={myGamesAnchorEl} />
       <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openNameDialog={openNameDialog} />
       <ChooseName open={nameDialog} close={openNameDialog} />
       <TutorialDialog open={tutorial} close={openTutorial} />

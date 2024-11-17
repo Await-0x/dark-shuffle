@@ -7,27 +7,7 @@ import skullAnim from "../../assets/animations/skull.json";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { CustomTooltip } from "../../helpers/styles";
 import DamageAnimation from '../animations/damageAnimation';
-import Bigfoot from './monsters/Bigfoot';
-import Chimera from './monsters/Chimera';
-import Kappa from './monsters/Kappa';
-import Lich from './monsters/Lich';
-import Minotaur from './monsters/Minotaur';
-import Spider from './monsters/Spider';
-import Troll from './monsters/Troll';
-import Bear from "./monsters/Bear";
-import Cyclops from "./monsters/Cyclops";
-import Golem from "./monsters/Golem";
-import Orc from "./monsters/Orc";
-import Phoenix from "./monsters/Phoenix";
-import Pixie from "./monsters/Pixie";
-import Rat from "./monsters/Rat";
-import Satori from "./monsters/Satori";
-import Hydra from "./monsters/Hydra";
-import Titan from "./monsters/Titan";
-import Warlock from "./monsters/Warlock";
-import Weretiger from "./monsters/Weretiger";
-import Wraith from "./monsters/Wraith";
-import Yeti from "./monsters/Yeti";
+import * as Monsters from './monsters';
 import { delay } from "../../helpers/utilities";
 
 function Monster(props) {
@@ -98,6 +78,7 @@ function Monster(props) {
   }
 
   let damage = animationHandler.state.animations.monsterDamaged
+  let MonsterComponent = Monsters[monster.name]
 
   return <>
     <motion.div
@@ -118,27 +99,7 @@ function Monster(props) {
         {monster.abilities}
       </Box>}>
         <Box sx={styles.container}>
-          {monster.name === 'Minotaur' && <Minotaur monster={monster} />}
-          {monster.name === 'Troll' && <Troll monster={monster} />}
-          {monster.name === 'Bigfoot' && <Bigfoot monster={monster} />}
-          {monster.name === 'Chimera' && <Chimera monster={monster} />}
-          {monster.name === 'Kappa' && <Kappa monster={monster} />}
-          {monster.name === 'Spider' && <Spider monster={monster} />}
-          {monster.name === 'Lich' && <Lich monster={monster} />}
-          {monster.name === 'Bear' && <Bear monster={monster} />}
-          {monster.name === 'Cyclops' && <Cyclops monster={monster} />}
-          {monster.name === 'Golem' && <Golem monster={monster} />}
-          {monster.name === 'Orc' && <Orc monster={monster} />}
-          {monster.name === 'Phoenix' && <Phoenix monster={monster} />}
-          {monster.name === 'Pixie' && <Pixie monster={monster} />}
-          {monster.name === 'Rat' && <Rat monster={monster} />}
-          {monster.name === 'Satori' && <Satori monster={monster} />}
-          {monster.name === 'Hydra' && <Hydra monster={monster} />}
-          {monster.name === 'Titan' && <Titan monster={monster} />}
-          {monster.name === 'Warlock' && <Warlock monster={monster} />}
-          {monster.name === 'Weretiger' && <Weretiger monster={monster} />}
-          {monster.name === 'Wraith' && <Wraith monster={monster} />}
-          {monster.name === 'Yeti' && <Yeti monster={monster} />}
+          {MonsterComponent && <MonsterComponent monster={monster} />}
         </Box>
       </CustomTooltip>}
 

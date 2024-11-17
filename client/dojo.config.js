@@ -1,5 +1,5 @@
 import manifest from "./manifest.json";
-import devManifest from "./dev-manifest.json";
+import manifest_dev from "./manifest_dev.json";
 
 const {
   VITE_PUBLIC_NODE_URL,
@@ -7,7 +7,6 @@ const {
   VITE_PUBLIC_MASTER_ADDRESS,
   VITE_PUBLIC_MASTER_PRIVATE_KEY,
   VITE_PUBLIC_ACCOUNT_CLASS_HASH,
-  VITE_PUBLIC_STARKNET_CHAIN,
   VITE_PUBLIC_FEE_TOKEN_ADDRESS,
   VITE_PUBLIC_ETH_ADDRESS,
   VITE_PUBLIC_LORDS_ADDRESS,
@@ -18,7 +17,6 @@ const {
 export const dojoConfig = {
   seasonId: 97,
   version: "0.4.6",
-  chain: VITE_PUBLIC_STARKNET_CHAIN,
   rpcUrl: VITE_PUBLIC_NODE_URL,
   toriiUrl: VITE_PUBLIC_TORII,
   masterAddress: VITE_PUBLIC_MASTER_ADDRESS,
@@ -30,5 +28,5 @@ export const dojoConfig = {
   demoRpcUrl: VITE_PUBLIC_DEMO_NODE_URL,
   demoTorii: VITE_PUBLIC_DEMO_TORII,
   manifest,
-  devManifest,
+  manifest_dev,
 };

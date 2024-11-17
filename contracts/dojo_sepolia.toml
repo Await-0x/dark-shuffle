@@ -12,3 +12,12 @@ github = "https://github.com/Await-0x/dark-shuffle"
 default = "darkshuffle"
 
 [env]
+
+[writers]
+"darkshuffle" = [
+    "darkshuffle-game_systems",
+    "darkshuffle-battle_systems",
+    "darkshuffle-season_systems",
+    "darkshuffle-draft_systems",
+    "darkshuffle-map_systems",
+]

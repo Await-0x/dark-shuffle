@@ -1,5 +1,4 @@
-import { RpcProvider, Account, CallData, ec, hash, stark, num } from "starknet";
-import { dojoConfig } from "../../dojo.config";
+import { CallData } from "starknet";
 
 export const getLatestBlock = async () => {
   const rpcUrl = import.meta.env.VITE_PUBLIC_NODE_URL;
@@ -47,39 +46,6 @@ export const getBlockWithTxs = async (blockNumber) => {
     return data.result;
   } catch (error) {
     console.error("Error posting data:", error);
-  }
-};
-
-export const createBurnerAccount = async (rpcProvider) => {
-  const privateKey = stark.randomAddress();
-  const publicKey = ec.starkCurve.getStarkKey(privateKey);
-
-  const accountClassHash = dojoConfig.accountClassHash
-  // Calculate future address of the account
-  const constructorCalldata = CallData.compile({ publicKey });
-  const contractAddress = hash.calculateContractAddressFromHash(
-    publicKey,
-    accountClassHash,
-    constructorCalldata,
-    0
-  );
-
-  const account = new Account(rpcProvider, contractAddress, privateKey, "1");
-  const { transaction_hash, contract_address } = await account.deployAccount({
-    classHash: accountClassHash,
-    constructorCalldata: constructorCalldata,
-    addressSalt: publicKey,
-  }, {
-    version: "0x1",
-    nonce: num.toHex(0),
-    maxFee: num.toHex(0),
-  });
-
-  const receipt = await account.waitForTransaction(transaction_hash, { retryInterval: 100 });
-
-  if (receipt) {
-    localStorage.setItem('burner', JSON.stringify({ address: contractAddress, privateKey, version: dojoConfig.version }))
-    return account
   }
 };
 

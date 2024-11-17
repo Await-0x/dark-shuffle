@@ -9,10 +9,6 @@ pub struct Draft {
 
 #[generate_trait]
 impl DraftOwnerImpl of DraftOwnerTrait {
-    fn assert_option(self: Draft, option_id: u8) {
-        assert(*self.options.at(0) == option_id || *self.options.at(1) == option_id || *self.options.at(2) == option_id, 'Invalid Option');
-    }
-
     fn add_card(ref self: Draft, card_id: u8) {
         let mut new_cards = array![];
 
