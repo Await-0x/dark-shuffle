@@ -8,13 +8,11 @@ import { isMobile } from 'react-device-detect';
 import vortexAnim from "../assets/animations/vortex.json";
 import bolt from "../assets/images/bolt.png";
 import monarch from "../assets/images/monarch.png";
-import shield from "../assets/images/shield.png";
 import Battlefield from '../components/battle/battlefield';
 import Hand from '../components/battle/hand';
 import RestoringBattleDialog from '../components/dialogs/restoringBattle';
 import { BattleContext } from '../contexts/battleContext';
 import { GameContext } from '../contexts/gameContext';
-import { DECK_SIZE } from '../helpers/constants';
 import { CustomTooltip } from '../helpers/styles';
 import { fadeVariant } from "../helpers/variants";
 
@@ -27,23 +25,15 @@ function BattleContainer() {
     loop: true
   });
 
-  const mouseUpHandler = (event) => {
-    if (battle.state.targetFriendlyCreature) {
-      if (event.button === 2) {
-        battle.utils.setTargetFriendly()
-        event.preventDefault()
-      }
-    }
-  }
 
   if (isMobile) {
-    return <Box style={styles.mobileContainer} onMouseUp={(event) => mouseUpHandler(event)}>
+    return <Box style={styles.mobileContainer}>
       <Box style={styles.mobileBoard}>
         <Battlefield />
 
         <Box sx={{ position: 'absolute', right: '20px' }}>
           <CustomTooltip title={<Box mb={1}>
-            <Typography color="primary">Attack & End Turn</Typography>
+            <Typography color="primary">End Turn</Typography>
             <Typography mt={0.5}>Your creatures attack. Monster perform its ability and attack. Yoy replenish energy.</Typography>
           </Box>
           }>
@@ -51,7 +41,7 @@ function BattleContainer() {
               loading={false}
               onClick={() => battle.actions.endTurn()}
             >
-              Attack & End Turn
+              End Turn
             </LoadingButton>
           </CustomTooltip>
         </Box>
@@ -65,7 +55,7 @@ function BattleContainer() {
           <Box width={'100%'} display={'flex'} gap={0.5} justifyContent={'center'}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography variant="h5">
-                {battle.state.adventurer.energy}
+                {battle.state.values.heroEnergy}
               </Typography>
 
               <img alt='' src={bolt} height={21} />
@@ -73,18 +63,10 @@ function BattleContainer() {
 
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography variant="h5">
-                {battle.state.adventurer.health}
+                {battle.state.values.heroHealth}
               </Typography>
 
               <FavoriteIcon htmlColor="red" fontSize='small' />
-            </Box>
-
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant="h5">
-                {battle.state.adventurer.armor}
-              </Typography>
-
-              <img alt='' src={shield} height={20} width={20} />
             </Box>
           </Box>
 
@@ -97,18 +79,6 @@ function BattleContainer() {
         </Box>
 
         <Box sx={[styles.utContainer, { pr: 0 }]}>
-
-          <CustomTooltip title={
-            <Box mb={1}>
-              <Typography color="primary" variant='h6'>Vortex</Typography>
-              <Typography mt={0.5}>Drag cards to the vortex to discard them from your hand. Costs ({battle.state.monster.id === 11 ? 2 : 1}) energy.</Typography>
-            </Box>
-          }>
-            <Box width='140px'>
-              {vortex.View}
-            </Box>
-          </CustomTooltip>
-
         </Box>
 
       </Box>
@@ -116,7 +86,7 @@ function BattleContainer() {
   }
 
   return (
-    <motion.div style={styles.container} variants={fadeVariant} initial='initial' exit='exit' animate='enter' onMouseUp={(event) => mouseUpHandler(event)}>
+    <motion.div style={styles.container} variants={fadeVariant} initial='initial' exit='exit' animate='enter'>
       <Box sx={styles.container}>
 
         <Box sx={styles.board}>
@@ -124,7 +94,7 @@ function BattleContainer() {
 
           <Box sx={{ position: 'absolute', right: '20px' }}>
             <CustomTooltip title={<Box mb={1}>
-              <Typography color="primary">Attack & End Turn</Typography>
+              <Typography color="primary">End Turn</Typography>
               <Typography mt={0.5}>- Your creatures attack.<br />- Monster perform its ability and attack.<br />- You replenish energy.</Typography>
             </Box>
             }>
@@ -132,7 +102,7 @@ function BattleContainer() {
                 loading={false}
                 onClick={() => battle.actions.endTurn()}
               >
-                Attack & End Turn
+                End Turn
               </LoadingButton>
             </CustomTooltip>
           </Box>
@@ -145,13 +115,12 @@ function BattleContainer() {
             <CustomTooltip title={
               <Box mb={1}>
                 <Typography color="primary" variant='h6'>Deck</Typography>
-                <Typography mt={0.5}>Draw new set of cards if your hand is empty.</Typography>
               </Box>
             }>
               <Box sx={styles.deck}>
                 <Box sx={styles.cardCount}>
                   <Typography>
-                    {DECK_SIZE}
+                    {battle.state.values.deck.length - battle.state.values.deckIndex}
                   </Typography>
                 </Box>
               </Box>
@@ -165,18 +134,7 @@ function BattleContainer() {
 
           </Box>
 
-          <Box sx={styles.utContainer}>
-
-            <CustomTooltip title={
-              <Box mb={1}>
-                <Typography color="primary" variant='h6'>Vortex</Typography>
-                <Typography mt={0.5}>Drag cards to the vortex to discard them from your hand. Costs ({battle.state.monster.id === 11 ? 2 : 1}) energy.</Typography>
-              </Box>
-            }>
-              <Box width='140px'>
-                {vortex.View}
-              </Box>
-            </CustomTooltip>
+          <Box width={'232px'}>
 
           </Box>
 

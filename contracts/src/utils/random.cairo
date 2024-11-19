@@ -1,6 +1,4 @@
-use starknet::SyscallResultTrait;
-use starknet::syscalls::get_block_hash_syscall;
-use starknet::{get_block_info, get_tx_info, ContractAddress, contract_address_const, get_contract_address};
+use starknet::{get_block_timestamp, get_tx_info, ContractAddress, contract_address_const, get_contract_address};
 use cartridge_vrf::{IVrfProviderDispatcher, IVrfProviderDispatcherTrait, Source};
 
 use core::{
@@ -20,8 +18,8 @@ fn get_random_hash() -> felt252 {
         return vrf_provider.consume_random(Source::Nonce(get_contract_address()));
     }
 
-    let current_block = get_block_info().unbox().block_number.into();
-    get_block_hash_syscall(current_block - 10).unwrap_syscall()
+    let current_timestamp = get_block_timestamp();
+    current_timestamp.into()
 }
 
 fn get_entropy(felt_to_split: felt252) -> u128 {
@@ -32,16 +30,28 @@ fn get_entropy(felt_to_split: felt252) -> u128 {
     r.try_into().unwrap() % LCG_PRIME
 }
 
-fn LCG(seed: u128, variance: u8) -> u128 {
+fn LCG(seed: u128) -> u128 {
     let a = 25214903917;
     let c = 11;
     let m = LCG_PRIME;
 
-    (a * seed + c + variance.into()) % m
+    (a * seed + c) % m
 }
 
 fn get_random_card_id(seed: u128) -> u8 {
-    (seed % CARD_POOL_SIZE.into() + 1).try_into().unwrap()
+    let card_number = (seed % 225 + 1).try_into().unwrap();
+    
+    if card_number > 150 {
+        (225 - card_number) / 5 + 61
+    } else if card_number > 90 {
+        (150 - card_number) / 4 + 46
+    } else if card_number > 45 {
+        (90 - card_number) / 3 + 31
+    } else if card_number > 15 {
+        (45 - card_number) / 2 + 16
+    } else {
+        card_number
+    }
 }
 
 fn get_random_number(seed: u128, range: u8) -> u8 {
@@ -75,110 +85,110 @@ fn shuffle_deck(seed: u128, deck: Span<u8>, skip: u8) -> Span<u8> {
     let mut rand = seed;
 
     while n > skip {
-        rand = LCG(rand, 0);
-        let i = get_random_number(rand, n - skip) + skip;
+        rand = LCG(rand);
+        let i: u32 = get_random_number(rand, n - skip).into() + skip.into() - 1;
 
         if n == 20 {
             temp = card_20;
-            card_20 = i;
+            card_20 = *deck.at(i);
         } else if n == 19 {
             temp = card_19;
-            card_19 = i;
+            card_19 = *deck.at(i);
         } else if n == 18 {
             temp = card_18;
-            card_18 = i;
+            card_18 = *deck.at(i);
         } else if n == 17 {
             temp = card_17;
-            card_17 = i;
+            card_17 = *deck.at(i);
         } else if n == 16 {
             temp = card_16;
-            card_16 = i;
+            card_16 = *deck.at(i);
         } else if n == 15 {
             temp = card_15;
-            card_15 = i;
+            card_15 = *deck.at(i);
         } else if n == 14 {
             temp = card_14;
-            card_14 = i;
+            card_14 = *deck.at(i);
         } else if n == 13 {
             temp = card_13;
-            card_13 = i;
+            card_13 = *deck.at(i);
         } else if n == 12 {
             temp = card_12;
-            card_12 = i;
+            card_12 = *deck.at(i);
         } else if n == 11 {
             temp = card_11;
-            card_11 = i;
+            card_11 = *deck.at(i);
         } else if n == 10 {
             temp = card_10;
-            card_10 = i;
+            card_10 = *deck.at(i);
         } else if n == 9 {
             temp = card_9;
-            card_9 = i;
+            card_9 = *deck.at(i);
         } else if n == 8 {
             temp = card_8;
-            card_8 = i;
+            card_8 = *deck.at(i);
         } else if n == 7 {
             temp = card_7;
-            card_7 = i;
+            card_7 = *deck.at(i);
         } else if n == 6 {
             temp = card_6;
-            card_6 = i;
+            card_6 = *deck.at(i);
         } else if n == 5 {
             temp = card_5;
-            card_5 = i;
+            card_5 = *deck.at(i);
         } else if n == 4 {
             temp = card_4;
-            card_4 = i;
+            card_4 = *deck.at(i);
         } else if n == 3 {
             temp = card_3;
-            card_3 = i;
+            card_3 = *deck.at(i);
         } else if n == 2 {
             temp = card_2;
-            card_2 = i;
+            card_2 = *deck.at(i);
         } else if n == 1 {
             temp = card_1;
-            card_1 = i;
+            card_1 = *deck.at(i);
         }
 
-        if i == 20 {
+        if i == 19 {
             card_20 = temp;
-        } else if i == 19 {
-            card_19 = temp;
         } else if i == 18 {
-            card_18 = temp;
+            card_19 = temp;
         } else if i == 17 {
-            card_17 = temp;
+            card_18 = temp;
         } else if i == 16 {
-            card_16 = temp;
+            card_17 = temp;
         } else if i == 15 {
-            card_15 = temp;
+            card_16 = temp;
         } else if i == 14 {
-            card_14 = temp;
+            card_15 = temp;
         } else if i == 13 {
-            card_13 = temp;
+            card_14 = temp;
         } else if i == 12 {
-            card_12 = temp;
+            card_13 = temp;
         } else if i == 11 {
-            card_11 = temp;
+            card_12 = temp;
         } else if i == 10 {
-            card_10 = temp;
+            card_11 = temp;
         } else if i == 9 {
-            card_9 = temp;
+            card_10 = temp;
         } else if i == 8 {
-            card_8 = temp;
+            card_9 = temp;
         } else if i == 7 {
-            card_7 = temp;
+            card_8 = temp;
         } else if i == 6 {
-            card_6 = temp;
+            card_7 = temp;
         } else if i == 5 {
-            card_5 = temp;
+            card_6 = temp;
         } else if i == 4 {
-            card_4 = temp;
+            card_5 = temp;
         } else if i == 3 {
-            card_3 = temp;
+            card_4 = temp;
         } else if i == 2 {
-            card_2 = temp;
+            card_3 = temp;
         } else if i == 1 {
+            card_2 = temp;
+        } else if i == 0 {
             card_1 = temp;
         }
 

@@ -46,7 +46,7 @@ function SmallCard(props) {
           </Box>
         </>}
 
-      {isBrowser && card.type === types.SPELL &&
+      {isBrowser && card.cardType === types.SPELL &&
         <Typography textAlign={'center'} width={'100%'} color='primary'>
           Spell
         </Typography>

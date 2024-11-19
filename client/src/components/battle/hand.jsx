@@ -11,15 +11,11 @@ import { isMobile } from 'react-device-detect';
 
 function Hand() {
   const battle = useContext(BattleContext)
-  const { hand, targetFriendlyCreature } = battle.state
+  const { hand } = battle.state
 
   const [displayCard, setDisplayCard] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
-  const [nonce, setNonce] = useState(1)
 
-  useEffect(() => {
-    setNonce(prev => prev + 1)
-  }, [battle.state.battleEffects])
 
   const calculateCardPosition = (pos) => {
     const cards = hand.length
@@ -84,7 +80,7 @@ function Hand() {
   const handCardStyles = (card) => {
     let style = { ...styles.cardStyle, ...(isMobile ? styles.cardMobile : styles.card), opacity: 1 }
 
-    if ((selectedCard?.card.id === card.id) || (!selectedCard && displayCard?.id === card.id) || (targetFriendlyCreature?.id === card.id)) {
+    if ((selectedCard?.card.id === card.id) || (!selectedCard && displayCard?.id === card.id)) {
       style.opacity = 0
     }
 
@@ -109,7 +105,7 @@ function Hand() {
               animate={cardStyle(i)}
               transition={{ ease: "easeOut", duration: 0.5 }}>
 
-              <SmallCard card={card} cost={battle.utils.getCardCost(card)} key={nonce} />
+              <SmallCard card={card} key={card.id} />
 
             </motion.div>
           </>

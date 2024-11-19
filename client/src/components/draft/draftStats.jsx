@@ -2,20 +2,32 @@ import { Box, Typography } from "@mui/material";
 import { BarChart } from '@mui/x-charts';
 import React, { useContext } from "react";
 import { DraftContext } from "../../contexts/draftContext";
-import { tags, types } from "../../helpers/cards";
 import { DRAFT_SIZE } from "../../helpers/constants";
+import { useState } from "react";
+import { useEffect } from "react";
+import { types } from "../../helpers/cards";
 
 function DraftStats() {
   const draft = useContext(DraftContext)
   const { cards } = draft.getState
 
-  const manaCurve = cards.reduce((acc, card) => {
-    acc[card.cost] = (acc[card.cost] || 0) + 1
-    return acc
-  }, {})
+  const [manaCurve, setManaCurve] = useState({});
+
+  useEffect(() => {
+    let copy = {
+      [types.CREATURE]: [0, 0, 0, 0, 0, 0],
+      [types.SPELL]: [0, 0, 0, 0, 0, 0]
+    }
+
+    cards.forEach(card => {
+      copy[card.cardType][card.cost] += 1;
+    })
+
+    setManaCurve(copy)
+  }, [cards]);
 
   const typeCount = cards.reduce((acc, card) => {
-    acc[card.creature_type] = (acc[card.creature_type] || 0) + 1
+    acc[card.creatureType] = (acc[card.creatureType] || 0) + 1
     return acc
   }, {})
 
@@ -43,7 +55,7 @@ function DraftStats() {
         yAxis={[{ disableLine: true, disableTicks: true }]}
         xAxis={[
           {
-            data: ['0', '1', '2', '3', '4', '5', '6', '7', '8+'],
+            data: ['0', '1', '2', '3', '4', '5'],
             scaleType: 'band',
             hideTooltip: true
           },
@@ -62,8 +74,8 @@ function DraftStats() {
     <Box sx={styles.tagContainer}>
 
       {React.Children.toArray(
-        Object.values(types).map((type, i) => {
-          const count = typeCount[i]
+        Object.keys(typeCount).map((type, i) => {
+          const count = typeCount[type]
 
           if (count > 0) {
             return <Box sx={styles.chip}>

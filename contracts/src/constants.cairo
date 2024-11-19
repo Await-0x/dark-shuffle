@@ -6,7 +6,7 @@ const STARTING_HAND_SIZE: u8 = 5;
 const MAX_HAND_SIZE: u8 = 10;
 
 const MAX_BOARD: u8 = 6;
-const LAST_NODE_DEPTH: u8 = 5;
+const LAST_NODE_DEPTH: u8 = 6;
 
 const START_HEALTH: u8 = 50;
 

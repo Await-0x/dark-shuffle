@@ -6,10 +6,14 @@ export function getEntropy(blockHash) {
   return r % LCG_PRIME;
 }
 
-export function LCG(entropy, variance) {
-  let a = BigInt(25214903917);
-  let c = BigInt(11);
+export function LCG(entropy) {
+  let a = 25214903917;
+  let c = 11;
   let m = LCG_PRIME;
 
-  return (a * entropy + c + BigInt(variance)) % m;
+  return (a * entropy + c) % m;
+}
+
+export function getRandomNumber(seed, max) {
+  return seed % max + 1;
 }

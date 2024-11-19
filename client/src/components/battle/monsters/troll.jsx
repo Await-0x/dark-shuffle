@@ -10,20 +10,6 @@ function Troll(props) {
 
   const { monster } = props
 
-  const heal = useLottie({
-    animationData: healAnim,
-    loop: false,
-    autoplay: false,
-    style: { position: 'absolute', width: isMobile ? '120px' : '200px', left: 0, top: 0 },
-    onComplete: () => endHeal()
-  });
-
-  const endHeal = () => {
-    heal.stop()
-    animationHandler.setMonsterAnimations(prev => prev.filter(x => x.type !== 'ability'))
-    animationHandler.animationCompleted({ type: 'monsterAbility' })
-  }
-
   useEffect(() => {
     if (animationHandler.monsterAnimations.length < 1) {
       return
@@ -32,12 +18,12 @@ function Troll(props) {
     const animation = animationHandler.monsterAnimations[0]
 
     if (animation.type === 'ability') {
-      heal.play()
+      animationHandler.setMonsterAnimations(prev => prev.filter(x => x.type !== 'ability'))
+      animationHandler.animationCompleted({ type: 'monsterAbility' })
     }
   }, [animationHandler.monsterAnimations])
 
   return <>
-    {heal.View}
     <MonsterMain monster={monster} />
   </>
 }

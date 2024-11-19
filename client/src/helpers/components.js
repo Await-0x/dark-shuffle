@@ -69,12 +69,12 @@ export const components = {
   },
   'Board': {
     battleId: Number(),
-    creature1: null,
-    creature2: null,
-    creature3: null,
-    creature4: null,
-    creature5: null,
-    creature6: null,
+    creature1: 'Creature',
+    creature2: 'Creature',
+    creature3: 'Creature',
+    creature4: 'Creature',
+    creature5: 'Creature',
+    creature6: 'Creature',
   },
 
   // Map models

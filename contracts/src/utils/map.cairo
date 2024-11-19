@@ -18,7 +18,7 @@ impl MapUtilsImpl of MapUtilsTrait {
             return true;
         }
 
-        let mut seed = random::LCG(map.seed, 0);
+        let mut seed = random::LCG(map.seed);
         let sections = random::get_random_number(seed, 3);
 
         let mut is_available = false;
@@ -34,14 +34,16 @@ impl MapUtilsImpl of MapUtilsTrait {
             }
 
             // Depth 3
+            let mut depth_3_count = 1;
             current_node_id += 1;
             if current_node_id == node_id && game.last_node_id == current_node_id - 1 {
                 is_available = true;
                 break;
             }
 
-            seed = random::LCG(seed, 0);
+            seed = random::LCG(seed);
             if random::get_random_number(seed, 2) > 1 {
+                depth_3_count += 1;
                 current_node_id += 1;
                 if current_node_id == node_id && game.last_node_id == current_node_id - 2 {
                     is_available = true;
@@ -50,10 +52,10 @@ impl MapUtilsImpl of MapUtilsTrait {
             }
 
             // Depth 4
-            seed = random::LCG(seed, 0);
+            seed = random::LCG(seed);
             if random::get_random_number(seed, 2) > 1 {
                 current_node_id += 1;
-                if current_node_id == node_id && game.last_node_id == current_node_id - 2 {
+                if current_node_id == node_id && game.last_node_id == current_node_id - depth_3_count {
                     is_available = true;
                     break;
                 }
@@ -65,7 +67,7 @@ impl MapUtilsImpl of MapUtilsTrait {
                 }
             } else {
                 current_node_id += 1;
-                if current_node_id == node_id && (game.last_node_id == current_node_id - 1 || game.last_node_id == current_node_id - 2) {
+                if current_node_id == node_id && (game.last_node_id == current_node_id - 1 || game.last_node_id == current_node_id - depth_3_count) {
                     is_available = true;
                     break;
                 }
@@ -84,12 +86,16 @@ impl MapUtilsImpl of MapUtilsTrait {
     }
 
     fn get_monster_node(map: Map, node_id: u8) -> MonsterNode {
-        let seed = random::LCG(map.seed, node_id);
+        let mut seed = map.seed;
+        let mut LCG_iterations = 0;
+
+        while LCG_iterations < node_id {
+            seed = random::LCG(seed);
+            LCG_iterations += 1;
+        };
 
         let mut monster_range = 0;
-        if map.level > 4 {
-            monster_range = 0;
-        } else {
+        if map.level < 5 {
             monster_range = 75 - (15 * map.level);
         }
 

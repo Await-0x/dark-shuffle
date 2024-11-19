@@ -67,7 +67,7 @@ export async function getDraftCards(game_id, demo) {
         node {
           game_id,
           number,
-          card_id,
+          cardId,
           level
         }
       }
@@ -147,7 +147,7 @@ export async function getTreeNodes(game_id, branch, demo) {
           models {
             ... on darkshuffle_CardNode {
               node_id,
-              card_id,
+              cardId,
               card_level
             }
           }
@@ -179,7 +179,7 @@ export async function getTreeNodes(game_id, branch, demo) {
     attack: node.attack,
     health: node.health,
     amount: node.amount,
-    cardId: node.card_id,
+    cardId: node.cardId,
     cardLevel: node.card_level
   })).sort((a, b) => a.nodeId - b.nodeId)
 
@@ -223,7 +223,7 @@ export async function getBattleState(battle_id, demo) {
         node {
           battle_id
           creature_id
-          card_id
+          cardId
           cost
           attack
           health
@@ -238,7 +238,7 @@ export async function getBattleState(battle_id, demo) {
         node {
           battle_id
           hand_card_number
-          card_id
+          cardId
           level
         }
       }

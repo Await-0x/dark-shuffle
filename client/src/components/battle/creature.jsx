@@ -1,18 +1,10 @@
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Typography } from "@mui/material";
 import { motion, useAnimationControls } from "framer-motion";
-import { useLottie } from 'lottie-react';
 import React, { useContext, useEffect, useState } from "react";
 import { isMobile } from 'react-device-detect';
-import healAnim from "../../assets/animations/heal.json";
-import shieldAnim from "../../assets/animations/shield.json";
-import swirlAnim from "../../assets/animations/swirl.json";
-import triangleAnim from "../../assets/animations/triangle.json";
-import shield from "../../assets/images/shield.png";
 import sword from "../../assets/images/sword.png";
 import { AnimationContext } from '../../contexts/animationHandler';
-import { BattleContext } from '../../contexts/battleContext';
-import { CardSize, fetch_beast_image, types } from '../../helpers/cards';
+import { CardSize, fetch_beast_image } from '../../helpers/cards';
 import DamageAnimation from '../animations/damageAnimation';
 import SleepAnimation from '../animations/sleepAnimation';
 import Card from '../card';
@@ -24,41 +16,8 @@ function Creature(props) {
   const { creature } = props
 
   const animationHandler = useContext(AnimationContext)
-  const battle = useContext(BattleContext)
 
   const [displayCard, setDisplayCard] = useState(null)
-
-  const swirl = useLottie({
-    animationData: swirlAnim,
-    loop: false,
-    autoplay: false,
-    style: { position: 'absolute', top: '0', left: '0', ...(isMobile ? mobileSize : browserSize) },
-    onComplete: () => swirl.stop()
-  });
-
-  const heal = useLottie({
-    animationData: healAnim,
-    loop: false,
-    autoplay: false,
-    style: { position: 'absolute', top: '0', left: '0', ...(isMobile ? mobileSize : browserSize) },
-    onComplete: () => heal.stop()
-  });
-
-  const _shield = useLottie({
-    animationData: shieldAnim,
-    loop: false,
-    autoplay: false,
-    style: { position: 'absolute', top: '0', left: '0', ...(isMobile ? mobileSize : browserSize) },
-    onComplete: () => _shield.stop()
-  });
-
-  const tauntAnim = useLottie({
-    animationData: triangleAnim,
-    loop: false,
-    autoplay: false,
-    style: { position: 'absolute', top: '0', left: '0', ...(isMobile ? mobileSize : browserSize) },
-    onComplete: () => tauntAnim.stop()
-  });
 
   const controls = useAnimationControls()
 
@@ -66,33 +25,12 @@ function Creature(props) {
 
   useEffect(() => {
     const creatureAnimation = animationHandler.creatureAnimations.find(anim => anim.creatureId === creature.id)
-    if (creatureAnimation) {
 
+    if (creatureAnimation) {
       if (creatureAnimation.type === 'attack') {
         attackAnimation(creatureAnimation)
         animationHandler.setCreatureAnimations(prev => prev.filter(x => x.type === 'attack' && x.creatureId !== creature.id))
       }
-
-      if (creatureAnimation.type === 'swirl') {
-        swirl.play()
-        animationHandler.setCreatureAnimations(prev => prev.filter(x => x.type === 'swirl' && x.creatureId !== creature.id))
-      }
-
-      if (creatureAnimation.type === 'heal') {
-        heal.play()
-        animationHandler.setCreatureAnimations(prev => prev.filter(x => x.type === 'heal' && x.creatureId !== creature.id))
-      }
-
-      if (creatureAnimation.type === 'shield') {
-        _shield.play()
-        animationHandler.setCreatureAnimations(prev => prev.filter(x => x.type === 'shield' && x.creatureId !== creature.id))
-      }
-
-      if (creatureAnimation.type === 'taunt') {
-        tauntAnim.play()
-        animationHandler.setCreatureAnimations(prev => prev.filter(x => x.type === 'taunt' && x.creatureId !== creature.id))
-      }
-
     }
   }, [animationHandler.creatureAnimations])
 
@@ -111,24 +49,9 @@ function Creature(props) {
       y: 0,
       rotate: 0
     })
-
-    animationHandler.animationCompleted({ type: 'creatureAttackFinished', creatureId: creature.id })
   }
 
   const mouseUpHandler = (event) => {
-    const card = battle.state.targetFriendlyCreature
-
-    if (!card) {
-      return
-    }
-
-    if (card.type === types.CREATURE) {
-      battle.actions.summonCreature(card, creature)
-    }
-
-    if (card.type === types.SPELL) {
-      battle.actions.castSpell(card, creature)
-    }
   }
 
   return <Box sx={{ position: 'relative', opacity: creature.dead ? 0 : 1 }}>
@@ -143,15 +66,11 @@ function Creature(props) {
       onMouseUp={(event) => mouseUpHandler(event)}
     >
 
-      <Box sx={[isMobile ? styles.mobileSize : styles.browserSize, styles.container, creature.resting && styles.faded, battle.state.targetFriendlyCreature && styles.targetable]}>
+      <Box sx={[isMobile ? styles.mobileSize : styles.browserSize, styles.container, creature.resting && styles.faded]}>
 
         {creature.resting && <SleepAnimation />}
 
         {damage && <DamageAnimation id={damage.id} damage={damage.damage} small={true} />}
-
-        {heal.View}
-        {_shield.View}
-        {tauntAnim.View}
 
         <Box sx={styles.imageContainer}>
           <img alt='' src={fetch_beast_image(creature.name)} height={'100%'} />
@@ -170,11 +89,6 @@ function Creature(props) {
             <Typography variant="h6" fontSize={isMobile && '12px'}>
               {creature.health}
             </Typography>
-
-            {creature.shield
-              ? <img alt='' src={shield} height={isMobile ? 20 : 24} width={isMobile ? 20 : 24} />
-              : <FavoriteIcon htmlColor="red" fontSize={isMobile ? 'small' : 'inherit'} />
-            }
           </Box>
         </Box>
 
@@ -241,9 +155,6 @@ const styles = {
     position: 'absolute',
     top: '-40px',
     left: '42px',
-  },
-  targetable: {
-    boxShadow: '0px 1px 19px -2px #FFE97F, 0px 2px 3px 0px #FFE97F, 0px 1px 8px 0px #FFE97F'
   },
   highlight: {
     border: '1px solid #FFE97F !important',

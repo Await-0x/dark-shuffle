@@ -1,12 +1,11 @@
-import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Box, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import React, { useContext, useState } from "react";
 import { isMobile } from 'react-device-detect';
 import { DraftContext } from "../../contexts/draftContext";
 import { CardSize, fetch_beast_image } from "../../helpers/cards";
+import { uniquefy } from '../../helpers/utilities';
 import Card from "../card";
-import { tierColors } from '../../helpers/constants';
 
 function Overview() {
   const draft = useContext(DraftContext)
@@ -14,10 +13,13 @@ function Overview() {
 
   const [displayCard, setDisplayCard] = useState(null)
 
+  const uniqueCards = uniquefy(cards, "cardId")
+
   return <Box sx={styles.container}>
 
     {React.Children.toArray(
-      cards.sort((a, b) => a.cost - b.cost).map(card => {
+      uniqueCards.sort((a, b) => a.cost - b.cost).map(card => {
+        const count = cards.filter(c => c.cardId === card.cardId).length
 
         return <motion.div style={{ ...styles.card }}
           onHoverStart={() => setDisplayCard(card)}
@@ -38,8 +40,10 @@ function Overview() {
             </Typography>
           </Box>
 
-          <Box sx={styles.levelContainer}>
-            <BookmarkIcon htmlColor={tierColors[card.card_tier]} fontSize='large' />
+          <Box sx={styles.count}>
+            <Typography color='primary'>
+              {count > 1 && count}
+            </Typography>
           </Box>
 
         </motion.div>

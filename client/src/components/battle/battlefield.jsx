@@ -4,16 +4,18 @@ import { isBrowser, isMobile } from 'react-device-detect';
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
 import { GameContext } from "../../contexts/gameContext";
-import PoisonSprayAnimation from "../animations/poisonSprayAnimation";
 import Adventurer from './adventurer';
 import Creature from "./creature";
 import DeathDialog from './death';
 import Monster from "./monster";
+import { GET_MONSTER } from "../../battle/monsterUtils";
 
 function Battlefield(props) {
   const animationHandler = useContext(AnimationContext)
   const game = useContext(GameContext)
   const battle = useContext(BattleContext)
+
+  const monster = { ...GET_MONSTER(battle.state.values.monsterId), attack: battle.state.values.monsterAttack, health: battle.state.values.monsterHealth }
 
   return <Box sx={styles.container} height={isMobile ? '98%' : '90%'}>
 
@@ -21,7 +23,7 @@ function Battlefield(props) {
 
     <Box sx={styles.enemyContainer} height={isMobile ? '50%' : '40%'}>
 
-      <Monster monster={battle.state.monster} />
+      <Monster monster={monster} />
 
     </Box>
 
@@ -43,12 +45,6 @@ function Battlefield(props) {
       <Adventurer />
 
     </Box >}
-
-    {animationHandler.boardAnimation.length > 0 && React.Children.toArray(
-      animationHandler.boardAnimation.map(animation => <PoisonSprayAnimation
-        animation={animation}
-      />)
-    )}
   </Box >
 }
 

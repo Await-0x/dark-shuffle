@@ -1,5 +1,5 @@
 /* global BigInt */
-import { getEntityIdFromKeys, hexToAscii } from "@dojoengine/utils";
+import { hexToAscii } from "@dojoengine/utils";
 import { components, translateName } from "./components.js";
 
 function parseData(value, type) {
@@ -18,10 +18,8 @@ function parseData(value, type) {
 export function translateEvent(event) {
   const name = translateName(event.keys[1]);
   const data = event.data;
-  console.log('data', data, name)
+
   const keysNumber = parseInt(data[0]);
-  const keys = data.slice(1, 1 + keysNumber).map((key) => BigInt(key));
-  const entityId = getEntityIdFromKeys(keys);
 
   if (!components[name]) return;
   const component = components[name];
@@ -30,14 +28,27 @@ export function translateEvent(event) {
 
   const parsedFields = Object.keys(component).reduce((acc, key, index) => {
     if (component[key] === 'array') {
-      return { ...acc, [key]: values.splice(index+1, parseInt(values[index])).map(x => parseInt(x)) }
+      return { ...acc, [key]: values.splice(index + 1, parseInt(values[index])).map(x => parseInt(x)) }
+    }
+
+    if (component[key] === 'Creature') {
+      let creatureValues = values.splice(index, 5)
+
+      return {
+        ...acc, [key]: {
+          cardId: parseInt(creatureValues[0]),
+          cost: parseInt(creatureValues[1]),
+          attack: parseInt(creatureValues[2]),
+          health: parseInt(creatureValues[3]),
+          creatureType: parseInt(creatureValues[4]),
+        }
+      }
     }
 
     return { ...acc, [key]: parseData(values[index], component[key]) }
   }, {})
 
   return {
-    entityId,
     componentName: name,
     ...parsedFields
   }

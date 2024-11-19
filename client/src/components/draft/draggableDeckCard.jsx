@@ -121,7 +121,7 @@ function DraggableDeckCard(props) {
       </Box>
 
       <Box sx={styles.levelContainer}>
-        <BookmarkIcon htmlColor={tierColors[card.card_tier]} fontSize='large' />
+        <BookmarkIcon htmlColor={tierColors[card.cardTier]} fontSize='large' />
       </Box>
 
     </motion.div>

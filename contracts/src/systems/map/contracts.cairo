@@ -56,6 +56,8 @@ mod map_systems {
             let seed: u128 = random::get_entropy(random_hash);
 
             MapUtilsImpl::start_battle(ref world, ref game, monster_node, seed);
+
+            world.write_model(@game);
         }
     }
 }

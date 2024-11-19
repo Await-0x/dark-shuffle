@@ -3,8 +3,8 @@ import { isMobile } from 'react-device-detect';
 
 function BlockRevealAnimation(props) {
   return <Box sx={styles.container}>
-    {!props.hideText && <Typography variant={isMobile ? 'h5' : 'h2'} color='primary' sx={styles.text}>
-      Waiting for block reveal
+    {!props.hideText && <Typography variant={isMobile ? 'h5' : 'h1'} color='primary' sx={styles.text}>
+      Generating Map
     </Typography>}
 
     {props.icon && <Box sx={styles.loader}>

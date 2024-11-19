@@ -78,7 +78,7 @@ export const DraftProvider = ({ children }) => {
   const fetchDraftCards = async (gameId, inDraft) => {
     let data = await getDraftCards(gameId);
 
-    let cards = data.map(card => CARD_DETAILS(card.card_id, card.number));
+    let cards = data.map(card => CARD_DETAILS(card.cardId, card.number));
     setDraftStats(cards);
 
     setCards(cards.slice(0, 5).sort((a, b) => a.cost - b.cost));

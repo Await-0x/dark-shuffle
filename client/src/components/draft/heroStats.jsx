@@ -1,9 +1,7 @@
-import { BrowserView, MobileView, isMobile } from 'react-device-detect'
-import { Box, Typography } from "@mui/material"
-import React, { useContext } from "react"
-import { GameContext } from "../../contexts/gameContext"
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import bolt from "../../assets/images/bolt.png";
+import { Box, Typography } from "@mui/material";
+import React, { useContext } from "react";
+import { GameContext } from "../../contexts/gameContext";
 
 function HeroStats(props) {
   const game = useContext(GameContext)
@@ -17,14 +15,6 @@ function HeroStats(props) {
 
         <FavoriteIcon htmlColor="red" sx={{ fontSize: '18px' }} />
       </Box>
-
-      <Box display={'flex'}>
-        <Typography>
-          {game.values.heroEnergy}
-        </Typography>
-
-        <img alt='' src={bolt} height={18} />
-      </Box>
     </Box>
   }
 
@@ -36,13 +26,13 @@ function HeroStats(props) {
       </Typography>
 
       <Typography color='primary' sx={{ fontSize: '13px' }}>
-        {game.values.heroXp} XP
+        {game.values.monstersSlain} XP
       </Typography>
     </Box>
 
     <Box mt={1} display={'flex'} justifyContent={'space-between'}>
       <Typography>
-        Health
+        Health left
       </Typography>
 
       <Box display={'flex'}>
@@ -51,20 +41,6 @@ function HeroStats(props) {
         </Typography>
 
         <FavoriteIcon htmlColor="red" sx={{ fontSize: '18px' }} />
-      </Box>
-    </Box>
-
-    <Box mt={0.5} display={'flex'} justifyContent={'space-between'}>
-      <Typography>
-        Energy
-      </Typography>
-
-      <Box display={'flex'}>
-        <Typography>
-          {game.values.heroEnergy}
-        </Typography>
-
-        <img alt='' src={bolt} height={18} />
       </Box>
     </Box>
 
@@ -91,7 +67,9 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     m: 1,
-    p: 2,
+    mb: 0,
+    py: 1,
+    px: 1.5,
     boxSizing: 'border-box',
     width: 'calc(100% - 16px)',
     background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5))',

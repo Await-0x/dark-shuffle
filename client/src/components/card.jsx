@@ -22,12 +22,12 @@ function Card(props) {
         <img alt='' src={bolt} height={20} style={{ marginLeft: '-1px' }} />
       </Box>
 
-      <Typography noWrap fontSize={isMobile && '13px'}>
+      <Typography noWrap fontSize={isMobile && '14px'} variant='h6'>
         {card.name}
       </Typography>
 
       <Box sx={isMobile ? styles.mobileLevelContainer : styles.levelContainer}>
-        <BookmarkIcon htmlColor={tierColors[card.card_tier]} fontSize='large' />
+        <BookmarkIcon htmlColor={tierColors[card.cardTier]} fontSize='large' />
       </Box>
     </Box>
 
@@ -35,13 +35,14 @@ function Card(props) {
       <img alt='' src={fetch_beast_image(card.name)} height={'100%'} />
     </Box>
 
-    <Box sx={styles.textContainer} p={isMobile ? '2px' : 1}>
-      <Typography sx={{ opacity: 0.9 }} textAlign={'center'} fontSize={isMobile ? '12px' : '13px'}>
-        {card.text}
+    <Box sx={styles.textContainer} p={isMobile ? '2px' : '4px'}>
+      <Typography sx={{ opacity: 1 }} textAlign={'center'} fontSize={isMobile ? '12px' : '13px'}>
+        <span>{card.text.split(':')[0]}:</span>
+        <span style={{ opacity: 0.7, fontSize: '13px' }}>{card.text.split(':')[1]}</span>
       </Typography>
     </Box>
 
-    {card.type === types.CREATURE && <Box sx={styles.bottomContainer}>
+    {card.cardType === types.CREATURE && <Box sx={styles.bottomContainer}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography variant="h6" fontSize={isMobile && '14px'}>
           {card.attack}
@@ -54,8 +55,8 @@ function Card(props) {
       </Box>
 
       <Box>
-        <Typography variant="subtitle1" fontSize={isMobile && '12px'}>
-          {card.creature_type}
+        <Typography variant="subtitle1" fontSize={isMobile ? '13px' : '15px'}>
+          {card.creatureType}
         </Typography>
       </Box>
 
@@ -68,7 +69,7 @@ function Card(props) {
       </Box>
     </Box>}
 
-    {card.type === types.SPELL && <Box sx={styles.bottomContainer}>
+    {card.cardType === types.SPELL && <Box sx={styles.bottomContainer}>
     </Box>}
 
   </Box >
@@ -105,12 +106,11 @@ const styles = {
   },
   textContainer: {
     width: '100%',
-    height: '30%',
+    height: '33%',
     border: '1px solid #FFE97F70',
     borderRadius: '4px',
     boxSizing: 'border-box',
     display: 'flex',
-    flexDirection: 'column',
     gap: 0.5,
     background: 'rgba(0, 0, 0, 0.3)'
   },
@@ -138,7 +138,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '30px'
+    height: '24px'
   },
   circle: {
     width: '28px',
@@ -149,7 +149,7 @@ const styles = {
     borderRadius: '100px'
   },
   levelContainer: {
-    marginTop: '-20px',
+    marginTop: '-25px',
     marginRight: '-10px',
     position: 'relative'
   },

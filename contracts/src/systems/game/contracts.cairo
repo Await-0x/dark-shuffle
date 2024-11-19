@@ -15,7 +15,7 @@ mod game_systems {
     };
     use starknet::{get_caller_address, get_tx_info};
 
-    use darkshuffle::constants::{START_HEALTH, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID, DEFAULT_NS};
+    use darkshuffle::constants::{START_HEALTH, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID, DEFAULT_NS, LAST_NODE_DEPTH};
     use darkshuffle::models::game::{Game};
     use darkshuffle::models::draft::{Draft};
     use darkshuffle::models::season::{Season, SeasonOwnerTrait};
@@ -66,8 +66,8 @@ mod game_systems {
                 hero_health: START_HEALTH,
                 monsters_slain: 0,
 
-                map_level: 1,
-                map_depth: 1,
+                map_level: 0,
+                map_depth: LAST_NODE_DEPTH,
                 last_node_id: 0,
             });
 

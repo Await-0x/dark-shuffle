@@ -8,10 +8,10 @@ export const GET_MONSTER = (monsterId) => {
     id: monsterId,
     monsterId: monsterId,
     name: details.name,
-    monsterType: details.creature_type,
+    monsterType: details.creatureType,
     abilities: <>
       <Typography color="primary" variant='h6'>{details.name}</Typography>
-      <Typography color="primary" variant='h6'>{details.creature_type}</Typography>
+      <Typography color="white">{details.creatureType}</Typography>
       {getMonsterAbilities(monsterId)}
     </>
   }

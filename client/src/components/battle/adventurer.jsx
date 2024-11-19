@@ -8,7 +8,7 @@ import monarch from "../../assets/images/monarch.png";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
 import { GameContext } from '../../contexts/gameContext';
-import { ADVENTURER_ID, START_ENERGY, START_HEALTH } from '../../helpers/constants';
+import { ADVENTURER_ID, START_HEALTH } from '../../helpers/constants';
 import { CustomTooltip, EnergyBar, HealthBar, ShieldBar } from '../../helpers/styles';
 import { normalise } from '../../helpers/utilities';
 import DamageAnimation from '../animations/damageAnimation';
@@ -18,17 +18,6 @@ export default function Adventurer(props) {
   const animationHandler = useContext(AnimationContext)
   const battle = useContext(BattleContext)
   const damage = animationHandler.damageAnimations.find(x => x.targetId === ADVENTURER_ID)
-
-  const [prevEnergy, setPrevEnergy] = useState(START_ENERGY)
-  const [maxEnergy, setMaxEnergy] = useState(START_ENERGY)
-
-  useEffect(() => {
-    if (battle.state.adventurer.energy > prevEnergy) {
-      setMaxEnergy(battle.state.adventurer.energy)
-    }
-
-    setPrevEnergy(battle.state.adventurer.energy)
-  }, [battle.state.adventurer.energy])
 
   const _shield = useLottie({
     animationData: shieldAnim,
@@ -66,12 +55,11 @@ export default function Adventurer(props) {
               <Typography color="primary" variant='h6'>Energy</Typography>
             </Box>
             <Typography mt={0.5}>Cards require energy to play.</Typography>
-            <Typography>You replenish {battle.state.roundEnergy} energy each turn.</Typography>
           </Box>
         }>
           <Box width={'80px'} display={'flex'} alignItems={'center'} justifyContent={'flex-end'}>
             <Typography>
-              {battle.state.adventurer.energy}
+              {battle.state.values.heroEnergy}
             </Typography>
 
             <img alt='' src={bolt} height={18} />
@@ -79,13 +67,7 @@ export default function Adventurer(props) {
         </CustomTooltip>
 
         <Box width={'160px'} ml={0.5} mr={'60px'} position={'relative'}>
-          <EnergyBar variant="determinate" value={normalise(battle.state.adventurer.energy, maxEnergy)} />
-
-          <Box sx={{ position: 'absolute', right: 4, top: 0 }}>
-            <Typography color={battle.state.adventurer.energy < maxEnergy ? 'white' : 'black'} sx={{ fontSize: '10px', lineHeight: '11px' }}>
-              +{battle.state.roundEnergy}
-            </Typography>
-          </Box>
+          <EnergyBar variant="determinate" value={normalise(battle.state.values.heroEnergy, battle.state.values.round)} />
         </Box>
       </Box>
 
@@ -102,24 +84,16 @@ export default function Adventurer(props) {
         }>
           <Box width={'80px'} display={'flex'} alignItems={'center'} justifyContent={'flex-end'}>
             <Typography>
-              {battle.state.adventurer.health}
+              {battle.state.values.heroHealth}
             </Typography>
-            {battle.state.adventurer.armor > 0 && <Typography>
-              ({battle.state.adventurer.armor})
-            </Typography>}
 
             <FavoriteIcon htmlColor="red" sx={{ fontSize: '18px' }} />
           </Box>
         </CustomTooltip>
 
         <Box width={'160px'} ml={0.5} mr={'60px'}>
-          <HealthBar variant="determinate" value={normalise(battle.state.adventurer.health, Math.max(START_HEALTH, game.values.heroHealth))} />
+          <HealthBar variant="determinate" value={normalise(battle.state.values.heroHealth, Math.max(START_HEALTH, game.values.heroHealth))} />
         </Box>
-
-        <Box sx={{ width: '160px', position: 'absolute', right: 0, mr: '60px' }}>
-          <ShieldBar variant="determinate" value={normalise(battle.state.adventurer.armor, START_HEALTH)} />
-        </Box>
-
       </Box>
     </Box>
 

@@ -1,53 +1,48 @@
-import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
+import WestIcon from '@mui/icons-material/West';
 import { Box, IconButton } from '@mui/material';
 import { motion } from "framer-motion";
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
+import { BrowserView, MobileView, isMobile } from 'react-device-detect';
 import BlockRevealAnimation from '../components/animations/blockRevealAnimation';
 import HeroStats from '../components/draft/heroStats';
 import Overview from '../components/draft/overview';
 import Structure from '../components/gametree/structure';
 import { BattleContext } from '../contexts/battleContext';
 import { GameContext } from '../contexts/gameContext';
+import { LAST_NODE_LEVEL } from '../helpers/constants';
 import { fadeVariant } from "../helpers/variants";
-import { BrowserView, MobileView, isMobile } from 'react-device-detect'
-import { useState } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars';
-import { DraftContext } from '../contexts/draftContext';
-import { useSnackbar } from 'notistack';
+import { DojoContext } from '../contexts/dojoContext';
 
 function StartBattleContainer() {
+  const dojo = useContext(DojoContext)
   const game = useContext(GameContext)
-  const draft = useContext(DraftContext)
   const battle = useContext(BattleContext)
 
-  const { enqueueSnackbar } = useSnackbar()
   const [cardOverview, setCardOverview] = useState(false)
+  const [selectingNode, setSelectingNode] = useState(false)
 
   useEffect(() => {
-    if (game.values.mapDepth === 6) {
-      game.actions.generateNodes()
+    if (game.values.mapDepth === LAST_NODE_LEVEL) {
+      game.actions.generateMap()
     }
   }, [game.values.mapDepth])
 
-  const selectNode = async (nodeId, type) => {
-    if (type === 'battle' && draft.cards.length !== 5) {
-      return enqueueSnackbar('Deck must have 5 cards', { variant: 'warning' })
+  const selectNode = async (nodeId) => {
+    setSelectingNode(true)
+    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "select_node", calldata: [game.values.gameId, nodeId] }], game.values.isDemo)
+
+    if (res) {
+      const gameValues = res.find(e => e.componentName === 'Game')
+      const battleValues = res.find(e => e.componentName === 'Battle')
+      const battleEffects = res.find(e => e.componentName === 'BattleEffects')
+
+      game.setGame(gameValues)
+      battle.actions.startBattle(battleValues, battleEffects)
     }
 
-    const res = await game.actions.selectNode(nodeId, draft.cards.map(card => card.id))
-
-    if (!res) return;
-
-    const battleValues = res.find(e => e.componentName === 'Battle')
-    if (battleValues) {
-      battle.actions.startBattle(battleValues)
-    }
-
-    const cardValue = res.find(e => e.componentName === 'DraftCard')
-    if (cardValue) {
-      draft.addNodeCard(cardValue)
-    }
+    setSelectingNode(false)
   }
 
   return (
@@ -56,9 +51,9 @@ function StartBattleContainer() {
 
         <Box sx={isMobile ? styles.mobileDraftContainer : styles.draftContainer}>
 
-          {(game.values.nodeLevel === 6 || game.nodes.length === 0)
+          {(game.values.mapDepth === LAST_NODE_LEVEL)
             ? <Box mt={10}><BlockRevealAnimation icon /></Box>
-            : <Structure selectNode={selectNode} />
+            : <Structure selectNode={selectNode} selectingNode={selectingNode} />
           }
 
         </Box>
@@ -67,9 +62,9 @@ function StartBattleContainer() {
           <Box sx={styles.overview}>
             <Scrollbars style={{ width: '100%', height: '100%' }}>
 
-              <Overview />
-
               <HeroStats />
+
+              <Overview />
 
             </Scrollbars>
           </Box>

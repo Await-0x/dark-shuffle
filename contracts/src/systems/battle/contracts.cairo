@@ -77,6 +77,10 @@ mod battle_systems {
             MonsterUtilsImpl::monster_ability(ref battle, ref battle_effects);
             BoardUtilsImpl::clean_board(ref battle, ref battle_effects, ref board, board_stats);
 
+            if battle.monster_health > 0 {
+                BattleUtilsImpl::damage_hero(ref battle, ref battle_effects, battle.monster_attack);
+            }
+
             if GameUtilsImpl::is_battle_over(battle) {
                 GameUtilsImpl::end_battle(ref world, ref battle);
             } else {

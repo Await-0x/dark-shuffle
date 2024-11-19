@@ -42,26 +42,11 @@ function DraggableCard(props) {
       return
     }
 
-    if (values.card.requiresTarget && battle.state.board.length < 1) {
-      if (values.card.type === types.CREATURE) {
-        battle.actions.summonCreature(values.card)
-      }
-
-      else if (values.card.type === types.SPELL) {
-        returnCard(event)
-        return enqueueSnackbar('No target available', { variant: 'warning' })
-      }
-    }
-
-    else if (values.card.requiresTarget) {
-      battle.utils.setTargetFriendly(values.card)
-    }
-
-    else if (values.card.type === types.CREATURE) {
+    if (values.card.cardType === types.CREATURE) {
       battle.actions.summonCreature(values.card)
     }
 
-    else if (values.card.type === types.SPELL) {
+    else if (values.card.cardType === types.SPELL) {
       battle.actions.castSpell(values.card)
     }
 
@@ -77,7 +62,7 @@ function DraggableCard(props) {
       ref.current.style.opacity = 1
     }
 
-    if (values.card.type === types.CREATURE) {
+    if (values.card.cardType === types.CREATURE) {
       if (event.pageY < play_threshold) {
         ref.current.style.border = '1px solid #FFE97F'
       } else {
@@ -85,7 +70,7 @@ function DraggableCard(props) {
       }
     }
 
-    if (values.card.type === types.SPELL) {
+    if (values.card.cardType === types.SPELL) {
       if (event.pageY < play_threshold) {
         ref.current.style.border = '1px solid #FFE97F'
       } else {
@@ -134,7 +119,7 @@ function DraggableCard(props) {
       ref={ref}
     >
 
-      <SmallCard card={card} showStats={!isMobile && card.type === types.CREATURE} cost={battle.utils.getCardCost(card)} />
+      <SmallCard card={card} showStats={!isMobile && card.cardType === types.CREATURE} />
 
     </motion.div>
   </>

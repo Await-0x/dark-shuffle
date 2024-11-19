@@ -8,26 +8,26 @@ impl DraftUtilsImpl of DraftUtilsTrait {
         let mut card_3 = 0;
 
         card_1 = random::get_random_card_id(entropy);
-        entropy = random::LCG(entropy, 0);
+        entropy = random::LCG(entropy);
         card_2 = random::get_random_card_id(entropy);
-        entropy = random::LCG(entropy, 0);
+        entropy = random::LCG(entropy);
         card_3 = random::get_random_card_id(entropy);
 
         loop {
             if card_1 == card_2 {
-                entropy = random::LCG(entropy, 0);
+                entropy = random::LCG(entropy);
                 card_2 = random::get_random_card_id(entropy);
                 continue;
             }
 
             if card_1 == card_3 {
-                entropy = random::LCG(entropy, 0);
+                entropy = random::LCG(entropy);
                 card_3 = random::get_random_card_id(entropy);
                 continue;
             }
 
             if card_2 == card_3 {
-                entropy = random::LCG(entropy, 0);
+                entropy = random::LCG(entropy);
                 card_3 = random::get_random_card_id(entropy);
                 continue;
             }
