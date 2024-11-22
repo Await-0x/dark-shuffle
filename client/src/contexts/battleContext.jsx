@@ -6,12 +6,13 @@ import { deathEffect } from "../battle/deathUtils";
 import { GET_MONSTER } from "../battle/monsterUtils";
 import { endOfTurnMonsterEffect } from "../battle/phaseUtils";
 import { summonEffect } from "../battle/summonUtils";
-import { CARD_DETAILS, tags } from "../helpers/cards";
+import { CARD_DETAILS, formatBoard, tags } from "../helpers/cards";
 import { ADVENTURER_ID } from "../helpers/constants";
-import { delay } from "../helpers/utilities";
 import { AnimationContext } from "./animationHandler";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
+import { delay } from "../helpers/utilities";
+import { getBattleState } from "../api/indexer";
 
 export const BattleContext = createContext()
 
@@ -30,9 +31,9 @@ export const BattleProvider = ({ children }) => {
   const [hand, setHand] = useState([])
   const [board, setBoard] = useState([])
   const [battleEffects, setBattleEffects] = useState()
-  const [actions, setActions] = useState([])
 
-  const [endTurnEventOrder, setEndTurnEventOrder] = useState([])
+  const [actions, setActions] = useState([])
+  const [turnEnded, setTurnEnded] = useState(false)
 
   const [pendingTx, setPendingTx] = useState(false)
   const [endState, setEndState] = useState()
@@ -65,35 +66,41 @@ export const BattleProvider = ({ children }) => {
   }, [animationHandler.completed])
 
   useEffect(() => {
-    if (endTurnEventOrder.length > 0) {
-      const event = endTurnEventOrder[0]
+    if (turnEnded) {
+      let creature = board.find(creature => !creature.attacked)
 
-      if (event.type === 'monsterTurn') {
-        if (board.filter(c => c.health < 1).length > 0) {
-          cleanBoard()
-        } else {
-          if (values.monsterHealth < 1 && endState && endState.gameValues.active) {
-            return endBattle()
-          }
-
-          animationHandler.addAnimation('monster', {
-            type: 'ability',
-            position: getMonsterPosition(),
-          })
-        }
-      }
-
-      else if (event.type === 'creatureAttack') {
+      if (creature) {
         animationHandler.addAnimation('creature', {
           type: 'attack',
-          creatureId: event.creature.id,
-          creature: event.creature,
-          position: getCreaturePosition(event.creature.id),
+          creatureId: creature.id,
+          creature,
+          position: getCreaturePosition(creature.id),
           targetPosition: getMonsterPosition(),
         })
       }
+
+      else if (board.find(creature => creature.health < 1 && !creature.dead)) {
+        cleanBoard()
+      }
+
+      else if (!board.find(creature => creature.health < 1 || creature.dead)) {
+        setTurnEnded(false)
+
+        animationHandler.addAnimation('monster', {
+          type: 'ability',
+          position: getMonsterPosition(),
+        })
+      }
     }
-  }, [endTurnEventOrder, board])
+
+    console.log('board', board)
+  }, [turnEnded, board])
+
+  useEffect(() => {
+    if (values.monsterHealth < 1 && endState) {
+      endBattle()
+    }
+  }, [values.monsterHealth, endState])
 
   const resetBattleState = () => {
     setValues({})
@@ -101,14 +108,18 @@ export const BattleProvider = ({ children }) => {
     setHand([])
     setBoard([])
     setActions([])
-    setAttackingOrder([])
+    setTurnEnded(false)
     setEndState()
   }
 
   const submitBattleActions = async () => {
     setPendingTx(true)
 
-    const res = await dojo.executeTx([{ contractName: "battle_systems", entrypoint: "battle_actions", calldata: [values.battleId, actions] }], game.values.isDemo)
+    const res = await dojo.executeTx([{ contractName: "battle_systems", entrypoint: "battle_actions", calldata: [values.battleId, [...actions, [1]]] }], game.values.isDemo, true)
+
+    if (!res) {
+      return;
+    }
 
     const gameValues = res.find(e => e.componentName === 'Game')
     const leaderboard = res.find(e => e.componentName === 'Leaderboard')
@@ -117,6 +128,10 @@ export const BattleProvider = ({ children }) => {
 
     setUpdatedValues(battleValues)
 
+    if (board) {
+      setUpdatedBoard(formatBoard(board))
+    }
+
     if (gameValues) {
       setEndState({ gameValues, leaderboard })
     }
@@ -124,21 +139,9 @@ export const BattleProvider = ({ children }) => {
     setPendingTx(false)
   }
 
-  const submitActions = async () => {
-
-    await submitBattleActions()
-  }
-
   const endTurn = async () => {
     await submitBattleActions()
-
-    const eventOrder = []
-    if (board.length > 0) {
-      eventOrder.push(...board.map(creature => ({ creature, type: 'creatureAttack' })))
-    }
-
-    eventOrder.push({ type: 'monsterTurn' })
-    setEndTurnEventOrder(eventOrder)
+    setTurnEnded(true)
   }
 
   const startBattle = async (battle, battleEffects) => {
@@ -146,7 +149,7 @@ export const BattleProvider = ({ children }) => {
 
     setValues({ ...battle, monsterType: GET_MONSTER(battle.monsterId).monsterType })
     setBattleEffects({ ...battleEffects })
-    setHand(battle.hand.map((card, i) => CARD_DETAILS(card, battle.deckIndex + i)))
+    setHand(battle.hand.map((card, i) => CARD_DETAILS(card, i + 1)))
     setBoard([])
     setActions([])
 
@@ -166,26 +169,30 @@ export const BattleProvider = ({ children }) => {
 
     summonEffect({
       creature, values, board, battleEffects, setBattleEffects,
-      updateBoard, reduceMonsterAttack, increaseEnergy,
+      updateBoard, reduceMonsterAttack, increaseEnergy, damageMonster
     })
 
-    setBoard(prev => [...prev, creature])
+    setBoard(prev => [...prev, { ...creature, id: (prev[prev.length - 1]?.id || 0) + 1 }])
+    setHand(prev => prev.filter(card => card.id !== creature.id))
     setActions(prev => [...prev, [0, creature.cardId]])
   }
 
   const startNewTurn = () => {
     setValues({ ...updatedValues, monsterType: GET_MONSTER(updatedValues.monsterId).monsterType })
-    setHand(updatedValues.hand.map((card, i) => CARD_DETAILS(card, updatedValues.deckIndex + i)))
+    setHand(updatedValues.hand.map((card, i) => CARD_DETAILS(card, i + 1)))
+    setBoard(prev => prev.map(creature => ({ ...creature, attacked: false })))
 
     setActions([])
     setUpdatedValues()
   }
 
   const endBattle = async () => {
+    setTurnEnded(false)
+
     if (!endState.gameValues.active) {
-      game.setScore(endState.gameValues.monstersSlain)
+      game.setScore(Math.max(1, endState.gameValues.monstersSlain))
     } else {
-      await delay(1000);
+      await delay(1000)
       game.setGame(endState.gameValues);
       game.actions.updateMapStatus(endState.gameValues.lastNodeId)
       resetBattleState()
@@ -242,7 +249,8 @@ export const BattleProvider = ({ children }) => {
 
   // CREATURE UTILS
   const damageCreature = (creature, amount) => {
-    updateBoardCreature(creature.id, { health: creature.health - amount, dead: creature.health - amount < 1 })
+    let newHealth = creature.health - amount
+    updateBoardCreature(creature.id, { health: newHealth, dead: newHealth < 1 })
   }
 
   const creatureAttack = (creatureId) => {
@@ -257,18 +265,15 @@ export const BattleProvider = ({ children }) => {
     }
 
     creature.health -= values.monsterAttack;
+    creature.attacked = true;
     updateBoardCreature(creature.id, { ...creature })
-
-    setEndTurnEventOrder(prev => prev.slice(1))
   }
 
-  const creatureDeath = (creature) => {
+  const creatureDeathEffect = (creature) => {
     deathEffect({
       creature, values, board, battleEffects, setBattleEffects,
       updateBoard, reduceMonsterAttack, healHero, damageMonster
     })
-
-    setBoard(prev => prev.filter(c => c.id !== creature.id))
   }
 
   // HERO UTILS
@@ -337,6 +342,38 @@ export const BattleProvider = ({ children }) => {
 
   const fetchBattleState = async (battleId) => {
     setResettingState(true)
+    let data = await getBattleState(parseInt(battleId))
+
+    setValues({
+      battleId: data.battle.battle_id,
+      gameId: data.battle.game_id,
+
+      round: data.battle.round,
+      heroHealth: data.battle.hero_health,
+      heroEnergy: data.battle.hero_energy,
+
+      monsterId: data.battle.monster_id,
+      monsterAttack: data.battle.monster_attack,
+      monsterHealth: data.battle.monster_health,
+      monsterType: data.battle.monster_type,
+
+      hand: data.battle.hand,
+      deck: data.battle.deck,
+      deckIndex: data.battle.deck_index,
+    })
+
+    setBattleEffects({
+      enemyMarks: data.battleEffects.enemy_marks,
+      heroDmgReduction: data.battleEffects.hero_dmg_reduction,
+      nextHunterAttackBonus: data.battleEffects.next_hunter_attack_bonus,
+      nextHunterHealthBonus: data.battleEffects.next_hunter_health_bonus,
+      nextBruteAttackBonus: data.battleEffects.next_brute_attack_bonus,
+      nextBruteHealthBonus: data.battleEffects.next_brute_health_bonus,
+    })
+
+    setHand(data.battle.hand.map((card, i) => CARD_DETAILS(card, i + 1)))
+    // setBoard(formatBoard(data.board))
+
     setResettingState(false)
   }
 
@@ -347,14 +384,15 @@ export const BattleProvider = ({ children }) => {
           startBattle,
           summonCreature,
           endTurn,
-          submitActions
         },
 
         utils: {
+          creatureDeathEffect,
           getMonsterPosition,
           getCreaturePosition,
           fetchBattleState,
-          resetBattleState
+          resetBattleState,
+          setBoard
         },
 
         state: {

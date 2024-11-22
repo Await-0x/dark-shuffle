@@ -1,7 +1,6 @@
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { gql, request } from 'graphql-request';
 import { dojoConfig } from '../../dojo.config';
-import { getNodeStatus } from "../helpers/utilities";
 
 export async function getSeason(season_id) {
   const document = gql`
@@ -25,7 +24,7 @@ export async function getSeason(season_id) {
   return res?.darkshuffleSeasonModels?.edges[0]?.node
 }
 
-export async function getActiveGame(address, demo) {
+export async function getActiveGame(address) {
   const document = gql`
   {
     darkshuffleGameModels (where:{
@@ -35,8 +34,8 @@ export async function getActiveGame(address, demo) {
     }) {
       edges {
         node {
-          game_id,
           season_id,
+          game_id,
           player,
           player_name,
           active,
@@ -44,149 +43,59 @@ export async function getActiveGame(address, demo) {
           in_battle,
           active_battle_id,
           hero_health,
-          hero_energy,
-          hero_xp,
-          branch,
-          node_level,
-          monsters_slain
+          monsters_slain,
+          map_level,
+          map_depth,
+          last_node_id
         }
       }
     }
   }`
 
-  const res = await request(demo ? dojoConfig.demoTorii : dojoConfig.toriiUrl, document)
+  const res = await request(dojoConfig.toriiUrl, document)
 
   return res?.darkshuffleGameModels?.edges[0]?.node
 }
 
-export async function getDraftCards(game_id, demo) {
+export async function getDraft(game_id) {
   const document = gql`
-  {
-    darkshuffleDraftCardModels(where:{game_id:${game_id}}, limit:100) {
-      edges {
-        node {
+    {
+    entity (id:"${getEntityIdFromKeys([BigInt(game_id)])}") {
+      models {
+        ... on darkshuffle_Draft {
           game_id,
-          number,
-          cardId,
-          level
-        }
-      }
-    }
-  }
-  `
-  const res = await request(demo ? dojoConfig.demoTorii : dojoConfig.toriiUrl, document)
-
-  return res?.darkshuffleDraftCardModels?.edges.map(edge => edge.node)
-}
-
-export async function getTreeNodes(game_id, branch, demo) {
-  const document = gql`
-  {
-    darkshuffleNodeModels(where:{game_id:${game_id}, branch:${branch}}, limit:100) {
-      edges {
-        node {
-          node_id,
-          game_id,
-          branch,
-          node_type,
-          skippable,
-          status,
-          level,
+          options,
+          cards
         }
       }
     }
   }`
 
-  const res = await request(demo ? dojoConfig.demoTorii : dojoConfig.toriiUrl, document);
+  const res = await request(dojoConfig.toriiUrl, document)
 
-  let rawNodes = res?.darkshuffleNodeModels?.edges.map(edge => edge.node);
-
-  let nodes = await Promise.all(
-    rawNodes.map(async node => {
-      let query = ``
-      let entityId = getEntityIdFromKeys([BigInt(node.node_id)])
-
-      query += `entity (id:"${entityId}") {
-        models {
-          ... on darkshuffle_Node {
-            node_id
-            parents
-          }
-        }
-      }
-    `
-
-      if (node.node_type === 1) {
-        query += `entity (id:"${entityId}") {
-          models {
-            ... on darkshuffle_MonsterNode {
-              node_id,
-              monster_id,
-              attack,
-              health
-            }
-          }
-        }
-      `
-      }
-
-      if (node.node_type === 2 || node.node_type === 3) {
-        query += `entity (id:"${entityId}") {
-          models {
-            ... on darkshuffle_PotionNode {
-              node_id,
-              amount
-            }
-          }
-        }
-      `
-      }
-
-      if (node.node_type === 4) {
-        query += `entity (id:"${entityId}") {
-          models {
-            ... on darkshuffle_CardNode {
-              node_id,
-              cardId,
-              card_level
-            }
-          }
-        }
-      `
-      }
-
-      const _document = gql`{${query}}`;
-      const _res = await request(demo ? dojoConfig.demoTorii : dojoConfig.toriiUrl, _document);
-      const objectDetails = _res.entity.models.reduce((acc, obj) => {
-        return { ...acc, ...obj };
-      }, {});
-
-      return { ...node, ...objectDetails }
-    })
-  )
-
-  let nodeObject = nodes.map(node => ({
-    nodeId: node.node_id,
-    gameId: node.game_id,
-    branch: node.branch,
-    nodeType: node.node_type,
-    skippable: node.skippable,
-    status: node.status,
-    level: node.level,
-    parents: node.parents,
-    monsterId: node.monster_id,
-    type: node.node_type === 1 ? 'monster' : node.node_type === 2 ? 'potion' : node.node_type === 3 ? 'energy' : 'card',
-    attack: node.attack,
-    health: node.health,
-    amount: node.amount,
-    cardId: node.cardId,
-    cardLevel: node.card_level
-  })).sort((a, b) => a.nodeId - b.nodeId)
-
-  return nodeObject.map(node => ({ ...node, active: getNodeStatus(nodeObject, node) }))
+  return res?.entity.models.find(x => x.game_id)
 }
 
-export async function getBattleState(battle_id, demo) {
+export async function getMap(game_id, level) {
+  const document = gql`
+  {
+    darkshuffleMapModels(where:{game_id:${game_id}, level:${level}}) {
+      edges {
+        node {
+          game_id,
+          level,
+          seed
+        }
+      }
+    }
+  }`
+
+  const res = await request(dojoConfig.toriiUrl, document);
+
+  return res?.darkshuffleMapModels?.edges[0]?.node;
+}
+
+export async function getBattleState(battle_id) {
   const document = gql`
   {
     entity (id:"${getEntityIdFromKeys([BigInt(battle_id)])}") {
@@ -194,64 +103,85 @@ export async function getBattleState(battle_id, demo) {
         ... on darkshuffle_Battle {
           battle_id
           game_id
-          node_id
           round
-          card_index
-          round_energy
           hero_health
           hero_energy
-          hero_armor
-          hero_burn
+
           monster_id
           monster_attack
           monster_health
-          branch
+          monster_type
+
+          hand
           deck
+          deck_index
         }
         ... on darkshuffle_BattleEffects {
           battle_id
-          next_spell_reduction
-          next_card_reduction
-          free_discard
-          damage_immune
+          enemy_marks
+          hero_dmg_reduction
+          next_hunter_attack_bonus
+          next_hunter_health_bonus
+          next_brute_attack_bonus
+          next_brute_health_bonus
         }
-      }
-    }
-
-    darkshuffleCreatureModels(where:{battle_id:${battle_id}, creature_idNEQ:0}) {
-      edges {
-        node {
+        ... on darkshuffle_Board {
           battle_id
-          creature_id
-          cardId
-          cost
-          attack
-          health
-          shield
-          resting_round
-        }
-      }
-    }
-
-    darkshuffleHandCardModels(where:{battle_id:${battle_id}}) {
-      edges {
-        node {
-          battle_id
-          hand_card_number
-          cardId
-          level
+          creature1 {
+            card_id,
+            cost,
+            attack,
+            health,
+            creature_type
+          }
+          creature2 {
+            card_id,
+            cost,
+            attack,
+            health,
+            creature_type
+          }
+          creature3 {
+            card_id,
+            cost,
+            attack,
+            health,
+            creature_type
+          }
+          creature4 {
+            card_id,
+            cost,
+            attack,
+            health,
+            creature_type
+          }
+          creature5 {
+            card_id,
+            cost,
+            attack,
+            health,
+            creature_type
+          }
+          creature6 {
+            card_id,
+            cost,
+            attack,
+            health,
+            creature_type
+          }
         }
       }
     }
   }`
 
-  const res = await request(demo ? dojoConfig.demoTorii : dojoConfig.toriiUrl, document);
+  const res = await request(dojoConfig.toriiUrl, document);
+
   const result = {
     battle: res?.entity.models.find(x => x.monster_id),
     battleEffects: res?.entity.models[0],
-    creatures: res?.darkshuffleCreatureModels?.edges.map(edge => edge.node),
-    handCards: res?.darkshuffleHandCardModels?.edges.map(edge => edge.node),
+    board: res?.entity.models[2] || []
   };
+
   return result;
 }
 
@@ -261,11 +191,11 @@ export async function getLeaderboard(seasonId, page, demo) {
   try {
     const document = gql`
     {
-      darkshuffleGameModels (where: {active: false, season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+      darkshuffleGameModels (where: {active: false, season_id: ${seasonId}}, order:{field:MONSTERS_SLAIN, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
         edges {
           node {
             player_name,
-            hero_xp
+            monsters_slain
           }
         }
       }

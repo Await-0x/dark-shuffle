@@ -2,7 +2,7 @@ import { Box, Button, Dialog, TextField, Typography } from '@mui/material';
 import { motion } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
 import { isBrowser, isMobile } from 'react-device-detect';
-import background from "../../assets/images/cards/gospel_scribe.png";
+import background from "../../assets/images/gospel_scribe.png";
 import { DraftContext } from '../../contexts/draftContext';
 import { fadeVariant } from "../../helpers/variants";
 import { useSnackbar } from 'notistack';
@@ -20,7 +20,7 @@ function ChooseName(props) {
     }
 
     localStorage.setItem('playerName', name);
-    draft.setPlayerName(name)
+    draft.setState.name(name)
   }
 
   useEffect(() => {

@@ -56,27 +56,27 @@ impl BoardUtilsImpl of BoardUtilsTrait {
 
     fn attack_monster(ref battle: Battle, ref battle_effects: BattleEffects, ref board: Board, board_stats: BoardStats) {
         if board.creature1.card_id != 0 {
-            AttackUtilsImpl::creature_attack(ref board.creature1, ref battle, ref battle_effects, ref board, board_stats);
+            AttackUtilsImpl::creature_attack(ref board.creature1, ref battle, ref battle_effects, board_stats);
         }
         
         if board.creature2.card_id != 0 {
-            AttackUtilsImpl::creature_attack(ref board.creature2, ref battle, ref battle_effects, ref board, board_stats);
+            AttackUtilsImpl::creature_attack(ref board.creature2, ref battle, ref battle_effects, board_stats);
         }
 
         if board.creature3.card_id != 0 {
-            AttackUtilsImpl::creature_attack(ref board.creature3, ref battle, ref battle_effects, ref board, board_stats);
+            AttackUtilsImpl::creature_attack(ref board.creature3, ref battle, ref battle_effects, board_stats);
         }
 
         if board.creature4.card_id != 0 {
-            AttackUtilsImpl::creature_attack(ref board.creature4, ref battle, ref battle_effects, ref board, board_stats);
+            AttackUtilsImpl::creature_attack(ref board.creature4, ref battle, ref battle_effects, board_stats);
         }
 
         if board.creature5.card_id != 0 {
-            AttackUtilsImpl::creature_attack(ref board.creature5, ref battle, ref battle_effects, ref board, board_stats);
+            AttackUtilsImpl::creature_attack(ref board.creature5, ref battle, ref battle_effects, board_stats);
         }
 
         if board.creature6.card_id != 0 {
-            AttackUtilsImpl::creature_attack(ref board.creature6, ref battle, ref battle_effects, ref board, board_stats);
+            AttackUtilsImpl::creature_attack(ref board.creature6, ref battle, ref battle_effects, board_stats);
         }
     }
 
@@ -172,32 +172,32 @@ impl BoardUtilsImpl of BoardUtilsTrait {
 
     fn clean_board(ref battle: Battle, ref battle_effects: BattleEffects, ref board: Board, board_stats: BoardStats) {
         if board.creature1.card_id != 0 && board.creature1.health == 0 {
-            DeathUtilsImpl::creature_death(ref board.creature1, ref battle, ref battle_effects, ref board, board_stats);
+            DeathUtilsImpl::creature_death(board.creature1, ref battle, ref battle_effects, ref board, board_stats);
             board.creature1 = Self::no_creature();
         }
 
         if board.creature2.card_id != 0 && board.creature2.health == 0 {
-            DeathUtilsImpl::creature_death(ref board.creature2, ref battle, ref battle_effects, ref board, board_stats);
+            DeathUtilsImpl::creature_death(board.creature2, ref battle, ref battle_effects, ref board, board_stats);
             board.creature2 = Self::no_creature();
         }
 
         if board.creature3.card_id != 0 && board.creature3.health == 0 {
-            DeathUtilsImpl::creature_death(ref board.creature3, ref battle, ref battle_effects, ref board, board_stats);
+            DeathUtilsImpl::creature_death(board.creature3, ref battle, ref battle_effects, ref board, board_stats);
             board.creature3 = Self::no_creature();
         }
 
         if board.creature4.card_id != 0 && board.creature4.health == 0 {
-            DeathUtilsImpl::creature_death(ref board.creature4, ref battle, ref battle_effects, ref board, board_stats);
+            DeathUtilsImpl::creature_death(board.creature4, ref battle, ref battle_effects, ref board, board_stats);
             board.creature4 = Self::no_creature();
         }
 
         if board.creature5.card_id != 0 && board.creature5.health == 0 {
-            DeathUtilsImpl::creature_death(ref board.creature5, ref battle, ref battle_effects, ref board, board_stats);
+            DeathUtilsImpl::creature_death(board.creature5, ref battle, ref battle_effects, ref board, board_stats);
             board.creature5 = Self::no_creature();
         }
 
         if board.creature6.card_id != 0 && board.creature6.health == 0 {
-            DeathUtilsImpl::creature_death(ref board.creature6, ref battle, ref battle_effects, ref board, board_stats);
+            DeathUtilsImpl::creature_death(board.creature6, ref battle, ref battle_effects, ref board, board_stats);
             board.creature6 = Self::no_creature();
         }
     }

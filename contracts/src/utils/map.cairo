@@ -99,7 +99,7 @@ impl MapUtilsImpl of MapUtilsTrait {
             monster_range = 75 - (15 * map.level);
         }
 
-        let monster_id = random::get_random_number(seed, 75 - monster_range);
+        let monster_id = random::get_random_number(seed, 75 - monster_range) + monster_range;
         let card = CardUtilsImpl::get_card(monster_id);
 
         let health = 35 + (map.level * 5);

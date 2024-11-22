@@ -1,31 +1,30 @@
+import { Box, Typography } from "@mui/material";
 import { motion, useAnimationControls } from "framer-motion";
-import { Box, Typography } from "@mui/material"
-import { AnimationContext } from "../../contexts/animationHandler"
-import { useContext, useEffect } from "react"
-import splatter from "../../assets/images/splatter.png"
-import { isMobile } from "react-device-detect"
+import { useEffect } from "react";
+import { isMobile } from "react-device-detect";
+import splatter from "../../assets/images/splatter.png";
 
 function DamageAnimation(props) {
-  const { id, damage, small, mini } = props
-
-  const animationHandler = useContext(AnimationContext)
+  const { damage, small, mini } = props
 
   const controls = useAnimationControls()
 
   useEffect(() => {
-    startAnimation()
+    if (damage > 0) {
+      startAnimation()
+    }
   }, [damage])
 
   async function startAnimation() {
     try {
-      await controls.set({ opacity: 1 })
+      await controls.set({ opacity: 1, display: 'inherit' })
 
       await controls.start({
         opacity: 0,
         transition: { duration: 1, delay: 2 }
       })
 
-      animationHandler.actions.setAnimations(prev => ({ ...prev, [id]: null }));
+      await controls.set({ display: 'none' })
     } catch (ex) { }
   }
 
@@ -37,7 +36,7 @@ function DamageAnimation(props) {
     : { width: isMobile ? '90px' : '150px', height: isMobile ? '90px' : '150px' }
 
   return <motion.div
-    style={position}
+    style={{ ...position, display: 'none' }}
     animate={controls}
   >
 

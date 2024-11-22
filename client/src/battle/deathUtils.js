@@ -1,3 +1,5 @@
+import { tags } from "../helpers/cards";
+
 export const deathEffect = ({
   creature, values, board, battleEffects, setBattleEffects,
   updateBoard, reduceMonsterAttack, healHero, damageMonster,

@@ -1,7 +1,7 @@
 import { getContractByName } from "@dojoengine/core";
 import React, { createContext, useContext, useState } from "react";
 import { dojoConfig } from "../../dojo.config";
-import { getDraftCards } from "../api/indexer";
+import { getDraft } from "../api/indexer";
 import { CARD_DETAILS } from "../helpers/cards";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
@@ -44,7 +44,7 @@ export const DraftProvider = ({ children }) => {
       calldata: [dojoConfig.seasonId, '0x' + (playerName || 'Demo').split('').map(char => char.charCodeAt(0).toString(16)).join('')]
     })
 
-    const res = await dojo.executeTx(txs, isDemo)
+    const res = await dojo.executeTx(txs, isDemo, true)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -58,7 +58,7 @@ export const DraftProvider = ({ children }) => {
   const selectCard = async (optionId) => {
     setPendingCard(optionId)
 
-    const res = await dojo.executeTx([{ contractName: "draft_systems", entrypoint: "pick_card", calldata: [game.values.gameId, optionId] }], game.values.isDemo)
+    const res = await dojo.executeTx([{ contractName: "draft_systems", entrypoint: "pick_card", calldata: [game.values.gameId, optionId] }], game.values.isDemo, true)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -75,13 +75,11 @@ export const DraftProvider = ({ children }) => {
     setPendingCard()
   }
 
-  const fetchDraftCards = async (gameId, inDraft) => {
-    let data = await getDraftCards(gameId);
+  const fetchDraft = async (gameId) => {
+    let data = await getDraft(gameId);
 
-    let cards = data.map(card => CARD_DETAILS(card.cardId, card.number));
-    setDraftStats(cards);
-
-    setCards(cards.slice(0, 5).sort((a, b) => a.cost - b.cost));
+    setCards(data.cards.map(card => CARD_DETAILS(card)))
+    setOptions(data.options.map(option => CARD_DETAILS(option)))
   }
 
   return (
@@ -90,6 +88,7 @@ export const DraftProvider = ({ children }) => {
         actions: {
           startDraft,
           selectCard,
+          fetchDraft
         },
 
         getState: {
@@ -100,7 +99,7 @@ export const DraftProvider = ({ children }) => {
         },
 
         setState: {
-          setPlayerName,
+          name: setPlayerName,
         }
       }}
     >

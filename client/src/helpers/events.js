@@ -32,15 +32,15 @@ export function translateEvent(event) {
     }
 
     if (component[key] === 'Creature') {
-      let creatureValues = values.splice(index, 5)
+      let creature = values.splice(index + 1, 4)
 
       return {
         ...acc, [key]: {
-          cardId: parseInt(creatureValues[0]),
-          cost: parseInt(creatureValues[1]),
-          attack: parseInt(creatureValues[2]),
-          health: parseInt(creatureValues[3]),
-          creatureType: parseInt(creatureValues[4]),
+          cardId: parseInt(values[index]),
+          cost: parseInt(creature[0]),
+          attack: parseInt(creature[1]),
+          health: parseInt(creature[2]),
+          creatureType: parseInt(creature[3]),
         }
       }
     }

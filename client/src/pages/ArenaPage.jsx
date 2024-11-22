@@ -1,7 +1,9 @@
+import { hexToAscii } from '@dojoengine/utils'
+import { useAccount } from '@starknet-react/core'
 import { useSnackbar } from 'notistack'
 import React, { useContext, useEffect, useState } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { getActiveGame, getTreeNodes } from '../api/indexer'
+import { getActiveGame, getMap } from '../api/indexer'
 import ReconnectDialog from '../components/dialogs/reconnecting'
 import StartDraft from '../components/landing/startDraft'
 import BattleContainer from '../container/BattleContainer'
@@ -10,8 +12,7 @@ import StartBattleContainer from '../container/StartBattleContainer'
 import { BattleContext } from '../contexts/battleContext'
 import { DraftContext } from '../contexts/draftContext'
 import { GameContext } from '../contexts/gameContext'
-import { hexToAscii } from '@dojoengine/utils'
-import { useAccount } from '@starknet-react/core'
+import { generateMapNodes } from '../helpers/map'
 
 function ArenaPage() {
   const { address } = useAccount()
@@ -24,23 +25,26 @@ function ArenaPage() {
   const [reconnecting, setReconnecting] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
 
-  const fetchGameState = async (data, demo) => {
+  const fetchGameState = async (data) => {
     setReconnecting(true)
 
     try {
-      await draft.fetchDraftCards(data.game_id, data.in_draft, demo)
-      let nodes = await getTreeNodes(data.game_id, data.branch, demo)
+      await draft.actions.fetchDraft(data.game_id)
 
-      if (nodes) {
-        gameState.setNodes(nodes)
-      }
+      if (!data.in_draft) {
+        let map = await getMap(data.game_id, data.map_level)
 
-      if (data.in_battle) {
-        await battle.utils.fetchBattleState(data.active_battle_id, demo)
+        if (map) {
+          const computedMap = generateMapNodes(map.level, map.seed)
+          gameState.setMap(computedMap)
+        }
+
+        if (data.in_battle) {
+          await battle.utils.fetchBattleState(data.active_battle_id)
+        }
       }
 
       gameState.setGame({
-        isDemo: demo,
         seasonId: data.season_id,
         gameId: data.game_id,
         player: data.player,
@@ -51,12 +55,11 @@ function ArenaPage() {
         activeBattleId: data.active_battle_id,
 
         heroHealth: data.hero_health,
-        heroEnergy: data.hero_energy,
-        heroXp: data.hero_xp,
-
-        branch: data.branch,
-        nodeLevel: data.node_level,
         monstersSlain: data.monsters_slain,
+
+        mapLevel: data.map_level,
+        mapDepth: data.map_depth,
+        lastNodeId: data.last_node_id,
       })
 
       setReconnecting(false)
@@ -72,14 +75,9 @@ function ArenaPage() {
     async function checkActiveGame() {
       if (address) {
         let data = await getActiveGame(address)
+
         if (data) {
           fetchGameState(data)
-        } else if (localStorage.getItem('burner')) {
-          let demoData = await getActiveGame(JSON.parse(localStorage.getItem('burner')).address, true)
-
-          if (demoData) {
-            fetchGameState(demoData, true)
-          }
         }
       }
     }

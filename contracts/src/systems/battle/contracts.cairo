@@ -18,12 +18,15 @@ mod battle_systems {
         battle::BattleUtilsImpl,
         game::GameUtilsImpl,
         monsters::MonsterUtilsImpl,
+        hand::HandUtilsImpl,
         random
     };
 
     #[abi(embed_v0)]
     impl BattleContractImpl of super::IBattleContract<ContractState> {
         fn battle_actions(ref self: ContractState, battle_id: usize, actions: Span<Span<u8>>) {
+            assert(*(*actions.at(actions.len() - 1)).at(0) == 1, 'Must end turn');
+
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 
             let mut battle: Battle = world.read_model(battle_id);
@@ -48,7 +51,7 @@ mod battle_systems {
                             BoardUtilsImpl::add_creature_to_board(creature, ref board, ref board_stats);
                         }
 
-                        battle.remove_hand_card(*action.at(1));
+                        HandUtilsImpl::remove_hand_card(ref battle, *action.at(1));
                     },
 
                     1 => {
@@ -95,7 +98,7 @@ mod battle_systems {
                 let seed: u128 = random::get_entropy(random_hash);
                 let shuffled_deck = random::shuffle_deck(seed, battle.deck, battle.deck_index);
 
-                battle.draw_cards(shuffled_deck, 1, battle.deck_index);
+                HandUtilsImpl::draw_cards(ref battle, shuffled_deck, 1, battle.deck_index);
                 battle.deck = shuffled_deck;
 
                 world.write_model(@battle);

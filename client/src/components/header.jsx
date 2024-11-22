@@ -12,6 +12,7 @@ import { ellipseAddress } from '../helpers/utilities';
 import ChooseName from './dialogs/chooseName';
 import TutorialDialog from './dialogs/tutorial';
 import ProfileMenu from './header/profileMenu';
+import ConnectWallet from './dialogs/connectWallet';
 
 const menuItems = [
   {
@@ -33,6 +34,7 @@ function Header(props) {
   const dojo = useContext(DojoContext)
   const draft = useContext(DraftContext)
 
+  const [connectWallet, openConnectWallet] = useState(false)
   const [nameDialog, openNameDialog] = useState(false)
   const [tutorial, openTutorial] = useState(false)
 
@@ -79,7 +81,7 @@ function Header(props) {
               </Typography>}
           </Button>
 
-          : <LoadingButton loading={dojo.connecting} variant='outlined' onClick={() => connect({ connector: argent() })} size='large' startIcon={<SportsEsportsIcon />}>
+          : <LoadingButton loading={dojo.connecting} variant='outlined' onClick={() => connect({ connector: cartridgeConnector })} size='large' startIcon={<SportsEsportsIcon />}>
             <Typography color='primary'>
               Connect
             </Typography>
@@ -90,6 +92,7 @@ function Header(props) {
       <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openNameDialog={openNameDialog} />
       <ChooseName open={nameDialog} close={openNameDialog} />
       <TutorialDialog open={tutorial} close={openTutorial} />
+      <ConnectWallet open={connectWallet} close={openConnectWallet} />
     </Box>
   );
 }

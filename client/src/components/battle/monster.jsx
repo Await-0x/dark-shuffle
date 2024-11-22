@@ -9,11 +9,16 @@ import { CustomTooltip } from "../../helpers/styles";
 import DamageAnimation from '../animations/damageAnimation';
 import * as Monsters from './monsters';
 import { delay } from "../../helpers/utilities";
+import { useState } from "react";
 
 function Monster(props) {
   const animationHandler = useContext(AnimationContext)
 
   const { monster } = props
+
+  const [health, setHealth] = useState(monster.health)
+  const [damageTaken, setDamageTaken] = useState(0)
+
   const controls = useAnimationControls()
   const skullControls = useAnimationControls()
   const ref = useRef()
@@ -30,6 +35,11 @@ function Monster(props) {
     if (monster.health <= 0) {
       fadeSkull()
       skull.play()
+    }
+
+    else if (monster.health < health) {
+      setDamageTaken(health - monster.health)
+      setHealth(monster.health)
     }
   }, [monster.health])
 
@@ -77,8 +87,10 @@ function Monster(props) {
     animationHandler.animationCompleted({ type: 'monsterAttack' })
   }
 
-  let damage = animationHandler.state.animations.monsterDamaged
   let MonsterComponent = Monsters[monster.name]
+
+  const mouseUpHandler = (event) => {
+  }
 
   return <>
     <motion.div
@@ -89,7 +101,7 @@ function Monster(props) {
       style={isMobile ? { position: 'relative', width: '120px', height: '120px' } : { position: 'relative', width: '200px', height: '200px' }}
     >
 
-      {(damage && monster.health > 0) && <DamageAnimation id={'monsterDamaged'} damage={damage} />}
+      {monster.health > 0 && <DamageAnimation damage={damageTaken} />}
 
       <motion.div animate={skullControls} style={{ left: isMobile ? 'calc(50% - 60px)' : 'calc(50% - 100px)', top: 0, position: 'absolute', opacity: monster.health > 0 ? 0 : 1 }}>
         {skull.View}

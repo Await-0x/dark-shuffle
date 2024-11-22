@@ -3,11 +3,15 @@ import { motion, useAnimationControls } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
 import { isMobile } from 'react-device-detect';
 import sword from "../../assets/images/sword.png";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { AnimationContext } from '../../contexts/animationHandler';
-import { CardSize, fetch_beast_image } from '../../helpers/cards';
+import { CardSize, fetch_beast_image, fetchBeastTypeImage } from '../../helpers/cards';
 import DamageAnimation from '../animations/damageAnimation';
 import SleepAnimation from '../animations/sleepAnimation';
+import skullAnim from "../../assets/animations/skull.json";
 import Card from '../card';
+import { BattleContext } from "../../contexts/battleContext";
+import { useLottie } from "lottie-react";
 
 let mobileSize = { width: '100px', height: '100px' }
 let browserSize = { width: '120px', height: '120px' }
@@ -15,13 +19,48 @@ let browserSize = { width: '120px', height: '120px' }
 function Creature(props) {
   const { creature } = props
 
+  const battle = useContext(BattleContext)
   const animationHandler = useContext(AnimationContext)
 
   const [displayCard, setDisplayCard] = useState(null)
+  const [health, setHealth] = useState(creature.health)
+  const [damageTaken, setDamageTaken] = useState(0)
 
   const controls = useAnimationControls()
+  const skullControls = useAnimationControls()
 
-  const damage = animationHandler.damageAnimations.find(x => x.targetId === creature.id)
+  const skull = useLottie({
+    animationData: skullAnim,
+    loop: false,
+    autoplay: false,
+    style: isMobile ? mobileSize : browserSize,
+    onComplete: () => skull.stop()
+  });
+
+  const killCreature = async () => {
+    battle.utils.creatureDeathEffect(creature)
+
+    await skullControls.start({
+      opacity: 0,
+      transition: { duration: 1 }
+    })
+
+    battle.utils.setBoard(prev => prev.filter(c => c.id !== creature.id))
+  }
+
+  useEffect(() => {
+    if (creature.dead) {
+      killCreature()
+      skull.play()
+    }
+  }, [creature.dead])
+
+  useEffect(() => {
+    if (creature.health < health) {
+      setDamageTaken(health - creature.health)
+      setHealth(creature.health)
+    }
+  }, [creature.health])
 
   useEffect(() => {
     const creatureAnimation = animationHandler.creatureAnimations.find(anim => anim.creatureId === creature.id)
@@ -54,8 +93,12 @@ function Creature(props) {
   const mouseUpHandler = (event) => {
   }
 
-  return <Box sx={{ position: 'relative', opacity: creature.dead ? 0 : 1 }}>
-    <motion.div
+  return <Box sx={{ position: 'relative' }}>
+    <motion.div animate={skullControls} style={{ ...styles.browserSize, display: creature.dead ? 'inherit' : 'none' }}>
+      {skull.View}
+    </motion.div>
+
+    {!creature.dead && <motion.div
       style={isMobile ? { ...styles.mobileSize } : { ...styles.browserSize }}
       key={creature.id}
       layout
@@ -68,9 +111,13 @@ function Creature(props) {
 
       <Box sx={[isMobile ? styles.mobileSize : styles.browserSize, styles.container, creature.resting && styles.faded]}>
 
-        {creature.resting && <SleepAnimation />}
+        {creature.attacked && <SleepAnimation />}
 
-        {damage && <DamageAnimation id={damage.id} damage={damage.damage} small={true} />}
+        <DamageAnimation damage={damageTaken} small={true} />
+
+        <Box sx={styles.typeContainer}>
+          {fetchBeastTypeImage(creature.creatureType)}
+        </Box>
 
         <Box sx={styles.imageContainer}>
           <img alt='' src={fetch_beast_image(creature.name)} height={'100%'} />
@@ -82,21 +129,23 @@ function Creature(props) {
               {creature.attack}
             </Typography>
 
-            <img alt='' src={sword} height={isMobile ? 20 : 24} width={isMobile ? 20 : 24} />
+            <img alt='' src={sword} height={'18px'} width={'18px'} />
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant="h6" fontSize={isMobile && '12px'}>
               {creature.health}
             </Typography>
+
+            <FavoriteIcon htmlColor="red" fontSize={'small'} sx={{ fontSize: '18px' }} />
           </Box>
         </Box>
 
       </Box>
 
-    </motion.div>
+    </motion.div>}
 
-    {displayCard && <Box sx={styles.displayCard}>
+    {!creature.dead && displayCard && <Box sx={styles.displayCard}>
       <Card card={displayCard} />
     </Box>}
   </Box>
@@ -113,6 +162,7 @@ const styles = {
     border: '1px solid rgba(255, 255, 255, 0.6)',
     borderRadius: '4px',
     p: 1,
+    pb: '2px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -128,7 +178,8 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: '65%'
+    height: '65%',
+    mt: 0.5
   },
   bottomContainer: {
     display: 'flex',
@@ -158,5 +209,10 @@ const styles = {
   },
   highlight: {
     border: '1px solid #FFE97F !important',
+  },
+  typeContainer: {
+    position: 'absolute',
+    top: '5px',
+    right: '5px',
   }
 }

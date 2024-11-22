@@ -17,7 +17,9 @@ export default function Adventurer(props) {
   const game = useContext(GameContext)
   const animationHandler = useContext(AnimationContext)
   const battle = useContext(BattleContext)
-  const damage = animationHandler.damageAnimations.find(x => x.targetId === ADVENTURER_ID)
+
+  const [health, setHealth] = useState(battle.state.values.heroHealth)
+  const [damageTaken, setDamageTaken] = useState(0)
 
   const _shield = useLottie({
     animationData: shieldAnim,
@@ -26,6 +28,13 @@ export default function Adventurer(props) {
     style: { position: 'absolute', width: '65px', height: '65px', top: '30px', left: '67px' },
     onComplete: () => _shield.stop()
   });
+
+  useEffect(() => {
+    if (health > battle.state.values.heroHealth) {
+      setDamageTaken(health - battle.state.values.heroHealth)
+      setHealth(battle.state.values.heroHealth)
+    }
+  }, [battle.state.values.heroHealth])
 
   useEffect(() => {
     if (animationHandler.heroAnimations.length < 1) {
@@ -40,7 +49,7 @@ export default function Adventurer(props) {
   }, [animationHandler.heroAnimations])
 
   return <Box sx={styles.king}>
-    {damage && <DamageAnimation id={damage.id} damage={damage.damage} mini={true} />}
+    <DamageAnimation damage={damageTaken} mini={true} />
 
     {_shield.View}
 

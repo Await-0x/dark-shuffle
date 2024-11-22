@@ -3,17 +3,17 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import { isMobile, isBrowser } from 'react-device-detect';
 import sword from '../assets/images/sword.png';
-import { fetch_beast_image, types } from "../helpers/cards";
+import { fetch_beast_image, fetchBeastTypeImage, types } from "../helpers/cards";
 
 function SmallCard(props) {
-  const { card, showStats, cost } = props
+  const { card, showStats } = props
 
   return <Box sx={styles.container} gap={isMobile ? 0.5 : 2}>
 
     <Box sx={styles.header}>
       <Box sx={styles.circle} border={'1px solid #FFE97F'}>
         <Typography fontSize={isMobile && '12px'}>
-          {cost ?? card.cost}
+          {card.cost}
         </Typography>
       </Box>
 
@@ -82,7 +82,7 @@ const styles = {
   },
   header: {
     display: 'flex',
-    gap: 1,
+    gap: 1.5,
     alignItems: 'center'
   },
   circle: {
@@ -99,7 +99,6 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     height: '63px',
-    pb: 1,
     boxSizing: 'border-box'
   }
 }

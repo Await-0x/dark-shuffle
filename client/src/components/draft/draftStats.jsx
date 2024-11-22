@@ -33,7 +33,7 @@ function DraftStats() {
 
   return <Box sx={styles.container}>
 
-    <Box>
+    <Box width='120px'>
       <Typography variant="h6">
         Draft
       </Typography>
@@ -42,10 +42,10 @@ function DraftStats() {
       </Typography>
     </Box>
 
-    <Box pb={5}>
+    <Box pb={window.innerHeight < 700 ? 0 : 2}>
       <BarChart
         width={400}
-        height={225}
+        height={window.innerHeight < 700 ? 190 : 225}
         slotProps={{
           legend: {
             hidden: true
@@ -108,14 +108,18 @@ const styles = {
   tagContainer: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
     gap: 1,
-    height: '150px',
-    flexWrap: 'wrap'
+    height: '100%',
+    flexWrap: 'wrap',
+    width: '120px',
+    alignItems: 'center'
   },
   chip: {
     border: '1px solid #FFE97F',
     borderRadius: '12px',
     padding: '4px 12px',
-    display: 'flex'
+    display: 'flex',
+    minWidth: '80px',
   },
 }

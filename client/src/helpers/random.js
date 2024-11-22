@@ -7,11 +7,11 @@ export function getEntropy(blockHash) {
 }
 
 export function LCG(entropy) {
-  let a = 25214903917;
-  let c = 11;
-  let m = LCG_PRIME;
+  let a = BigInt(25214903917);
+  let c = BigInt(11);
+  let m = BigInt(LCG_PRIME);
 
-  return (a * entropy + c) % m;
+  return Number((a * BigInt(entropy) + c) % m);
 }
 
 export function getRandomNumber(seed, max) {

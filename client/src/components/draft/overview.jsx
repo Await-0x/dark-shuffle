@@ -93,6 +93,7 @@ const styles = {
     },
   },
   mobileDisplayCard: {
+    zIndex: 1000,
     height: CardSize.large.height,
     width: CardSize.large.width,
     position: 'fixed',
@@ -100,6 +101,7 @@ const styles = {
     top: 45,
   },
   displayCard: {
+    zIndex: 1000,
     height: CardSize.big.height,
     width: CardSize.big.width,
     position: 'fixed',

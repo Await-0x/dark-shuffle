@@ -4,17 +4,15 @@ import { GameContext } from "../../contexts/gameContext";
 import { BattleContext } from "../../contexts/battleContext";
 import { motion, useAnimationControls } from "framer-motion";
 import { isMobile, isBrowser } from 'react-device-detect'
-import { useSeason } from "../../contexts/seasonContext";
 
 function DeathDialog(props) {
   const game = useContext(GameContext)
   const battle = useContext(BattleContext)
   const controls = useAnimationControls()
-  const season = useSeason()
+
   const [text, showText] = useState(false)
 
   useEffect(() => {
-    season.fetchUnverifiedGames()
     startAnimation()
   }, [])
 
@@ -56,7 +54,7 @@ function DeathDialog(props) {
           </Typography>
 
           <Typography variant="h1" mt={1} color='primary'>
-            {game.values.heroXp}
+            {game.values.monstersSlain * 10}
           </Typography>
         </Box>
       </Box>

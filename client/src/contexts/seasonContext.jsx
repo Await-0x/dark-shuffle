@@ -14,11 +14,12 @@ export const SeasonProvider = ({ children }) => {
   useEffect(() => {
     async function fetchSeason() {
       const season = await getSeason(dojoConfig.seasonId)
+
       setValues({
-        end: parseInt(season.end),
-        start: parseInt(season.start),
-        entryFee: parseInt(season.entry_amount),
-        rewardPool: parseInt(season.reward_pool),
+        end: parseInt(season.end, 16),
+        start: parseInt(season.start, 16),
+        entryFee: parseInt(season.entry_amount, 16),
+        rewardPool: parseInt(season.reward_pool, 16),
       })
     }
 

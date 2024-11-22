@@ -1,16 +1,14 @@
-import { DojoProvider as _dojoProvider } from "@dojoengine/core";
-import { getEvents } from "@dojoengine/utils";
+import { DojoProvider as _dojoProvider, getContractByName } from "@dojoengine/core";
 import { useAccount, useConnect, useContract, useNetwork } from "@starknet-react/core";
 import { useSnackbar } from "notistack";
 import React, { createContext, useEffect, useMemo, useState } from "react";
-import { RpcProvider } from 'starknet';
+import { Account, CallData, RpcProvider } from 'starknet';
 import { dojoConfig } from "../../dojo.config";
 import EthBalanceFragment from "../abi/EthBalanceFragment.json";
 import Lords from "../abi/Lords.json";
 import { fetchBalances } from "../api/starknet";
+import { VRF_PROVIDER_ADDRESS } from "../helpers/constants";
 import { translateEvent } from "../helpers/events";
-import { Account } from "starknet";
-import { translateName } from "../helpers/components";
 
 export const DojoContext = createContext()
 
@@ -45,7 +43,7 @@ export const DojoProvider = ({ children }) => {
     }
   }, [account]);
 
-  const executeTx = async (txs, isDemo) => {
+  const executeTx = async (txs, isDemo, includeVRF) => {
     let signer = isDemo ? demoAccount : account
     let provider = isDemo ? demoDojoProvider : dojoprovider
 
@@ -54,8 +52,21 @@ export const DojoProvider = ({ children }) => {
       return
     }
 
+    if (includeVRF && !isDemo) {
+      let contractAddress = getContractByName(dojoConfig.manifest, "darkshuffle", txs[txs.length - 1].contractName)?.address
+
+      txs.unshift({
+        contractAddress: VRF_PROVIDER_ADDRESS,
+        entrypoint: 'request_random',
+        calldata: CallData.compile({
+          caller: contractAddress,
+          source: { type: 0, address: contractAddress }
+        })
+      })
+    }
+
     try {
-      const tx = await provider.execute(signer, txs, 'darkshuffle', { maxFee: 1000000000000000, version: "1" });
+      const tx = await provider.execute(signer, txs, 'darkshuffle', { version: "1" });
 
       const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
 
@@ -64,10 +75,9 @@ export const DojoProvider = ({ children }) => {
         return
       }
 
-      console.log('receipt', receipt)
       const translatedEvents = receipt.events.map(event => translateEvent(event))
       console.log('translatedEvents', translatedEvents)
-      return translatedEvents
+      return translatedEvents.filter(Boolean)
     } catch (ex) {
       console.log(ex)
       enqueueSnackbar(ex.issues ? ex.issues[0].message : 'Something went wrong', { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'right' } })

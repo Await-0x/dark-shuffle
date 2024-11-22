@@ -15,6 +15,7 @@ import { BattleContext } from '../contexts/battleContext';
 import { GameContext } from '../contexts/gameContext';
 import { CustomTooltip } from '../helpers/styles';
 import { fadeVariant } from "../helpers/variants";
+import { DECK_SIZE } from '../helpers/constants';
 
 function BattleContainer() {
   const game = useContext(GameContext)
@@ -120,7 +121,7 @@ function BattleContainer() {
               <Box sx={styles.deck}>
                 <Box sx={styles.cardCount}>
                   <Typography>
-                    {battle.state.values.deck.length - battle.state.values.deckIndex}
+                    {DECK_SIZE - (battle.state.values?.deckIndex || 0)}
                   </Typography>
                 </Box>
               </Box>

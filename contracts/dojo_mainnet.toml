@@ -1,8 +1,8 @@
 [world]
-seed = "darkshuffle"
+seed = "darkshuffle1"
 name = "Dark Shuffle"
 description = "Enter the darkness"
-website = "https://darkshuffle.dev/"
+website = "https://darkshuffle.io/"
 
 [world.socials]
 x = "https://x.com/await_0x"
@@ -10,8 +10,6 @@ github = "https://github.com/Await-0x/dark-shuffle"
 
 [namespace]
 default = "darkshuffle"
-
-[env]
 
 [writers]
 "darkshuffle" = [
@@ -21,3 +19,7 @@ default = "darkshuffle"
     "darkshuffle-draft_systems",
     "darkshuffle-map_systems",
 ]
+
+[env]
+world_address = "0x026aebd4e3bfcc55b1be2eca9f0eb2c877c2a77b8f3a887dd2a3adccc946e578"
+world_block = 919333

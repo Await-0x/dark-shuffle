@@ -36,7 +36,7 @@ impl SeasonUtilsImpl of SeasonUtilsTrait {
         while true {
             i += 1;
 
-            if i > PRIZES || previous_position.rank == 0  {
+            if i > PRIZES || previous_position.score == 0  {
                 break;
             }
             

@@ -2,7 +2,7 @@ import { tags } from "../helpers/cards";
 
 export const summonEffect = ({
   creature, values, board, battleEffects, setBattleEffects,
-  updateBoard, reduceMonsterAttack, increaseEnergy,
+  updateBoard, reduceMonsterAttack, increaseEnergy, damageMonster
 }) => {
   let updatedBattleEffects = {};
 
@@ -88,7 +88,7 @@ export const summonEffect = ({
   }
 
   else if (creature.cardId === 31) {
-    if (battle.monster_type === tags.BRUTE) {
+    if (values.monsterType === tags.BRUTE) {
       reduceMonsterAttack(1);
       updateBoard(tags.MAGICAL, 0, 1);
     }

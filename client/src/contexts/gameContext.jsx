@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { GAME_EFFECTS } from "../helpers/constants";
-import { getNodeStatus } from "../helpers/utilities";
-import { DojoContext } from "./dojoContext";
 import { generateMapNodes } from "../helpers/map";
+import { DojoContext } from "./dojoContext";
 
 export const GameContext = createContext()
 
@@ -47,7 +46,7 @@ export const GameProvider = ({ children }) => {
   }
 
   const generateMap = async () => {
-    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "generate_tree", calldata: [values.gameId] }], values.isDemo);
+    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "generate_tree", calldata: [values.gameId] }], values.isDemo, true);
 
     if (res) {
       const mapValues = res.find(e => e.componentName === 'Map')
@@ -76,10 +75,12 @@ export const GameProvider = ({ children }) => {
         endGame,
         setScore,
         setGameEffects,
+        setMap,
 
         actions: {
           generateMap,
-          updateMapStatus
+          updateMapStatus,
+          
         }
       }}
     >

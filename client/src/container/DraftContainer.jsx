@@ -190,13 +190,13 @@ const styles = {
   mainContainer: {
     width: '100%',
     height: 'calc(100% - 285px)',
+    minHeight: '420px',
     borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
     display: 'flex',
     flexDirection: 'column',
-    gap: 5,
     alignItems: 'center',
-    pt: 5,
-    pb: '150px',
+    gap: window.innerHeight < 750 ? 2 : 5,
+    pt: window.innerHeight < 750 ? 2 : 5,
     boxSizing: 'border-box'
   },
 
@@ -208,7 +208,7 @@ const styles = {
   },
 
   draftInfo: {
-    minHeight: '230px',
+    maxHeight: 'calc(100% - 475px)',
     height: '230px',
     width: '100%'
   },

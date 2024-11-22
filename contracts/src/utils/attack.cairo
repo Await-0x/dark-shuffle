@@ -1,4 +1,4 @@
-use darkshuffle::models::battle::{Battle, BattleEffects, Creature, Board, BoardStats, CreatureType};
+use darkshuffle::models::battle::{Battle, BattleEffects, Creature, BoardStats, CreatureType};
 use darkshuffle::utils::{
     battle::BattleUtilsImpl
 };
@@ -9,7 +9,6 @@ impl AttackUtilsImpl of AttackUtilsTrait {
         ref creature: Creature,
         ref battle: Battle,
         ref battle_effects: BattleEffects,
-        ref board: Board,
         board_stats: BoardStats
     ) {
         let mut extra_damage = 0;

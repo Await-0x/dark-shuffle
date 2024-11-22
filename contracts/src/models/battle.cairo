@@ -3,7 +3,6 @@ use dojo::world::WorldStorage;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use starknet::{ContractAddress, get_caller_address};
 use darkshuffle::models::game::Game;
-use darkshuffle::constants::MAX_HAND_SIZE;
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
@@ -133,46 +132,5 @@ impl BattleOwnerImpl of BattleOwnerTrait {
     fn assert_creature(self: Creature) {
         assert(self.card_id != 0, 'Creature not found');
         assert(self.health > 0, 'Creature dead');
-    }
-
-    fn remove_hand_card(mut self: Battle, card_id: u8) {
-        let mut card_removed = false;
-        let mut new_hand = array![];
-
-        let mut i = 0;
-        while i < self.hand.len() {
-            if *self.hand.at(i) == card_id && !card_removed {
-                card_removed = true;
-            } else {
-                new_hand.append(*self.hand.at(i));
-            }
-
-            i += 1;
-        };
-
-        self.hand = new_hand.span();
-    }
-
-    fn draw_cards(mut self: Battle, shuffled_deck: Span<u8>, amount: u8, skip: u8) {
-        let mut new_hand = array![];
-
-        let mut i = 0;
-        while i < self.hand.len() {
-            new_hand.append(*self.hand.at(i));
-            i += 1;
-        };
-
-        i = 0;
-        while i < amount.into() {
-            if new_hand.len() >= MAX_HAND_SIZE.into() || skip.into() + i >= shuffled_deck.len() {
-                break;
-            }
-
-            new_hand.append(*shuffled_deck.at(skip.into() + i));
-            self.deck_index += 1;
-            i += 1;
-        };
-
-        self.hand = new_hand.span();
     }
 }

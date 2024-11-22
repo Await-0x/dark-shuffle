@@ -1,13 +1,12 @@
 import { Box } from "@mui/material";
 import { motion } from "framer-motion";
 import React, { useContext, useState } from "react";
+import { isMobile } from 'react-device-detect';
 import { BattleContext } from "../../contexts/battleContext";
 import { CardSize } from "../../helpers/cards";
 import Card from "../card";
 import SmallCard from "../smallCard";
 import DraggableCard from "./draggableCard";
-import { useEffect } from "react";
-import { isMobile } from 'react-device-detect';
 
 function Hand() {
   const battle = useContext(BattleContext)

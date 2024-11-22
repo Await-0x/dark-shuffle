@@ -7,7 +7,7 @@ use darkshuffle::utils::{
 #[generate_trait]
 impl DeathUtilsImpl of DeathUtilsTrait {
     fn creature_death(
-        ref creature: Creature,
+        creature: Creature,
         ref battle: Battle,
         ref battle_effects: BattleEffects,
         ref board: Board,

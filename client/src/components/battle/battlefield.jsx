@@ -11,13 +11,12 @@ import Monster from "./monster";
 import { GET_MONSTER } from "../../battle/monsterUtils";
 
 function Battlefield(props) {
-  const animationHandler = useContext(AnimationContext)
   const game = useContext(GameContext)
   const battle = useContext(BattleContext)
 
   const monster = { ...GET_MONSTER(battle.state.values.monsterId), attack: battle.state.values.monsterAttack, health: battle.state.values.monsterHealth }
 
-  return <Box sx={styles.container} height={isMobile ? '98%' : '90%'}>
+  return <Box sx={styles.container} height={isMobile ? '98%' : '95%'}>
 
     {game.score && <DeathDialog />}
 

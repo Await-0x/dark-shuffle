@@ -1,5 +1,5 @@
-import manifest from "./manifest.json";
-import manifest_dev from "./manifest_dev.json";
+import manifest from "./manifest_sepolia.json";
+import manifest_dev from "./manifest_slot.json";
 
 const {
   VITE_PUBLIC_NODE_URL,
@@ -15,7 +15,7 @@ const {
 } = import.meta.env;
 
 export const dojoConfig = {
-  seasonId: 97,
+  seasonId: 0,
   version: "0.4.6",
   rpcUrl: VITE_PUBLIC_NODE_URL,
   toriiUrl: VITE_PUBLIC_TORII,

@@ -12,6 +12,8 @@ export const translateName = (selector) => {
       return 'Board'
     case '0x744824e25bd8d5b415e9c6ced8c275711f104d630199321aa62931e9519c61f':
       return 'Map'
+    case '0xdbeecd6ebdc49d0c7692b3576e074dfa43fcd48c6b060ca8f7379b672e390e':
+      return 'Leaderboard'
   }
 }
 
@@ -82,5 +84,13 @@ export const components = {
     gameId: Number(),
     level: Number(),
     seed: Number(),
+  },
+
+  // Season Models
+  'Leaderboard': {
+    seasonId: Number(),
+    rank: Number(),
+    player: null,
+    score: Number(),
   },
 }

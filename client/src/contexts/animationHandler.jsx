@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 
 export const AnimationContext = createContext()
 
@@ -17,7 +17,6 @@ export const AnimationHandler = ({ children }) => {
   const [monsterAnimations, setMonsterAnimations] = useState([])
   const [creatureAnimations, setCreatureAnimations] = useState([])
   const [heroAnimations, setHeroAnimations] = useState([])
-  const [damageAnimations, setDamageAnimations] = useState([])
   const [boardAnimation, setBoardAnimation] = useState([])
 
   const resetAnimationHandler = () => {
@@ -25,13 +24,11 @@ export const AnimationHandler = ({ children }) => {
     setMonsterAnimations([])
     setCreatureAnimations([])
     setHeroAnimations([])
-    setDamageAnimations([])
     setBoardAnimation([])
     setAnimations({ ...START_VALUES })
   }
 
   const addAnimation = (type, animation, animationList) => {
-    console.log(type, animation)
     animation = { id: ANIMATION_COUNTER, ...animation }
 
     switch (type) {
@@ -43,9 +40,6 @@ export const AnimationHandler = ({ children }) => {
         break
       case 'hero':
         setHeroAnimations(prev => [animation, ...prev])
-        break
-      case 'damage':
-        setDamageAnimations(prev => [animation, ...prev])
         break
       case 'board':
         setBoardAnimation(animationList)
@@ -82,7 +76,6 @@ export const AnimationHandler = ({ children }) => {
         setMonsterAnimations,
         creatureAnimations,
         setCreatureAnimations,
-        damageAnimations,
         heroAnimations,
         setHeroAnimations,
         resetAnimationHandler,

@@ -8,7 +8,7 @@ import skull from "../../assets/images/skull.png";
 import sword from "../../assets/images/sword.png";
 import { GET_MONSTER } from '../../battle/monsterUtils';
 import { GameContext } from '../../contexts/gameContext';
-import { CardSize, fetch_beast_image } from '../../helpers/cards';
+import { CardSize, fetch_beast_image, fetchBeastTypeImage } from '../../helpers/cards';
 import { CustomTooltip } from '../../helpers/styles';
 
 const INACTIVE_OPACITY = 0.5
@@ -226,7 +226,11 @@ function Structure(props) {
         </Box>
       }>
         <Box sx={[styles.monsterCircle, nodeStyle(node)]}>
-          <Box sx={{ width: '100%', height: '75%', display: 'flex', justifyContent: 'center', opacity: node.status !== 0 ? 0.5 : 1 }}>
+          <Box sx={styles.typeContainer}>
+            {fetchBeastTypeImage(monster.monsterType)}
+          </Box>
+
+          <Box sx={{ pt: '4%', width: '100%', height: '70%', display: 'flex', justifyContent: 'center', opacity: node.status !== 0 ? 0.5 : 1 }}>
             {<img alt='' src={fetch_beast_image(monster.name)} height={'100%'} />}
           </Box>
 
@@ -440,6 +444,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     p: 1,
+    pb: '4px',
     cursor: 'pointer'
   },
   smallCircle: {
@@ -482,4 +487,9 @@ const styles = {
     height: CardSize.big.height,
     width: CardSize.big.width,
   },
+  typeContainer: {
+    position: 'absolute',
+    top: '5px',
+    right: '5px',
+  }
 }

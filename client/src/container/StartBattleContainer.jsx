@@ -31,7 +31,7 @@ function StartBattleContainer() {
 
   const selectNode = async (nodeId) => {
     setSelectingNode(true)
-    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "select_node", calldata: [game.values.gameId, nodeId] }], game.values.isDemo)
+    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "select_node", calldata: [game.values.gameId, nodeId] }], game.values.isDemo, true)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
