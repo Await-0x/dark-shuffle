@@ -6,7 +6,8 @@ use darkshuffle::models::game::{Game};
 use darkshuffle::models::battle::{Battle};
 
 use darkshuffle::utils::{
-    season::SeasonUtilsImpl
+    season::SeasonUtilsImpl,
+    battle::BattleUtilsImpl
 };
 
 #[generate_trait]
@@ -35,9 +36,19 @@ impl GameUtilsImpl of GameUtilsTrait {
         game.monsters_slain += 1;
         game.in_battle = false;
         game.active_battle_id = 0;
-        game.hero_health = battle.hero_health;
         game.map_depth += 1;
 
+        if battle.monster_id == 71 || battle.monster_id == 66 || battle.monster_id == 61 {
+            BattleUtilsImpl::heal_hero(ref battle, 5);
+        } else if battle.monster_id == 56 || battle.monster_id == 51 || battle.monster_id == 46 {
+            BattleUtilsImpl::heal_hero(ref battle, 10);
+        } else if battle.monster_id == 41 || battle.monster_id == 36 || battle.monster_id == 31 {
+            BattleUtilsImpl::heal_hero(ref battle, 15);
+        } else if battle.monster_id == 26 || battle.monster_id == 21 || battle.monster_id == 16 {
+            BattleUtilsImpl::heal_hero(ref battle, 20);
+        }
+
+        game.hero_health = battle.hero_health;
         world.write_model(@game);
     }
     

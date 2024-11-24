@@ -7,7 +7,7 @@ import { GET_MONSTER } from "../battle/monsterUtils";
 import { endOfTurnMonsterEffect } from "../battle/phaseUtils";
 import { summonEffect } from "../battle/summonUtils";
 import { CARD_DETAILS, formatBoard, tags } from "../helpers/cards";
-import { ADVENTURER_ID } from "../helpers/constants";
+import { ADVENTURER_ID, MAX_HEALTH } from "../helpers/constants";
 import { AnimationContext } from "./animationHandler";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
@@ -169,7 +169,7 @@ export const BattleProvider = ({ children }) => {
 
     summonEffect({
       creature, values, board, battleEffects, setBattleEffects,
-      updateBoard, reduceMonsterAttack, increaseEnergy, damageMonster
+      updateBoard, reduceMonsterAttack, increaseEnergy, damageMonster, setValues
     })
 
     setBoard(prev => [...prev, { ...creature, id: (prev[prev.length - 1]?.id || 0) + 1 }])
@@ -228,8 +228,21 @@ export const BattleProvider = ({ children }) => {
   }
 
   // MONSTER UTILS
-  const damageMonster = (amount) => {
+  const damageMonster = (amount, creatureType) => {
     amount += battleEffects.enemyMarks
+
+    if (amount < 1) {
+      return;
+    }
+
+    if (values.monsterId == 75 && creatureType == tags.HUNTER) {
+      amount -= 1;
+    } else if (values.monsterId == 70 && creatureType == tags.MAGICAL) {
+      amount -= 1;
+    } else if (values.monsterId == 65 && creatureType == tags.BRUTE) {
+      amount -= 1;
+    }
+
     setValues(prev => ({ ...prev, monsterHealth: Math.max(0, prev.monsterHealth - amount) }));
   }
 
@@ -249,8 +262,24 @@ export const BattleProvider = ({ children }) => {
 
   // CREATURE UTILS
   const damageCreature = (creature, amount) => {
-    let newHealth = creature.health - amount
-    updateBoardCreature(creature.id, { health: newHealth, dead: newHealth < 1 })
+    if (values.monsterId == 74 && creature.creatureType == tags.HUNTER) {
+      amount += 1;
+    } else if (values.monsterId == 69 && creature.creatureType == tags.MAGICAL) {
+      amount += 1;
+    } else if (values.monsterId == 64 && creature.creatureType == tags.BRUTE) {
+      amount += 1;
+    }
+
+    if (creature.cardId == 27) {
+      amount -= 1;
+
+      if (board.filter(creature => creature.creatureType == tags.BRUTE).length > 1) {
+        amount -= 1;
+      }
+    }
+
+    creature.health -= amount;
+    updateBoardCreature(creature.id, { ...creature })
   }
 
   const creatureAttack = (creatureId) => {
@@ -258,15 +287,14 @@ export const BattleProvider = ({ children }) => {
 
     let extraDamage = attackEffect({ creature, values, board, setBattleEffects, reduceMonsterAttack, healHero })
 
-    damageMonster(creature.attack + extraDamage)
+    damageMonster(creature.attack + extraDamage, creature.creatureType)
 
     if (creature.cardId === 46) {
       creature.attack += 1;
     }
 
-    creature.health -= values.monsterAttack;
     creature.attacked = true;
-    updateBoardCreature(creature.id, { ...creature })
+    damageCreature(creature, values.monsterAttack)
   }
 
   const creatureDeathEffect = (creature) => {
@@ -288,7 +316,7 @@ export const BattleProvider = ({ children }) => {
       return;
     }
 
-    setValues(prev => ({ ...prev, heroHealth: prev.heroHealth + amount }))
+    setValues(prev => ({ ...prev, heroHealth: Math.min(MAX_HEALTH, prev.heroHealth + amount) }))
   }
 
   const damageHero = (amount) => {

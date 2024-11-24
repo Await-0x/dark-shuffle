@@ -6,6 +6,7 @@ import { CARD_DETAILS } from "../helpers/cards";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
 import { useSeason } from "./seasonContext";
+import { delay } from "../helpers/utilities";
 
 export const DraftContext = createContext()
 
@@ -57,6 +58,10 @@ export const DraftProvider = ({ children }) => {
 
   const selectCard = async (optionId) => {
     setPendingCard(optionId)
+
+    if (game.values.isDemo) {
+      await delay(500)
+    }
 
     const res = await dojo.executeTx([{ contractName: "draft_systems", entrypoint: "pick_card", calldata: [game.values.gameId, optionId] }], game.values.isDemo, true)
 

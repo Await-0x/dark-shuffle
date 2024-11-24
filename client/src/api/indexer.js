@@ -185,7 +185,7 @@ export async function getBattleState(battle_id) {
   return result;
 }
 
-export async function getLeaderboard(seasonId, page, demo) {
+export async function getLeaderboard(seasonId, page) {
   let pageSize = 10;
 
   try {
@@ -201,7 +201,7 @@ export async function getLeaderboard(seasonId, page, demo) {
       }
     }
   `
-    const res = await request(demo ? dojoConfig.demoTorii : dojoConfig.toriiUrl, document);
+    const res = await request(dojoConfig.toriiUrl, document);
 
     return res?.darkshuffleGameModels?.edges.map(edge => edge.node);
   } catch (ex) {

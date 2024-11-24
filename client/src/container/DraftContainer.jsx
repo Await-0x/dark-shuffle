@@ -20,7 +20,7 @@ function DraftContainer() {
   const [cardOverview, setCardOverview] = useState(false)
 
   const selectCard = (index) => {
-    if (pendingCard) return;
+    if (pendingCard !== undefined) return;
 
     draft.actions.selectCard(index)
   }
@@ -33,7 +33,7 @@ function DraftContainer() {
         <Box sx={styles.mobileMainContainer}>
           {options.length > 0
             ? <>
-              {pendingCard
+              {pendingCard !== undefined
                 ? <Box display={'flex'} alignItems={'baseline'}>
                   <Typography variant='h5' color='primary'>
                     Selecting Card
@@ -92,7 +92,7 @@ function DraftContainer() {
         <Box sx={styles.mainContainer}>
           {options.length > 0
             ? <>
-              {pendingCard
+              {pendingCard !== undefined
                 ? <Box display={'flex'} alignItems={'baseline'}>
                   <Typography variant='h2' color='primary'>
                     Selecting Card

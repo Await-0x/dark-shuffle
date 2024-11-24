@@ -54,7 +54,7 @@ impl DeathUtilsImpl of DeathUtilsTrait {
         }
 
         else if creature.card_id == 19 {
-            BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 2);
+            BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 2, creature.creature_type);
 
             if battle.monster_type == CreatureType::Brute {
                 BattleUtilsImpl::reduce_monster_attack(ref battle, 1);

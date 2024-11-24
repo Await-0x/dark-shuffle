@@ -26,11 +26,29 @@ impl SummonUtilsImpl of SummonUtilsTrait {
             creature.health += battle_effects.next_hunter_health_bonus;
             battle_effects.next_hunter_attack_bonus = 0;
             battle_effects.next_hunter_health_bonus = 0;
+
+            if battle.monster_id == 73 {
+                battle.monster_attack += 1;
+            } else if battle.monster_id == 72 {
+                battle.monster_health += 2;
+            }
         } else if creature.creature_type == CreatureType::Brute {
             creature.health += battle_effects.next_brute_health_bonus;
             creature.attack += battle_effects.next_brute_attack_bonus;
             battle_effects.next_brute_health_bonus = 0;
             battle_effects.next_brute_attack_bonus = 0;
+
+            if battle.monster_id == 63 {
+                battle.monster_attack += 1;
+            } else if battle.monster_id == 62 {
+                battle.monster_health += 2;
+            }
+        } else if creature.creature_type == CreatureType::Magical {
+            if battle.monster_id == 68 {
+                battle.monster_attack += 1;
+            } else if battle.monster_id == 67 {
+                battle.monster_health += 2;
+            }
         }
 
         if card.card_id == 1 {
@@ -44,7 +62,7 @@ impl SummonUtilsImpl of SummonUtilsTrait {
         else if card.card_id == 4 {
             BoardUtilsImpl::update_creatures(ref board, CreatureType::All, 2, 0);
             if battle.monster_type == CreatureType::Brute {
-                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 3);
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 3, creature.creature_type);
             }
         }
         
@@ -58,9 +76,9 @@ impl SummonUtilsImpl of SummonUtilsTrait {
         
         else if card.card_id == 9 {
             if battle.monster_type == CreatureType::Magical {
-                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 4);
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 4, creature.creature_type);
             } else {
-                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 2);
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 2, creature.creature_type);
             }
         }
 
@@ -159,7 +177,7 @@ impl SummonUtilsImpl of SummonUtilsTrait {
 
         else if card.card_id == 51 {
             if battle.monster_type == CreatureType::Magical {
-                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 1);
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 1, creature.creature_type);
             }
         }
 
@@ -189,7 +207,7 @@ impl SummonUtilsImpl of SummonUtilsTrait {
 
         else if card.card_id == 66 {
             if battle.monster_type == CreatureType::Magical {
-                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 1);
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 1, creature.creature_type);
             }
         }
 
@@ -201,7 +219,7 @@ impl SummonUtilsImpl of SummonUtilsTrait {
 
         else if card.card_id == 72 {
             if battle.monster_type == CreatureType::Hunter {
-                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 1);
+                BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, 1, creature.creature_type);
             }
         }
 

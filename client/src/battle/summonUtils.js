@@ -2,7 +2,7 @@ import { tags } from "../helpers/cards";
 
 export const summonEffect = ({
   creature, values, board, battleEffects, setBattleEffects,
-  updateBoard, reduceMonsterAttack, increaseEnergy, damageMonster
+  updateBoard, reduceMonsterAttack, increaseEnergy, damageMonster, setValues
 }) => {
   let updatedBattleEffects = {};
 
@@ -15,11 +15,29 @@ export const summonEffect = ({
     creature.health += battleEffects.nextHunterHealthBonus;
     updatedBattleEffects.nextHunterAttackBonus = 0;
     updatedBattleEffects.nextHunterHealthBonus = 0;
+
+    if (values.monsterId == 73) {
+      setValues(prev => ({ ...prev, monsterAttack: prev.monsterAttack + 1 }))
+    } else if (values.monsterId == 72) {
+      setValues(prev => ({ ...prev, monsterHealth: prev.monsterHealth + 2 }))
+    }
   } else if (creature.creatureType === tags.BRUTE) {
     creature.health += battleEffects.nextBruteHealthBonus;
     creature.attack += battleEffects.nextBruteAttackBonus;
     updatedBattleEffects.nextBruteHealthBonus = 0;
     updatedBattleEffects.nextBruteAttackBonus = 0;
+
+    if (values.monsterId == 63) {
+      setValues(prev => ({ ...prev, monsterAttack: prev.monsterAttack + 1 }))
+    } else if (values.monsterId == 62) {
+      setValues(prev => ({ ...prev, monsterHealth: prev.monsterHealth + 2 }))
+    }
+  } else if (creature.creatureType === tags.MAGICAL) {
+    if (values.monsterId == 68) {
+      setValues(prev => ({ ...prev, monsterAttack: prev.monsterAttack + 1 }))
+    } else if (values.monsterId == 67) {
+      setValues(prev => ({ ...prev, monsterHealth: prev.monsterHealth + 2 }))
+    }
   }
 
   if (creature.cardId === 1) {
@@ -34,7 +52,7 @@ export const summonEffect = ({
     updateBoard(tags.ALL, 2, 0)
 
     if (values.monsterType === tags.BRUTE) {
-      damageMonster(3);
+      damageMonster(3, creature.creatureType);
     }
   }
 
@@ -48,9 +66,9 @@ export const summonEffect = ({
 
   else if (creature.cardId === 9) {
     if (values.monsterType === tags.MAGICAL) {
-      damageMonster(4);
+      damageMonster(4, creature.creatureType);
     } else {
-      damageMonster(2);
+      damageMonster(2, creature.creatureType);
     }
   }
 
@@ -144,7 +162,7 @@ export const summonEffect = ({
 
   else if (creature.cardId === 51) {
     if (values.monsterType === tags.MAGICAL) {
-      damageMonster(1);
+      damageMonster(1, creature.creatureType);
     }
   }
 
@@ -174,7 +192,7 @@ export const summonEffect = ({
 
   else if (creature.cardId === 66) {
     if (values.monsterType === tags.MAGICAL) {
-      damageMonster(1);
+      damageMonster(1, creature.creatureType);
     }
   }
 
@@ -186,7 +204,7 @@ export const summonEffect = ({
 
   else if (creature.cardId === 72) {
     if (values.monsterType === tags.HUNTER) {
-      damageMonster(1);
+      damageMonster(1, creature.creatureType);
     }
   }
 

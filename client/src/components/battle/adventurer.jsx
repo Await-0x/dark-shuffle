@@ -8,7 +8,7 @@ import monarch from "../../assets/images/monarch.png";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
 import { GameContext } from '../../contexts/gameContext';
-import { ADVENTURER_ID, START_HEALTH } from '../../helpers/constants';
+import { ADVENTURER_ID, MAX_HEALTH, START_HEALTH } from '../../helpers/constants';
 import { CustomTooltip, EnergyBar, HealthBar, ShieldBar } from '../../helpers/styles';
 import { normalise } from '../../helpers/utilities';
 import DamageAnimation from '../animations/damageAnimation';
@@ -88,6 +88,7 @@ export default function Adventurer(props) {
 
               <Typography color="primary" variant='h6'>Health</Typography>
             </Box>
+            <Typography mt={0.5}>You can't have more than {MAX_HEALTH} health.</Typography>
             <Typography mt={0.5}>If your health reaches 0, the game ends.</Typography>
           </Box>
         }>

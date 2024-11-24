@@ -3,11 +3,10 @@ export const VRF_PROVIDER_ADDRESS = '0x051fea4450da9d6aee758bdeba88b2f665bcbf549
 export const ADVENTURER_ID = 65535;
 export const DRAFT_SIZE = 20;
 export const DECK_SIZE = 20;
-export const DISCARD_COST = 1;
 export const MAX_BOARD = 6;
 
-export const START_ENERGY = 8;
 export const START_HEALTH = 50;
+export const MAX_HEALTH = 50;
 
 export const LAST_NODE_LEVEL = 6;
 

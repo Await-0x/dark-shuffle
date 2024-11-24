@@ -47,7 +47,7 @@ export const deathEffect = ({
   }
 
   else if (creature.cardId === 19) {
-    damageMonster(2);
+    damageMonster(2, creature.creatureType);
 
     if (values.monsterType === tags.BRUTE) {
       reduceMonsterAttack(1);

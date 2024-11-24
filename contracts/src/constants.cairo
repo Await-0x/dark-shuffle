@@ -9,6 +9,7 @@ const MAX_BOARD: u8 = 6;
 const LAST_NODE_DEPTH: u8 = 6;
 
 const START_HEALTH: u8 = 50;
+const MAX_HEALTH: u8 = 50;
 
 const PRIZES: u8 = 10;
 const SEASON_DURATION_SECONDS: u32 = 1209600;

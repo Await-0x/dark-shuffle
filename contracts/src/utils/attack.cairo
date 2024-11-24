@@ -180,8 +180,8 @@ impl AttackUtilsImpl of AttackUtilsTrait {
             }
         }
 
-        BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, creature.attack + extra_damage);
-        BattleUtilsImpl::damage_creature(ref creature, board_stats, battle.monster_attack);
+        BattleUtilsImpl::damage_monster(ref battle, ref battle_effects, creature.attack + extra_damage, creature.creature_type);
+        BattleUtilsImpl::damage_creature(ref creature, board_stats, battle.monster_attack, battle.monster_id);
 
         if creature.card_id == 46 {
             creature.attack += 1;

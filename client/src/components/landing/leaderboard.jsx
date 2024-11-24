@@ -27,7 +27,7 @@ function Leaderboard() {
     async function fetchLeaderboard() {
       setLoading(true)
 
-      const data = await getLeaderboard(dojoConfig.seasonId, page - 1, tab === 'two')
+      const data = await getLeaderboard(dojoConfig.seasonId, page - 1)
 
       setLeaderboard(data ?? [])
       setLoading(false)
@@ -46,7 +46,6 @@ function Leaderboard() {
         onChange={changeLeaderboard}
       >
         <Tab value={'one'} label="Season" />
-        <Tab value={'two'} label="Demo" />
 
         <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'flex-end' }}>
           <Pagination count={10} shape="rounded" color='primary' size='small' page={page} onChange={handleChange} />
