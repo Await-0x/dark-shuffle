@@ -16,10 +16,6 @@ export const LCG_PRIME = 281474976710656;
 export const GAME_COST = 20
 export const GAME_FEE = 2
 
-export const GAME_EFFECTS = {
-
-}
-
 export const tierColors = {
   5: '#90EE90',
   4: '#FFFF00',

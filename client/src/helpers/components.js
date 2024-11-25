@@ -2,6 +2,8 @@ export const translateName = (selector) => {
   switch (selector) {
     case '0x1a3b9b6c5802b83d9a8a21a24d6472b1a47b0529b4b6c805f26f744c22a35a9':
       return 'Game'
+    case '0x1c0e9539fbce953b02e41710151458afe69463e676129a87998ab3ad86568da':
+      return 'GameEffects'
     case '0x2febb181a7f6e5196432f8079e21fb0fdacc61b9a78805402d318c49133b66e':
       return 'Draft'
     case '0x6adbb0ba14306ee0120e0aafaa59e98f44bf1b897edbfa1af89386d5ca26fe1':
@@ -33,6 +35,17 @@ export const components = {
     mapLevel: Number(),
     mapDepth: Number(),
     lastNodeId: Number(),
+  },
+  'GameEffects': {
+    gameId: Number(),
+    hunterAttack: Number(),
+    hunterHealth: Number(),
+    magicalAttack: Number(),
+    magicalHealth: Number(),
+    bruteAttack: Number(),
+    bruteHealth: Number(),
+    heroCardHeal: Boolean(),
+    cardDraw: Number(),
   },
 
   // Draft Models

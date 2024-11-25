@@ -1243,8 +1243,8 @@
   },
   "contracts": [
     {
-      "address": "0xfbdc162ff53c6f4cb9d9114f728b0b80c3bdf0c19ae0b360a80d726d43abc2",
-      "class_hash": "0x21d2d83f8bccdaeb984ab3db34669a62ec4ebe177dc6b47afba0b61665d96cd",
+      "address": "0x2004f2f9eea9ddc55f8d23a07d79f78bb1d66cd7e4ca4a76048e3c0e388f5a4",
+      "class_hash": "0x47f3af3b45232e1ee8440eff33a899b86eecf62e092ad84d820b2f7b39aa72b",
       "abi": [
         {
           "type": "impl",
@@ -2404,7 +2404,7 @@
     },
     {
       "members": [],
-      "class_hash": "0x130469bb5cb340ce51a8ca0321f3dc7f5ea67e7094232e4628d374027036f1",
+      "class_hash": "0x390188b875987a89ba050acca77e8c8876ace46849feaf2e543fb6e202c4939",
       "tag": "darkshuffle-GameEffects",
       "selector": "0x1c0e9539fbce953b02e41710151458afe69463e676129a87998ab3ad86568da"
     },

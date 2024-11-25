@@ -76,6 +76,31 @@ export async function getDraft(game_id) {
   return res?.entity.models.find(x => x.game_id)
 }
 
+export async function getGameEffects(game_id) {
+  const document = gql`
+  {
+    darkshuffleGameEffectsModels(where:{game_id:${game_id}}) {
+      edges {
+        node {
+          game_id,
+          hunter_attack,
+          hunter_health,
+          magical_attack,
+          magical_health,
+          brute_attack,
+          brute_health,
+          hero_card_heal,
+          card_draw
+        }
+      }
+    }
+  }`
+
+  const res = await request(dojoConfig.toriiUrl, document);
+
+  return res?.darkshuffleGameEffectsModels?.edges[0]?.node;
+}
+
 export async function getMap(game_id, level) {
   const document = gql`
   {

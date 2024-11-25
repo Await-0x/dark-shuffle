@@ -8,8 +8,8 @@ import monarch from "../../assets/images/monarch.png";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
 import { GameContext } from '../../contexts/gameContext';
-import { ADVENTURER_ID, MAX_HEALTH, START_HEALTH } from '../../helpers/constants';
-import { CustomTooltip, EnergyBar, HealthBar, ShieldBar } from '../../helpers/styles';
+import { MAX_HEALTH, START_HEALTH } from '../../helpers/constants';
+import { CustomTooltip, EnergyBar, HealthBar } from '../../helpers/styles';
 import { normalise } from '../../helpers/utilities';
 import DamageAnimation from '../animations/damageAnimation';
 

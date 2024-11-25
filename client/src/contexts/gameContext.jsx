@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState } from "react";
-import { GAME_EFFECTS } from "../helpers/constants";
 import { generateMapNodes } from "../helpers/map";
 import { DojoContext } from "./dojoContext";
 
@@ -15,7 +14,7 @@ export const GameProvider = ({ children }) => {
   const dojo = useContext(DojoContext)
 
   const [values, setValues] = useState({ ...GAME_VALUES })
-  const [gameEffects, setGameEffects] = useState({ ...GAME_EFFECTS })
+  const [gameEffects, setGameEffects] = useState({})
 
   const [map, setMap] = useState(null)
   const [selectingNode, setSelectingNode] = useState(false)
@@ -28,6 +27,7 @@ export const GameProvider = ({ children }) => {
 
   const endGame = () => {
     setValues({ ...GAME_VALUES })
+    setGameEffects({})
     setScore()
   }
 
@@ -63,12 +63,12 @@ export const GameProvider = ({ children }) => {
     <GameContext.Provider
       value={{
         getState: {
-          map
+          map,
+          gameEffects
         },
 
         values,
         score,
-        gameEffects,
         selectingNode,
 
         setGame,
@@ -80,7 +80,7 @@ export const GameProvider = ({ children }) => {
         actions: {
           generateMap,
           updateMapStatus,
-          
+
         }
       }}
     >

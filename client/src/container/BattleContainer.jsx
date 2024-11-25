@@ -9,13 +9,14 @@ import vortexAnim from "../assets/animations/vortex.json";
 import bolt from "../assets/images/bolt.png";
 import monarch from "../assets/images/monarch.png";
 import Battlefield from '../components/battle/battlefield';
+import GameEffects from '../components/battle/gameEffects';
 import Hand from '../components/battle/hand';
 import RestoringBattleDialog from '../components/dialogs/restoringBattle';
 import { BattleContext } from '../contexts/battleContext';
 import { GameContext } from '../contexts/gameContext';
+import { DECK_SIZE } from '../helpers/constants';
 import { CustomTooltip } from '../helpers/styles';
 import { fadeVariant } from "../helpers/variants";
-import { DECK_SIZE } from '../helpers/constants';
 
 function BattleContainer() {
   const game = useContext(GameContext)
@@ -135,9 +136,7 @@ function BattleContainer() {
 
           </Box>
 
-          <Box width={'232px'}>
-
-          </Box>
+          <GameEffects />
 
         </Box>
 
@@ -233,5 +232,5 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
-  }
+  },
 }

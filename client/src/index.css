@@ -120,6 +120,21 @@ input:-webkit-autofill {
   }
 }
 
+@keyframes animateGlowSmall {
+  0% {
+    box-shadow: rgba(255, 233, 127, 0.5) 0px 2px 8px;
+  }
+
+  50% {
+    box-shadow: rgba(255, 233, 127, 0.1) 0px 2px 8px;
+  }
+
+  100% {
+    box-shadow: rgba(255, 233, 127, 0.5) 0px 2px 8px;
+  }
+}
+
+
 .poison {
   position: fixed;
   z-index: 99;

@@ -1,4 +1,5 @@
 use darkshuffle::models::battle::{Battle, BattleEffects, Creature, Card, Board, BoardStats, CreatureType};
+use darkshuffle::models::game::GameEffects;
 use darkshuffle::utils::{
     battle::BattleUtilsImpl,
     board::BoardUtilsImpl
@@ -11,7 +12,8 @@ impl SummonUtilsImpl of SummonUtilsTrait {
         ref battle: Battle,
         ref battle_effects: BattleEffects,
         ref board: Board,
-        ref board_stats: BoardStats
+        ref board_stats: BoardStats,
+        game_effects: GameEffects
     ) -> Creature {
         let mut creature: Creature = Creature {
             card_id: card.card_id,
@@ -22,6 +24,9 @@ impl SummonUtilsImpl of SummonUtilsTrait {
         };
 
         if creature.creature_type == CreatureType::Hunter {
+            creature.attack += game_effects.hunter_attack;
+            creature.health += game_effects.hunter_health;
+
             creature.attack += battle_effects.next_hunter_attack_bonus;
             creature.health += battle_effects.next_hunter_health_bonus;
             battle_effects.next_hunter_attack_bonus = 0;
@@ -32,7 +37,11 @@ impl SummonUtilsImpl of SummonUtilsTrait {
             } else if battle.monster_id == 72 {
                 battle.monster_health += 2;
             }
+
         } else if creature.creature_type == CreatureType::Brute {
+            creature.health += game_effects.brute_health;
+            creature.attack += game_effects.brute_attack;
+
             creature.health += battle_effects.next_brute_health_bonus;
             creature.attack += battle_effects.next_brute_attack_bonus;
             battle_effects.next_brute_health_bonus = 0;
@@ -44,6 +53,9 @@ impl SummonUtilsImpl of SummonUtilsTrait {
                 battle.monster_health += 2;
             }
         } else if creature.creature_type == CreatureType::Magical {
+            creature.health += game_effects.magical_health;
+            creature.attack += game_effects.magical_attack;
+
             if battle.monster_id == 68 {
                 battle.monster_attack += 1;
             } else if battle.monster_id == 67 {

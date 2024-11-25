@@ -3,7 +3,7 @@ import { useAccount } from '@starknet-react/core'
 import { useSnackbar } from 'notistack'
 import React, { useContext, useEffect, useState } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { getActiveGame, getMap } from '../api/indexer'
+import { getActiveGame, getGameEffects, getMap } from '../api/indexer'
 import ReconnectDialog from '../components/dialogs/reconnecting'
 import StartDraft from '../components/landing/startDraft'
 import BattleContainer from '../container/BattleContainer'
@@ -41,6 +41,20 @@ function ArenaPage() {
 
         if (data.in_battle) {
           await battle.utils.fetchBattleState(data.active_battle_id)
+        }
+
+        const effects = await getGameEffects(data.game_id)
+        if (effects) {
+          gameState.setGameEffects({
+            hunterAttack: effects.hunter_attack,
+            hunterHealth: effects.hunter_health,
+            magicalAttack: effects.magical_attack,
+            magicalHealth: effects.magical_health,
+            bruteAttack: effects.brute_attack,
+            bruteHealth: effects.brute_health,
+            heroCardHeal: effects.hero_card_heal,
+            cardDraw: effects.card_draw
+          })
         }
       }
 
@@ -82,7 +96,7 @@ function ArenaPage() {
       }
     }
 
-    // checkActiveGame()
+    checkActiveGame()
   }, [address])
 
   return (

@@ -27,7 +27,14 @@ pub struct Game {
 pub struct GameEffects {   
     #[key]
     game_id: usize,
-    bonus_attack: u16
+    hunter_attack: u8,
+    hunter_health: u8,
+    magical_attack: u8,
+    magical_health: u8,
+    brute_attack: u8,
+    brute_health: u8,
+    hero_card_heal: bool,
+    card_draw: u8
 }
 
 #[generate_trait]

@@ -11,6 +11,7 @@ mod battle_systems {
 
     use darkshuffle::constants::{DEFAULT_NS};
     use darkshuffle::models::battle::{Battle, BattleOwnerTrait, Card, Creature, BattleEffects, Board, BoardStats, CardType};
+    use darkshuffle::models::game::GameEffects;
     use darkshuffle::utils::{
         summon::SummonUtilsImpl,
         cards::CardUtilsImpl,
@@ -32,6 +33,7 @@ mod battle_systems {
             let mut battle: Battle = world.read_model(battle_id);
             battle.assert_battle(world);
 
+            let mut game_effects: GameEffects = world.read_model(battle.game_id);
             let mut battle_effects: BattleEffects = world.read_model(battle_id);
             let mut board: Board = world.read_model(battle_id);
             let mut board_stats: BoardStats = BoardUtilsImpl::get_board_stats(board);
@@ -47,7 +49,7 @@ mod battle_systems {
                         BattleUtilsImpl::energy_cost(ref battle, ref battle_effects, card);
 
                         if card.card_type == CardType::Creature {
-                            let creature: Creature = SummonUtilsImpl::summon_creature(card, ref battle, ref battle_effects, ref board, ref board_stats);
+                            let creature: Creature = SummonUtilsImpl::summon_creature(card, ref battle, ref battle_effects, ref board, ref board_stats, game_effects);
                             BoardUtilsImpl::add_creature_to_board(creature, ref board, ref board_stats);
                         }
 
@@ -73,11 +75,18 @@ mod battle_systems {
             };
 
             if GameUtilsImpl::is_battle_over(battle) {
-                GameUtilsImpl::end_battle(ref world, ref battle);
+                GameUtilsImpl::end_battle(ref world, ref battle, ref game_effects);
                 return;
             };
 
-            MonsterUtilsImpl::monster_ability(ref battle, ref battle_effects);
+            let random_hash = random::get_random_hash();
+            let seed: u128 = random::get_entropy(random_hash);
+
+            if game_effects.hero_card_heal {
+                BattleUtilsImpl::heal_hero(ref battle, battle.hand.len().try_into().unwrap());
+            }
+
+            MonsterUtilsImpl::monster_ability(ref battle, ref battle_effects, seed);
             BoardUtilsImpl::clean_board(ref battle, ref battle_effects, ref board, board_stats);
 
             if battle.monster_health > 0 {
@@ -85,7 +94,7 @@ mod battle_systems {
             }
 
             if GameUtilsImpl::is_battle_over(battle) {
-                GameUtilsImpl::end_battle(ref world, ref battle);
+                GameUtilsImpl::end_battle(ref world, ref battle, ref game_effects);
             } else {
                 battle.round += 1;
                 if battle.round > 10 {  
@@ -94,11 +103,9 @@ mod battle_systems {
                     battle.hero_energy = battle.round;
                 }
 
-                let random_hash = random::get_random_hash();
-                let seed: u128 = random::get_entropy(random_hash);
                 let shuffled_deck = random::shuffle_deck(seed, battle.deck, battle.deck_index);
 
-                HandUtilsImpl::draw_cards(ref battle, shuffled_deck, 1, battle.deck_index);
+                HandUtilsImpl::draw_cards(ref battle, shuffled_deck, 1 + game_effects.card_draw, battle.deck_index);
                 battle.deck = shuffled_deck;
 
                 world.write_model(@battle);

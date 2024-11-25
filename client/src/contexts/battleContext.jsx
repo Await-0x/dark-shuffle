@@ -4,7 +4,7 @@ import { isMobile } from 'react-device-detect';
 import { attackEffect } from "../battle/attackUtils";
 import { deathEffect } from "../battle/deathUtils";
 import { GET_MONSTER } from "../battle/monsterUtils";
-import { endOfTurnMonsterEffect } from "../battle/phaseUtils";
+import { endOfTurnMonsterEffect } from "../battle/monsterAbility";
 import { summonEffect } from "../battle/summonUtils";
 import { CARD_DETAILS, formatBoard, tags } from "../helpers/cards";
 import { ADVENTURER_ID, MAX_HEALTH } from "../helpers/constants";
@@ -19,6 +19,8 @@ export const BattleContext = createContext()
 export const BattleProvider = ({ children }) => {
   const dojo = useContext(DojoContext)
   const game = useContext(GameContext)
+  const { gameEffects } = game.getState
+
   const animationHandler = useContext(AnimationContext)
 
   const { enqueueSnackbar } = useSnackbar()
@@ -92,8 +94,6 @@ export const BattleProvider = ({ children }) => {
         })
       }
     }
-
-    console.log('board', board)
   }, [turnEnded, board])
 
   useEffect(() => {
@@ -122,6 +122,7 @@ export const BattleProvider = ({ children }) => {
     }
 
     const gameValues = res.find(e => e.componentName === 'Game')
+    const gameEffects = res.find(e => e.componentName === 'GameEffects')
     const leaderboard = res.find(e => e.componentName === 'Leaderboard')
     const battleValues = res.find(e => e.componentName === 'Battle')
     const board = res.find(e => e.componentName === 'Board')
@@ -133,7 +134,7 @@ export const BattleProvider = ({ children }) => {
     }
 
     if (gameValues) {
-      setEndState({ gameValues, leaderboard })
+      setEndState({ gameValues, leaderboard, gameEffects })
     }
 
     setPendingTx(false)
@@ -141,6 +142,11 @@ export const BattleProvider = ({ children }) => {
 
   const endTurn = async () => {
     await submitBattleActions()
+
+    if (gameEffects.heroCardHeal) {
+      healHero(hand.length)
+    }
+
     setTurnEnded(true)
   }
 
@@ -168,7 +174,7 @@ export const BattleProvider = ({ children }) => {
     setValues(prev => ({ ...prev, heroEnergy: prev.heroEnergy - creature.cost }))
 
     summonEffect({
-      creature, values, board, battleEffects, setBattleEffects,
+      creature, values, board, battleEffects, setBattleEffects, gameEffects,
       updateBoard, reduceMonsterAttack, increaseEnergy, damageMonster, setValues
     })
 
@@ -193,14 +199,15 @@ export const BattleProvider = ({ children }) => {
       game.setScore(Math.max(1, endState.gameValues.monstersSlain))
     } else {
       await delay(1000)
-      game.setGame(endState.gameValues);
+      game.setGame(endState.gameValues)
+      game.setGameEffects(endState.gameEffects)
       game.actions.updateMapStatus(endState.gameValues.lastNodeId)
       resetBattleState()
     }
   }
 
   const monsterAttack = () => {
-    endOfTurnMonsterEffect({})
+    endOfTurnMonsterEffect({ values, setHand, setBoard, damageHero, hand })
 
     animationHandler.addAnimation('monster', {
       type: 'attack',

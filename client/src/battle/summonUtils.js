@@ -1,7 +1,7 @@
 import { tags } from "../helpers/cards";
 
 export const summonEffect = ({
-  creature, values, board, battleEffects, setBattleEffects,
+  creature, values, board, battleEffects, setBattleEffects, gameEffects,
   updateBoard, reduceMonsterAttack, increaseEnergy, damageMonster, setValues
 }) => {
   let updatedBattleEffects = {};
@@ -11,6 +11,9 @@ export const summonEffect = ({
   let hunterCount = board.filter(creature => creature.creatureType === tags.HUNTER).length
 
   if (creature.creatureType === tags.HUNTER) {
+    creature.attack += gameEffects.hunterAttack ?? 0;
+    creature.health += gameEffects.hunterHealth ?? 0;
+
     creature.attack += battleEffects.nextHunterAttackBonus;
     creature.health += battleEffects.nextHunterHealthBonus;
     updatedBattleEffects.nextHunterAttackBonus = 0;
@@ -22,6 +25,9 @@ export const summonEffect = ({
       setValues(prev => ({ ...prev, monsterHealth: prev.monsterHealth + 2 }))
     }
   } else if (creature.creatureType === tags.BRUTE) {
+    creature.health += gameEffects.bruteHealth ?? 0;
+    creature.attack += gameEffects.bruteAttack ?? 0;
+
     creature.health += battleEffects.nextBruteHealthBonus;
     creature.attack += battleEffects.nextBruteAttackBonus;
     updatedBattleEffects.nextBruteHealthBonus = 0;
@@ -33,6 +39,9 @@ export const summonEffect = ({
       setValues(prev => ({ ...prev, monsterHealth: prev.monsterHealth + 2 }))
     }
   } else if (creature.creatureType === tags.MAGICAL) {
+    creature.health += gameEffects.magicalHealth ?? 0;
+    creature.attack += gameEffects.magicalAttack ?? 0;
+
     if (values.monsterId == 68) {
       setValues(prev => ({ ...prev, monsterAttack: prev.monsterAttack + 1 }))
     } else if (values.monsterId == 67) {

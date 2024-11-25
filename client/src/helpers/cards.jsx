@@ -8,10 +8,10 @@ export const fetch_beast_image = (name) => {
   }
 }
 
-export const fetchBeastTypeImage = (type) => {
-  if (type === tags.MAGICAL) return <MagicalIcon color={'#ffffffe6'} />
-  if (type === tags.HUNTER) return <HunterIcon color={'#ffffffe6'} />
-  if (type === tags.BRUTE) return <BruteIcon color={'#ffffffe6'} />
+export const fetchBeastTypeImage = (type, color = '#ffffffe6') => {
+  if (type === tags.MAGICAL) return <MagicalIcon color={color} />
+  if (type === tags.HUNTER) return <HunterIcon color={color} />
+  if (type === tags.BRUTE) return <BruteIcon color={color} />
 }
 
 export const types = {
