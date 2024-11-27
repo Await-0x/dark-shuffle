@@ -46,6 +46,8 @@ mod map_systems {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 
             let mut game: Game = world.read_model(game_id);
+            game.assert_select_node();
+
             let mut map: Map = world.read_model((game_id, game.map_level));
             assert(MapUtilsImpl::node_available(game, map, node_id), 'Invalid node');
 

@@ -38,14 +38,21 @@ export const components = {
   },
   'GameEffects': {
     gameId: Number(),
+    firstAttack: Number(),
+    firstHealth: Number(),
+    firstCost: Number(),
+    allAttack: Number(),
     hunterAttack: Number(),
     hunterHealth: Number(),
     magicalAttack: Number(),
     magicalHealth: Number(),
     bruteAttack: Number(),
     bruteHealth: Number(),
+    heroDmgReduction: Number(),
     heroCardHeal: Boolean(),
     cardDraw: Number(),
+    playCreatureHeal: Number(),
+    startBonusEnergy: Number(),
   },
 
   // Draft Models

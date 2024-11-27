@@ -3,7 +3,7 @@ use dojo::world::WorldStorage;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 use darkshuffle::models::battle::{Battle, BattleEffects};
-use darkshuffle::models::game::{Game};
+use darkshuffle::models::game::{Game, GameEffects};
 use darkshuffle::models::draft::{Draft};
 use darkshuffle::models::map::{Map, MonsterNode};
 use darkshuffle::utils::random;
@@ -116,6 +116,7 @@ impl MapUtilsImpl of MapUtilsTrait {
     fn start_battle(ref world: WorldStorage, ref game: Game, monster: MonsterNode, seed: u128) {
         let battle_id = world.dispatcher.uuid();
         let draft: Draft = world.read_model(game.game_id);
+        let game_effects: GameEffects = world.read_model(game.game_id);
 
         game.in_battle = true;
         game.active_battle_id = battle_id;
@@ -129,7 +130,7 @@ impl MapUtilsImpl of MapUtilsTrait {
 
             round: 1,
             hero_health: game.hero_health,
-            hero_energy: 1,
+            hero_energy: 1 + game_effects.start_bonus_energy,
             
             monster_id: monster.monster_id,
             monster_attack: monster.attack,

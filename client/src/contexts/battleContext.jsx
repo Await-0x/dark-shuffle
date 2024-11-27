@@ -33,6 +33,7 @@ export const BattleProvider = ({ children }) => {
   const [hand, setHand] = useState([])
   const [board, setBoard] = useState([])
   const [battleEffects, setBattleEffects] = useState()
+  const [roundStats, setRoundStats] = useState({})
 
   const [actions, setActions] = useState([])
   const [turnEnded, setTurnEnded] = useState(false)
@@ -110,6 +111,7 @@ export const BattleProvider = ({ children }) => {
     setActions([])
     setTurnEnded(false)
     setEndState()
+    setRoundStats({})
   }
 
   const submitBattleActions = async () => {
@@ -147,6 +149,12 @@ export const BattleProvider = ({ children }) => {
       healHero(hand.length)
     }
 
+    setRoundStats({
+      monsterStartHealth: values.monsterHealth,
+      creaturesPlayed: 0,
+      creatureAttackCount: 0
+    })
+
     setTurnEnded(true)
   }
 
@@ -158,12 +166,15 @@ export const BattleProvider = ({ children }) => {
     setHand(battle.hand.map((card, i) => CARD_DETAILS(card, i + 1)))
     setBoard([])
     setActions([])
+    setRoundStats({})
 
     setEndState()
   }
 
   const summonCreature = (creature) => {
-    if (creature.cost > values.heroEnergy) {
+    let cost = getCardCost(creature);
+
+    if (cost > values.heroEnergy) {
       return enqueueSnackbar('Not enough energy', { variant: 'warning' })
     }
 
@@ -171,11 +182,12 @@ export const BattleProvider = ({ children }) => {
       return enqueueSnackbar('Board is full', { variant: 'warning' })
     }
 
-    setValues(prev => ({ ...prev, heroEnergy: prev.heroEnergy - creature.cost }))
+    setValues(prev => ({ ...prev, heroEnergy: prev.heroEnergy - cost }))
 
     summonEffect({
       creature, values, board, battleEffects, setBattleEffects, gameEffects,
-      updateBoard, reduceMonsterAttack, increaseEnergy, damageMonster, setValues
+      updateBoard, reduceMonsterAttack, increaseEnergy, damageMonster, setValues,
+      damageHero, healHero, roundStats, setRoundStats
     })
 
     setBoard(prev => [...prev, { ...creature, id: (prev[prev.length - 1]?.id || 0) + 1 }])
@@ -190,6 +202,7 @@ export const BattleProvider = ({ children }) => {
 
     setActions([])
     setUpdatedValues()
+    setRoundStats({})
   }
 
   const endBattle = async () => {
@@ -207,7 +220,10 @@ export const BattleProvider = ({ children }) => {
   }
 
   const monsterAttack = () => {
-    endOfTurnMonsterEffect({ values, setHand, setBoard, damageHero, hand })
+    endOfTurnMonsterEffect({
+      setValues, values, setHand, setBoard, board,
+      damageHero, hand, roundStats, damageCreature
+    })
 
     animationHandler.addAnimation('monster', {
       type: 'attack',
@@ -301,6 +317,8 @@ export const BattleProvider = ({ children }) => {
     }
 
     creature.attacked = true;
+
+    setRoundStats(prev => ({ ...prev, creatureAttackCount: prev.creatureAttackCount + 1 }))
     damageCreature(creature, values.monsterAttack)
   }
 
@@ -334,6 +352,17 @@ export const BattleProvider = ({ children }) => {
     }
 
     setValues(prev => ({ ...prev, heroHealth: Math.max(0, prev.heroHealth - amount) }))
+  }
+
+  // HAND UTILS
+  const getCardCost = (card) => {
+    let cost = card.cost
+
+    if (roundStats.creaturesPlayed < 1) {
+      cost -= gameEffects.firstCost ?? 0;
+    }
+
+    return cost
   }
 
   // POSITION UTILS
@@ -427,7 +456,8 @@ export const BattleProvider = ({ children }) => {
           getCreaturePosition,
           fetchBattleState,
           resetBattleState,
-          setBoard
+          setBoard,
+          getCardCost,
         },
 
         state: {

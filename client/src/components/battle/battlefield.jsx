@@ -14,7 +14,8 @@ function Battlefield(props) {
   const game = useContext(GameContext)
   const battle = useContext(BattleContext)
 
-  const monster = { ...GET_MONSTER(battle.state.values.monsterId), attack: battle.state.values.monsterAttack, health: battle.state.values.monsterHealth }
+  let monsterName = game.getState.map.find(node => node.nodeId === game.values.lastNodeId)?.monsterName
+  const monster = { ...GET_MONSTER(battle.state.values.monsterId, monsterName), attack: battle.state.values.monsterAttack, health: battle.state.values.monsterHealth }
 
   return <Box sx={styles.container} height={isMobile ? '98%' : '95%'}>
 

@@ -10,7 +10,7 @@ mod battle_systems {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use darkshuffle::constants::{DEFAULT_NS};
-    use darkshuffle::models::battle::{Battle, BattleOwnerTrait, Card, Creature, BattleEffects, Board, BoardStats, CardType};
+    use darkshuffle::models::battle::{Battle, BattleOwnerTrait, Card, Creature, BattleEffects, Board, BoardStats, CardType, RoundStats};
     use darkshuffle::models::game::GameEffects;
     use darkshuffle::utils::{
         summon::SummonUtilsImpl,
@@ -38,6 +38,12 @@ mod battle_systems {
             let mut board: Board = world.read_model(battle_id);
             let mut board_stats: BoardStats = BoardUtilsImpl::get_board_stats(board);
 
+            let mut round_stats: RoundStats = RoundStats {
+                monster_start_health: battle.monster_health,
+                creatures_played: 0,
+                creature_attack_count: 0
+            };
+
             let mut action_index = 0;
             while action_index < actions.len() {
                 let action = *actions.at(action_index);
@@ -46,10 +52,18 @@ mod battle_systems {
                     0 => {
                         assert(battle.card_in_hand(*action.at(1)), 'Card not in hand');
                         let card: Card = CardUtilsImpl::get_card(*action.at(1));
-                        BattleUtilsImpl::energy_cost(ref battle, ref battle_effects, card);
+                        BattleUtilsImpl::energy_cost(ref battle, ref battle_effects, round_stats, game_effects, card);
 
                         if card.card_type == CardType::Creature {
-                            let creature: Creature = SummonUtilsImpl::summon_creature(card, ref battle, ref battle_effects, ref board, ref board_stats, game_effects);
+                            let creature: Creature = SummonUtilsImpl::summon_creature(
+                                card,
+                                ref battle,
+                                ref battle_effects,
+                                ref board,
+                                ref board_stats,
+                                ref round_stats,
+                                game_effects
+                            );
                             BoardUtilsImpl::add_creature_to_board(creature, ref board, ref board_stats);
                         }
 
@@ -58,8 +72,9 @@ mod battle_systems {
 
                     1 => {
                         assert(action_index == actions.len() - 1, 'Invalid action');
-                        BoardUtilsImpl::attack_monster(ref battle, ref battle_effects, ref board, board_stats);
+                        BoardUtilsImpl::attack_monster(ref battle, ref battle_effects, ref board, board_stats, ref round_stats);
                         BoardUtilsImpl::clean_board(ref battle, ref battle_effects, ref board, board_stats);
+                        board_stats = BoardUtilsImpl::get_board_stats(board);
                     },
 
                     _ => {
@@ -74,23 +89,23 @@ mod battle_systems {
                 action_index += 1;
             };
 
+            let random_hash = random::get_random_hash();
+            let seed: u128 = random::get_entropy(random_hash);
+
             if GameUtilsImpl::is_battle_over(battle) {
                 GameUtilsImpl::end_battle(ref world, ref battle, ref game_effects);
                 return;
             };
 
-            let random_hash = random::get_random_hash();
-            let seed: u128 = random::get_entropy(random_hash);
-
             if game_effects.hero_card_heal {
                 BattleUtilsImpl::heal_hero(ref battle, battle.hand.len().try_into().unwrap());
             }
 
-            MonsterUtilsImpl::monster_ability(ref battle, ref battle_effects, seed);
+            MonsterUtilsImpl::monster_ability(ref battle, ref battle_effects, game_effects, board, board_stats, round_stats, seed);
             BoardUtilsImpl::clean_board(ref battle, ref battle_effects, ref board, board_stats);
 
             if battle.monster_health > 0 {
-                BattleUtilsImpl::damage_hero(ref battle, ref battle_effects, battle.monster_attack);
+                BattleUtilsImpl::damage_hero(ref battle, ref battle_effects, game_effects, battle.monster_attack);
             }
 
             if GameUtilsImpl::is_battle_over(battle) {

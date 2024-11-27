@@ -104,7 +104,7 @@ function Hand() {
               animate={cardStyle(i)}
               transition={{ ease: "easeOut", duration: 0.5 }}>
 
-              <SmallCard card={card} key={card.id} />
+              <SmallCard card={card} key={card.id} cost={battle.utils.getCardCost(card)} />
 
             </motion.div>
           </>

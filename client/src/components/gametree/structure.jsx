@@ -9,7 +9,7 @@ import sword from "../../assets/images/sword.png";
 import { GET_MONSTER } from '../../battle/monsterUtils';
 import { GameContext } from '../../contexts/gameContext';
 import { CardSize, fetch_beast_image, fetchBeastTypeImage } from '../../helpers/cards';
-import { CustomTooltip } from '../../helpers/styles';
+import { CustomTooltip, LargeCustomTooltip } from '../../helpers/styles';
 
 const INACTIVE_OPACITY = 0.5
 
@@ -211,10 +211,10 @@ function Structure(props) {
   }
 
   function RenderMonsterCircle(node) {
-    let monster = GET_MONSTER(node.monsterId)
+    let monster = GET_MONSTER(node.monsterId, node.monsterName)
 
     return <Box sx={styles.circleContainer}>
-      <CustomTooltip leaveDelay={300} position={'right'} title={
+      <LargeCustomTooltip leaveDelay={300} position={'right'} title={
         <Box sx={styles.tooltipContainer}>
           {monster.abilities}
 
@@ -260,7 +260,7 @@ function Structure(props) {
             <img alt='' src={skull} width={40} />
           </Box>}
         </Box>
-      </CustomTooltip>
+      </LargeCustomTooltip>
     </Box>
   }
 
@@ -479,7 +479,7 @@ const styles = {
     my: 0.5
   },
   tooltipContainer: {
-    width: '180px',
+    width: '220px',
     textAlign: 'left',
     p: 0.5
   },

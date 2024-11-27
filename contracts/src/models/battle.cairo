@@ -67,6 +67,13 @@ pub struct BoardStats {
     hunter_count: u8,
 }
 
+#[derive(Copy, Drop, Serde)]
+pub struct RoundStats {
+    monster_start_health: u8,
+    creatures_played: u8,
+    creature_attack_count: u8,
+}
+
 #[derive(Copy, Drop)]
 pub struct Card {
     card_id: u8,

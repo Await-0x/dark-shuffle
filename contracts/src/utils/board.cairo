@@ -1,4 +1,4 @@
-use darkshuffle::models::battle::{Creature, Board, Battle, BattleEffects, CreatureType, BoardStats};
+use darkshuffle::models::battle::{Creature, Board, Battle, BattleEffects, CreatureType, BoardStats, RoundStats};
 use darkshuffle::utils::{
     attack::AttackUtilsImpl,
     death::DeathUtilsImpl
@@ -54,29 +54,35 @@ impl BoardUtilsImpl of BoardUtilsTrait {
         }
     }
 
-    fn attack_monster(ref battle: Battle, ref battle_effects: BattleEffects, ref board: Board, board_stats: BoardStats) {
+    fn attack_monster(ref battle: Battle, ref battle_effects: BattleEffects, ref board: Board, board_stats: BoardStats, ref round_stats: RoundStats) {
         if board.creature1.card_id != 0 {
             AttackUtilsImpl::creature_attack(ref board.creature1, ref battle, ref battle_effects, board_stats);
+            round_stats.creature_attack_count += 1;
         }
         
         if board.creature2.card_id != 0 {
             AttackUtilsImpl::creature_attack(ref board.creature2, ref battle, ref battle_effects, board_stats);
+            round_stats.creature_attack_count += 1;
         }
 
         if board.creature3.card_id != 0 {
             AttackUtilsImpl::creature_attack(ref board.creature3, ref battle, ref battle_effects, board_stats);
+            round_stats.creature_attack_count += 1;
         }
 
         if board.creature4.card_id != 0 {
             AttackUtilsImpl::creature_attack(ref board.creature4, ref battle, ref battle_effects, board_stats);
+            round_stats.creature_attack_count += 1;
         }
 
         if board.creature5.card_id != 0 {
             AttackUtilsImpl::creature_attack(ref board.creature5, ref battle, ref battle_effects, board_stats);
+            round_stats.creature_attack_count += 1;
         }
 
         if board.creature6.card_id != 0 {
             AttackUtilsImpl::creature_attack(ref board.creature6, ref battle, ref battle_effects, board_stats);
+            round_stats.creature_attack_count += 1;
         }
     }
 
@@ -200,5 +206,35 @@ impl BoardUtilsImpl of BoardUtilsTrait {
             DeathUtilsImpl::creature_death(board.creature6, ref battle, ref battle_effects, ref board, board_stats);
             board.creature6 = Self::no_creature();
         }
+    }
+
+    fn get_strongest_creature(board: Board) -> Creature {
+        let mut strongest_creature = board.creature1;
+
+        if board.creature1.attack > strongest_creature.attack {
+            strongest_creature = board.creature1;
+        }
+
+        if board.creature2.attack > strongest_creature.attack {
+            strongest_creature = board.creature2;
+        }
+
+        if board.creature3.attack > strongest_creature.attack {
+            strongest_creature = board.creature3;
+        }
+
+        if board.creature4.attack > strongest_creature.attack {
+            strongest_creature = board.creature4;
+        }
+
+        if board.creature5.attack > strongest_creature.attack {
+            strongest_creature = board.creature5;
+        }
+
+        if board.creature6.attack > strongest_creature.attack {
+            strongest_creature = board.creature6;
+        }
+
+        strongest_creature
     }
 }

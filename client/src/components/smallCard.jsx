@@ -6,14 +6,14 @@ import sword from '../assets/images/sword.png';
 import { fetch_beast_image, fetchBeastTypeImage, types } from "../helpers/cards";
 
 function SmallCard(props) {
-  const { card, showStats } = props
+  const { card, showStats, cost } = props
 
   return <Box sx={styles.container} gap={isMobile ? 0.5 : 2}>
 
     <Box sx={styles.header}>
       <Box sx={styles.circle} border={'1px solid #FFE97F'}>
         <Typography fontSize={isMobile && '12px'}>
-          {card.cost}
+          {cost ?? card.cost}
         </Typography>
       </Box>
 

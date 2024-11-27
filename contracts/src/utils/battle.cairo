@@ -1,4 +1,5 @@
-use darkshuffle::models::battle::{Battle, BoardStats, Creature, Card, BattleEffects, BattleOwnerTrait, CardType, CreatureType};
+use darkshuffle::models::game::GameEffects;
+use darkshuffle::models::battle::{Battle, BoardStats, Creature, Card, BattleEffects, BattleOwnerTrait, CardType, CreatureType, RoundStats};
 use darkshuffle::constants::MAX_HEALTH;
 
 #[generate_trait]
@@ -15,8 +16,17 @@ impl BattleUtilsImpl of BattleUtilsTrait {
         }
     }
 
-    fn energy_cost(ref battle: Battle, ref battle_effects: BattleEffects, card: Card) {
+    fn energy_cost(ref battle: Battle, ref battle_effects: BattleEffects, round_stats: RoundStats, game_effects: GameEffects, card: Card) {
         let mut cost = card.cost;
+
+        if round_stats.creatures_played == 0 && game_effects.first_cost > 0 {
+            if game_effects.first_cost >= cost {
+                return;
+            }
+
+            cost -= game_effects.first_cost;
+        }
+
         assert(battle.hero_energy >= cost, 'Not enough energy');
         battle.hero_energy -= cost;
     }
@@ -33,12 +43,18 @@ impl BattleUtilsImpl of BattleUtilsTrait {
         battle.hero_energy += amount;
     }
 
-    fn damage_hero(ref battle: Battle, ref battle_effects: BattleEffects, amount: u8) {
+    fn damage_hero(ref battle: Battle, ref battle_effects: BattleEffects, game_effects: GameEffects, amount: u8) {
         if amount <= battle_effects.hero_dmg_reduction {
             return;
         }
 
-        let damage = amount - battle_effects.hero_dmg_reduction;
+        let mut damage = amount - battle_effects.hero_dmg_reduction;
+
+        if damage <= game_effects.hero_dmg_reduction {
+            return;
+        }
+
+        damage -= game_effects.hero_dmg_reduction;
 
         if battle.hero_health < damage {
             battle.hero_health = 0;

@@ -27,14 +27,21 @@ pub struct Game {
 pub struct GameEffects {   
     #[key]
     game_id: usize,
+    first_attack: u8,
+    first_health: u8,
+    first_cost: u8,
+    all_attack: u8,
     hunter_attack: u8,
     hunter_health: u8,
     magical_attack: u8,
     magical_health: u8,
     brute_attack: u8,
     brute_health: u8,
+    hero_dmg_reduction: u8,
     hero_card_heal: bool,
-    card_draw: u8
+    card_draw: u8,
+    play_creature_heal: u8,
+    start_bonus_energy: u8
 }
 
 #[generate_trait]
@@ -51,5 +58,12 @@ impl GameOwnerImpl of GameOwnerTrait {
         assert(!self.in_draft, 'In Draft');
         assert(!self.in_battle, 'In Battle');
         assert(self.map_depth == LAST_NODE_DEPTH, 'Tree Not Completed');
+    }
+
+    fn assert_select_node(self: Game) {
+        assert(self.player == get_caller_address(), 'Not Owner');
+        assert(self.active, 'Game over');
+        assert(!self.in_draft, 'In Draft');
+        assert(!self.in_battle, 'In Battle');
     }
 }

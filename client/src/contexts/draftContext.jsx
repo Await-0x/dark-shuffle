@@ -7,6 +7,7 @@ import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
 import { useSeason } from "./seasonContext";
 import { delay } from "../helpers/utilities";
+import { DRAFT_SIZE } from "../helpers/constants";
 
 export const DraftContext = createContext()
 
@@ -63,7 +64,7 @@ export const DraftProvider = ({ children }) => {
       await delay(500)
     }
 
-    const res = await dojo.executeTx([{ contractName: "draft_systems", entrypoint: "pick_card", calldata: [game.values.gameId, optionId] }], game.values.isDemo, true)
+    const res = await dojo.executeTx([{ contractName: "draft_systems", entrypoint: "pick_card", calldata: [game.values.gameId, optionId] }], game.values.isDemo, cards.length < DRAFT_SIZE - 1)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')

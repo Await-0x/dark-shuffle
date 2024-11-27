@@ -107,7 +107,7 @@ function Monster(props) {
         {skull.View}
       </motion.div>
 
-      {monster.health > 0 && <CustomTooltip position={'right'} title={<Box mb={1}>
+      {monster.health > 0 && <CustomTooltip position={'right'} title={<Box my={1}>
         {monster.abilities}
       </Box>}>
         <Box sx={styles.container}>

@@ -1,4 +1,4 @@
-use darkshuffle::models::battle::{Battle, BattleEffects, Creature, Card, Board, BoardStats, CreatureType};
+use darkshuffle::models::battle::{Battle, BattleEffects, Creature, Card, Board, BoardStats, CreatureType, RoundStats};
 use darkshuffle::models::game::GameEffects;
 use darkshuffle::utils::{
     battle::BattleUtilsImpl,
@@ -13,6 +13,7 @@ impl SummonUtilsImpl of SummonUtilsTrait {
         ref battle_effects: BattleEffects,
         ref board: Board,
         ref board_stats: BoardStats,
+        ref round_stats: RoundStats,
         game_effects: GameEffects
     ) -> Creature {
         let mut creature: Creature = Creature {
@@ -22,6 +23,17 @@ impl SummonUtilsImpl of SummonUtilsTrait {
             health: card.health,
             creature_type: card.creature_type,
         };
+
+        if round_stats.creatures_played == 0 {
+            creature.attack += game_effects.first_attack;
+            creature.health += game_effects.first_health;
+        }
+
+        if game_effects.play_creature_heal > 0 {
+            BattleUtilsImpl::heal_hero(ref battle, game_effects.play_creature_heal);
+        }
+
+        creature.attack += game_effects.all_attack;
 
         if creature.creature_type == CreatureType::Hunter {
             creature.attack += game_effects.hunter_attack;
@@ -241,6 +253,13 @@ impl SummonUtilsImpl of SummonUtilsTrait {
             }
         }
 
+        if battle.monster_id == 55 {
+            if creature.health > creature.attack {
+                BattleUtilsImpl::damage_hero(ref battle, ref battle_effects, game_effects, 2);
+            }
+        }
+
+        round_stats.creatures_played += 1;
         creature
     }
 }

@@ -2,6 +2,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 import cards from "../../assets/images/cards.png";
+import bolt from "../../assets/images/bolt.png";
 import { GameContext } from '../../contexts/gameContext';
 import { fetchBeastTypeImage, tags } from '../../helpers/cards';
 import { LargeCustomTooltip } from '../../helpers/styles';
@@ -11,6 +12,35 @@ export default function GameEffects() {
   const { gameEffects } = game.getState
 
   return <Box sx={styles.effectContainer} mb={1}>
+
+    {(gameEffects.allAttack > 0 || gameEffects.firstCost > 0 || gameEffects.firstAttack > 0 || gameEffects.firstHealth > 0)
+      && <LargeCustomTooltip title={
+        <Box p={0.5}>
+          <Box mb={0.5}>
+            <Typography color="primary">Beasts</Typography>
+          </Box>
+
+          {gameEffects.allAttack > 0 && <Typography sx={styles.effectText}>
+            - All beasts get +{gameEffects.allAttack} attack.
+          </Typography>}
+
+          {gameEffects.firstCost > 0 && <Typography sx={styles.effectText}>
+            - The first beast you play each turn costs {gameEffects.firstCost} less.
+          </Typography>}
+
+          {gameEffects.firstAttack > 0 && <Typography sx={styles.effectText}>
+            - The first beast you play each turn gets +{gameEffects.firstAttack} attack.
+          </Typography>}
+
+          {gameEffects.firstHealth > 0 && <Typography sx={styles.effectText}>
+            - The first beast you play each turn gets +{gameEffects.firstHealth} health.
+          </Typography>}
+        </Box>
+      }>
+        <Box sx={styles.effectCircle}>
+          <img alt='' src={bolt} height={16} />
+        </Box>
+      </LargeCustomTooltip>}
 
     {(gameEffects.magicalAttack > 0 || gameEffects.magicalHealth > 0) && <LargeCustomTooltip title={
       <Box p={0.5}>
@@ -67,23 +97,50 @@ export default function GameEffects() {
       <Box sx={styles.effectCircle}>
         <img alt='' src={cards} height={16} />
       </Box>
-    </LargeCustomTooltip>
-    }
+    </LargeCustomTooltip>}
 
-    {gameEffects.heroCardHeal && <LargeCustomTooltip title={
+    {(gameEffects.heroCardHeal || gameEffects.playCreatureHeal) && <LargeCustomTooltip title={
       <Box p={0.5}>
         <Box mb={0.5}>
           <Typography color="primary">Health</Typography>
         </Box>
 
+        {gameEffects.playCreatureHeal > 0 && <Typography sx={styles.effectText}>- Heal {gameEffects.playCreatureHeal} when you play a creature.</Typography>}
         {gameEffects.heroCardHeal && <Typography sx={styles.effectText}>- At the end of your turn, heal equal to the number of cards in your hand.</Typography>}
       </Box>
     }>
       <Box sx={styles.effectCircle}>
         <FavoriteIcon htmlColor='#ffb260' sx={{ fontSize: '16px' }} />
       </Box>
-    </LargeCustomTooltip>
-    }
+    </LargeCustomTooltip>}
+
+    {gameEffects.startBonusEnergy && <LargeCustomTooltip title={
+      <Box p={0.5}>
+        <Box mb={0.5}>
+          <Typography color="primary">Energy</Typography>
+        </Box>
+        {gameEffects.startBonusEnergy > 0 && <Typography sx={styles.effectText}>- You start with {1 + gameEffects.startBonusEnergy} energy.</Typography>}
+      </Box>
+    }>
+      <Box sx={styles.effectCircle}>
+        <img alt='' src={bolt} height={16} />
+      </Box>
+    </LargeCustomTooltip>}
+
+    {gameEffects.heroDmgReduction && <LargeCustomTooltip title={
+      <Box p={0.5}>
+        <Box mb={0.5}>
+          <Typography color="primary">Hero</Typography>
+        </Box>
+        {gameEffects.heroDmgReduction > 0 && <Typography sx={styles.effectText}>
+          - Your hero takes {gameEffects.heroDmgReduction} less damage from all sources.
+        </Typography>}
+      </Box>
+    }>
+      <Box sx={styles.effectCircle}>
+        <img alt='' src={bolt} height={16} />
+      </Box>
+    </LargeCustomTooltip>}
   </Box >
 }
 
