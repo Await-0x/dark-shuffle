@@ -21,19 +21,19 @@ export default function GameEffects() {
           </Box>
 
           {gameEffects.allAttack > 0 && <Typography sx={styles.effectText}>
-            - All beasts get +{gameEffects.allAttack} attack.
+            All beasts get +{gameEffects.allAttack} attack.
           </Typography>}
 
           {gameEffects.firstCost > 0 && <Typography sx={styles.effectText}>
-            - The first beast you play each turn costs {gameEffects.firstCost} less.
+            The first beast you play each turn costs {gameEffects.firstCost} less.
           </Typography>}
 
           {gameEffects.firstAttack > 0 && <Typography sx={styles.effectText}>
-            - The first beast you play each turn gets +{gameEffects.firstAttack} attack.
+            The first beast you play each turn gets +{gameEffects.firstAttack} attack.
           </Typography>}
 
           {gameEffects.firstHealth > 0 && <Typography sx={styles.effectText}>
-            - The first beast you play each turn gets +{gameEffects.firstHealth} health.
+            The first beast you play each turn gets +{gameEffects.firstHealth} health.
           </Typography>}
         </Box>
       }>
@@ -47,8 +47,8 @@ export default function GameEffects() {
         <Box mb={0.5}>
           <Typography color="primary">Magical Creatures</Typography>
         </Box>
-        {gameEffects.magicalAttack > 0 && <Typography sx={styles.effectText}>- Gets +{gameEffects.magicalAttack} attack when played.</Typography>}
-        {gameEffects.magicalHealth > 0 && <Typography sx={styles.effectText}>- Gets +{gameEffects.magicalHealth} health when played.</Typography>}
+        {gameEffects.magicalAttack > 0 && <Typography sx={styles.effectText}>Gets +{gameEffects.magicalAttack} attack when played.</Typography>}
+        {gameEffects.magicalHealth > 0 && <Typography sx={styles.effectText}>Gets +{gameEffects.magicalHealth} health when played.</Typography>}
       </Box>
     }>
       <Box sx={styles.effectCircle}>
@@ -61,8 +61,8 @@ export default function GameEffects() {
         <Box mb={0.5}>
           <Typography color="primary">Hunter Creatures</Typography>
         </Box>
-        {gameEffects.hunterAttack > 0 && <Typography sx={styles.effectText}>- Gets +{gameEffects.hunterAttack} attack when played.</Typography>}
-        {gameEffects.hunterHealth > 0 && <Typography sx={styles.effectText}>- Gets +{gameEffects.hunterHealth} health when played.</Typography>}
+        {gameEffects.hunterAttack > 0 && <Typography sx={styles.effectText}>Gets +{gameEffects.hunterAttack} attack when played.</Typography>}
+        {gameEffects.hunterHealth > 0 && <Typography sx={styles.effectText}>Gets +{gameEffects.hunterHealth} health when played.</Typography>}
       </Box>
     }>
       <Box sx={styles.effectCircle}>
@@ -75,11 +75,11 @@ export default function GameEffects() {
         <Box mb={0.5}>
           <Typography color="primary">Brute Creatures</Typography>
         </Box>
-        {gameEffects.bruteAttack > 0 && <Typography sx={styles.effectText}>- Gets +{gameEffects.bruteAttack} attack when played.</Typography>}
-        {gameEffects.bruteHealth > 0 && <Typography sx={styles.effectText}>- Gets +{gameEffects.bruteHealth} health when played.</Typography>}
+        {gameEffects.bruteAttack > 0 && <Typography sx={styles.effectText}>Gets +{gameEffects.bruteAttack} attack when played.</Typography>}
+        {gameEffects.bruteHealth > 0 && <Typography sx={styles.effectText}>Gets +{gameEffects.bruteHealth} health when played.</Typography>}
       </Box>
     }>
-      <Box sx={styles.effectCircle}>
+      <Box sx={styles.effectCircle} pr={0.5}>
         {fetchBeastTypeImage(tags.BRUTE, "#FFE97F")}
       </Box>
     </LargeCustomTooltip>}
@@ -90,8 +90,8 @@ export default function GameEffects() {
         <Box mb={0.5}>
           <Typography color="primary">Draw</Typography>
         </Box>
-        {gameEffects.cardDraw == 1 && <Typography sx={styles.effectText}>- You draw an extra card.</Typography>}
-        {gameEffects.cardDraw > 1 && <Typography sx={styles.effectText}>- You draw {gameEffects.cardDraw} extra cards.</Typography>}
+        {gameEffects.cardDraw == 1 && <Typography sx={styles.effectText}>You draw an extra card.</Typography>}
+        {gameEffects.cardDraw > 1 && <Typography sx={styles.effectText}>You draw {gameEffects.cardDraw} extra cards.</Typography>}
       </Box>
     }>
       <Box sx={styles.effectCircle}>
@@ -99,14 +99,14 @@ export default function GameEffects() {
       </Box>
     </LargeCustomTooltip>}
 
-    {(gameEffects.heroCardHeal || gameEffects.playCreatureHeal) && <LargeCustomTooltip title={
+    {(gameEffects.heroCardHeal > 0 || gameEffects.playCreatureHeal > 0) && <LargeCustomTooltip title={
       <Box p={0.5}>
         <Box mb={0.5}>
           <Typography color="primary">Health</Typography>
         </Box>
 
-        {gameEffects.playCreatureHeal > 0 && <Typography sx={styles.effectText}>- Heal {gameEffects.playCreatureHeal} when you play a creature.</Typography>}
-        {gameEffects.heroCardHeal && <Typography sx={styles.effectText}>- At the end of your turn, heal equal to the number of cards in your hand.</Typography>}
+        {gameEffects.playCreatureHeal > 0 && <Typography sx={styles.effectText}>Heal {gameEffects.playCreatureHeal} when you play a creature.</Typography>}
+        {gameEffects.heroCardHeal > 0 && <Typography sx={styles.effectText}>At the end of your turn, heal equal to the number of cards in your hand.</Typography>}
       </Box>
     }>
       <Box sx={styles.effectCircle}>
@@ -114,12 +114,12 @@ export default function GameEffects() {
       </Box>
     </LargeCustomTooltip>}
 
-    {gameEffects.startBonusEnergy && <LargeCustomTooltip title={
+    {gameEffects.startBonusEnergy > 0 && <LargeCustomTooltip title={
       <Box p={0.5}>
         <Box mb={0.5}>
           <Typography color="primary">Energy</Typography>
         </Box>
-        {gameEffects.startBonusEnergy > 0 && <Typography sx={styles.effectText}>- You start with {1 + gameEffects.startBonusEnergy} energy.</Typography>}
+        {gameEffects.startBonusEnergy > 0 && <Typography sx={styles.effectText}>You start with {1 + gameEffects.startBonusEnergy} energy.</Typography>}
       </Box>
     }>
       <Box sx={styles.effectCircle}>
@@ -127,13 +127,13 @@ export default function GameEffects() {
       </Box>
     </LargeCustomTooltip>}
 
-    {gameEffects.heroDmgReduction && <LargeCustomTooltip title={
+    {gameEffects.heroDmgReduction > 0 && <LargeCustomTooltip title={
       <Box p={0.5}>
         <Box mb={0.5}>
           <Typography color="primary">Hero</Typography>
         </Box>
         {gameEffects.heroDmgReduction > 0 && <Typography sx={styles.effectText}>
-          - Your hero takes {gameEffects.heroDmgReduction} less damage from all sources.
+          Your hero takes {gameEffects.heroDmgReduction} less damage from all sources.
         </Typography>}
       </Box>
     }>

@@ -35,8 +35,11 @@ function ArenaPage() {
         let map = await getMap(data.game_id, data.map_level)
 
         if (map) {
-          const computedMap = generateMapNodes(map.level, map.seed)
-          gameState.setMap(computedMap)
+          let computedMap = generateMapNodes(map.level, map.seed)
+
+          gameState.setMap(computedMap.map(node => {
+            return { ...node, active: node.parents.includes(data.last_node_id) }
+          }))
         }
 
         if (data.in_battle) {
@@ -46,14 +49,21 @@ function ArenaPage() {
         const effects = await getGameEffects(data.game_id)
         if (effects) {
           gameState.setGameEffects({
+            firstAttack: effects.first_attack,
+            firstHealth: effects.first_health,
+            firstCost: effects.first_cost,
+            allAttack: effects.all_attack,
             hunterAttack: effects.hunter_attack,
             hunterHealth: effects.hunter_health,
             magicalAttack: effects.magical_attack,
             magicalHealth: effects.magical_health,
             bruteAttack: effects.brute_attack,
             bruteHealth: effects.brute_health,
+            heroDmgReduction: effects.hero_dmg_reduction,
             heroCardHeal: effects.hero_card_heal,
-            cardDraw: effects.card_draw
+            cardDraw: effects.card_draw,
+            playCreatureHeal: effects.play_creature_heal,
+            startBonusEnergy: effects.start_bonus_energy
           })
         }
       }

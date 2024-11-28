@@ -18,10 +18,11 @@ export const DojoProvider = ({ children }) => {
 
   const { chain } = useNetwork()
   const { account, address, isConnecting } = useAccount()
-  const { connect, connectors } = useConnect();
+  const { connect, connector, connectors } = useConnect();
   const { enqueueSnackbar } = useSnackbar()
 
   const [balances, setBalances] = useState({ eth: BigInt(0), lords: BigInt(0) })
+  const [userName, setUserName] = useState()
 
   const dojoprovider = new _dojoProvider(dojoConfig.manifest, dojoConfig.rpcUrl);
 
@@ -42,6 +43,20 @@ export const DojoProvider = ({ children }) => {
       getBalances();
     }
   }, [account]);
+
+  useEffect(() => {
+    async function controllerName() {
+      try {
+        const name = await connector?.username()
+        if (name) {
+          setUserName(name)
+        }
+      } catch (error) {
+      }
+    }
+
+    controllerName()
+  }, [connector])
 
   const executeTx = async (txs, isDemo, includeVRF) => {
     let signer = isDemo ? demoAccount : account
@@ -90,6 +105,7 @@ export const DojoProvider = ({ children }) => {
         address: address,
         connecting: isConnecting,
         network: chain.network,
+        userName,
         balances,
         executeTx,
         getBalances,

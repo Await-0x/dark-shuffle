@@ -1,17 +1,18 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import { isMobile, isBrowser } from 'react-device-detect';
+import { isBrowser, isMobile } from 'react-device-detect';
 import sword from '../assets/images/sword.png';
-import { fetch_beast_image, fetchBeastTypeImage, types } from "../helpers/cards";
+import { fetch_beast_image, types } from "../helpers/cards";
 
 function SmallCard(props) {
-  const { card, showStats, cost } = props
+  const { card, showStats, cost, onHand, energy } = props
+  const playable = onHand && cost <= energy
 
-  return <Box sx={styles.container} gap={isMobile ? 0.5 : 2}>
+  return <Box sx={[styles.container]} gap={isMobile ? 0.5 : 2}>
 
     <Box sx={styles.header}>
-      <Box sx={styles.circle} border={'1px solid #FFE97F'}>
+      <Box sx={[styles.circle, { opacity: playable ? 1 : 0.5 }]} border={'1px solid #FFE97F'}>
         <Typography fontSize={isMobile && '12px'}>
           {cost ?? card.cost}
         </Typography>
@@ -64,14 +65,14 @@ const styles = {
     width: '100%',
     height: '100%',
     background: '#141920',
-    border: '1px solid rgba(255, 255, 255, 0.24)',
     borderRadius: '4px',
     p: 1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     cursor: 'pointer',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    border: '1px solid rgba(255, 255, 255, 0.24)'
   },
   imageContainer: {
     display: 'flex',
@@ -100,5 +101,8 @@ const styles = {
     alignItems: 'flex-end',
     height: '63px',
     boxSizing: 'border-box'
+  },
+  playable: {
+    border: '1px solid white',
   }
 }

@@ -2,17 +2,15 @@ import InfoIcon from '@mui/icons-material/Info';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Typography } from '@mui/material';
-import { argent, useConnect } from "@starknet-react/core";
+import { useConnect } from "@starknet-react/core";
 import React, { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
 import logo from '../assets/images/logo.svg';
 import { DojoContext } from '../contexts/dojoContext';
-import { DraftContext } from '../contexts/draftContext';
 import { ellipseAddress } from '../helpers/utilities';
-import ChooseName from './dialogs/chooseName';
+import ConnectWallet from './dialogs/connectWallet';
 import TutorialDialog from './dialogs/tutorial';
 import ProfileMenu from './header/profileMenu';
-import ConnectWallet from './dialogs/connectWallet';
 
 const menuItems = [
   {
@@ -32,10 +30,8 @@ function Header(props) {
   let cartridgeConnector = connectors.find(conn => conn.id === "controller")
 
   const dojo = useContext(DojoContext)
-  const draft = useContext(DraftContext)
 
   const [connectWallet, openConnectWallet] = useState(false)
-  const [nameDialog, openNameDialog] = useState(false)
   const [tutorial, openTutorial] = useState(false)
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -72,9 +68,9 @@ function Header(props) {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         {dojo.address
           ? <Button onClick={handleClick} startIcon={<SportsEsportsIcon />} size='large'>
-            {draft?.playerName
-              ? <Typography color='primary'>
-                {draft?.playerName}
+            {dojo.userName
+              ? <Typography color='primary' sx={{ fontSize: '12px' }}>
+                {dojo.userName.toUpperCase()}
               </Typography>
               : <Typography color='primary' sx={{ fontSize: '12px' }}>
                 {ellipseAddress(dojo.address, 4, 4)}
@@ -89,8 +85,7 @@ function Header(props) {
         }
       </Box>
 
-      <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openNameDialog={openNameDialog} />
-      <ChooseName open={nameDialog} close={openNameDialog} />
+      <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} />
       <TutorialDialog open={tutorial} close={openTutorial} />
       <ConnectWallet open={connectWallet} close={openConnectWallet} />
     </Box>

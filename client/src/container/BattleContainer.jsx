@@ -27,6 +27,7 @@ function BattleContainer() {
     loop: true
   });
 
+  const anyActionsLeft = battle.state.hand.find(card => battle.utils.getCardCost(card) <= battle.state.values.heroEnergy)
 
   if (isMobile) {
     return <Box style={styles.mobileContainer}>
@@ -40,7 +41,7 @@ function BattleContainer() {
           </Box>
           }>
             <LoadingButton variant='outlined' size='medium' sx={{ fontSize: '12px', letterSpacing: '1px' }}
-              loading={false}
+              loading={battle.state.pendingTx}
               onClick={() => battle.actions.endTurn()}
             >
               End Turn
@@ -100,8 +101,8 @@ function BattleContainer() {
               <Typography mt={0.5}>- Your creatures attack.<br />- Monster perform its ability and attack.<br />- You replenish energy.</Typography>
             </Box>
             }>
-              <LoadingButton variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '1px' }}
-                loading={false}
+              <LoadingButton variant='outlined' size='large' sx={[styles.endTurnButton, { opacity: anyActionsLeft ? 0.8 : 1, animation: anyActionsLeft ? '' : 'animateGlowSmall 2s linear infinite' }]}
+                loading={battle.state.pendingTx}
                 onClick={() => battle.actions.endTurn()}
               >
                 End Turn
@@ -117,6 +118,7 @@ function BattleContainer() {
             <CustomTooltip title={
               <Box mb={1}>
                 <Typography color="primary" variant='h6'>Deck</Typography>
+                <Typography mt={0.5}>You draw a random card at the start of each turn.</Typography>
               </Box>
             }>
               <Box sx={styles.deck}>
@@ -212,7 +214,7 @@ const styles = {
     alignItems: 'center',
     borderRadius: '4px',
     boxShadow: `rgba(255, 233, 127, 0.35) 0px 5px 15px`,
-    animation: 'animateGlow 2.5s linear infinite',
+    animation: 'animateGlowSmall 2s linear infinite',
     cursor: 'pointer'
   },
 
@@ -233,4 +235,9 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center'
   },
+
+  endTurnButton: {
+    fontSize: '16px',
+    letterSpacing: '1px',
+  }
 }

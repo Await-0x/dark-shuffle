@@ -10,10 +10,11 @@ function PreloadBeastImages(beasts) {
     {React.Children.toArray(
       beasts.map(beast =>
         <LazyLoadImage
+          style={{ position: 'fixed', top: '-1px', left: '-1px' }}
           alt={""}
-          height={0}
+          height={1}
           src={fetch_beast_image(beast.name)}
-          width={0}
+          width={1}
         />
       ))}
   </>

@@ -82,7 +82,7 @@ function Leaderboard() {
                 </Box>
 
                 <Box width='100px' textAlign={'center'}>
-                  <Typography>{player.hero_xp}</Typography>
+                  <Typography>{player.monsters_slain}</Typography>
                 </Box>
               </Box>
             </>

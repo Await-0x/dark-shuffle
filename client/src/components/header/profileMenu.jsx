@@ -1,31 +1,40 @@
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import EditIcon from '@mui/icons-material/Edit';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LogoutIcon from '@mui/icons-material/Logout';
-import PersonIcon from '@mui/icons-material/Person';
 import XIcon from '@mui/icons-material/X';
 import { Box, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
 import { useAccount, useDisconnect } from '@starknet-react/core';
 import { useSnackbar } from 'notistack';
 import React, { useContext } from 'react';
 import { DojoContext } from '../../contexts/dojoContext';
-import { DraftContext } from '../../contexts/draftContext';
 import { ellipseAddress, formatNumber } from '../../helpers/utilities';
 import EthIcon from '../ethIcon';
+import { GameContext } from '../../contexts/gameContext';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function ProfileMenu(props) {
-  const { handleClose, anchorEl, openNameDialog } = props
+  const { handleClose, anchorEl } = props
   const { address } = useAccount()
   const { disconnect } = useDisconnect()
   const { enqueueSnackbar } = useSnackbar()
 
   const dojo = useContext(DojoContext)
-  const draft = useContext(DraftContext)
+  const game = useContext(GameContext)
 
   const copyAddress = async () => {
     await navigator.clipboard.writeText(address)
     enqueueSnackbar('Address copied', { variant: 'info', autoHideDuration: 2000 })
+  }
+
+  const abandonGame = async () => {
+    await dojo.executeTx([{
+      contractName: "game_systems",
+      entrypoint: "abandon_game",
+      calldata: [game.values.gameId]
+    }])
+
+    window.location.reload();
   }
 
   return (
@@ -34,7 +43,7 @@ function ProfileMenu(props) {
         <Box width={260} mt={1} display={'flex'} flexDirection={'column'} gap={0.5}>
 
           <Box px={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'} mb={0.5}>
-            <Typography color='primary'>
+            <Typography color='primary' variant='h6'>
               Account
             </Typography>
 
@@ -58,21 +67,6 @@ function ProfileMenu(props) {
 
           <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} px={2}>
             <Box display={'flex'} alignItems={'center'} gap={2}>
-              <PersonIcon fontSize='small' />
-
-              <Typography>
-                {draft?.playerName || 'Anonymous'}
-              </Typography>
-            </Box>
-
-
-            <IconButton onClick={() => { openNameDialog(true); handleClose() }}>
-              <EditIcon fontSize='small' />
-            </IconButton>
-          </Box>
-
-          <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} px={2}>
-            <Box display={'flex'} alignItems={'center'} gap={2}>
               <AccountBalanceWalletIcon fontSize="small" />
 
               <Typography sx={{ fontSize: '12px' }}>
@@ -80,13 +74,28 @@ function ProfileMenu(props) {
               </Typography>
             </Box>
 
-            <IconButton onClick={copyAddress}>
+            <IconButton onClick={copyAddress} size='small'>
               <ContentCopyIcon fontSize="small" />
             </IconButton>
           </Box>
         </Box>
 
         <Divider sx={{ my: 1 }} />
+
+        {game.values.gameId && <>
+          <MenuItem onClick={abandonGame}>
+            <ListItemIcon>
+              <DeleteForeverIcon fontSize="small" htmlColor='#fb3a3a' />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography sx={{ color: '#fb3a3a' }}>
+                Abandon Game
+              </Typography>
+            </ListItemText>
+          </MenuItem>
+
+          <Divider sx={{ my: 2 }} />
+        </>}
 
         <MenuItem onClick={() => { window.open("https://github.com/Await-0x/dark-shuffle", "_blank"); handleClose; }}>
           <ListItemIcon>

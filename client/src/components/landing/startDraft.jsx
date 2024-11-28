@@ -8,10 +8,8 @@ import { GameContext } from '../../contexts/gameContext'
 import { useSeason } from '../../contexts/seasonContext'
 import { _styles } from '../../helpers/styles'
 import { formatTimeUntil } from '../../helpers/utilities'
-import ChooseName from '../dialogs/chooseName'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
-import { Link } from 'react-router-dom'
 
 function StartDraft() {
   const season = useSeason()
@@ -20,14 +18,8 @@ function StartDraft() {
 
   const [loading, setLoading] = useState(false)
 
-  const [nameDialog, showNameDialog] = useState(false)
-
   async function beginDraft(isDemo) {
     game.setGame({ isDemo })
-
-    if (!isDemo && !draft.getState.playerName) {
-      return showNameDialog(true)
-    }
 
     setLoading(true)
 
@@ -191,8 +183,6 @@ function StartDraft() {
 
         </Box >
       </BrowserView>
-
-      {nameDialog && <ChooseName open={nameDialog} close={() => { showNameDialog(false); beginDraft(game.values.isDemo); }} />}
     </>
   )
 }

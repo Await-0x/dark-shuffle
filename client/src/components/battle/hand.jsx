@@ -10,7 +10,7 @@ import DraggableCard from "./draggableCard";
 
 function Hand() {
   const battle = useContext(BattleContext)
-  const { hand } = battle.state
+  const { values, hand } = battle.state
 
   const [displayCard, setDisplayCard] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
@@ -104,7 +104,7 @@ function Hand() {
               animate={cardStyle(i)}
               transition={{ ease: "easeOut", duration: 0.5 }}>
 
-              <SmallCard card={card} key={card.id} cost={battle.utils.getCardCost(card)} />
+              <SmallCard card={card} key={card.id} cost={battle.utils.getCardCost(card)} onHand={true} energy={values.heroEnergy} />
 
             </motion.div>
           </>

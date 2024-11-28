@@ -1,8 +1,6 @@
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import EditIcon from '@mui/icons-material/Edit';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import MenuIcon from '@mui/icons-material/Menu';
-import PersonIcon from '@mui/icons-material/Person';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
@@ -12,9 +10,7 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { default as React, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DojoContext } from '../contexts/dojoContext';
-import { DraftContext } from '../contexts/draftContext';
 import { ellipseAddress } from '../helpers/utilities';
-import ChooseName from './dialogs/chooseName';
 
 const menuItems = [
   {
@@ -30,13 +26,9 @@ const menuItems = [
 ]
 
 function MobileHeader(props) {
-  const { connectWallet, showConnectWallet } = props
-
   const dojo = useContext(DojoContext)
-  const draft = useContext(DraftContext)
 
   const [menu, toggleMenu] = useState(false)
-  const [nameDialog, openNameDialog] = useState(false)
 
   return <Box sx={styles.mobileHeader}>
     <Box />
@@ -69,21 +61,6 @@ function MobileHeader(props) {
         <Divider />
 
         <Box>
-          <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} pr={1}>
-            <Box sx={styles.content}>
-              <PersonIcon fontSize='medium' />
-
-              <Typography variant='h6'>
-                {draft.playerName ?? 'Anonymous'}
-              </Typography>
-            </Box>
-
-
-            <IconButton onClick={() => { openNameDialog(true); handleClose() }}>
-              <EditIcon fontSize='medium' />
-            </IconButton>
-          </Box>
-
           <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} pr={1}>
             <Box sx={styles.content}>
               <AccountBalanceWalletIcon fontSize="medium" />
@@ -120,8 +97,6 @@ function MobileHeader(props) {
 
       </SwipeableDrawer>
     </Box>
-
-    <ChooseName open={nameDialog} close={openNameDialog} />
   </Box>
 }
 

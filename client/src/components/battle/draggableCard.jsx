@@ -21,6 +21,7 @@ function DraggableCard(props) {
   const ref = useRef()
 
   const battle = useContext(BattleContext)
+  const playable = battle.utils.getCardCost(values.card) <= battle.state.values.heroEnergy
 
   useEffect(() => {
     document.addEventListener('mousemove', mouseMoveHandler);
@@ -56,25 +57,21 @@ function DraggableCard(props) {
   const mouseMoveHandler = (event) => {
     ref.current.style.transform = `translate(${relX + event.pageX - values.pageX}px, ${relY + event.pageY - values.pageY}px)`;
 
-    if (event.pageY > play_threshold && event.pageX > window.innerWidth - 150) {
-      ref.current.style.opacity = 0.5
-    } else {
-      ref.current.style.opacity = 1
-    }
-
-    if (values.card.cardType === types.CREATURE) {
-      if (event.pageY < play_threshold) {
-        ref.current.style.border = '1px solid #FFE97F'
-      } else {
-        ref.current.style.border = '1px solid rgba(255, 255, 255, 0.1)'
+    if (playable) {
+      if (values.card.cardType === types.CREATURE) {
+        if (event.pageY < play_threshold) {
+          ref.current.style.border = '1px solid #FFE97F'
+        } else {
+          ref.current.style.border = '1px solid rgba(255, 255, 255, 0.1)'
+        }
       }
-    }
 
-    if (values.card.cardType === types.SPELL) {
-      if (event.pageY < play_threshold) {
-        ref.current.style.border = '1px solid #FFE97F'
-      } else {
-        ref.current.style.border = '1px solid rgba(255, 255, 255, 0.1)'
+      if (values.card.cardType === types.SPELL) {
+        if (event.pageY < play_threshold) {
+          ref.current.style.border = '1px solid #FFE97F'
+        } else {
+          ref.current.style.border = '1px solid rgba(255, 255, 255, 0.1)'
+        }
       }
     }
 
@@ -119,7 +116,14 @@ function DraggableCard(props) {
       ref={ref}
     >
 
-      <SmallCard card={card} showStats={!isMobile && card.cardType === types.CREATURE} />
+      <SmallCard
+        key={card.id}
+        card={card}
+        cost={battle.utils.getCardCost(card)}
+        onHand={true}
+        energy={battle.state.values.heroEnergy}
+        showStats={!isMobile && card.cardType === types.CREATURE}
+      />
 
     </motion.div>
   </>

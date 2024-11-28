@@ -18,7 +18,6 @@ export const DraftProvider = ({ children }) => {
 
   const [pendingCard, setPendingCard] = useState()
 
-  const [playerName, setPlayerName] = useState(localStorage.getItem('playerName') ?? '')
   const [options, setOptions] = useState([])
   const [cards, setCards] = useState([])
 
@@ -43,7 +42,7 @@ export const DraftProvider = ({ children }) => {
     txs.push({
       contractName: "game_systems",
       entrypoint: "start_game",
-      calldata: [dojoConfig.seasonId, '0x' + (playerName || 'Demo').split('').map(char => char.charCodeAt(0).toString(16)).join('')]
+      calldata: [dojoConfig.seasonId, '0x' + (dojo.userName || 'Demo').split('').map(char => char.charCodeAt(0).toString(16)).join('')]
     })
 
     const res = await dojo.executeTx(txs, isDemo, true)
@@ -101,12 +100,7 @@ export const DraftProvider = ({ children }) => {
           cards,
           options,
           pendingCard,
-          playerName,
         },
-
-        setState: {
-          name: setPlayerName,
-        }
       }}
     >
       {children}

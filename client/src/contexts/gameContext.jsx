@@ -33,6 +33,10 @@ export const GameProvider = ({ children }) => {
 
   const updateMapStatus = (nodeId) => {
     setMap(prev => prev.map(node => {
+      if (node.active && node.status !== 1 && node.nodeId !== nodeId) {
+        return { ...node, active: false }
+      }
+
       if (node.nodeId === nodeId) {
         return { ...node, status: 1, active: false }
       }

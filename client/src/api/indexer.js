@@ -83,14 +83,21 @@ export async function getGameEffects(game_id) {
       edges {
         node {
           game_id,
+          first_attack,
+          first_health,
+          first_cost,
+          all_attack,
           hunter_attack,
           hunter_health,
           magical_attack,
           magical_health,
           brute_attack,
           brute_health,
+          hero_dmg_reduction,
           hero_card_heal,
-          card_draw
+          card_draw,
+          play_creature_heal,
+          start_bonus_energy
         }
       }
     }

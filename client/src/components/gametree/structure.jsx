@@ -9,7 +9,7 @@ import sword from "../../assets/images/sword.png";
 import { GET_MONSTER } from '../../battle/monsterUtils';
 import { GameContext } from '../../contexts/gameContext';
 import { CardSize, fetch_beast_image, fetchBeastTypeImage } from '../../helpers/cards';
-import { CustomTooltip, LargeCustomTooltip } from '../../helpers/styles';
+import { LargeCustomTooltip } from '../../helpers/styles';
 
 const INACTIVE_OPACITY = 0.5
 
@@ -19,6 +19,7 @@ function Structure(props) {
   const { map } = game.getState
   const [tree, buildTree] = useState([])
   const scrollbarRef = useRef(null);
+  const [permanentTooltip, setPermanentTooltip] = useState(false)
 
   const scrollContainer = () => {
     if (scrollbarRef.current) {
@@ -214,18 +215,18 @@ function Structure(props) {
     let monster = GET_MONSTER(node.monsterId, node.monsterName)
 
     return <Box sx={styles.circleContainer}>
-      <LargeCustomTooltip leaveDelay={300} position={'right'} title={
+      <LargeCustomTooltip leaveDelay={(permanentTooltip === node.nodeId && node.active) ? 100000 : 300} position={'right'} title={
         <Box sx={styles.tooltipContainer}>
           {monster.abilities}
 
           {node.active && <Box sx={{ mt: 2 }}>
-            <LoadingButton loading={props.selectingNode} fullWidth variant='outlined' onClick={() => props.selectNode(node.nodeId, 'battle')} sx={{ fontSize: '14px', letterSpacing: '1px', textTransform: 'none' }}>
+            <LoadingButton loading={props.selectingNode} fullWidth variant='outlined' onClick={() => { setPermanentTooltip(node.nodeId); props.selectNode(node.nodeId, 'battle') }} sx={{ fontSize: '14px', letterSpacing: '1px', textTransform: 'none' }}>
               Battle
             </LoadingButton>
           </Box>}
         </Box>
       }>
-        <Box sx={[styles.monsterCircle, nodeStyle(node)]}>
+        <Box sx={[styles.monsterCircle, nodeStyle(node), (permanentTooltip === node.nodeId && node.active) && { boxShadow: '0 0 5px 1px rgba(255, 255, 255, 0.7)' }]} onClick={() => setPermanentTooltip(prev => { if (prev === node.nodeId) return; return node.nodeId })}>
           <Box sx={styles.typeContainer}>
             {fetchBeastTypeImage(monster.monsterType)}
           </Box>
@@ -266,7 +267,7 @@ function Structure(props) {
 
   function RenderConnectedNode(node) {
     return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {RenderConnector(node, 'vertical', (node.nodeId === map[0].nodeId && tree.length > 1 && node.type !== 'monster') ? 1 : 0, { height: '50px' })}
+      {RenderConnector(node, 'vertical', 0, { height: '50px' })}
       {RenderType(node, 'connected')}
     </Box>
   }

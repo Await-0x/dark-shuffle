@@ -64,6 +64,7 @@ export default function Adventurer(props) {
               <Typography color="primary" variant='h6'>Energy</Typography>
             </Box>
             <Typography mt={0.5}>Cards require energy to play.</Typography>
+            <Typography mt={0.5}>You replenish energy at the start of each turn.</Typography>
           </Box>
         }>
           <Box width={'80px'} display={'flex'} alignItems={'center'} justifyContent={'flex-end'}>
