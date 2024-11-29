@@ -9,6 +9,9 @@ import { CardSize, fetch_beast_image, fetchBeastTypeImage } from '../../helpers/
 import DamageAnimation from '../animations/damageAnimation';
 import SleepAnimation from '../animations/sleepAnimation';
 import skullAnim from "../../assets/animations/skull.json";
+import healAnim from "../../assets/animations/heal.json";
+import attackBonusAnim from "../../assets/animations/attack_bonus.json";
+import attackMinusAnim from "../../assets/animations/attack_minus.json";
 import Card from '../card';
 import { BattleContext } from "../../contexts/battleContext";
 import { useLottie } from "lottie-react";
@@ -24,7 +27,9 @@ function Creature(props) {
 
   const [displayCard, setDisplayCard] = useState(null)
   const [health, setHealth] = useState(creature.health)
+  const [attack, setAttack] = useState(creature.attack)
   const [damageTaken, setDamageTaken] = useState(0)
+  const [showAttackMinus, setShowAttackMinus] = useState(false)
 
   const controls = useAnimationControls()
   const skullControls = useAnimationControls()
@@ -35,6 +40,30 @@ function Creature(props) {
     autoplay: false,
     style: isMobile ? mobileSize : browserSize,
     onComplete: () => skull.stop()
+  });
+
+  const heal = useLottie({
+    animationData: healAnim,
+    loop: false,
+    autoplay: false,
+    style: { width: '50px', height: '50px', position: 'absolute', right: '-7px', bottom: '-8px' },
+    onComplete: () => heal.stop()
+  });
+
+  const attackMinus = useLottie({
+    animationData: attackMinusAnim,
+    loop: false,
+    autoplay: false,
+    style: { width: '30px', height: '30px', position: 'absolute', left: '18px', bottom: '1px', opacity: showAttackMinus ? 1 : 0 },
+    onComplete: () => setShowAttackMinus(false)
+  });
+
+  const attackPlus = useLottie({
+    animationData: attackBonusAnim,
+    loop: false,
+    autoplay: false,
+    style: { width: '60px', height: '60px', position: 'absolute', left: '30px', bottom: '30px' },
+    onComplete: () => attackPlus.stop()
   });
 
   const killCreature = async () => {
@@ -60,7 +89,25 @@ function Creature(props) {
       setDamageTaken(health - creature.health)
       setHealth(creature.health)
     }
+
+    if (creature.health > health) {
+      heal.play()
+      setHealth(creature.health)
+    }
   }, [creature.health])
+
+  useEffect(() => {
+    if (creature.attack < attack) {
+      setShowAttackMinus(true)
+      attackMinus.play()
+      setAttack(creature.attack)
+    }
+
+    if (creature.attack > attack) {
+      attackPlus.play()
+      setAttack(creature.attack)
+    }
+  }, [creature.attack])
 
   useEffect(() => {
     const creatureAnimation = animationHandler.creatureAnimations.find(anim => anim.creatureId === creature.id)
@@ -112,6 +159,10 @@ function Creature(props) {
       <Box sx={[isMobile ? styles.mobileSize : styles.browserSize, styles.container, creature.resting && styles.faded]}>
 
         {creature.attacked && <SleepAnimation />}
+
+        {heal.View}
+        {attackMinus.View}
+        {attackPlus.View}
 
         <DamageAnimation damage={damageTaken} small={true} />
 

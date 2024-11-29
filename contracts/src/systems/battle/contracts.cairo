@@ -9,7 +9,7 @@ mod battle_systems {
     use dojo::world::WorldStorage;
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
-    use darkshuffle::constants::{DEFAULT_NS};
+    use darkshuffle::constants::{DEFAULT_NS, MAX_ENERGY};
     use darkshuffle::models::battle::{Battle, BattleOwnerTrait, Card, Creature, BattleEffects, Board, BoardStats, CardType, RoundStats};
     use darkshuffle::models::game::GameEffects;
     use darkshuffle::utils::{
@@ -112,8 +112,8 @@ mod battle_systems {
                 GameUtilsImpl::end_battle(ref world, ref battle, ref game_effects);
             } else {
                 battle.round += 1;
-                if battle.round > 10 {  
-                    battle.hero_energy = 10;
+                if battle.round > MAX_ENERGY {
+                    battle.hero_energy = MAX_ENERGY;
                 } else {
                     battle.hero_energy = battle.round;
                 }

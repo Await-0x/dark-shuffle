@@ -21,22 +21,22 @@ const getMonsterAbilities = (monsterId) => {
     case 75:
       return formatAbility({
         effect: "Skeleton takes one less damage from Hunters.",
-        reward: "Your Hunters get +1 attack when played."
+        reward: "Your Magical beasts get +1 attack when played."
       })
     case 74:
       return formatAbility({
         effect: "Orc deals one extra damage to Hunters.",
-        reward: "Your Hunters get +1 health when played."
+        reward: "Your Magical beasts get +1 health when played."
       })
     case 73:
       return formatAbility({
         effect: "Gains +1 attack each time a Hunter is played.",
-        reward: "Your Hunters get +1 attack when played."
+        reward: "Your Magical beasts get +1 attack when played."
       })
     case 72:
       return formatAbility({
         effect: "Gains +2 health each time a Hunter is played.",
-        reward: "Your Hunters get +1 health when played."
+        reward: "Your Magical beasts get +1 health when played."
       })
     case 71:
       return formatAbility({
@@ -45,22 +45,22 @@ const getMonsterAbilities = (monsterId) => {
     case 70:
       return formatAbility({
         effect: "Rat takes one less damage from Magical beasts.",
-        reward: "Your Magical beasts get +1 attack when played."
+        reward: "Your Brutes get +1 attack when played."
       })
     case 69:
       return formatAbility({
         effect: "Spider deals one extra damage to Magical beasts.",
-        reward: "Your Magical beasts get +1 health when played."
+        reward: "Your Brutes get +1 health when played."
       })
     case 68:
       return formatAbility({
         effect: "Gains +1 attack each time a Magical beast is played.",
-        reward: "Your Magical beasts get +1 attack when played."
+        reward: "Your Brutes get +1 attack when played."
       })
     case 67:
       return formatAbility({
         effect: "Gains +2 health each time a Magical beast is played.",
-        reward: "Your Magical beasts get +1 health when played."
+        reward: "Your Brutes get +1 health when played."
       })
     case 66:
       return formatAbility({
@@ -69,22 +69,22 @@ const getMonsterAbilities = (monsterId) => {
     case 65:
       return formatAbility({
         effect: "Gnome takes one less damage from Brutes.",
-        reward: "Your Brutes get +1 attack when played."
+        reward: "Your Hunters get +1 attack when played."
       })
     case 64:
       return formatAbility({
         effect: "Pixie deals one extra damage to Brutes.",
-        reward: "Your Brutes get +1 health when played."
+        reward: "Your Hunters get +1 health when played."
       })
     case 63:
       return formatAbility({
         effect: "Kelpie gains +1 attack each time a Brute is played.",
-        reward: "Your Brutes get +1 attack when played."
+        reward: "Your Hunters get +1 attack when played."
       })
     case 62:
       return formatAbility({
         effect: "Leprechaun gains +2 health each time a Brute is played.",
-        reward: "Your Brutes get +1 health when played."
+        reward: "Your Hunters get +1 health when played."
       })
     case 61:
       return formatAbility({
@@ -93,7 +93,7 @@ const getMonsterAbilities = (monsterId) => {
     case 60:
       return formatAbility({
         effect: "Ent gains +1 attack each time a Brute is played.",
-        reward: "Your Brutes get +1 attack when played."
+        reward: "Your Hunters get +1 attack when played."
       })
     case 59:
       return formatAbility({
@@ -212,7 +212,7 @@ const getMonsterAbilities = (monsterId) => {
     case 3:
       return formatAbility({
         effect: "Jiangshi starts with +1 attack and +1 health for each Brute in your deck.",
-        reward: "Your brutes get +2 attack and +2 health when played."
+        reward: "Your Hunters get +2 attack and +2 health when played."
       })
     case 2:
       return formatAbility({

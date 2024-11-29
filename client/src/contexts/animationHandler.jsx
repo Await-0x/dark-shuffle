@@ -16,14 +16,12 @@ export const AnimationHandler = ({ children }) => {
 
   const [monsterAnimations, setMonsterAnimations] = useState([])
   const [creatureAnimations, setCreatureAnimations] = useState([])
-  const [heroAnimations, setHeroAnimations] = useState([])
   const [boardAnimation, setBoardAnimation] = useState([])
 
   const resetAnimationHandler = () => {
     setCompleted([])
     setMonsterAnimations([])
     setCreatureAnimations([])
-    setHeroAnimations([])
     setBoardAnimation([])
     setAnimations({ ...START_VALUES })
   }
@@ -37,9 +35,6 @@ export const AnimationHandler = ({ children }) => {
         break
       case 'monster':
         setMonsterAnimations(prev => [animation, ...prev])
-        break
-      case 'hero':
-        setHeroAnimations(prev => [animation, ...prev])
         break
       case 'board':
         setBoardAnimation(animationList)
@@ -76,8 +71,6 @@ export const AnimationHandler = ({ children }) => {
         setMonsterAnimations,
         creatureAnimations,
         setCreatureAnimations,
-        heroAnimations,
-        setHeroAnimations,
         resetAnimationHandler,
         boardAnimation,
       }}

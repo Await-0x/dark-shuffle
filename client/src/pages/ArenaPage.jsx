@@ -79,6 +79,7 @@ function ArenaPage() {
         activeBattleId: data.active_battle_id,
 
         heroHealth: data.hero_health,
+        heroXp: data.hero_xp,
         monstersSlain: data.monsters_slain,
 
         mapLevel: data.map_level,

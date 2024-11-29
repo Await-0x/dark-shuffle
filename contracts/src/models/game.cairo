@@ -15,6 +15,7 @@ pub struct Game {
     active_battle_id: usize,
 
     hero_health: u8,
+    hero_xp: u16,
     monsters_slain: u16,
 
     map_level: u8,

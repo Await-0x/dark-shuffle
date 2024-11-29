@@ -26,7 +26,7 @@ function HeroStats(props) {
       </Typography>
 
       <Typography color='primary' sx={{ fontSize: '13px' }}>
-        {game.values.monstersSlain} XP
+        {game.values.heroXp} XP
       </Typography>
     </Box>
 

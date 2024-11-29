@@ -1243,8 +1243,8 @@
   },
   "contracts": [
     {
-      "address": "0x4258306413b0f0e5be8d107424bb54958af473b4e8b716e505f0289bcc5b376",
-      "class_hash": "0x4730f28440f16f32a53989764177df18e67a3aba0dce26e19a1474f26c22cdc",
+      "address": "0x2aa256bb2f6208896ad1c828436a24fcab68933f3502e012f8793c3742aad91",
+      "class_hash": "0x1e301cd02b5f66446b37bf3756d28c6955fef806cb4854a48772f95de776f64",
       "abi": [
         {
           "type": "impl",
@@ -1467,8 +1467,8 @@
       ]
     },
     {
-      "address": "0x38be8a1a2b4f6f4dd57fc0c73201ec9ff7a43deca0cb574f8c8d545191b5015",
-      "class_hash": "0x2094e4b64a3fcc5d04162354634a6f6afceaa80074bb55ad02ad15c093e3614",
+      "address": "0x18e43eec4f5fa2f8cbd39f59ddaa8dd50df46ac5da58c634df0cc106a288eb0",
+      "class_hash": "0x55bbaaf5c031b1eb77797969af1aaf78d69db14668b69428a29e21eea6f29f7",
       "abi": [
         {
           "type": "impl",
@@ -1671,8 +1671,8 @@
       ]
     },
     {
-      "address": "0x77fa6a7071fb0b946358325b45685d5afd2d6879fbdeb153da4bce847d42450",
-      "class_hash": "0x1a263aaf54c87d0303e7e8a09199b03b1f6b79a6f94080170aade95169d0818",
+      "address": "0x18c0a5730800011d2f5a5535d6d0d32784d4f7ef1f66e85984ce7beb235a8b",
+      "class_hash": "0x5114ab3a4cb98ccb47ca5e22006be68ca304cfbc0d84b3d49d9b4795f0a62c9",
       "abi": [
         {
           "type": "impl",
@@ -1888,8 +1888,8 @@
       ]
     },
     {
-      "address": "0x60a80ab35b40984c000e1d44c7d382961c051ab6c0564f534fb167813dfe792",
-      "class_hash": "0x78c8fd156e70dcaae3b38be158491304288e81d5dd14d9cafdefd85ab7f7eb2",
+      "address": "0x296951dd6f864c081cd1a4198e83ec84f539aed61eaf4ebefbddb488e69a002",
+      "class_hash": "0xcf5ede19910d93f58368699f4e893ceb3c745ba28e9cc8f5f60b7b8e657af9",
       "abi": [
         {
           "type": "impl",
@@ -2398,7 +2398,7 @@
     },
     {
       "members": [],
-      "class_hash": "0x6e55c8b1a3e7e7ed68babea5678f1018922637c21313033c9568c9c03b9ba17",
+      "class_hash": "0x73f55c5414f41e434ae1550d70aa5321a6ba47b0b2003a2d1d44cd37e28adb2",
       "tag": "darkshuffle-Game",
       "selector": "0x1a3b9b6c5802b83d9a8a21a24d6472b1a47b0529b4b6c805f26f744c22a35a9"
     },

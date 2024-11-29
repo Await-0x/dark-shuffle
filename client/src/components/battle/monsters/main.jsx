@@ -37,7 +37,7 @@ export default function MonsterMain(props) {
           {monster.health}
         </Typography>
 
-        <FavoriteIcon htmlColor="red" fontSize={isMobile ? 'small' : 'inherit'} />
+        <FavoriteIcon htmlColor="red" fontSize={isMobile ? 'small' : 'small'} />
       </Box>
     </Box>
   </>

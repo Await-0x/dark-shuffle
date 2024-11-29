@@ -43,6 +43,7 @@ export async function getActiveGame(address) {
           in_battle,
           active_battle_id,
           hero_health,
+          hero_xp,
           monsters_slain,
           map_level,
           map_depth,
@@ -223,11 +224,11 @@ export async function getLeaderboard(seasonId, page) {
   try {
     const document = gql`
     {
-      darkshuffleGameModels (where: {active: false, season_id: ${seasonId}}, order:{field:MONSTERS_SLAIN, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+      darkshuffleGameModels (where: {active: false, season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
         edges {
           node {
             player_name,
-            monsters_slain
+            hero_xp
           }
         }
       }

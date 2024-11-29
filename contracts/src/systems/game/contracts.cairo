@@ -64,6 +64,7 @@ mod game_systems {
                 active_battle_id: 0,
 
                 hero_health: START_HEALTH,
+                hero_xp: 1,
                 monsters_slain: 0,
 
                 map_level: 0,

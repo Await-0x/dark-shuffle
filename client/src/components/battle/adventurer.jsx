@@ -5,19 +5,22 @@ import React, { useContext, useEffect, useState } from "react";
 import shieldAnim from "../../assets/animations/shield.json";
 import bolt from "../../assets/images/bolt.png";
 import monarch from "../../assets/images/monarch.png";
+import shield from "../../assets/images/shield.png";
 import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
 import { GameContext } from '../../contexts/gameContext';
-import { MAX_HEALTH, START_HEALTH } from '../../helpers/constants';
+import { MAX_ENERGY, MAX_HEALTH, START_HEALTH } from '../../helpers/constants';
 import { CustomTooltip, EnergyBar, HealthBar } from '../../helpers/styles';
 import { normalise } from '../../helpers/utilities';
 import DamageAnimation from '../animations/damageAnimation';
+import healAnim from "../../assets/animations/heal.json";
 
 export default function Adventurer(props) {
   const game = useContext(GameContext)
   const animationHandler = useContext(AnimationContext)
   const battle = useContext(BattleContext)
 
+  const [armor, setArmor] = useState(battle.state.battleEffects.heroDmgReduction ?? 0 + game.getState.gameEffects.heroDmgReduction ?? 0)
   const [health, setHealth] = useState(battle.state.values.heroHealth)
   const [damageTaken, setDamageTaken] = useState(0)
 
@@ -25,8 +28,16 @@ export default function Adventurer(props) {
     animationData: shieldAnim,
     loop: false,
     autoplay: false,
-    style: { position: 'absolute', width: '65px', height: '65px', top: '30px', left: '67px' },
+    style: { position: 'absolute', width: '50px', height: '50px', top: '45px', left: '75px' },
     onComplete: () => _shield.stop()
+  });
+
+  const heal = useLottie({
+    animationData: healAnim,
+    loop: false,
+    autoplay: false,
+    style: { position: 'absolute', width: '100px', height: '100px', top: '20px', left: '50px' },
+    onComplete: () => heal.stop()
   });
 
   useEffect(() => {
@@ -34,24 +45,25 @@ export default function Adventurer(props) {
       setDamageTaken(health - battle.state.values.heroHealth)
       setHealth(battle.state.values.heroHealth)
     }
+
+    if (health < battle.state.values.heroHealth) {
+      heal.play()
+      setHealth(battle.state.values.heroHealth)
+    }
   }, [battle.state.values.heroHealth])
 
   useEffect(() => {
-    if (animationHandler.heroAnimations.length < 1) {
-      return
-    }
-    const animation = animationHandler.heroAnimations[0]
-
-    if (animation.type === 'shield') {
+    if (battle.state.battleEffects.heroDmgReduction ?? 0 + game.getState.gameEffects.heroDmgReduction ?? 0 > armor) {
       _shield.play()
-      animationHandler.setHeroAnimations(prev => prev.filter(x => x.type !== 'shield'))
+      setArmor(battle.state.battleEffects.heroDmgReduction ?? 0 + game.getState.gameEffects.heroDmgReduction ?? 0)
     }
-  }, [animationHandler.heroAnimations])
+  }, [battle.state.battleEffects.heroDmgReduction])
 
   return <Box sx={styles.king}>
     <DamageAnimation damage={damageTaken} mini={true} />
 
     {_shield.View}
+    {heal.View}
 
     <img alt='' src={monarch} height={'70%'} />
 
@@ -76,9 +88,13 @@ export default function Adventurer(props) {
           </Box>
         </CustomTooltip>
 
-        <Box width={'160px'} ml={0.5} mr={'60px'} position={'relative'}>
+        <Box width={'160px'} mx={0.5}>
           <EnergyBar variant="determinate" value={normalise(battle.state.values.heroEnergy, battle.state.values.round)} />
         </Box>
+
+        <Typography mr={'50px'} sx={{ fontSize: '13px', opacity: 0.7 }}>
+          +{Math.min(MAX_ENERGY, battle.state.values.round + 1)}
+        </Typography>
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
@@ -102,9 +118,17 @@ export default function Adventurer(props) {
           </Box>
         </CustomTooltip>
 
-        <Box width={'160px'} ml={0.5} mr={'60px'}>
+        <Box width={'160px'} ml={0.5}>
           <HealthBar variant="determinate" value={normalise(battle.state.values.heroHealth, Math.max(START_HEALTH, game.values.heroHealth))} />
         </Box>
+
+        {armor > 0 && <Box display={'flex'} alignItems={'center'} ml={0.5}>
+          <Typography>
+            {armor}
+          </Typography>
+
+          <img alt='' src={shield} height={16} />
+        </Box>}
       </Box>
     </Box>
 

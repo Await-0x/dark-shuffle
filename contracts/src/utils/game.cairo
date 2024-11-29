@@ -4,10 +4,12 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 use darkshuffle::models::game::{Game, GameEffects};
 use darkshuffle::models::battle::{Battle};
+use darkshuffle::models::map::{Map, MonsterNode};
 
 use darkshuffle::utils::{
     season::SeasonUtilsImpl,
-    battle::BattleUtilsImpl
+    battle::BattleUtilsImpl,
+    map::MapUtilsImpl
 };
 
 #[generate_trait]
@@ -21,37 +23,42 @@ impl GameUtilsImpl of GameUtilsTrait {
     }
 
     fn end_battle(ref world: WorldStorage, ref battle: Battle, ref game_effects: GameEffects) {
+        let mut game: Game = world.read_model((battle.game_id));
+        let map: Map = world.read_model((game.game_id, game.map_level));
+        let monster_node: MonsterNode = MapUtilsImpl::get_monster_node(map, game.last_node_id);
+
         if battle.hero_health == 0 {
-            Self::battle_lost(ref world, ref battle);
+            Self::battle_lost(ref world, ref battle, ref game, monster_node);
         } else if battle.monster_health == 0 {
-            Self::battle_won(ref world, ref battle, ref game_effects);
+            Self::battle_won(ref world, ref battle, ref game_effects, ref game, monster_node);
         }
 
         world.write_model(@battle);
     }
 
-    fn battle_won(ref world: WorldStorage, ref battle: Battle, ref game_effects: GameEffects) {
+    fn battle_won(ref world: WorldStorage, ref battle: Battle, ref game_effects: GameEffects, ref game: Game, monster_node: MonsterNode) {
         Self::add_monster_reward(ref game_effects, ref battle);
-
-        let mut game: Game = world.read_model((battle.game_id));
 
         game.monsters_slain += 1;
         game.in_battle = false;
         game.active_battle_id = 0;
         game.map_depth += 1;
         game.hero_health = battle.hero_health;
+        game.hero_xp += monster_node.health.into();
 
         world.write_model(@game);
         world.write_model(@game_effects);
     }
     
-    fn battle_lost(ref world: WorldStorage, ref battle: Battle) {
-        let mut game: Game = world.read_model((battle.game_id));
-
+    fn battle_lost(ref world: WorldStorage, ref battle: Battle, ref game: Game, monster_node: MonsterNode) {
         game.in_battle = false;
         game.active = false;
         game.active_battle_id = 0;
         game.hero_health = 0;
+
+        if monster_node.health > battle.monster_health {
+            game.hero_xp += (monster_node.health - battle.monster_health).into();
+        }
 
         SeasonUtilsImpl::score_game(ref world, game);
         world.write_model(@game);
@@ -67,8 +74,8 @@ impl GameUtilsImpl of GameUtilsTrait {
         }
 
         else if battle.monster_id == 3 {
-            game_effects.brute_health += 2;
-            game_effects.brute_attack += 2;
+            game_effects.hunter_health += 2;
+            game_effects.hunter_attack += 2;
         }
 
         else if battle.monster_id == 15 {
@@ -100,27 +107,27 @@ impl GameUtilsImpl of GameUtilsTrait {
         }
         
         else if battle.monster_id == 62 || battle.monster_id == 64 {
-            game_effects.brute_health += 1;
+            game_effects.hunter_health += 1;
         }
         
-        else if battle.monster_id == 63 || battle.monster_id == 65 {
-            game_effects.brute_attack += 1;
+        else if battle.monster_id == 60 || battle.monster_id == 63 || battle.monster_id == 65 {
+            game_effects.hunter_attack += 1;
         }
         
         else if battle.monster_id == 67 || battle.monster_id == 69 {
-            game_effects.magical_health += 1;
+            game_effects.brute_health += 1;
         }
 
         else if battle.monster_id == 68 || battle.monster_id == 70 {
-            game_effects.magical_attack += 1;
+            game_effects.brute_attack += 1;
         }
         
         else if battle.monster_id == 72 || battle.monster_id == 74 {
-            game_effects.hunter_health += 1;
+            game_effects.magical_health += 1;
         }
 
         else if battle.monster_id == 73 || battle.monster_id == 75 {
-            game_effects.hunter_attack += 1;
+            game_effects.magical_attack += 1;
         }
 
         // Heal rewards

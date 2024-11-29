@@ -1,8 +1,8 @@
 {
   "world": {
     "class_hash": "0x79d9ce84b97bcc2a631996c3100d57966fc2f5b061fb1ec4dfd0040976bcac6",
-    "address": "0x26aebd4e3bfcc55b1be2eca9f0eb2c877c2a77b8f3a887dd2a3adccc946e578",
-    "seed": "darkshuffle1",
+    "address": "0x3f51728fe54e47fd9b61400c0821254df7401e3a04d99d14919704653c460b8",
+    "seed": "darkshuffle2",
     "name": "Dark Shuffle",
     "entrypoints": [
       "uuid",
@@ -1243,8 +1243,8 @@
   },
   "contracts": [
     {
-      "address": "0x544a136427e0e80fb6ad221704d24c8b236b313d8a7ee8afb33ea65567384f",
-      "class_hash": "0x4730f28440f16f32a53989764177df18e67a3aba0dce26e19a1474f26c22cdc",
+      "address": "0x246202864696e8b4d34146a64886aa6648f37f25d2a97de16f6fd2f13f6a6e8",
+      "class_hash": "0x4ca28f99155892691d0bc9de8ad849e5bd6d2d2f22ec0e606f20514dcff2574",
       "abi": [
         {
           "type": "impl",
@@ -1467,8 +1467,8 @@
       ]
     },
     {
-      "address": "0x56c4d05ac09d07986d866c1db6362a96d94a1e98386484d3918bdcb3dbb5e25",
-      "class_hash": "0x2094e4b64a3fcc5d04162354634a6f6afceaa80074bb55ad02ad15c093e3614",
+      "address": "0x2920466c9c690c567c03bbbab46d8eea48258fb09917d2c280d240158d75c24",
+      "class_hash": "0x55bbaaf5c031b1eb77797969af1aaf78d69db14668b69428a29e21eea6f29f7",
       "abi": [
         {
           "type": "impl",
@@ -1671,8 +1671,8 @@
       ]
     },
     {
-      "address": "0x472b596306d4d1667872b2f6c784e21a99ce4ccc53209ab282ae859b185237b",
-      "class_hash": "0x1a263aaf54c87d0303e7e8a09199b03b1f6b79a6f94080170aade95169d0818",
+      "address": "0x77340a05d38c22ef0906d279e48af152856f9fdf76fe4bb6c79470d160fbf15",
+      "class_hash": "0x5114ab3a4cb98ccb47ca5e22006be68ca304cfbc0d84b3d49d9b4795f0a62c9",
       "abi": [
         {
           "type": "impl",
@@ -1888,8 +1888,8 @@
       ]
     },
     {
-      "address": "0x1360af7fd2f721789f9b2dde413302c3bd7cbbf56b838fee61cb079cdc915f7",
-      "class_hash": "0x78c8fd156e70dcaae3b38be158491304288e81d5dd14d9cafdefd85ab7f7eb2",
+      "address": "0x722c254ff249f9b1351acaa0791a2fdd1b1feb3ea32a85350f58e96cfe3aa3",
+      "class_hash": "0xcf5ede19910d93f58368699f4e893ceb3c745ba28e9cc8f5f60b7b8e657af9",
       "abi": [
         {
           "type": "impl",
@@ -2105,7 +2105,7 @@
       ]
     },
     {
-      "address": "0x6f88c2e75e6cde9f7e4e057b94423c544cf6eb00f74534733fcbda015aa6011",
+      "address": "0xef1cfea44e11a6e26f34b7cf93eed25922b6d5c446b70b5289e0d3aa0388cd",
       "class_hash": "0x78bb117f3e5c23ae3d2ab70c8d1f29f7b88c48530b2c53c7d8731def09c4e69",
       "abi": [
         {
@@ -2398,7 +2398,7 @@
     },
     {
       "members": [],
-      "class_hash": "0x6e55c8b1a3e7e7ed68babea5678f1018922637c21313033c9568c9c03b9ba17",
+      "class_hash": "0x73f55c5414f41e434ae1550d70aa5321a6ba47b0b2003a2d1d44cd37e28adb2",
       "tag": "darkshuffle-Game",
       "selector": "0x1a3b9b6c5802b83d9a8a21a24d6472b1a47b0529b4b6c805f26f744c22a35a9"
     },

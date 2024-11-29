@@ -31,6 +31,7 @@ export const components = {
     inBattle: Boolean(),
     activeBattleId: Number(),
     heroHealth: Number(),
+    heroXp: Number(),
     monstersSlain: Number(),
     mapLevel: Number(),
     mapDepth: Number(),

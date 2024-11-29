@@ -134,14 +134,14 @@ const styles = {
     height: CardSize.small.height,
     width: CardSize.small.width,
     position: 'absolute',
-    zIndex: '2',
+    zIndex: 101,
     userSelect: 'none'
   },
   cardWrapper: {
     height: CardSize.medium.height,
     width: CardSize.medium.width,
     position: 'absolute',
-    zIndex: '2',
+    zIndex: 101,
     userSelect: 'none'
   },
   cardStyle: {
@@ -162,13 +162,13 @@ const styles = {
     height: CardSize.large.height,
     width: CardSize.large.width,
     bottom: '60px',
-    zIndex: '1'
+    zIndex: 100
   },
   displayCard: {
     height: CardSize.big.height,
     width: CardSize.big.width,
     bottom: '60px',
-    zIndex: '1'
+    zIndex: 100
   },
   greenShadow: {
     boxShadow: '0px 3px 5px -2px #FFE97F, 0px 3px 5px 0px #FFE97F, 0px 1px 8px 0px #FFE97F'
