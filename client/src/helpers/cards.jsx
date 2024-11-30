@@ -129,7 +129,7 @@ export const CARD_DETAILS = (cardId, id) => {
         cost: 1,
         attack: 3,
         health: 2,
-        text: "On Attack: Deals an additional 2 damage if two or more Magical allies are in play. Prevents the enemy from healing if Basilisk is in play"
+        text: "On Attack: Deals an additional 2 damage if two or more Magical allies are in play."
       };
 
     case 6:
@@ -309,9 +309,9 @@ export const CARD_DETAILS = (cardId, id) => {
         cardTier: 2,
         creatureType: tags.MAGICAL,
         cost: 5,
-        attack: 2,
+        attack: 3,
         health: 4,
-        text: "When Played: Increase the hero's energy by 1. Grants +1 health to the hero if another Magical ally is in play"
+        text: "When Played: Increase the hero's energy by 1 and grants +1 health to the hero if another Magical ally is in play"
       };
 
     case 19:

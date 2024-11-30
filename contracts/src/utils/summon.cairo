@@ -126,6 +126,13 @@ impl SummonUtilsImpl of SummonUtilsTrait {
             }
         }
 
+        else if card.card_id == 18 {
+            if board_stats.magical_count > 0 {
+                BattleUtilsImpl::increase_hero_energy(ref battle, 1);
+                BattleUtilsImpl::heal_hero(ref battle, 1);
+            }
+        }
+
         else if card.card_id == 22 {
             if board_stats.hunter_count == 0 {
                 creature.attack += 2;

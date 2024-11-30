@@ -232,7 +232,7 @@ impl CardUtilsImpl of CardUtilsTrait {
                 card_tier: CardTier::T2,
                 creature_type: CreatureType::Magical,
                 cost: 5,
-                attack: 2,
+                attack: 3,
                 health: 4,
             };
         }

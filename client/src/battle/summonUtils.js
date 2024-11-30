@@ -112,6 +112,13 @@ export const summonEffect = ({
     }
   }
 
+  else if (creature.cardId === 18) {
+    if (magicalCount > 0) {
+      increaseEnergy(1);
+      healHero(1);
+    }
+  }
+
   else if (creature.cardId === 22) {
     if (hunterCount === 0) {
       creature.attack += 2;
