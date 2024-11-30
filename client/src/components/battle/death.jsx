@@ -17,6 +17,7 @@ function DeathDialog(props) {
   }, [])
 
   const backToMenu = () => {
+    battle.utils.resetBattleState()
     game.endGame()
   }
 
@@ -26,7 +27,6 @@ function DeathDialog(props) {
       transition: { duration: 3, delay: 1 }
     })
 
-    battle.utils.resetBattleState()
     showText(true)
   }
 

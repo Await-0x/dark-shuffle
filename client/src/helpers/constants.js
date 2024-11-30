@@ -5,8 +5,8 @@ export const DRAFT_SIZE = 20;
 export const DECK_SIZE = 20;
 export const MAX_BOARD = 6;
 
-export const START_HEALTH = 50;
-export const MAX_HEALTH = 50;
+export const START_HEALTH = 80;
+export const MAX_HEALTH = 80;
 export const MAX_ENERGY = 7;
 
 export const LAST_NODE_LEVEL = 6;

@@ -17,8 +17,6 @@ export const GameProvider = ({ children }) => {
   const [gameEffects, setGameEffects] = useState({})
 
   const [map, setMap] = useState(null)
-  const [selectingNode, setSelectingNode] = useState(false)
-
   const [score, setScore] = useState()
 
   const setGame = (values) => {
@@ -28,6 +26,7 @@ export const GameProvider = ({ children }) => {
   const endGame = () => {
     setValues({ ...GAME_VALUES })
     setGameEffects({})
+    setMap(null)
     setScore()
   }
 
@@ -73,7 +72,6 @@ export const GameProvider = ({ children }) => {
 
         values,
         score,
-        selectingNode,
 
         setGame,
         endGame,

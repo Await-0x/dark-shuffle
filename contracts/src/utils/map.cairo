@@ -103,7 +103,7 @@ impl MapUtilsImpl of MapUtilsTrait {
         let card = CardUtilsImpl::get_card(monster_id);
 
         let health = 35 + (map.level * 5);
-        let attack = (map.level * 2);
+        let attack = (map.level + 1);
 
         MonsterNode {
             monster_id,

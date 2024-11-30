@@ -129,7 +129,7 @@ export const CARD_DETAILS = (cardId, id) => {
         cost: 1,
         attack: 3,
         health: 2,
-        text: "On Attack: Deals an additional 2 damage if two or more Magical allies are in play."
+        text: "On Attack: Deals an additional 2 damage if another Magical ally is in play."
       };
 
     case 6:

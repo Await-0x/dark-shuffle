@@ -209,7 +209,7 @@ export const BattleProvider = ({ children }) => {
     setTurnEnded(false)
 
     if (!endState.gameValues.active) {
-      game.setScore(Math.max(1, endState.gameValues.monstersSlain))
+      game.setScore(Math.max(1, endState.gameValues.heroXp))
     } else {
       await delay(1000)
       game.setGame(endState.gameValues)
