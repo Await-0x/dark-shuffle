@@ -1,5 +1,5 @@
 import manifest from "./manifest_sepolia.json";
-import manifest_dev from "./manifest_slot.json";
+import manifest_dev from "./manifest_dev.json";
 
 const {
   VITE_PUBLIC_NODE_URL,

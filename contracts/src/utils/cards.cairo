@@ -336,7 +336,7 @@ impl CardUtilsImpl of CardUtilsTrait {
                 card_tier: CardTier::T2,
                 creature_type: CreatureType::Brute,
                 cost: 2,
-                attack: 3,
+                attack: 2,
                 health: 5,
             };
         }

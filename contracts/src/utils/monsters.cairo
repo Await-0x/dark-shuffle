@@ -53,7 +53,7 @@ impl MonsterUtilsImpl of MonsterUtilsTrait {
         }
 
         else if battle.monster_id == 59 {
-            if round_stats.monster_start_health >= battle.monster_health {
+            if battle.monster_health >= round_stats.monster_start_health {
                 battle.monster_attack += 2;
             }
         }

@@ -3,6 +3,8 @@ import { Box, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 import cards from "../../assets/images/cards.png";
 import bolt from "../../assets/images/bolt.png";
+import beast from "../../assets/images/beast.png";
+import hero from "../../assets/images/hero.png";
 import { GameContext } from '../../contexts/gameContext';
 import { fetchBeastTypeImage, tags } from '../../helpers/cards';
 import { LargeCustomTooltip } from '../../helpers/styles';
@@ -38,7 +40,7 @@ export default function GameEffects() {
         </Box>
       }>
         <Box sx={styles.effectCircle}>
-          <img alt='' src={bolt} height={16} />
+          <img alt='' src={beast} height={16} />
         </Box>
       </LargeCustomTooltip>}
 
@@ -119,7 +121,7 @@ export default function GameEffects() {
         <Box mb={0.5}>
           <Typography color="primary">Energy</Typography>
         </Box>
-        {gameEffects.startBonusEnergy > 0 && <Typography sx={styles.effectText}>You start with {1 + gameEffects.startBonusEnergy} energy.</Typography>}
+        {gameEffects.startBonusEnergy > 0 && <Typography sx={styles.effectText}>You start with +{gameEffects.startBonusEnergy} energy.</Typography>}
       </Box>
     }>
       <Box sx={styles.effectCircle}>
@@ -138,7 +140,7 @@ export default function GameEffects() {
       </Box>
     }>
       <Box sx={styles.effectCircle}>
-        <img alt='' src={bolt} height={16} />
+        <img alt='' src={hero} height={16} />
       </Box>
     </LargeCustomTooltip>}
   </Box >

@@ -421,7 +421,7 @@ export const CARD_DETAILS = (cardId, id) => {
         cardTier: 2,
         creatureType: tags.BRUTE,
         cost: 2,
-        attack: 3,
+        attack: 2,
         health: 5,
         text: "On Death: Restores 2 health to the hero if the enemy is a Hunter"
       };

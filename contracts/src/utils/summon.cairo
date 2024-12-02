@@ -220,7 +220,7 @@ impl SummonUtilsImpl of SummonUtilsTrait {
 
         else if card.card_id == 58 {
             if board_stats.brute_count > 0 {
-                creature.health += 1;
+                BattleUtilsImpl::heal_hero(ref battle, 1);
             }
         }
 

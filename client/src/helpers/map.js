@@ -69,7 +69,7 @@ export const getMonsterNode = (mapLevel, mapSeed, nodeId, section, parents) => {
     let details = CARD_DETAILS(monsterId);
 
     let health = 35 + (mapLevel * 5);
-    let attack = (mapLevel * 2);
+    let attack = (mapLevel + 1);
 
     let monsterNameSeed = LCG(seed)
     let monsterPrefix = BEAST_NAME_PREFIXES[getRandomNumber(monsterNameSeed, 69)]
@@ -88,6 +88,6 @@ export const getMonsterNode = (mapLevel, mapSeed, nodeId, section, parents) => {
         monsterType: details.creatureType,
         nodeType: 'monster',
         section,
-        parents
+        parents: parents.sort()
     };
 }

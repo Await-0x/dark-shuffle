@@ -166,7 +166,11 @@ export const BattleProvider = ({ children }) => {
     setHand(battle.hand.map((card, i) => CARD_DETAILS(card, i + 1)))
     setBoard([])
     setActions([])
-    setRoundStats({})
+    setRoundStats({
+      monsterStartHealth: battle.monsterHealth,
+      creaturesPlayed: 0,
+      creatureAttackCount: 0
+    })
 
     setEndState()
   }

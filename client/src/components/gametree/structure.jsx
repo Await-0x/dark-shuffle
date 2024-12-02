@@ -215,7 +215,7 @@ function Structure(props) {
     let monster = GET_MONSTER(node.monsterId, node.monsterName)
 
     return <Box sx={styles.circleContainer}>
-      <LargeCustomTooltip leaveDelay={(permanentTooltip === node.nodeId && node.active) ? 100000 : 300} position={'right'} title={
+      <LargeCustomTooltip leaveDelay={(permanentTooltip === node.nodeId && node.active) ? 100000 : 100} position={'right'} title={
         <Box sx={styles.tooltipContainer}>
           {monster.abilities}
 
