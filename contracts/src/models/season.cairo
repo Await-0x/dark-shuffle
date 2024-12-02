@@ -7,6 +7,7 @@ pub struct Season {
     season_id: usize,
     start: u64,
     end: u64,
+    card_ids: Span<u64>,
     entry_amount: u256,
     reward_pool: u256,
     finalized: bool,
