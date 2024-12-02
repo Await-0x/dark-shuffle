@@ -1,5 +1,5 @@
 export const endOfTurnMonsterEffect = ({
-  setValues, values, setHand, setBoard, damageHero, hand, roundStats, damageCreature
+  setValues, values, setHand, setBoard, damageHero, hand, roundStats, damageCreature, board
 }) => {
  if (values.monsterId === 2) {
     damageHero(hand.length)
