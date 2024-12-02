@@ -99,7 +99,7 @@ impl GameUtilsImpl of GameUtilsTrait {
         }
 
         else if battle.monster_id == 58 {
-            game_effects.hero_dmg_reduction += 1;
+            game_effects.start_bonus_energy += 1;
         }
 
         else if battle.monster_id == 59 {

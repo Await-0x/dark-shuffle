@@ -103,7 +103,7 @@ const getMonsterAbilities = (monsterId) => {
     case 58:
       return formatAbility({
         ability: "Yeti gains +1 attack if it has less attack than your strongest beast.",
-        reward: "Your hero takes one less damage from all sources."
+        reward: "You start with +1 energy."
       })
     case 57:
       return formatAbility({
