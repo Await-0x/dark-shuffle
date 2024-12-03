@@ -1,8 +1,8 @@
 {
   "world": {
-    "class_hash": "0x79d9ce84b97bcc2a631996c3100d57966fc2f5b061fb1ec4dfd0040976bcac6",
-    "address": "0x26aebd4e3bfcc55b1be2eca9f0eb2c877c2a77b8f3a887dd2a3adccc946e578",
-    "seed": "darkshuffle1",
+    "class_hash": "0x45575a88cc5cef1e444c77ce60b7b4c9e73a01cbbe20926d5a4c72a94011410",
+    "address": "0x6a9e4c6f0799160ea8ddc43ff982a5f83d7f633e9732ce42701de1288ff705f",
+    "seed": "",
     "name": "Dark Shuffle",
     "entrypoints": [
       "uuid",
@@ -92,6 +92,10 @@
           {
             "name": "metadata_uri",
             "type": "core::byte_array::ByteArray"
+          },
+          {
+            "name": "metadata_hash",
+            "type": "core::felt252"
           }
         ]
       },
@@ -1002,6 +1006,11 @@
             "name": "uri",
             "type": "core::byte_array::ByteArray",
             "kind": "data"
+          },
+          {
+            "name": "hash",
+            "type": "core::felt252",
+            "kind": "data"
           }
         ]
       },
@@ -1243,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0x2863e9018cc897391e07e75514db936b22fea08ba23ed72d1c9948b2673172d",
-      "class_hash": "0x21d2d83f8bccdaeb984ab3db34669a62ec4ebe177dc6b47afba0b61665d96cd",
+      "address": "0x6a512656d905621b77aeb8ee7b88b896edf68cee6e54fc92f7543dd36ae8d39",
+      "class_hash": "0x69f1a09bb52c354735ee01c91d0dadc6baf4f08702cff8cd6115e00118cd036",
       "abi": [
         {
           "type": "impl",
@@ -1467,8 +1476,8 @@
       ]
     },
     {
-      "address": "0x56c4d05ac09d07986d866c1db6362a96d94a1e98386484d3918bdcb3dbb5e25",
-      "class_hash": "0x2094e4b64a3fcc5d04162354634a6f6afceaa80074bb55ad02ad15c093e3614",
+      "address": "0x5c13e5e5c415107d6e5216c88f971d759044f2c40557e8a1fcd1a3ae290889b",
+      "class_hash": "0x55bbaaf5c031b1eb77797969af1aaf78d69db14668b69428a29e21eea6f29f7",
       "abi": [
         {
           "type": "impl",
@@ -1671,8 +1680,8 @@
       ]
     },
     {
-      "address": "0x472b596306d4d1667872b2f6c784e21a99ce4ccc53209ab282ae859b185237b",
-      "class_hash": "0x1a263aaf54c87d0303e7e8a09199b03b1f6b79a6f94080170aade95169d0818",
+      "address": "0x111b3fa6690dac858887b59f6b6a3ead5a174ac3e2eace5ec89676f61899b03",
+      "class_hash": "0x5b702c127124e7d44f0f0107e3b03011237a4c58a0698c2947afa0769d1cb8d",
       "abi": [
         {
           "type": "impl",
@@ -1888,8 +1897,8 @@
       ]
     },
     {
-      "address": "0x52614683fa4b46face9448853864c751aaa1cc6d02e7759d9428208b3bf2f16",
-      "class_hash": "0x728c5a99ab61d4a40ca7774ab10e3b323b4ae587cbd74bad667ef559085f6ce",
+      "address": "0x31f34f07f332fd33fc8ae4f2f2efd4681977216c9f417398429afa227df6167",
+      "class_hash": "0x6d236d7b6c0648d5d02a71fd0a691051cac52da91cb369990ea65954927a4ac",
       "abi": [
         {
           "type": "impl",
@@ -2105,7 +2114,7 @@
       ]
     },
     {
-      "address": "0x6f88c2e75e6cde9f7e4e057b94423c544cf6eb00f74534733fcbda015aa6011",
+      "address": "0x29bf5ce0067b38ab66144507fae3cc3859912fff59b376e6d9f587fc00e884",
       "class_hash": "0x78bb117f3e5c23ae3d2ab70c8d1f29f7b88c48530b2c53c7d8731def09c4e69",
       "abi": [
         {
@@ -2398,13 +2407,13 @@
     },
     {
       "members": [],
-      "class_hash": "0x6e55c8b1a3e7e7ed68babea5678f1018922637c21313033c9568c9c03b9ba17",
+      "class_hash": "0x73f55c5414f41e434ae1550d70aa5321a6ba47b0b2003a2d1d44cd37e28adb2",
       "tag": "darkshuffle-Game",
       "selector": "0x1a3b9b6c5802b83d9a8a21a24d6472b1a47b0529b4b6c805f26f744c22a35a9"
     },
     {
       "members": [],
-      "class_hash": "0x130469bb5cb340ce51a8ca0321f3dc7f5ea67e7094232e4628d374027036f1",
+      "class_hash": "0x60818c7510dc21482c3b675e07f36bf738bbdc754a27579114f7bf3d30c5899",
       "tag": "darkshuffle-GameEffects",
       "selector": "0x1c0e9539fbce953b02e41710151458afe69463e676129a87998ab3ad86568da"
     },

@@ -1,4 +1,4 @@
-import manifest from "./manifest_sepolia.json";
+import manifest from "./manifest_mainnet.json";
 import manifest_dev from "./manifest_slot.json";
 
 const {
