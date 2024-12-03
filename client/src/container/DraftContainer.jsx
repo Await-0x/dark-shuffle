@@ -35,12 +35,12 @@ function DraftContainer() {
             ? <>
               {pendingCard !== undefined
                 ? <Box display={'flex'} alignItems={'baseline'}>
-                  <Typography variant='h5' color='primary'>
+                  <Typography variant='h3' color='primary'>
                     Selecting Card
                   </Typography>
                   <div className='dotLoader' style={{ width: '24px' }} />
                 </Box>
-                : <Typography variant='h5' color='primary'>
+                : <Typography variant='h3' color='primary'>
                   Select Card
                 </Typography>
               }
@@ -149,14 +149,14 @@ const styles = {
 
   mobileOverview: {
     width: '50px',
-    height: 'calc(100% - 40px)',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     gap: 1,
     boxSizing: 'border-box',
     pt: '40px',
-    position: 'absolute',
+    position: 'fixed',
     right: 0,
     background: 'rgba(0, 0, 0, 1)',
     zIndex: 100
@@ -164,8 +164,7 @@ const styles = {
 
   mobileDraftContainer: {
     height: '100%',
-    width: 'calc(100% - 50px)',
-    borderRight: '1px solid rgba(255, 255, 255, 0.12)'
+    width: 'calc(100vw - 50px)',
   },
 
   draftContainer: {
@@ -176,12 +175,10 @@ const styles = {
 
   mobileMainContainer: {
     width: '100%',
-    height: '100%',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
     display: 'flex',
     flexDirection: 'column',
-    gap: 3,
-    pt: 4,
+    gap: 2,
+    py: 3,
     alignItems: 'center',
     justifyContent: 'flex-start',
     boxSizing: 'border-box'
@@ -204,7 +201,8 @@ const styles = {
     display: 'flex',
     gap: 3,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    flexWrap: 'wrap'
   },
 
   draftInfo: {
@@ -220,8 +218,8 @@ const styles = {
   },
 
   mobileCardContainer: {
-    height: CardSize.medium.height,
-    width: CardSize.medium.width,
-    margin: '0 12px'
+    height: CardSize.big.height,
+    width: CardSize.big.width,
+    margin: '0 12px 12px'
   }
 }

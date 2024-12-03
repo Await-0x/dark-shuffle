@@ -10,15 +10,22 @@ import { _styles } from '../../helpers/styles'
 import { formatTimeUntil } from '../../helpers/utilities'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
+import { DojoContext } from '../../contexts/dojoContext'
 
 function StartDraft() {
   const season = useSeason()
+  const dojo = useContext(DojoContext)
   const game = useContext(GameContext)
   const draft = useContext(DraftContext)
 
   const [loading, setLoading] = useState(false)
+  const [showWarnings, setShowWarnings] = useState(false)
 
   async function beginDraft(isDemo) {
+    if (!isDemo) {
+      setShowWarnings(true)
+    }
+
     game.setGame({ isDemo })
 
     setLoading(true)
@@ -28,30 +35,46 @@ function StartDraft() {
     setLoading(false)
   }
 
+  const enoughFunds = dojo.balances.lords >= season.values.entryFee
+
   return (
     <>
       <MobileView>
         <Box sx={styles.mobileContainer}>
-          <Box sx={[styles.kpi, { width: '100%', height: '110px', mt: 2 }]}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant='h2' color='primary' fontSize={'30px'}>
+              Dark Shu
+            </Typography>
+
+            <Box mb={'-19px'} ml={'-8px'} mr={'-7px'}>
+              <img alt='' src={logo} height='42' />
+            </Box>
+
+            <Typography variant='h2' color='primary' fontSize={'30px'}>
+              le
+            </Typography>
+          </Box>
+
+          <Box sx={[styles.kpi, { width: '100%', height: '90px', mt: 1 }]}>
             <Typography variant='h6'>
-              Season reward
+              Season Pool
             </Typography>
             <Typography variant='h5' color='primary'>
-              0 $LORDS
+              {Math.floor(season.values.entryFee / 1e18)} $LORDS
             </Typography>
 
           </Box>
 
-          <Box sx={[styles.kpi, { width: '100%', height: '110px', mb: 2 }]}>
-            <Typography variant='h6'>
-              Season ends in
+          <Box sx={[styles.kpi, { width: '100%', height: '90px', mb: 1 }]}>
+            <Typography>
+              {season.values.end > (Date.now() / 1000) ? `Season 0 ${season.values.start > (Date.now() / 1000) ? 'begins in' : 'ends in'}` : 'Season 0'}
             </Typography>
             <Typography variant='h5' color='primary'>
-              0 Blocks
+              {season.values.start > (Date.now() / 1000) ? `${formatTimeUntil(season.values.start)}` : (season.values.end > (Date.now() / 1000) ? `${formatTimeUntil(season.values.end)}` : 'Finished')}
             </Typography>
           </Box>
 
-          <Typography variant='h3'>
+          <Typography variant='h3' textAlign={'center'}>
             Season 0: New beginnings
           </Typography>
 
@@ -59,7 +82,11 @@ function StartDraft() {
             Play Season
           </LoadingButton>
 
-          <Box width={'100%'} sx={_styles.customBox} mt={2}>
+          <LoadingButton color='secondary' variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+            Play Demo
+          </LoadingButton>
+
+          <Box width={'100%'} sx={_styles.customBox} mt={1}>
 
             <Leaderboard />
 
@@ -163,6 +190,10 @@ function StartDraft() {
                   <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
                     Play Season
                   </LoadingButton>
+
+                  {(dojo.address && !enoughFunds && showWarnings) && <Typography textAlign={'center'} sx={{ fontSize: '14px', color: 'red', mb: '-21px' }}>
+                    Not Enough LORDS!
+                  </Typography>}
                 </Box>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
@@ -198,7 +229,6 @@ const styles = {
     flexDirection: 'column',
     boxSizing: 'border-box',
     gap: 2,
-    mt: 1,
     p: 2
   },
   browserContainer: {

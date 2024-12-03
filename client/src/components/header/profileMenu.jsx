@@ -1,5 +1,6 @@
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LogoutIcon from '@mui/icons-material/Logout';
 import XIcon from '@mui/icons-material/X';
@@ -8,10 +9,8 @@ import { useAccount, useDisconnect } from '@starknet-react/core';
 import { useSnackbar } from 'notistack';
 import React, { useContext } from 'react';
 import { DojoContext } from '../../contexts/dojoContext';
-import { ellipseAddress, formatNumber } from '../../helpers/utilities';
-import EthIcon from '../ethIcon';
 import { GameContext } from '../../contexts/gameContext';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { ellipseAddress, formatNumber } from '../../helpers/utilities';
 
 function ProfileMenu(props) {
   const { handleClose, anchorEl } = props
@@ -47,21 +46,11 @@ function ProfileMenu(props) {
               Account
             </Typography>
 
-            <Box display={'flex'} gap={2} alignItems={'center'}>
-              <Box display={'flex'} alignItems={'center'}>
-                <EthIcon />
-
-                <Typography color={'primary'} sx={{ fontSize: '12px' }}>
-                  {formatNumber(parseInt(dojo.balances.eth.toString()) / 10 ** 18)}
-                </Typography>
-              </Box>
-
-              <Box display={'flex'} gap={0.5} alignItems={'center'}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFE97F" height={12}><path d="M0 12v2h1v2h6V4h2v12h6v-2h1v-2h-2v2h-3V4h2V0h-2v2H9V0H7v2H5V0H3v4h2v10H2v-2z"></path></svg>
-                <Typography color={'primary'} sx={{ fontSize: '12px' }}>
-                  {formatNumber(parseInt(dojo.balances.lords.toString()) / 10 ** 18)}
-                </Typography>
-              </Box>
+            <Box display={'flex'} gap={0.5} alignItems={'center'}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFE97F" height={12}><path d="M0 12v2h1v2h6V4h2v12h6v-2h1v-2h-2v2h-3V4h2V0h-2v2H9V0H7v2H5V0H3v4h2v10H2v-2z"></path></svg>
+              <Typography color={'primary'} sx={{ fontSize: '12px' }}>
+                {formatNumber(parseInt(dojo.balances.lords.toString()) / 10 ** 18)}
+              </Typography>
             </Box>
           </Box>
 

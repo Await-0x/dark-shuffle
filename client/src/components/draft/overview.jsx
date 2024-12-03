@@ -64,6 +64,8 @@ const styles = {
     flexDirection: 'column',
     gap: 0.5,
     p: 1,
+    width: '100%',
+    boxSizing: 'border-box'
   },
   cardCost: {
     width: '20px',
@@ -97,7 +99,6 @@ const styles = {
     height: CardSize.large.height,
     width: CardSize.large.width,
     position: 'fixed',
-    right: '285px',
     top: 45,
   },
   displayCard: {

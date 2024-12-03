@@ -1,34 +1,56 @@
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import InfoIcon from '@mui/icons-material/Info';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
-import XIcon from '@mui/icons-material/X';
+import { LoadingButton } from '@mui/lab';
 import { Box, Divider, IconButton, List, Typography } from '@mui/material';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { default as React, useContext, useState } from 'react';
+import { useAccount, useConnect, useDisconnect } from '@starknet-react/core';
+import { useSnackbar } from 'notistack';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DojoContext } from '../contexts/dojoContext';
-import { ellipseAddress } from '../helpers/utilities';
+import { GameContext } from '../contexts/gameContext';
+import { ellipseAddress, formatNumber } from '../helpers/utilities';
 
 const menuItems = [
   {
     name: 'Play Season',
     path: '/',
-    icon: <SportsEsportsIcon fontSize='medium' />
+    icon: <InfoIcon />
   },
-  {
-    name: 'Cards',
-    path: '/library',
-    icon: <ViewCarouselIcon fontSize='medium' />
-  }
 ]
 
 function MobileHeader(props) {
   const dojo = useContext(DojoContext)
+  const game = useContext(GameContext)
+
+  const { connect, connectors } = useConnect();
+  const { address } = useAccount()
+  const { disconnect } = useDisconnect()
+  const { enqueueSnackbar } = useSnackbar()
+
+  let cartridgeConnector = connectors.find(conn => conn.id === "controller")
 
   const [menu, toggleMenu] = useState(false)
+
+  const copyAddress = async () => {
+    await navigator.clipboard.writeText(address)
+    enqueueSnackbar('Address copied', { variant: 'info', autoHideDuration: 2000, anchorOrigin: { vertical: 'bottom', horizontal: 'center' } })
+  }
+
+  const abandonGame = async () => {
+    await dojo.executeTx([{
+      contractName: "game_systems",
+      entrypoint: "abandon_game",
+      calldata: [game.values.gameId]
+    }])
+
+    window.location.reload();
+  }
 
   return <Box sx={styles.mobileHeader}>
     <Box />
@@ -37,19 +59,18 @@ function MobileHeader(props) {
       <IconButton onClick={() => toggleMenu(true)} size='large'>
         <MenuIcon />
       </IconButton>
-  
+
       <SwipeableDrawer
         anchor={'top'}
         open={menu}
         onClose={() => toggleMenu(false)}
         onOpen={() => toggleMenu(true)}
       >
+
         <List>
           {menuItems.map(item => {
             return <Link to={item.path} key={item.name} sx={styles.item}>
               <Box sx={styles.content}>
-                {item.icon}
-
                 <Typography variant='h6'>
                   {item.name}
                 </Typography>
@@ -60,40 +81,75 @@ function MobileHeader(props) {
 
         <Divider />
 
-        <Box>
-          <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} pr={1}>
-            <Box sx={styles.content}>
-              <AccountBalanceWalletIcon fontSize="medium" />
+        {!dojo.address && <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 2 }}>
+          <LoadingButton fullWidth loading={dojo.connecting} variant='outlined' onClick={() => connect({ connector: cartridgeConnector })} size='large' startIcon={<SportsEsportsIcon />}>
+            <Typography color='primary'>
+              Connect
+            </Typography>
+          </LoadingButton>
+        </Box>
+        }
 
-              <Typography>
+        {dojo.address && <>
+          <Box px={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'} my={2}>
+            <Box display={'flex'} alignItems={'center'} gap={1}>
+              <SportsEsportsIcon fontSize="small" color='primary' />
+
+              <Typography color='primary' sx={{ fontSize: '13px' }}>
+                {dojo.userName?.toUpperCase()}
+              </Typography>
+            </Box>
+
+            <Box display={'flex'} gap={0.5} alignItems={'center'}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFE97F" height={12}><path d="M0 12v2h1v2h6V4h2v12h6v-2h1v-2h-2v2h-3V4h2V0h-2v2H9V0H7v2H5V0H3v4h2v10H2v-2z"></path></svg>
+              <Typography color={'primary'} sx={{ fontSize: '13px' }}>
+                {formatNumber(parseInt(dojo.balances.lords.toString()) / 10 ** 18)}
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} px={2}>
+            <Box display={'flex'} alignItems={'center'} gap={1}>
+              <AccountBalanceWalletIcon fontSize="small" />
+
+              <Typography sx={{ fontSize: '13px' }}>
                 {dojo.address && ellipseAddress(dojo.address, 4, 8)}
               </Typography>
             </Box>
 
-
-            <IconButton onClick={() => { dojo.createBurner() }}>
-              <RefreshIcon fontSize='medium' />
+            <IconButton onClick={copyAddress} size='small'>
+              <ContentCopyIcon fontSize="small" />
             </IconButton>
           </Box>
-        </Box>
 
-        <Divider sx={{ my: 1 }} />
+          <Divider sx={{ my: 2 }} />
 
-        <Box sx={styles.content} onClick={() => { window.open("https://github.com/Await-0x/dark-shuffle", "_blank"); }}>
-          <GitHubIcon fontSize="medium" />
+          {game.values.gameId && <>
+            <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} px={2} onClick={abandonGame}>
+              <Box display={'flex'} alignItems={'center'} gap={1}>
+                <DeleteForeverIcon fontSize="small" htmlColor='#fb3a3a' />
 
-          <Typography variant='h6'>
-            Github
-          </Typography>
-        </Box>
+                <Typography sx={{ fontSize: '13px', color: '#fb3a3a' }}>
+                  ABANDON GAME
+                </Typography>
+              </Box>
+            </Box>
 
-        <Box sx={styles.content} onClick={() => { window.open("https://twitter.com/await_0x", "_blank"); }} mb={1}>
-          <XIcon fontSize="medium" />
+            <Divider sx={{ my: 2 }} />
+          </>}
 
-          <Typography variant='h6'>
-            Twitter
-          </Typography>
-        </Box>
+          <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} px={2} onClick={disconnect}>
+            <Box display={'flex'} alignItems={'center'} gap={1}>
+              <LogoutIcon fontSize="small" />
+
+              <Typography sx={{ fontSize: '13px' }}>
+                DISCONNECT
+              </Typography>
+            </Box>
+          </Box>
+
+          <Divider sx={{ mt: 2 }} />
+        </>}
 
       </SwipeableDrawer>
     </Box>
@@ -117,21 +173,26 @@ const styles = {
     gap: 4,
     zIndex: 999
   },
+
   item: {
     letterSpacing: '1px',
   },
+
   logo: {
     cursor: 'pointer',
     height: '100%',
   },
+
   content: {
     textDecoration: 'none',
     color: 'white',
     display: 'flex',
     alignItems: 'center',
     gap: 2,
-    height: '50px',
+    height: '40px',
     px: 2,
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    textAlign: 'center',
+    justifyContent: 'center',
   },
 };

@@ -5,6 +5,7 @@ import { getLeaderboard } from '../../api/indexer';
 import { hexToAscii } from '@dojoengine/utils';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { dojoConfig } from '../../../dojo.config';
+import { isMobile } from 'react-device-detect';
 
 function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
@@ -57,11 +58,11 @@ function Leaderboard() {
           <Typography>Rank</Typography>
         </Box>
 
-        <Box width='250px'>
+        <Box width={isMobile ? '150px' : '250px'}>
           <Typography>Player</Typography>
         </Box>
 
-        <Box width='100px' textAlign={'center'}>
+        <Box width='80px' textAlign={'center'}>
           <Typography>Score</Typography>
         </Box>
       </Box>
