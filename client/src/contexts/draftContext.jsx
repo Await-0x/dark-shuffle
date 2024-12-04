@@ -42,7 +42,7 @@ export const DraftProvider = ({ children }) => {
     txs.push({
       contractName: "game_systems",
       entrypoint: "start_game",
-      calldata: [dojoConfig.seasonId, '0x' + (dojo.userName || 'Demo').split('').map(char => char.charCodeAt(0).toString(16)).join('')]
+      calldata: [dojoConfig.seasonId, '0x' + (dojo.customName || dojo.userName || 'Demo').split('').map(char => char.charCodeAt(0).toString(16)).join('')]
     })
 
     const res = await dojo.executeTx(txs, isDemo, true)

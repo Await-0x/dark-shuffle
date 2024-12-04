@@ -1,6 +1,8 @@
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
+import PersonIcon from '@mui/icons-material/Person';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LogoutIcon from '@mui/icons-material/Logout';
 import XIcon from '@mui/icons-material/X';
@@ -13,7 +15,7 @@ import { GameContext } from '../../contexts/gameContext';
 import { ellipseAddress, formatNumber } from '../../helpers/utilities';
 
 function ProfileMenu(props) {
-  const { handleClose, anchorEl } = props
+  const { handleClose, anchorEl, openNameDialog } = props
   const { address } = useAccount()
   const { disconnect } = useDisconnect()
   const { enqueueSnackbar } = useSnackbar()
@@ -52,6 +54,21 @@ function ProfileMenu(props) {
                 {formatNumber(parseInt(dojo.balances.lords.toString()) / 10 ** 18)}
               </Typography>
             </Box>
+          </Box>
+
+          <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} px={2}>
+            <Box display={'flex'} alignItems={'center'} gap={2}>
+              <PersonIcon fontSize='small' />
+
+              <Typography>
+                {dojo.customName || dojo.userName}
+              </Typography>
+            </Box>
+
+
+            <IconButton onClick={() => { openNameDialog(true); handleClose() }}>
+              <EditIcon fontSize='small' />
+            </IconButton>
           </Box>
 
           <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} px={2}>

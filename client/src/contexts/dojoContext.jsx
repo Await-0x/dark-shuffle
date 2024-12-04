@@ -23,6 +23,7 @@ export const DojoProvider = ({ children }) => {
 
   const [balances, setBalances] = useState({ eth: BigInt(0), lords: BigInt(0) })
   const [userName, setUserName] = useState()
+  const [customName, setCustomName] = useState(localStorage.getItem("customName"))
 
   const dojoprovider = new _dojoProvider(dojoConfig.manifest, dojoConfig.rpcUrl);
 
@@ -106,9 +107,11 @@ export const DojoProvider = ({ children }) => {
         connecting: isConnecting,
         network: chain.network,
         userName,
+        customName,
         balances,
         executeTx,
         getBalances,
+        setCustomName
       }}
     >
       {children}

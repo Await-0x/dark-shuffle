@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
 import { isBrowser, isMobile } from 'react-device-detect';
 import background from "../../assets/images/gospel_scribe.png";
-import { DraftContext } from '../../contexts/draftContext';
+import { DojoContext } from '../../contexts/dojoContext';
 import { fadeVariant } from "../../helpers/variants";
 import { useSnackbar } from 'notistack';
 
@@ -11,7 +11,7 @@ function ChooseName(props) {
   const { open, close } = props
   const { enqueueSnackbar } = useSnackbar()
 
-  const draft = useContext(DraftContext)
+  const dojo = useContext(DojoContext)
   const [name, setName] = useState('')
 
   const applyName = () => {
@@ -19,13 +19,13 @@ function ChooseName(props) {
       return enqueueSnackbar('Name must be between 2 and 31 characters', { variant: 'warning' })
     }
 
-    localStorage.setItem('playerName', name);
-    draft.setState.name(name)
+    localStorage.setItem('customName', name);
+    dojo.setCustomName(name)
   }
 
   useEffect(() => {
     close(false);
-  }, [draft.playerName])
+  }, [dojo.customName])
 
   return (
     <Dialog
@@ -33,7 +33,7 @@ function ChooseName(props) {
       onClose={() => close(false)}
       maxWidth={'lg'}
       PaperProps={{
-        sx: { background: 'rgba(0, 0, 0, 0.98)', border: '2px solid #FFE97F' }
+        sx: { background: 'rgba(0, 0, 0, 1)', border: '2px solid #FFE97F' }
       }}
     >
       <Box sx={isMobile ? styles.mobileWizardContainer : styles.wizardContainer}>
