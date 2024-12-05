@@ -88,7 +88,7 @@ function ProfileMenu(props) {
 
         <Divider sx={{ my: 1 }} />
 
-        {game.values.gameId && <>
+        {game?.values?.gameId && <>
           <MenuItem onClick={abandonGame}>
             <ListItemIcon>
               <DeleteForeverIcon fontSize="small" htmlColor='#fb3a3a' />

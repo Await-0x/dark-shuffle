@@ -159,7 +159,6 @@ export async function getBattleState(battle_id) {
           next_brute_health_bonus
         }
         ... on darkshuffle_Board {
-          battle_id
           creature1 {
             card_id,
             cost,
@@ -212,7 +211,7 @@ export async function getBattleState(battle_id) {
   const result = {
     battle: res?.entity.models.find(x => x.monster_id),
     battleEffects: res?.entity.models[0],
-    board: res?.entity.models[2] || []
+    board: res?.entity.models.find(model => model.creature1)
   };
 
   return result;

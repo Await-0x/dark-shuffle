@@ -11,6 +11,7 @@ function DeathDialog(props) {
   const controls = useAnimationControls()
 
   const [text, showText] = useState(false)
+  const [tweetMsg] = useState(`I fell to the darkness in Dark Shuffle after slaying ${game.values.monstersSlain} beasts, with a final score of ${game.values.heroXp}. Can you outlast me? Play now at darkshuffle.io 🕷️⚔️ @provablegames #DarkShuffle`);
 
   useEffect(() => {
     startAnimation()
@@ -70,7 +71,12 @@ function DeathDialog(props) {
         </Typography>
       </>}
 
-      <Box mt={6}>
+      <Box mt={6} display={'flex'} gap={3}>
+        <Button color='secondary' variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '1px' }}
+          component='a' href={'https://x.com/intent/tweet?text=' + tweetMsg} target='_blank'>
+          Share on X
+        </Button>
+
         <Button variant='outlined' size='large' sx={{ fontSize: '16px', letterSpacing: '1px' }} onClick={backToMenu}>
           Play again
         </Button>

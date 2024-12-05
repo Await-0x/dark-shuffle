@@ -27,7 +27,7 @@ function Monster(props) {
 
   const [health, setHealth] = useState(monster.health)
   const [attack, setAttack] = useState(monster.attack)
-  const [marks, setMarks] = useState(battle.state.battleEffects.enemyMarks ?? 0)
+  const [marks, setMarks] = useState(battle.state.battleEffects?.enemyMarks ?? 0)
 
   const [damageTaken, setDamageTaken] = useState(0)
   const [showAttackMinus, setShowAttackMinus] = useState(false)

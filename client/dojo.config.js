@@ -1,5 +1,5 @@
 import manifest from "./manifest_mainnet.json";
-import manifest_dev from "./manifest_dev.json";
+import manifest_dev from "./manifest_slot.json";
 
 const {
   VITE_PUBLIC_NODE_URL,

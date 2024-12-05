@@ -93,52 +93,64 @@ impl BoardUtilsImpl of BoardUtilsTrait {
             hunter_count: 0,
         };
 
-        if board.creature1.creature_type == CreatureType::Magical {
-            stats.magical_count += 1;
-        } else if board.creature1.creature_type == CreatureType::Brute {
-            stats.brute_count += 1;
-        } else if board.creature1.creature_type == CreatureType::Hunter {
-            stats.hunter_count += 1;
+        if board.creature1.card_id != 0 {
+            if board.creature1.creature_type == CreatureType::Magical {
+                stats.magical_count += 1;
+            } else if board.creature1.creature_type == CreatureType::Brute {
+                stats.brute_count += 1;
+            } else if board.creature1.creature_type == CreatureType::Hunter {
+                stats.hunter_count += 1;
+            }
         }
 
-        if board.creature2.creature_type == CreatureType::Magical {
-            stats.magical_count += 1;
-        } else if board.creature2.creature_type == CreatureType::Brute {
-            stats.brute_count += 1;
-        } else if board.creature2.creature_type == CreatureType::Hunter {
-            stats.hunter_count += 1;
+        if board.creature2.card_id != 0 {
+            if board.creature2.creature_type == CreatureType::Magical {
+                stats.magical_count += 1;
+            } else if board.creature2.creature_type == CreatureType::Brute {
+                stats.brute_count += 1;
+            } else if board.creature2.creature_type == CreatureType::Hunter {
+                stats.hunter_count += 1;
+            }
         }
 
-        if board.creature3.creature_type == CreatureType::Magical {
-            stats.magical_count += 1;
-        } else if board.creature3.creature_type == CreatureType::Brute {
-            stats.brute_count += 1;
-        } else if board.creature3.creature_type == CreatureType::Hunter {
-            stats.hunter_count += 1;
+        if board.creature3.card_id != 0 {
+            if board.creature3.creature_type == CreatureType::Magical {
+                stats.magical_count += 1;
+            } else if board.creature3.creature_type == CreatureType::Brute {
+                stats.brute_count += 1;
+            } else if board.creature3.creature_type == CreatureType::Hunter {
+                stats.hunter_count += 1;
+            }
         }
 
-        if board.creature4.creature_type == CreatureType::Magical {
-            stats.magical_count += 1;
-        } else if board.creature4.creature_type == CreatureType::Brute {
-            stats.brute_count += 1;
-        } else if board.creature4.creature_type == CreatureType::Hunter {
-            stats.hunter_count += 1;
+        if board.creature4.card_id != 0 {
+            if board.creature4.creature_type == CreatureType::Magical {
+                stats.magical_count += 1;
+            } else if board.creature4.creature_type == CreatureType::Brute {
+                stats.brute_count += 1;
+            } else if board.creature4.creature_type == CreatureType::Hunter {
+                stats.hunter_count += 1;
+            }
         }
 
-        if board.creature5.creature_type == CreatureType::Magical {
-            stats.magical_count += 1;
-        } else if board.creature5.creature_type == CreatureType::Brute {
-            stats.brute_count += 1;
-        } else if board.creature5.creature_type == CreatureType::Hunter {
-            stats.hunter_count += 1;
+        if board.creature5.card_id != 0 {
+            if board.creature5.creature_type == CreatureType::Magical {
+                stats.magical_count += 1;
+            } else if board.creature5.creature_type == CreatureType::Brute {
+                stats.brute_count += 1;
+            } else if board.creature5.creature_type == CreatureType::Hunter {
+                stats.hunter_count += 1;
+            }
         }
 
-        if board.creature6.creature_type == CreatureType::Magical {
-            stats.magical_count += 1;
-        } else if board.creature6.creature_type == CreatureType::Brute {
-            stats.brute_count += 1;
-        } else if board.creature6.creature_type == CreatureType::Hunter {
-            stats.hunter_count += 1;
+        if board.creature6.card_id != 0 {
+            if board.creature6.creature_type == CreatureType::Magical {
+                stats.magical_count += 1;
+            } else if board.creature6.creature_type == CreatureType::Brute {
+                stats.brute_count += 1;
+            } else if board.creature6.creature_type == CreatureType::Hunter {
+                stats.hunter_count += 1;
+            }
         }
 
         stats

@@ -38,7 +38,7 @@ function ArenaPage() {
           let computedMap = generateMapNodes(map.level, map.seed)
 
           gameState.setMap(computedMap.map(node => {
-            return { ...node, active: node.parents.includes(data.last_node_id) }
+            return { ...node, active: node.parents.includes(data.last_node_id), status: node.nodeId === data.last_node_id ? 1 : 0 }
           }))
         }
 

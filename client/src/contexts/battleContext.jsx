@@ -440,7 +440,19 @@ export const BattleProvider = ({ children }) => {
     })
 
     setHand(data.battle.hand.map((card, i) => CARD_DETAILS(card, i + 1)))
-    // setBoard(formatBoard(data.board))
+
+    if (data.board && Object.keys(data.board).length > 0) {
+      let board = Object.entries(data.board).reduce((acc, [key, creature]) => {
+        acc[key] = {
+          ...creature,
+          cardId: creature.card_id,
+          creatureType: creature.creature_type
+        };
+        return acc;
+      }, {});
+
+      setBoard(formatBoard(board))
+    }
 
     setResettingState(false)
   }
