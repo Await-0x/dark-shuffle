@@ -36,10 +36,9 @@ function StartBattleContainer() {
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
       const battleValues = res.find(e => e.componentName === 'Battle')
-      const battleEffects = res.find(e => e.componentName === 'BattleEffects')
 
       game.setGame(gameValues)
-      battle.actions.startBattle(battleValues, battleEffects)
+      battle.actions.startBattle(battleValues)
     }
 
     setSelectingNode(false)

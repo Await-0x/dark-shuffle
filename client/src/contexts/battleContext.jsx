@@ -158,16 +158,23 @@ export const BattleProvider = ({ children }) => {
     setTurnEnded(true)
   }
 
-  const startBattle = async (battle, battleEffects) => {
+  const startBattle = async (battle) => {
     animationHandler.resetAnimationHandler()
 
-    setValues({ ...battle, monsterType: GET_MONSTER(battle.monsterId).monsterType })
-    setBattleEffects({ ...battleEffects })
+    setValues({
+      battleId: battle.battleId,
+      round: battle.round,
+      deckIndex: battle.deckIndex,
+      ...battle.hero,
+      ...battle.monster,
+      monsterType: GET_MONSTER(battle.monster.monsterId).monsterType
+    })
+    setBattleEffects({ ...battle.battleEffects })
     setHand(battle.hand.map((card, i) => CARD_DETAILS(card, i + 1)))
     setBoard([])
     setActions([])
     setRoundStats({
-      monsterStartHealth: battle.monsterHealth,
+      monsterStartHealth: battle.monster.monsterHealth,
       creaturesPlayed: 0,
       creatureAttackCount: 0
     })
@@ -200,7 +207,14 @@ export const BattleProvider = ({ children }) => {
   }
 
   const startNewTurn = () => {
-    setValues({ ...updatedValues, monsterType: GET_MONSTER(updatedValues.monsterId).monsterType })
+    setValues({
+      battleId: updatedValues.battleId,
+      round: updatedValues.round,
+      deckIndex: updatedValues.deckIndex,
+      ...updatedValues.hero,
+      ...updatedValues.monster,
+      monsterType: GET_MONSTER(updatedValues.monsterId).monsterType
+    })
     setHand(updatedValues.hand.map((card, i) => CARD_DETAILS(card, i + 1)))
     setBoard(prev => prev.map(creature => ({ ...creature, attacked: false })))
 
@@ -414,29 +428,26 @@ export const BattleProvider = ({ children }) => {
 
     setValues({
       battleId: data.battle.battle_id,
-      gameId: data.battle.game_id,
 
       round: data.battle.round,
-      heroHealth: data.battle.hero_health,
-      heroEnergy: data.battle.hero_energy,
+      heroHealth: data.battle.hero.health,
+      heroEnergy: data.battle.hero.energy,
 
-      monsterId: data.battle.monster_id,
-      monsterAttack: data.battle.monster_attack,
-      monsterHealth: data.battle.monster_health,
-      monsterType: data.battle.monster_type,
+      monsterId: data.battle.monster.monster_id,
+      monsterAttack: data.battle.monster.attack,
+      monsterHealth: data.battle.monster.health,
+      monsterType: GET_MONSTER(data.battle.monster.monster_id).monsterType,
 
-      hand: data.battle.hand,
-      deck: data.battle.deck,
       deckIndex: data.battle.deck_index,
     })
 
     setBattleEffects({
-      enemyMarks: data.battleEffects.enemy_marks,
-      heroDmgReduction: data.battleEffects.hero_dmg_reduction,
-      nextHunterAttackBonus: data.battleEffects.next_hunter_attack_bonus,
-      nextHunterHealthBonus: data.battleEffects.next_hunter_health_bonus,
-      nextBruteAttackBonus: data.battleEffects.next_brute_attack_bonus,
-      nextBruteHealthBonus: data.battleEffects.next_brute_health_bonus,
+      enemyMarks: data.battle.battle_effects.enemy_marks,
+      heroDmgReduction: data.battle.battle_effects.hero_dmg_reduction,
+      nextHunterAttackBonus: data.battle.battle_effects.next_hunter_attack_bonus,
+      nextHunterHealthBonus: data.battle.battle_effects.next_hunter_health_bonus,
+      nextBruteAttackBonus: data.battle.battle_effects.next_brute_attack_bonus,
+      nextBruteHealthBonus: data.battle.battle_effects.next_brute_health_bonus,
     })
 
     setHand(data.battle.hand.map((card, i) => CARD_DETAILS(card, i + 1)))
@@ -446,7 +457,6 @@ export const BattleProvider = ({ children }) => {
         acc[key] = {
           ...creature,
           cardId: creature.card_id,
-          creatureType: creature.creature_type
         };
         return acc;
       }, {});

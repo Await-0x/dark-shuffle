@@ -60,7 +60,7 @@ function StartDraft() {
               Season Pool
             </Typography>
             <Typography variant='h5' color='primary'>
-              {Math.floor(season.values.entryFee / 1e18)} $LORDS
+              {Math.floor(season.values.rewardPool / 1e18)} $LORDS
             </Typography>
 
           </Box>

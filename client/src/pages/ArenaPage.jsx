@@ -11,7 +11,7 @@ import DraftContainer from '../container/DraftContainer'
 import StartBattleContainer from '../container/StartBattleContainer'
 import { BattleContext } from '../contexts/battleContext'
 import { DraftContext } from '../contexts/draftContext'
-import { GameContext } from '../contexts/gameContext'
+import { GAME_STATES, GameContext } from '../contexts/gameContext'
 import { generateMapNodes } from '../helpers/map'
 
 function ArenaPage() {
@@ -20,7 +20,7 @@ function ArenaPage() {
   const draft = useContext(DraftContext)
   const battle = useContext(BattleContext)
 
-  const { gameId, inDraft, inBattle } = gameState.values
+  const { gameId, state } = gameState.values
 
   const [reconnecting, setReconnecting] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
@@ -31,7 +31,7 @@ function ArenaPage() {
     try {
       await draft.actions.fetchDraft(data.game_id)
 
-      if (!data.in_draft) {
+      if (state !== 'Draft') {
         let map = await getMap(data.game_id, data.map_level)
 
         if (map) {
@@ -42,7 +42,7 @@ function ArenaPage() {
           }))
         }
 
-        if (data.in_battle) {
+        if (state === 'Battle') {
           await battle.utils.fetchBattleState(data.active_battle_id)
         }
 
@@ -69,14 +69,10 @@ function ArenaPage() {
       }
 
       gameState.setGame({
-        seasonId: data.season_id,
         gameId: data.game_id,
-        player: data.player,
+        seasonId: data.season_id,
         player_name: hexToAscii(data.player_name),
-        active: data.active,
-        inDraft: data.in_draft,
-        inBattle: data.in_battle,
-        activeBattleId: data.active_battle_id,
+        state: GAME_STATES[data.state],
 
         heroHealth: data.hero_health,
         heroXp: data.hero_xp,
@@ -114,11 +110,11 @@ function ArenaPage() {
     <Scrollbars style={{ ...styles.container }}>
       {gameId === null && <StartDraft />}
 
-      {inDraft && <DraftContainer />}
+      {state === 'Draft' && <DraftContainer />}
 
-      {inBattle && <BattleContainer />}
+      {state === 'Battle' && <BattleContainer />}
 
-      {(gameId !== null && !inDraft && !inBattle) && <StartBattleContainer />}
+      {state === 'Map' && <StartBattleContainer />}
 
       {reconnecting && <ReconnectDialog close={() => setReconnecting(false)} />}
     </Scrollbars>

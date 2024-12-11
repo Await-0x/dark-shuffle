@@ -34,17 +34,15 @@ export async function getActiveGame(address) {
     }) {
       edges {
         node {
-          season_id,
           game_id,
-          player,
+          season_id,
           player_name,
-          active,
-          in_draft,
-          in_battle,
-          active_battle_id,
+          state,
+
           hero_health,
           hero_xp,
           monsters_slain,
+          
           map_level,
           map_depth,
           last_node_id
@@ -137,69 +135,63 @@ export async function getBattleState(battle_id) {
           battle_id
           game_id
           round
-          hero_health
-          hero_energy
 
-          monster_id
-          monster_attack
-          monster_health
-          monster_type
+          hero {
+            health
+            max_health
+            energy
+            max_energy
+          }
+
+          monster {
+            monster_id
+            attack
+            health
+          }
 
           hand
           deck
           deck_index
-        }
-        ... on darkshuffle_BattleEffects {
-          battle_id
-          enemy_marks
-          hero_dmg_reduction
-          next_hunter_attack_bonus
-          next_hunter_health_bonus
-          next_brute_attack_bonus
-          next_brute_health_bonus
+
+          battle_effects { 
+            enemy_marks
+            hero_dmg_reduction
+            next_hunter_attack_bonus
+            next_hunter_health_bonus
+            next_brute_attack_bonus
+            next_brute_health_bonus
+          }
         }
         ... on darkshuffle_Board {
           creature1 {
             card_id,
-            cost,
             attack,
             health,
-            creature_type
           }
           creature2 {
             card_id,
-            cost,
             attack,
             health,
-            creature_type
           }
           creature3 {
             card_id,
-            cost,
             attack,
             health,
-            creature_type
           }
           creature4 {
             card_id,
-            cost,
             attack,
             health,
-            creature_type
           }
           creature5 {
             card_id,
-            cost,
             attack,
             health,
-            creature_type
           }
           creature6 {
             card_id,
-            cost,
             attack,
             health,
-            creature_type
           }
         }
       }
@@ -209,8 +201,7 @@ export async function getBattleState(battle_id) {
   const res = await request(dojoConfig.toriiUrl, document);
 
   const result = {
-    battle: res?.entity.models.find(x => x.monster_id),
-    battleEffects: res?.entity.models[0],
+    battle: res?.entity.models.find(model => model.hero),
     board: res?.entity.models.find(model => model.creature1)
   };
 

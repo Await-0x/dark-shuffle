@@ -24,15 +24,13 @@ export const components = {
   'Game': {
     gameId: Number(),
     seasonId: Number(),
-    player: null,
     player_name: String(),
-    active: Boolean(),
-    inDraft: Boolean(),
-    inBattle: Boolean(),
-    activeBattleId: Number(),
+    state: Number(),
+
     heroHealth: Number(),
     heroXp: Number(),
     monstersSlain: Number(),
+
     mapLevel: Number(),
     mapDepth: Number(),
     lastNodeId: Number(),
@@ -69,26 +67,14 @@ export const components = {
     gameId: Number(),
 
     round: Number(),
-    heroHealth: Number(),
-    heroEnergy: Number(),
-
-    monsterId: Number(),
-    monsterAttack: Number(),
-    monsterHealth: Number(),
-    monsterType: Number(),
+    hero: 'Hero',
+    monster: 'Monster',
 
     hand: 'array',
     deck: 'array',
     deckIndex: Number(),
-  },
-  'BattleEffects': {
-    battleId: Number(),
-    enemyMarks: Number(),
-    heroDmgReduction: Number(),
-    nextHunterAttackBonus: Number(),
-    nextHunterHealthBonus: Number(),
-    nextBruteAttackBonus: Number(),
-    nextBruteHealthBonus: Number(),
+
+    battleEffects: 'BattleEffects',
   },
   'Board': {
     battleId: Number(),
@@ -111,7 +97,7 @@ export const components = {
   'Leaderboard': {
     seasonId: Number(),
     rank: Number(),
-    player: null,
+    gameId: Number(),
     score: Number(),
   },
 }

@@ -4,10 +4,16 @@ import { DojoContext } from "./dojoContext";
 
 export const GameContext = createContext()
 
+export const GAME_STATES = {
+  0: 'Draft',
+  1: 'Battle',
+  2: 'Map',
+  3: 'None',
+}
+
 const GAME_VALUES = {
   gameId: null,
-  inDraft: false,
-  inBattle: false,
+  state: GAME_STATES[3],
 }
 
 export const GameProvider = ({ children }) => {
@@ -20,7 +26,7 @@ export const GameProvider = ({ children }) => {
   const [score, setScore] = useState()
 
   const setGame = (values) => {
-    setValues(prev => ({ ...prev, ...values }))
+    setValues(prev => ({ ...prev, ...values, state: GAME_STATES[values.state] }))
   }
 
   const endGame = () => {

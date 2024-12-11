@@ -32,15 +32,45 @@ export function translateEvent(event) {
     }
 
     if (component[key] === 'Creature') {
-      let creature = values.splice(index + 1, 4)
+      let creature = values.splice(index + 1, 2)
 
       return {
         ...acc, [key]: {
           cardId: parseInt(values[index]),
-          cost: parseInt(creature[0]),
-          attack: parseInt(creature[1]),
-          health: parseInt(creature[2]),
-          creatureType: parseInt(creature[3]),
+          attack: parseInt(creature[0]),
+          health: parseInt(creature[1]),
+        }
+      }
+    } else if (component[key] === 'Monster') {
+      let monster = values.splice(index + 1, 2)
+
+      return {
+        ...acc, [key]: {
+          monsterId: parseInt(values[index]),
+          monsterAttack: parseInt(monster[0]),
+          monsterHealth: parseInt(monster[1]),
+        }
+      }
+    } else if (component[key] === 'Hero') {
+      let hero = values.splice(index + 1, 1)
+
+      return {
+        ...acc, [key]: {
+          heroHealth: parseInt(values[index]),
+          heroEnergy: parseInt(hero[0]),
+        }
+      }
+    } else if (component[key] === 'BattleEffects') {
+      let battleEffects = values.splice(index + 1, 5)
+
+      return {
+        ...acc, [key]: {
+          enemyMarks: parseInt(values[index]),
+          heroDmgReduction: parseInt(battleEffects[0]),
+          nextHunterAttackBonus: parseInt(battleEffects[1]),
+          nextHunterHealthBonus: parseInt(battleEffects[2]),
+          nextBruteAttackBonus: parseInt(battleEffects[3]),
+          nextBruteHealthBonus: parseInt(battleEffects[4]),
         }
       }
     }

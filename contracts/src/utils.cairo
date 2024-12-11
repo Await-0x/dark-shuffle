@@ -11,3 +11,4 @@ pub mod summon;
 pub mod season;
 pub mod death;
 pub mod attack;
+pub mod config;

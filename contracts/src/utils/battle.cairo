@@ -1,22 +1,22 @@
 use darkshuffle::models::game::GameEffects;
-use darkshuffle::models::battle::{Battle, BoardStats, Creature, Card, BattleEffects, BattleOwnerTrait, CardType, CreatureType, RoundStats};
-use darkshuffle::constants::MAX_HEALTH;
+use darkshuffle::models::battle::{Battle, BoardStats, Creature, Card, CardType, CreatureType, RoundStats};
+use darkshuffle::utils::cards::CardUtilsImpl;
 
 #[generate_trait]
 impl BattleUtilsImpl of BattleUtilsTrait {
     fn reduce_monster_attack(ref battle: Battle, amount: u8) {
-        if battle.monster_attack < amount {
-            battle.monster_attack = 1;
+        if battle.monster.attack < amount {
+            battle.monster.attack = 1;
         } else {
-            battle.monster_attack -= amount;
+            battle.monster.attack -= amount;
         }
 
-        if battle.monster_attack == 0 {
-            battle.monster_attack = 1;
+        if battle.monster.attack == 0 {
+            battle.monster.attack = 1;
         }
     }
 
-    fn energy_cost(ref battle: Battle, ref battle_effects: BattleEffects, round_stats: RoundStats, game_effects: GameEffects, card: Card) {
+    fn energy_cost(ref battle: Battle, round_stats: RoundStats, game_effects: GameEffects, card: Card) {
         let mut cost = card.cost;
 
         if round_stats.creatures_played == 0 && game_effects.first_cost > 0 {
@@ -27,28 +27,28 @@ impl BattleUtilsImpl of BattleUtilsTrait {
             cost -= game_effects.first_cost;
         }
 
-        assert(battle.hero_energy >= cost, 'Not enough energy');
-        battle.hero_energy -= cost;
+        assert(battle.hero.energy >= cost, 'Not enough energy');
+        battle.hero.energy -= cost;
     }
 
     fn heal_hero(ref battle: Battle, amount: u8) {
-        if battle.hero_health + amount >= MAX_HEALTH {
-            battle.hero_health = MAX_HEALTH;
+        if battle.hero.health + amount >= battle.hero.max_health {
+            battle.hero.health = battle.hero.max_health;
         } else {
-            battle.hero_health += amount;
+            battle.hero.health += amount;
         }
     }
 
     fn increase_hero_energy(ref battle: Battle, amount: u8) {
-        battle.hero_energy += amount;
+        battle.hero.energy += amount;
     }
 
-    fn damage_hero(ref battle: Battle, ref battle_effects: BattleEffects, game_effects: GameEffects, amount: u8) {
-        if amount <= battle_effects.hero_dmg_reduction {
+    fn damage_hero(ref battle: Battle, game_effects: GameEffects, amount: u8) {
+        if amount <= battle.battle_effects.hero_dmg_reduction {
             return;
         }
 
-        let mut damage = amount - battle_effects.hero_dmg_reduction;
+        let mut damage = amount - battle.battle_effects.hero_dmg_reduction;
 
         if damage <= game_effects.hero_dmg_reduction {
             return;
@@ -56,41 +56,43 @@ impl BattleUtilsImpl of BattleUtilsTrait {
 
         damage -= game_effects.hero_dmg_reduction;
 
-        if battle.hero_health < damage {
-            battle.hero_health = 0;
+        if battle.hero.health < damage {
+            battle.hero.health = 0;
         } else {
-            battle.hero_health -= damage;
+            battle.hero.health -= damage;
         }
     }
 
-    fn damage_monster(ref battle: Battle, ref battle_effects: BattleEffects, amount: u8, creature_type: CreatureType) {
-        let mut damage = amount + battle_effects.enemy_marks;
+    fn damage_monster(ref battle: Battle, amount: u8, creature_type: CreatureType) {
+        let mut damage = amount + battle.battle_effects.enemy_marks;
         
         if damage == 0 {
             return;
         }
 
-        if battle.monster_id == 75 && creature_type == CreatureType::Hunter {
+        if battle.monster.monster_id == 75 && creature_type == CreatureType::Hunter {
             damage -= 1;
-        } else if battle.monster_id == 70 && creature_type == CreatureType::Magical {
+        } else if battle.monster.monster_id == 70 && creature_type == CreatureType::Magical {
             damage -= 1;
-        } else if battle.monster_id == 65 && creature_type == CreatureType::Brute {
+        } else if battle.monster.monster_id == 65 && creature_type == CreatureType::Brute {
             damage -= 1;
         }
 
-        if battle.monster_health < damage {
-            battle.monster_health = 0;
+        if battle.monster.health < damage {
+            battle.monster.health = 0;
         } else {
-            battle.monster_health -= damage;
+            battle.monster.health -= damage;
         }
     }
 
     fn damage_creature(ref creature: Creature, board_stats: BoardStats, mut amount: u8, monster_id: u8) {
-        if monster_id == 74 && creature.creature_type == CreatureType::Hunter {
+        let creature_type = CardUtilsImpl::get_card(creature.card_id).creature_type;
+
+        if monster_id == 74 && creature_type == CreatureType::Hunter {
             amount += 1;
-        } else if monster_id == 69 && creature.creature_type == CreatureType::Magical {
+        } else if monster_id == 69 && creature_type == CreatureType::Magical {
             amount += 1;
-        } else if monster_id == 64 && creature.creature_type == CreatureType::Brute {
+        } else if monster_id == 64 && creature_type == CreatureType::Brute {
             amount += 1;
         }
 

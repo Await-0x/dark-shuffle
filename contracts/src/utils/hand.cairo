@@ -1,5 +1,4 @@
 use darkshuffle::models::battle::{Battle};
-use darkshuffle::constants::{MAX_HAND_SIZE};
 
 #[generate_trait]
 impl HandUtilsImpl of HandUtilsTrait {           
@@ -33,7 +32,7 @@ impl HandUtilsImpl of HandUtilsTrait {
         battle.hand = new_hand.span();
     }
 
-    fn draw_cards(ref battle: Battle, shuffled_deck: Span<u8>, amount: u8, skip: u8) {
+    fn draw_cards(ref battle: Battle, shuffled_deck: Span<u8>, amount: u8, skip: u8, max_hand_size: u8) {
         let mut new_hand = array![];
 
         let mut i = 0;
@@ -44,7 +43,7 @@ impl HandUtilsImpl of HandUtilsTrait {
 
         i = 0;
         while i < amount.into() {
-            if new_hand.len() >= MAX_HAND_SIZE.into() || skip.into() + i >= shuffled_deck.len() {
+            if new_hand.len() >= max_hand_size.into() || skip.into() + i >= shuffled_deck.len() {
                 break;
             }
 
