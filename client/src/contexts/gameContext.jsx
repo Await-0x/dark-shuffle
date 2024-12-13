@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { generateMapNodes } from "../helpers/map";
 import { DojoContext } from "./dojoContext";
 import { useSeason } from "./seasonContext";
+import { useEffect } from "react";
 
 export const GameContext = createContext()
 
@@ -22,28 +23,33 @@ export const GameProvider = ({ children }) => {
   const season = useSeason()
 
   const [values, setValues] = useState({ ...GAME_VALUES })
+  const [gameSettings, setGameSettings] = useState({})
   const [gameEffects, setGameEffects] = useState({})
 
   const [map, setMap] = useState(null)
   const [score, setScore] = useState()
 
+  useEffect(() => {
+    setGameSettings(season.settings)
+  }, [season.settings])
+
   const setGame = (values) => {
-    setValues(prev => ({ ...prev, ...values, state: GAME_STATES[values.state || 3] }))
+    setValues(prev => ({ ...prev, ...values, state: GAME_STATES[isNaN(values.state) ? 3 : values.state] }))
   }
 
   const endGame = () => {
     setValues({ ...GAME_VALUES })
-    setGameEffects({})
+    setGameSettings({})
     setMap(null)
     setScore()
   }
 
   const mintGameToken = async () => {
-    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "mint", calldata: [season.values.settingsId] }], true)
+    const res = await dojo.executeTx([{ contractName: "game_systems", entrypoint: "mint", calldata: [season.values.settingsId] }])
 
     if (res) {
       const config = res.find(e => e.componentName === 'WorldConfig')
-      return config.game_count
+      return config.gameCount
     }
   }
 
@@ -84,7 +90,8 @@ export const GameProvider = ({ children }) => {
       value={{
         getState: {
           map,
-          gameEffects
+          gameEffects,
+          gameSettings
         },
 
         values,
@@ -94,6 +101,7 @@ export const GameProvider = ({ children }) => {
         endGame,
         setScore,
         setGameEffects,
+        setGameSettings,
         setMap,
 
         actions: {

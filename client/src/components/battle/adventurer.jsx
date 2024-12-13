@@ -16,6 +16,8 @@ import healAnim from "../../assets/animations/heal.json";
 
 export default function Adventurer(props) {
   const game = useContext(GameContext)
+  const { gameSettings } = game.getState
+
   const animationHandler = useContext(AnimationContext)
   const battle = useContext(BattleContext)
 
@@ -92,7 +94,7 @@ export default function Adventurer(props) {
         </Box>
 
         <Typography mr={'50px'} sx={{ fontSize: '13px', opacity: 0.7 }}>
-          +{Math.min(MAX_ENERGY, battle.state.values.round + 1)}
+          +{Math.min(gameSettings.max_energy, battle.state.values.round + 1)}
         </Typography>
       </Box>
 
@@ -104,7 +106,7 @@ export default function Adventurer(props) {
 
               <Typography color="primary" variant='h6'>Health</Typography>
             </Box>
-            <Typography mt={0.5}>You can't have more than {MAX_HEALTH} health.</Typography>
+            <Typography mt={0.5}>You can't have more than {gameSettings.max_health} health.</Typography>
             <Typography mt={0.5}>If your health reaches 0, the game ends.</Typography>
           </Box>
         }>
@@ -118,7 +120,7 @@ export default function Adventurer(props) {
         </CustomTooltip>
 
         <Box width={'160px'} ml={0.5}>
-          <HealthBar variant="determinate" value={normalise(battle.state.values.heroHealth, Math.max(START_HEALTH, game.values.heroHealth))} />
+          <HealthBar variant="determinate" value={normalise(battle.state.values.heroHealth, Math.max(gameSettings.start_health, game.values.heroHealth))} />
         </Box>
 
         {armor > 0 && <Box display={'flex'} alignItems={'center'} ml={0.5}>

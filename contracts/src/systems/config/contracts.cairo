@@ -48,7 +48,7 @@ mod config_systems {
             assert(max_hand_size > 0, 'Invalid max hand size');
 
             world.write_model(@GameSettings {
-                settings_id: world.dispatcher.uuid() + 1,
+                settings_id: world.dispatcher.uuid(),
                 start_health,
                 start_energy,
                 start_hand_size,

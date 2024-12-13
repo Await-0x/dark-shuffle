@@ -25,12 +25,35 @@ export async function getSeason(season_id) {
   return res?.darkshuffleSeasonModels?.edges[0]?.node
 }
 
+export async function getSettings(settings_id) {
+  const document = gql`
+  {
+    darkshuffleGameSettingsModels(where:{settings_id:${settings_id}}) {
+      edges {
+        node {
+          settings_id,
+          start_health,
+          start_energy,
+          start_hand_size,
+          draft_size,
+          max_health,
+          max_energy,
+          max_hand_size,
+        }
+      }
+    }
+  }`
+
+  const res = await request(dojoConfig.toriiUrl, document)
+
+  return res?.darkshuffleGameSettingsModels?.edges[0]?.node
+}
+
 export async function getActiveGame(address) {
   const document = gql`
   {
     darkshuffleGameModels (where:{
-      active:true,
-      player:"${address}",
+      game_id:"${address}",
       season_id:${dojoConfig.seasonId}
     }) {
       edges {
@@ -141,7 +164,6 @@ export async function getBattleState(battle_id) {
             health
             max_health
             energy
-            max_energy
           }
 
           monster {
@@ -215,7 +237,7 @@ export async function getLeaderboard(seasonId, page) {
   try {
     const document = gql`
     {
-      darkshuffleGameModels (where: {active: false, season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+      darkshuffleGameModels (where: {season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
         edges {
           node {
             player_name,

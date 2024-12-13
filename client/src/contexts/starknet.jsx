@@ -22,6 +22,14 @@ const cartridge = new CartridgeConnector({
   policies: [
     {
       target: game_systems,
+      method: "mint",
+    },
+    {
+      target: game_systems,
+      method: "enter_season",
+    },
+    {
+      target: game_systems,
       method: "start_game",
     },
     {

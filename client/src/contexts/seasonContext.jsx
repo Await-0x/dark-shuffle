@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { dojoConfig } from '../../dojo.config';
-import { getSeason } from '../api/indexer';
+import { getSeason, getSettings } from '../api/indexer';
 
 // Create a context
 const SeasonContext = createContext();
@@ -8,6 +8,7 @@ const SeasonContext = createContext();
 // Create a provider component
 export const SeasonProvider = ({ children }) => {
   const [values, setValues] = useState({});
+  const [settings, setSettings] = useState({});
 
   useEffect(() => {
     async function fetchSeason() {
@@ -20,6 +21,9 @@ export const SeasonProvider = ({ children }) => {
         entryFee: parseInt(season.entry_amount, 16),
         rewardPool: parseInt(season.reward_pool, 16),
       })
+
+      const settings = await getSettings(season.settings_id)
+      setSettings(settings)
     }
 
     fetchSeason()
@@ -27,7 +31,8 @@ export const SeasonProvider = ({ children }) => {
 
   return (
     <SeasonContext.Provider value={{
-      values
+      values,
+      settings
     }}>
       {children}
     </SeasonContext.Provider>

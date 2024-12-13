@@ -6,7 +6,6 @@ use darkshuffle::constants::{LAST_NODE_DEPTH, WORLD_CONFIG_ID};
 use darkshuffle::models::config::{WorldConfig};
 use openzeppelin::token::erc721::interface::{IERC721Dispatcher, IERC721DispatcherTrait};
 
-
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
 pub struct Game {

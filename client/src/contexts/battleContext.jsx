@@ -7,7 +7,7 @@ import { GET_MONSTER } from "../battle/monsterUtils";
 import { endOfTurnMonsterEffect } from "../battle/monsterAbility";
 import { summonEffect } from "../battle/summonUtils";
 import { CARD_DETAILS, formatBoard, tags } from "../helpers/cards";
-import { ADVENTURER_ID, MAX_HEALTH } from "../helpers/constants";
+import { ADVENTURER_ID } from "../helpers/constants";
 import { AnimationContext } from "./animationHandler";
 import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
@@ -19,7 +19,7 @@ export const BattleContext = createContext()
 export const BattleProvider = ({ children }) => {
   const dojo = useContext(DojoContext)
   const game = useContext(GameContext)
-  const { gameEffects } = game.getState
+  const { gameEffects, gameSettings } = game.getState
 
   const animationHandler = useContext(AnimationContext)
 
@@ -117,7 +117,7 @@ export const BattleProvider = ({ children }) => {
   const submitBattleActions = async () => {
     setPendingTx(true)
 
-    const res = await dojo.executeTx([{ contractName: "battle_systems", entrypoint: "battle_actions", calldata: [values.battleId, [...actions, [1]]] }], true)
+    const res = await dojo.executeTx([{ contractName: "battle_systems", entrypoint: "battle_actions", calldata: [values.battleId, game.values.gameId, [...actions, [1]]] }], true)
 
     if (!res) {
       return;
@@ -359,7 +359,7 @@ export const BattleProvider = ({ children }) => {
       return;
     }
 
-    setValues(prev => ({ ...prev, heroHealth: Math.min(MAX_HEALTH, prev.heroHealth + amount) }))
+    setValues(prev => ({ ...prev, heroHealth: Math.min(gameSettings.max_health, prev.heroHealth + amount) }))
   }
 
   const damageHero = (amount) => {

@@ -28,6 +28,9 @@ pub struct Battle {
 pub struct Board {   
     #[key]
     battle_id: u16,
+    #[key]
+    game_id: u128,
+
     creature1: Creature,
     creature2: Creature,
     creature3: Creature,
