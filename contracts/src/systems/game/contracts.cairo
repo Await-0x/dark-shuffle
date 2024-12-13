@@ -6,9 +6,10 @@ trait IGameContract<T> {
     fn enter_season(ref self: T, game_id: u128, season_id: u32);
     fn start_game(ref self: T, game_id: u128, name: felt252);
     fn abandon_game(ref self: T, game_id: u128);
-    fn score(ref self: T, game_id: u128) -> u16;
-    fn get_settings(ref self: T, settings_id: u32) -> GameSettings;
-    fn is_valid_settings(ref self: T, settings_id: u32) -> bool;
+
+    fn score(self: @T, game_id: u128) -> u16;
+    fn get_settings(self: @T, settings_id: u32) -> GameSettings;
+    fn settings_exists(self: @T, settings_id: u32) -> bool;
 }
 
 #[dojo::contract]
@@ -25,7 +26,7 @@ mod game_systems {
     use darkshuffle::constants::{WORLD_CONFIG_ID, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID, DEFAULT_NS, LAST_NODE_DEPTH};
     use darkshuffle::models::game::{Game, GameState, GameOwnerTrait};
     use darkshuffle::models::draft::{Draft};
-    use darkshuffle::models::config::{WorldConfig, GameSettings};
+    use darkshuffle::models::config::{WorldConfig, GameSettings, GameSettingsTrait};
     use darkshuffle::models::season::{Season, SeasonOwnerTrait};
     use darkshuffle::utils::{
         season::SeasonUtilsImpl,
@@ -130,22 +131,22 @@ mod game_systems {
             world.write_model(@game);
         }
 
-        fn score(ref self: ContractState, game_id: u128) -> u16 {
+        fn score(self: @ContractState, game_id: u128) -> u16 {
             let world: WorldStorage = self.world(DEFAULT_NS());
             let game: Game = world.read_model(game_id);
             game.hero_xp
         }
 
-        fn get_settings(ref self: ContractState, settings_id: u32) -> GameSettings {
+        fn get_settings(self: @ContractState, settings_id: u32) -> GameSettings {
             let world: WorldStorage = self.world(DEFAULT_NS());
             let settings: GameSettings = world.read_model(settings_id);
             settings
         }
 
-        fn is_valid_settings(ref self: ContractState, settings_id: u32) -> bool {
+        fn settings_exists(self: @ContractState, settings_id: u32) -> bool {
             let world: WorldStorage = self.world(DEFAULT_NS());
             let settings: GameSettings = world.read_model(settings_id);
-            settings.start_health != 0
+            settings.exists()
         }
     }
 }

@@ -21,7 +21,7 @@ mod season_systems {
 
     use darkshuffle::constants::{PRIZES, DEFAULT_NS, WORLD_CONFIG_ID};
     use darkshuffle::models::season::{Season, SeasonOwnerTrait, Leaderboard, Donation};
-    use darkshuffle::models::config::{GameSettings, WorldConfig};
+    use darkshuffle::models::config::{GameSettings, WorldConfig, GameSettingsTrait};
     use darkshuffle::utils::{
         season::SeasonUtilsImpl
     };
@@ -32,7 +32,7 @@ mod season_systems {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 
             let settings: GameSettings = world.read_model(settings_id);
-            assert(settings.start_health != 0, 'Invalid settings');
+            assert(settings.exists(), 'Invalid settings');
 
             world.write_model(@Season {
                 season_id: world.dispatcher.uuid() + 1,

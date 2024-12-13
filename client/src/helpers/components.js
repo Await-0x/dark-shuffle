@@ -20,6 +20,13 @@ export const translateName = (selector) => {
 }
 
 export const components = {
+  // Config Models
+  'WorldConfig': {
+    configId: Number(),
+    gameTokenAddress: String(),
+    gameCount: Number(),
+  },
+
   // Game Models
   'Game': {
     gameId: Number(),

@@ -1,4 +1,3 @@
-import { useAccount } from '@starknet-react/core';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { dojoConfig } from '../../dojo.config';
 import { getSeason } from '../api/indexer';
@@ -8,7 +7,6 @@ const SeasonContext = createContext();
 
 // Create a provider component
 export const SeasonProvider = ({ children }) => {
-  const { address } = useAccount()
   const [values, setValues] = useState({});
 
   useEffect(() => {
@@ -16,6 +14,7 @@ export const SeasonProvider = ({ children }) => {
       const season = await getSeason(dojoConfig.seasonId)
 
       setValues({
+        settingsId: season.settings_id,
         end: parseInt(season.end, 16),
         start: parseInt(season.start, 16),
         entryFee: parseInt(season.entry_amount, 16),

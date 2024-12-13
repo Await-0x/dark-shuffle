@@ -39,7 +39,7 @@ pub struct Board {
 #[derive(Introspect, Copy, Drop, Serde)]
 pub struct Hero {
     health: u8,
-    max_health: u8,
+    max_health: u8, // doesn't change right now
     energy: u8,
 }
 

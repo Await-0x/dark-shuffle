@@ -9,6 +9,7 @@ export async function getSeason(season_id) {
       edges {
         node {
           season_id,
+          settings_id,
           start,
           end,
           entry_amount,

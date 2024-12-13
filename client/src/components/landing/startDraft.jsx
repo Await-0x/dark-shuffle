@@ -3,37 +3,35 @@ import { Box, Typography } from '@mui/material'
 import React, { useContext, useState } from 'react'
 import { BrowserView, MobileView } from 'react-device-detect'
 import logo from '../../assets/images/logo.svg'
+import { DojoContext } from '../../contexts/dojoContext'
 import { DraftContext } from '../../contexts/draftContext'
-import { GameContext } from '../../contexts/gameContext'
 import { useSeason } from '../../contexts/seasonContext'
 import { _styles } from '../../helpers/styles'
 import { formatTimeUntil } from '../../helpers/utilities'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
-import { DojoContext } from '../../contexts/dojoContext'
 
 function StartDraft() {
   const season = useSeason()
   const dojo = useContext(DojoContext)
-  const game = useContext(GameContext)
   const draft = useContext(DraftContext)
 
   const [loading, setLoading] = useState(false)
   const [showWarnings, setShowWarnings] = useState(false)
 
-  async function beginDraft(isDemo) {
-    if (!isDemo) {
+  async function beginDraft(isSeason) {
+    if (isSeason) {
       setShowWarnings(true)
     }
 
-    game.setGame({ isDemo })
-
     setLoading(true)
 
-    await draft.actions.startDraft(isDemo)
+    await draft.actions.startDraft(isSeason)
 
     setLoading(false)
   }
+
+
 
   const enoughFunds = dojo.balances.lords >= season.values.entryFee
 
@@ -78,11 +76,11 @@ function StartDraft() {
             Season 0: New beginnings
           </Typography>
 
-          <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+          <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
             Play Season
           </LoadingButton>
 
-          <LoadingButton color='secondary' variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+          <LoadingButton color='secondary' variant='outlined' loading={loading} onClick={() => beginDraft(false)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
             Play Demo
           </LoadingButton>
 

@@ -11,19 +11,13 @@ trait IDarkShuffleGameToken<TState> {
 
 #[starknet::contract]
 mod DarkShuffleGameToken {
-    use dsgt::utils::make_json_and_base64_encode_metadata;
-
     use starknet::ContractAddress;
     use starknet::storage::{StoragePointerReadAccess, StoragePointerWriteAccess, StoragePathEntry, Map};
     use openzeppelin::access::ownable::OwnableComponent;
     use openzeppelin::introspection::src5::SRC5Component;
-    use openzeppelin::token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
     use openzeppelin::token::erc721::ERC721Component;
     use openzeppelin::token::erc721::ERC721HooksEmptyImpl;
-    use openzeppelin::token::erc721::interface::{
-        IERC721Metadata, IERC721MetadataDispatcher, IERC721MetadataDispatcherTrait, IERC721Dispatcher,
-        IERC721DispatcherTrait, IERC721MetadataCamelOnly,
-    };
+    use openzeppelin::token::erc721::interface::{IERC721Dispatcher, IERC721DispatcherTrait};
 
     component!(path: ERC721Component, storage: erc721, event: ERC721Event);
     component!(path: SRC5Component, storage: src5, event: SRC5Event);
@@ -38,10 +32,6 @@ mod DarkShuffleGameToken {
 
     impl ERC721InternalImpl = ERC721Component::InternalImpl<ContractState>;
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
-
-    fn IMAGE_URL() -> ByteArray {
-        "QmXbhQRZMxod2USTMgargWt3sxPGBo4sQNiQEMkLq36qfC"
-    }
 
     #[storage]
     struct Storage {
@@ -74,27 +64,6 @@ mod DarkShuffleGameToken {
     ) {
         self.erc721.initializer("Dark Shuffle Game Token", "DSGT", "");
         self.ownable.initializer(owner);
-    }
-
-    #[abi(embed_v0)]
-    impl ERC721Metadata of IERC721Metadata<ContractState> {
-        /// Returns the NFT name.
-        fn name(self: @ContractState) -> ByteArray {
-            self.erc721.ERC721_name.read()
-        }
-
-        /// Returns the NFT symbol.
-        fn symbol(self: @ContractState) -> ByteArray {
-            self.erc721.ERC721_symbol.read()
-        }
-
-        /// Returns the Uniform Resource Identifier (URI) for the `token_id` token.
-        fn token_uri(self: @ContractState, token_id: u256) -> ByteArray {
-            self.erc721._require_owned(token_id);
-
-            let season_pass = self.season_pass.entry(token_id).read();
-            make_json_and_base64_encode_metadata(season_pass, IMAGE_URL())
-        }
     }
 
     #[abi(embed_v0)]

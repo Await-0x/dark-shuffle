@@ -22,3 +22,10 @@ pub struct GameSettings {
     max_energy: u8,
     max_hand_size: u8,
 }
+
+#[generate_trait]
+impl GameSettingsImpl of GameSettingsTrait {
+    fn exists(self: GameSettings) -> bool {
+        self.start_health.is_non_zero()
+    }
+}

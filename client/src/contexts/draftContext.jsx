@@ -27,25 +27,33 @@ export const DraftProvider = ({ children }) => {
     setCards([])
   }
 
-  const startDraft = async (isDemo) => {
+  const startDraft = async (isSeason) => {
     initializeState()
 
+    const gameId = await game.mintGameToken()
+
     const txs = []
-    if (!isDemo) {
+    if (isSeason) {
       txs.push({
         contractAddress: dojoConfig.lordsAddress,
         entrypoint: "approve",
         calldata: [getContractByName(dojoConfig.manifest, "darkshuffle", "game_systems")?.address, season.values.entryFee, "0"]
+      })
+
+      txs.push({
+        contractName: "game_systems",
+        entrypoint: "enter_season",
+        calldata: [gameId, dojoConfig.seasonId]
       })
     }
 
     txs.push({
       contractName: "game_systems",
       entrypoint: "start_game",
-      calldata: [dojoConfig.seasonId, '0x' + (dojo.customName || dojo.userName || 'Demo').split('').map(char => char.charCodeAt(0).toString(16)).join('')]
+      calldata: [gameId, '0x' + (dojo.customName || dojo.userName || 'Demo').split('').map(char => char.charCodeAt(0).toString(16)).join('')]
     })
 
-    const res = await dojo.executeTx(txs, isDemo, true)
+    const res = await dojo.executeTx(txs, true)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -63,7 +71,7 @@ export const DraftProvider = ({ children }) => {
       await delay(500)
     }
 
-    const res = await dojo.executeTx([{ contractName: "draft_systems", entrypoint: "pick_card", calldata: [game.values.gameId, optionId] }], game.values.isDemo, cards.length < DRAFT_SIZE - 1)
+    const res = await dojo.executeTx([{ contractName: "draft_systems", entrypoint: "pick_card", calldata: [game.values.gameId, optionId] }], cards.length < DRAFT_SIZE - 1)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')

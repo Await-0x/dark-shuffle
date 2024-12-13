@@ -1,5 +1,4 @@
-import manifest from "./manifest_mainnet.json";
-import manifest_dev from "./manifest_slot.json";
+import manifest from "./manifest_sepolia.json";
 
 const {
   VITE_PUBLIC_NODE_URL,
@@ -10,12 +9,10 @@ const {
   VITE_PUBLIC_FEE_TOKEN_ADDRESS,
   VITE_PUBLIC_ETH_ADDRESS,
   VITE_PUBLIC_LORDS_ADDRESS,
-  VITE_PUBLIC_DEMO_NODE_URL,
-  VITE_PUBLIC_DEMO_TORII
 } = import.meta.env;
 
 export const dojoConfig = {
-  seasonId: 0,
+  seasonId: 1,
   version: "0.4.6",
   rpcUrl: VITE_PUBLIC_NODE_URL,
   toriiUrl: VITE_PUBLIC_TORII,
@@ -25,8 +22,5 @@ export const dojoConfig = {
   feeTokenAddress: VITE_PUBLIC_FEE_TOKEN_ADDRESS || "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
   ethAddress: VITE_PUBLIC_ETH_ADDRESS,
   lordsAddress: VITE_PUBLIC_LORDS_ADDRESS,
-  demoRpcUrl: VITE_PUBLIC_DEMO_NODE_URL,
-  demoTorii: VITE_PUBLIC_DEMO_TORII,
   manifest,
-  manifest_dev,
 };

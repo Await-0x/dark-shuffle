@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { generateMapNodes } from "../helpers/map";
 import { DojoContext } from "./dojoContext";
+import { useSeason } from "./seasonContext";
 
 export const GameContext = createContext()
 
@@ -18,6 +19,7 @@ const GAME_VALUES = {
 
 export const GameProvider = ({ children }) => {
   const dojo = useContext(DojoContext)
+  const season = useSeason()
 
   const [values, setValues] = useState({ ...GAME_VALUES })
   const [gameEffects, setGameEffects] = useState({})
@@ -26,7 +28,7 @@ export const GameProvider = ({ children }) => {
   const [score, setScore] = useState()
 
   const setGame = (values) => {
-    setValues(prev => ({ ...prev, ...values, state: GAME_STATES[values.state] }))
+    setValues(prev => ({ ...prev, ...values, state: GAME_STATES[values.state || 3] }))
   }
 
   const endGame = () => {
@@ -34,6 +36,15 @@ export const GameProvider = ({ children }) => {
     setGameEffects({})
     setMap(null)
     setScore()
+  }
+
+  const mintGameToken = async () => {
+    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "mint", calldata: [season.values.settingsId] }], true)
+
+    if (res) {
+      const config = res.find(e => e.componentName === 'WorldConfig')
+      return config.game_count
+    }
   }
 
   const updateMapStatus = (nodeId) => {
@@ -55,7 +66,7 @@ export const GameProvider = ({ children }) => {
   }
 
   const generateMap = async () => {
-    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "generate_tree", calldata: [values.gameId] }], values.isDemo, true);
+    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "generate_tree", calldata: [values.gameId] }], true);
 
     if (res) {
       const mapValues = res.find(e => e.componentName === 'Map')
@@ -88,7 +99,7 @@ export const GameProvider = ({ children }) => {
         actions: {
           generateMap,
           updateMapStatus,
-
+          mintGameToken,
         }
       }}
     >

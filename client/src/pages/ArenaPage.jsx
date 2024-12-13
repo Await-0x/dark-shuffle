@@ -11,7 +11,7 @@ import DraftContainer from '../container/DraftContainer'
 import StartBattleContainer from '../container/StartBattleContainer'
 import { BattleContext } from '../contexts/battleContext'
 import { DraftContext } from '../contexts/draftContext'
-import { GAME_STATES, GameContext } from '../contexts/gameContext'
+import { GameContext } from '../contexts/gameContext'
 import { generateMapNodes } from '../helpers/map'
 
 function ArenaPage() {
@@ -72,7 +72,7 @@ function ArenaPage() {
         gameId: data.game_id,
         seasonId: data.season_id,
         player_name: hexToAscii(data.player_name),
-        state: GAME_STATES[data.state],
+        state: data.state,
 
         heroHealth: data.hero_health,
         heroXp: data.hero_xp,

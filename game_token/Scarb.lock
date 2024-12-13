@@ -54,19 +54,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "esp"
+name = "dsgt"
 version = "1.0.0"
 dependencies = [
  "alexandria_math",
- "graffiti",
  "openzeppelin",
- "snforge_std",
 ]
-
-[[package]]
-name = "graffiti"
-version = "0.1.0"
-source = "git+https://github.com/ponderingdemocritus/graffiti?rev=bc569531791dbc71c6cd8d9bc154c34eedad31fe#bc569531791dbc71c6cd8d9bc154c34eedad31fe"
 
 [[package]]
 name = "openzeppelin"
@@ -158,16 +151,3 @@ source = "git+https://github.com/openzeppelin/cairo-contracts?tag=v0.16.0#ba00ce
 name = "openzeppelin_utils"
 version = "0.16.0"
 source = "git+https://github.com/openzeppelin/cairo-contracts?tag=v0.16.0#ba00ce76a93dcf25c081ab2698da20690b5a1cfb"
-
-[[package]]
-name = "snforge_scarb_plugin"
-version = "0.31.0"
-source = "git+https://github.com/foundry-rs/starknet-foundry.git?tag=v0.31.0#72ea785ca354e9e506de3e5d687da9fb2c1b3c67"
-
-[[package]]
-name = "snforge_std"
-version = "0.31.0"
-source = "git+https://github.com/foundry-rs/starknet-foundry.git?tag=v0.31.0#72ea785ca354e9e506de3e5d687da9fb2c1b3c67"
-dependencies = [
- "snforge_scarb_plugin",
-]
