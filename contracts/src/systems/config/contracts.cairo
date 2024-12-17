@@ -13,7 +13,7 @@ trait IConfigContract<T> {
         max_hand_size: u8,
     );
 
-    fn set_game_address(ref self: T, game_token_address: ContractAddress);
+    fn set_game_token_address(ref self: T, game_token_address: ContractAddress);
     fn get_game_token_address(self: @T) -> ContractAddress;
 }
 
@@ -48,7 +48,7 @@ mod config_systems {
             assert(max_hand_size > 0, 'Invalid max hand size');
 
             world.write_model(@GameSettings {
-                settings_id: world.dispatcher.uuid(),
+                settings_id: world.dispatcher.uuid() + 1,
                 start_health,
                 start_energy,
                 start_hand_size,
@@ -59,7 +59,7 @@ mod config_systems {
             });
         }
 
-        fn set_game_address(ref self: ContractState, game_token_address: ContractAddress) {
+        fn set_game_token_address(ref self: ContractState, game_token_address: ContractAddress) {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
             assert(
                 world.dispatcher.is_owner(selector_from_tag!("darkshuffle-game_systems"), get_caller_address()),

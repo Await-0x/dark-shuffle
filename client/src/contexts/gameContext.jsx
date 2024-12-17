@@ -3,6 +3,7 @@ import { generateMapNodes } from "../helpers/map";
 import { DojoContext } from "./dojoContext";
 import { useSeason } from "./seasonContext";
 import { useEffect } from "react";
+import { dojoConfig } from "../../dojo.config";
 
 export const GameContext = createContext()
 
@@ -34,7 +35,11 @@ export const GameProvider = ({ children }) => {
   }, [season.settings])
 
   const setGame = (values) => {
-    setValues(prev => ({ ...prev, ...values, state: GAME_STATES[isNaN(values.state) ? 3 : values.state] }))
+    if (!isNaN(values.state || 0)) {
+      values.state = GAME_STATES[values.state]
+    }
+
+    setValues(prev => ({ ...prev, ...values }))
   }
 
   const endGame = () => {

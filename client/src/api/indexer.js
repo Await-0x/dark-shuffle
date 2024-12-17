@@ -49,12 +49,31 @@ export async function getSettings(settings_id) {
   return res?.darkshuffleGameSettingsModels?.edges[0]?.node
 }
 
-export async function getActiveGame(address) {
+export async function getActiveGameIds(address) {
+  const document = gql`
+  {
+    darkshuffleGameStartEventModels (where:{
+      player_address:"${address}",
+      season_idIN:[${dojoConfig.seasonId},0]
+    }) {
+      edges {
+        node {
+          game_id
+        }
+      }
+    }
+  }`
+
+  const res = await request(dojoConfig.toriiUrl, document)
+
+  return res?.darkshuffleGameStartEventModels?.edges.map(edge => edge.node.game_id)
+}
+
+export async function getActiveGame(game_id) {
   const document = gql`
   {
     darkshuffleGameModels (where:{
-      game_id:"${address}",
-      season_id:${dojoConfig.seasonId}
+      game_id:"${game_id}"
     }) {
       edges {
         node {
@@ -102,7 +121,7 @@ export async function getDraft(game_id) {
 export async function getGameEffects(game_id) {
   const document = gql`
   {
-    darkshuffleGameEffectsModels(where:{game_id:${game_id}}) {
+    darkshuffleGameEffectsModels(where:{game_id:"${game_id}"}) {
       edges {
         node {
           game_id,
@@ -134,7 +153,7 @@ export async function getGameEffects(game_id) {
 export async function getMap(game_id, level) {
   const document = gql`
   {
-    darkshuffleMapModels(where:{game_id:${game_id}, level:${level}}) {
+    darkshuffleMapModels(where:{game_id:"${game_id}", level:${level}}) {
       edges {
         node {
           game_id,
@@ -150,10 +169,10 @@ export async function getMap(game_id, level) {
   return res?.darkshuffleMapModels?.edges[0]?.node;
 }
 
-export async function getBattleState(battle_id) {
+export async function getBattleState(battle_id, game_id) {
   const document = gql`
   {
-    entity (id:"${getEntityIdFromKeys([BigInt(battle_id)])}") {
+    entity (id:"${getEntityIdFromKeys([BigInt(battle_id), BigInt(game_id)])}") {
       models {
         ... on darkshuffle_Battle {
           battle_id
@@ -237,7 +256,7 @@ export async function getLeaderboard(seasonId, page) {
   try {
     const document = gql`
     {
-      darkshuffleGameModels (where: {season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+      darkshuffleGameModels (where: {season_id: ${seasonId}}, order:{field:hero_xp, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
         edges {
           node {
             player_name,

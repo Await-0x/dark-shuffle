@@ -3,7 +3,7 @@ import { useAccount } from '@starknet-react/core'
 import { useSnackbar } from 'notistack'
 import React, { useContext, useEffect, useState } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { getActiveGame, getGameEffects, getMap } from '../api/indexer'
+import { getActiveGame, getActiveGameIds, getGameEffects, getMap } from '../api/indexer'
 import ReconnectDialog from '../components/dialogs/reconnecting'
 import StartDraft from '../components/landing/startDraft'
 import BattleContainer from '../container/BattleContainer'
@@ -31,19 +31,23 @@ function ArenaPage() {
     try {
       await draft.actions.fetchDraft(data.game_id)
 
-      if (state !== 'Draft') {
+      if (data.state !== 'Draft') {
         let map = await getMap(data.game_id, data.map_level)
 
         if (map) {
           let computedMap = generateMapNodes(map.level, map.seed)
 
           gameState.setMap(computedMap.map(node => {
-            return { ...node, active: node.parents.includes(data.last_node_id), status: node.nodeId === data.last_node_id ? 1 : 0 }
+            return {
+              ...node,
+              active: node.parents.includes(data.last_node_id),
+              status: node.nodeId === data.last_node_id ? 1 : 0
+            }
           }))
         }
 
-        if (state === 'Battle') {
-          await battle.utils.fetchBattleState(data.active_battle_id)
+        if (data.state === 'Battle') {
+          await battle.utils.fetchBattleState(data.monsters_slain + 1, data.game_id)
         }
 
         const effects = await getGameEffects(data.game_id)
@@ -95,9 +99,11 @@ function ArenaPage() {
   useEffect(() => {
     async function checkActiveGame() {
       if (address) {
-        let data = await getActiveGame(address)
+        let gameIds = await getActiveGameIds(address)
+        let data = await getActiveGame(parseInt(gameIds[0], 16))
 
         if (data) {
+          data.game_id = parseInt(data.game_id, 16)
           fetchGameState(data)
         }
       }

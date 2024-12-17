@@ -14,6 +14,7 @@ trait IGameContract<T> {
 
 #[dojo::contract]
 mod game_systems {
+    use dojo::event::EventStorage;
     use dojo::model::ModelStorage;
     use dojo::world::WorldStorage;
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
@@ -24,7 +25,7 @@ mod game_systems {
     use starknet::{get_caller_address, get_tx_info};
 
     use darkshuffle::constants::{WORLD_CONFIG_ID, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID, DEFAULT_NS, LAST_NODE_DEPTH};
-    use darkshuffle::models::game::{Game, GameState, GameOwnerTrait};
+    use darkshuffle::models::game::{Game, GameState, GameOwnerTrait, GameStartEvent};
     use darkshuffle::models::draft::{Draft};
     use darkshuffle::models::config::{WorldConfig, GameSettings, GameSettingsTrait};
     use darkshuffle::models::season::{Season, SeasonOwnerTrait};
@@ -91,10 +92,11 @@ mod game_systems {
             let random_hash = random::get_random_hash();
             let seed: u128 = random::get_entropy(random_hash);
             let options = DraftUtilsImpl::get_draft_options(seed); 
+            let season_id = game_token.season_pass(game_id.into());
 
             world.write_model(@Game {
                 game_id,
-                season_id: game_token.season_pass(game_id.into()),
+                season_id,
                 player_name: name,
                 state: GameState::Draft,    
 
@@ -111,6 +113,14 @@ mod game_systems {
                 game_id,
                 options,
                 cards: array![].span()
+            });
+
+            world.emit_event(@GameStartEvent {
+                game_id,
+                season_id,
+                player_address: get_caller_address(),
+                player_name: name,
+                timestamp: starknet::get_block_timestamp(),
             });
         }
 

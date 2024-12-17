@@ -35,7 +35,7 @@ mod season_systems {
             assert(settings.exists(), 'Invalid settings');
 
             world.write_model(@Season {
-                season_id: world.dispatcher.uuid(),
+                season_id: world.dispatcher.uuid() + 1,
                 season_address: get_contract_address(),
                 settings_id,
                 start: start_time,

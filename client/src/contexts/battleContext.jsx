@@ -117,7 +117,7 @@ export const BattleProvider = ({ children }) => {
   const submitBattleActions = async () => {
     setPendingTx(true)
 
-    const res = await dojo.executeTx([{ contractName: "battle_systems", entrypoint: "battle_actions", calldata: [values.battleId, game.values.gameId, [...actions, [1]]] }], true)
+    const res = await dojo.executeTx([{ contractName: "battle_systems", entrypoint: "battle_actions", calldata: [game.values.gameId, values.battleId, [...actions, [1]]] }], true)
 
     if (!res) {
       return;
@@ -422,12 +422,12 @@ export const BattleProvider = ({ children }) => {
     }
   }
 
-  const fetchBattleState = async (battleId) => {
+  const fetchBattleState = async (battleId, gameId) => {
     setResettingState(true)
-    let data = await getBattleState(parseInt(battleId))
+    let data = await getBattleState(parseInt(battleId), parseInt(gameId))
 
     setValues({
-      battleId: data.battle.battle_id,
+      battleId,
 
       round: data.battle.round,
       heroHealth: data.battle.hero.health,

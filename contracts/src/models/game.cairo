@@ -75,3 +75,24 @@ impl GameOwnerImpl of GameOwnerTrait {
         assert(self.state == GameState::Map, 'Not Map');
     }
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+struct GameStartData {
+    #[key]
+    game_id: u128,
+    season_id: u32,
+    player_name: felt252,
+    timestamp: u64,
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+struct GameStartEvent {
+    #[key]
+    game_id: u128,
+    season_id: u32,
+    player_address: ContractAddress,
+    player_name: felt252,
+    timestamp: u64,
+}

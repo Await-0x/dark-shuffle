@@ -125,7 +125,7 @@ function BattleContainer() {
               <Box sx={styles.deck}>
                 <Box sx={styles.cardCount}>
                   <Typography>
-                    {gameSettings.deck_size - (battle.state.values?.deckIndex || 0)}
+                    {gameSettings.draft_size - (battle.state.values?.deckIndex || 0)}
                   </Typography>
                 </Box>
               </Box>

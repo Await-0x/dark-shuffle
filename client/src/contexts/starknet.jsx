@@ -59,8 +59,8 @@ const cartridge = new CartridgeConnector({
     },
   ],
   rpc: dojoConfig.rpcUrl,
-  theme: "dark-shuffle",
   colorMode: "dark",
+  indexerUrl: dojoConfig.toriiRawUrl,
 })
 
 export function StarknetProvider({ children }) {

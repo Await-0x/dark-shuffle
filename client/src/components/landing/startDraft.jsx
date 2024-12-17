@@ -33,7 +33,7 @@ function StartDraft() {
 
 
 
-  const enoughFunds = dojo.balances.lords >= season.values.entryFee
+  const enoughFunds = dojo.balances.lords >= (season.values?.entryFee ?? 0)
 
   return (
     <>
@@ -185,7 +185,7 @@ function StartDraft() {
 
               <Box mt={4} display={'flex'} alignItems={'center'} gap={2}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
-                  <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                  <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
                     Play Season
                   </LoadingButton>
 
@@ -195,7 +195,8 @@ function StartDraft() {
                 </Box>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
-                  <LoadingButton color='secondary' variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                  <LoadingButton color='secondary' variant='outlined' loading={loading}
+                    onClick={() => beginDraft(false)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
                     Play Demo
                   </LoadingButton>
                 </Box>
