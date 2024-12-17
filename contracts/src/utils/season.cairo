@@ -15,7 +15,7 @@ impl SeasonUtilsImpl of SeasonUtilsTrait {
         while i >= 0 {
             let leaderboard: Leaderboard = world.read_model((game.season_id, i));
 
-            if leaderboard.score > game.monsters_slain || i == 0 {
+            if leaderboard.score > game.hero_xp || i == 0 {
                 Self::update_leaderboard(ref world, game, i + 1);
                 break;
             }
@@ -31,7 +31,7 @@ impl SeasonUtilsImpl of SeasonUtilsTrait {
 
         let mut i = rank;
         let mut previous_position: Leaderboard = world.read_model((game.season_id, rank));
-        world.write_model(@Leaderboard { season_id: game.season_id, rank, player: game.player, score: game.monsters_slain });  
+        world.write_model(@Leaderboard { season_id: game.season_id, rank, game_id: game.game_id, score: game.hero_xp });  
 
         while true {
             i += 1;
@@ -87,7 +87,17 @@ impl SeasonUtilsImpl of SeasonUtilsTrait {
         }
     }
 
-    fn get_developer_address(chain_id: felt252) -> ContractAddress {
+    fn get_velords_address(chain_id: felt252) -> ContractAddress {
+        if chain_id == SEPOLIA_CHAIN_ID {
+            contract_address_const::<0x0418ed348930686c844fda4556173457d3f71ae547262406d271de534af6b35e>()
+        } else if chain_id == MAINNET_CHAIN_ID {
+            contract_address_const::<0x02CD97240DB3f679De98A729aE91EB996cAb9Fd92a9A578Df11a72F49bE1c356>()
+        } else {
+            panic_with_felt252('Chain not supported')
+        }
+    }
+
+    fn get_pg_address(chain_id: felt252) -> ContractAddress {
         if chain_id == SEPOLIA_CHAIN_ID {
             contract_address_const::<0x0418ed348930686c844fda4556173457d3f71ae547262406d271de534af6b35e>()
         } else if chain_id == MAINNET_CHAIN_ID {

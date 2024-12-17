@@ -3,39 +3,37 @@ import { Box, Typography } from '@mui/material'
 import React, { useContext, useState } from 'react'
 import { BrowserView, MobileView } from 'react-device-detect'
 import logo from '../../assets/images/logo.svg'
+import { DojoContext } from '../../contexts/dojoContext'
 import { DraftContext } from '../../contexts/draftContext'
-import { GameContext } from '../../contexts/gameContext'
 import { useSeason } from '../../contexts/seasonContext'
 import { _styles } from '../../helpers/styles'
 import { formatTimeUntil } from '../../helpers/utilities'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
-import { DojoContext } from '../../contexts/dojoContext'
 
 function StartDraft() {
   const season = useSeason()
   const dojo = useContext(DojoContext)
-  const game = useContext(GameContext)
   const draft = useContext(DraftContext)
 
   const [loading, setLoading] = useState(false)
   const [showWarnings, setShowWarnings] = useState(false)
 
-  async function beginDraft(isDemo) {
-    if (!isDemo) {
+  async function beginDraft(isSeason) {
+    if (isSeason) {
       setShowWarnings(true)
     }
 
-    game.setGame({ isDemo })
-
     setLoading(true)
 
-    await draft.actions.startDraft(isDemo)
+    await draft.actions.startDraft(isSeason)
 
     setLoading(false)
   }
 
-  const enoughFunds = dojo.balances.lords >= season.values.entryFee
+
+
+  const enoughFunds = dojo.balances.lords >= (season.values?.entryFee ?? 0)
 
   return (
     <>
@@ -60,7 +58,7 @@ function StartDraft() {
               Season Pool
             </Typography>
             <Typography variant='h5' color='primary'>
-              {Math.floor(season.values.entryFee / 1e18)} $LORDS
+              {Math.floor(season.values.rewardPool / 1e18)} $LORDS
             </Typography>
 
           </Box>
@@ -78,11 +76,11 @@ function StartDraft() {
             Season 0: New beginnings
           </Typography>
 
-          <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+          <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
             Play Season
           </LoadingButton>
 
-          <LoadingButton color='secondary' variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+          <LoadingButton color='secondary' variant='outlined' loading={loading} onClick={() => beginDraft(false)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
             Play Demo
           </LoadingButton>
 
@@ -187,7 +185,7 @@ function StartDraft() {
 
               <Box mt={4} display={'flex'} alignItems={'center'} gap={2}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
-                  <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft()} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                  <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
                     Play Season
                   </LoadingButton>
 
@@ -197,7 +195,8 @@ function StartDraft() {
                 </Box>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
-                  <LoadingButton color='secondary' variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                  <LoadingButton color='secondary' variant='outlined' loading={loading}
+                    onClick={() => beginDraft(false)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
                     Play Demo
                   </LoadingButton>
                 </Box>

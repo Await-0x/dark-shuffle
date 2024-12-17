@@ -2,47 +2,35 @@ use dojo::model::ModelStorage;
 use dojo::world::WorldStorage;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use starknet::{ContractAddress, get_caller_address};
-use darkshuffle::models::game::Game;
+use darkshuffle::models::game::{Game, GameOwnerTrait};
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
 pub struct Battle {
     #[key]
-    battle_id: usize,
-    game_id: usize,
+    battle_id: u16,
+    #[key]
+    game_id: u128,
 
     round: u8,
-    hero_health: u8,
-    hero_energy: u8,
-
-    monster_id: u8,
-    monster_attack: u8,
-    monster_health: u8,
-    monster_type: CreatureType,
-    
+    hero: Hero,
+    monster: Monster,
+ 
     hand: Span<u8>,
     deck: Span<u8>,
     deck_index: u8,
-}
 
-#[derive(Copy, Drop, Serde)]
-#[dojo::model]
-pub struct BattleEffects {   
-    #[key]
-    battle_id: usize,
-    enemy_marks: u8,
-    hero_dmg_reduction: u8,
-    next_hunter_attack_bonus: u8,
-    next_hunter_health_bonus: u8,
-    next_brute_attack_bonus: u8,
-    next_brute_health_bonus: u8,
+    battle_effects: BattleEffects
 }
 
 #[derive(Introspect, Copy, Drop, Serde)]
 #[dojo::model]
 pub struct Board {   
     #[key]
-    battle_id: usize,
+    battle_id: u16,
+    #[key]
+    game_id: u128,
+
     creature1: Creature,
     creature2: Creature,
     creature3: Creature,
@@ -52,12 +40,34 @@ pub struct Board {
 }
 
 #[derive(Introspect, Copy, Drop, Serde)]
-pub struct Creature {
-    card_id: u8,
-    cost: u8,
+pub struct Hero {
+    health: u8,
+    max_health: u8, // doesn't change right now
+    energy: u8,
+}
+
+#[derive(Introspect, Copy, Drop, Serde)]
+pub struct Monster {
+    monster_id: u8,
     attack: u8,
     health: u8,
-    creature_type: CreatureType,
+}
+
+#[derive(Introspect, Copy, Drop, Serde)]
+pub struct Creature {
+    card_id: u8, // how many cards in the future?
+    attack: u8,
+    health: u8,
+}
+
+#[derive(Introspect, Copy, Drop, Serde)]
+pub struct BattleEffects {
+    enemy_marks: u8,
+    hero_dmg_reduction: u8,
+    next_hunter_attack_bonus: u8,
+    next_hunter_health_bonus: u8,
+    next_brute_attack_bonus: u8,
+    next_brute_health_bonus: u8,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -65,6 +75,7 @@ pub struct BoardStats {
     magical_count: u8,
     brute_count: u8,
     hunter_count: u8,
+    monster_type: CreatureType,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -115,9 +126,10 @@ pub enum CardTier {
 impl BattleOwnerImpl of BattleOwnerTrait { 
     fn assert_battle(self: Battle, world: WorldStorage) {
         let game: Game = world.read_model(self.game_id);
-        assert(game.player == get_caller_address(), 'Not Owner');
-        assert(self.hero_health > 0, 'Battle over');
-        assert(self.monster_health > 0, 'Battle over');
+        game.assert_owner(world);
+        
+        assert(self.hero.health > 0, 'Battle over');
+        assert(self.monster.health > 0, 'Battle over');
     }
 
     fn card_in_hand(self: Battle, card_id: u8) -> bool {

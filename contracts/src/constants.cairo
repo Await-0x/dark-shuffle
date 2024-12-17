@@ -1,19 +1,8 @@
+const WORLD_CONFIG_ID: u8 = 1;
 const CARD_POOL_SIZE: u8 = 75;
-const DRAFT_SIZE: u8 = 20;
-const DECK_SIZE: u8 = 20;
 
-const STARTING_HAND_SIZE: u8 = 5;
-const MAX_HAND_SIZE: u8 = 10;
-
-const MAX_BOARD: u8 = 6;
 const LAST_NODE_DEPTH: u8 = 6;
-
-const START_HEALTH: u8 = 80;
-const MAX_HEALTH: u8 = 80;
-const MAX_ENERGY: u8 = 7;
-
 const PRIZES: u8 = 10;
-const SEASON_DURATION_SECONDS: u32 = 1209600;
 
 const MAINNET_CHAIN_ID: felt252 = 0x534e5f4d41494e;
 const SEPOLIA_CHAIN_ID: felt252 = 0x534e5f5345504f4c4941;

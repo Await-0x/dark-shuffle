@@ -57,7 +57,7 @@ export function getNodeStatus(map, node) {
 
 export function normalise(value, max) {
   return Math.min(100, (value * 100) / max)
-} 
+}
 
 export function formatTimeUntil(timestamp) {
   if (!timestamp) return ''

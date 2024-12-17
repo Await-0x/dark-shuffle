@@ -1,7 +1,7 @@
 #[starknet::interface]
 trait IMapContract<T> {
-    fn generate_tree(ref self: T, game_id: usize);
-    fn select_node(ref self: T, game_id: usize, node_id: u8);
+    fn generate_tree(ref self: T, game_id: u128);
+    fn select_node(ref self: T, game_id: u128, node_id: u8);
 }
 
 #[dojo::contract]
@@ -20,10 +20,11 @@ mod map_systems {
 
     #[abi(embed_v0)]
     impl MapContractImpl of super::IMapContract<ContractState> {
-        fn generate_tree(ref self: ContractState, game_id: usize) {
+        fn generate_tree(ref self: ContractState, game_id: u128) {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 
             let mut game: Game = world.read_model(game_id);
+            game.assert_owner(world);
             game.assert_generate_tree();
 
             let random_hash = random::get_random_hash();
@@ -42,10 +43,11 @@ mod map_systems {
             world.write_model(@game);
         }
 
-        fn select_node(ref self: ContractState, game_id: usize, node_id: u8) {
+        fn select_node(ref self: ContractState, game_id: u128, node_id: u8) {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 
             let mut game: Game = world.read_model(game_id);
+            game.assert_owner(world);
             game.assert_select_node();
 
             let mut map: Map = world.read_model((game_id, game.map_level));

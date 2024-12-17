@@ -31,15 +31,14 @@ function StartBattleContainer() {
 
   const selectNode = async (nodeId) => {
     setSelectingNode(true)
-    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "select_node", calldata: [game.values.gameId, nodeId] }], game.values.isDemo, true)
+    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "select_node", calldata: [game.values.gameId, nodeId] }], true)
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
       const battleValues = res.find(e => e.componentName === 'Battle')
-      const battleEffects = res.find(e => e.componentName === 'BattleEffects')
 
       game.setGame(gameValues)
-      battle.actions.startBattle(battleValues, battleEffects)
+      battle.actions.startBattle(battleValues)
     }
 
     setSelectingNode(false)

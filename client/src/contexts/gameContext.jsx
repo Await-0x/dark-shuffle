@@ -1,33 +1,61 @@
 import React, { createContext, useContext, useState } from "react";
 import { generateMapNodes } from "../helpers/map";
 import { DojoContext } from "./dojoContext";
+import { useSeason } from "./seasonContext";
+import { useEffect } from "react";
+import { dojoConfig } from "../../dojo.config";
 
 export const GameContext = createContext()
 
+export const GAME_STATES = {
+  0: 'Draft',
+  1: 'Battle',
+  2: 'Map',
+  3: 'None',
+}
+
 const GAME_VALUES = {
   gameId: null,
-  inDraft: false,
-  inBattle: false,
+  state: GAME_STATES[3],
 }
 
 export const GameProvider = ({ children }) => {
   const dojo = useContext(DojoContext)
+  const season = useSeason()
 
   const [values, setValues] = useState({ ...GAME_VALUES })
+  const [gameSettings, setGameSettings] = useState({})
   const [gameEffects, setGameEffects] = useState({})
 
   const [map, setMap] = useState(null)
   const [score, setScore] = useState()
 
+  useEffect(() => {
+    setGameSettings(season.settings)
+  }, [season.settings])
+
   const setGame = (values) => {
+    if (!isNaN(values.state || 0)) {
+      values.state = GAME_STATES[values.state]
+    }
+
     setValues(prev => ({ ...prev, ...values }))
   }
 
   const endGame = () => {
     setValues({ ...GAME_VALUES })
-    setGameEffects({})
+    setGameSettings({})
     setMap(null)
     setScore()
+  }
+
+  const mintGameToken = async () => {
+    const res = await dojo.executeTx([{ contractName: "game_systems", entrypoint: "mint", calldata: [season.values.settingsId] }])
+
+    if (res) {
+      const config = res.find(e => e.componentName === 'WorldConfig')
+      return config.gameCount
+    }
   }
 
   const updateMapStatus = (nodeId) => {
@@ -49,7 +77,7 @@ export const GameProvider = ({ children }) => {
   }
 
   const generateMap = async () => {
-    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "generate_tree", calldata: [values.gameId] }], values.isDemo, true);
+    const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "generate_tree", calldata: [values.gameId] }], true);
 
     if (res) {
       const mapValues = res.find(e => e.componentName === 'Map')
@@ -67,7 +95,8 @@ export const GameProvider = ({ children }) => {
       value={{
         getState: {
           map,
-          gameEffects
+          gameEffects,
+          gameSettings
         },
 
         values,
@@ -77,12 +106,13 @@ export const GameProvider = ({ children }) => {
         endGame,
         setScore,
         setGameEffects,
+        setGameSettings,
         setMap,
 
         actions: {
           generateMap,
           updateMapStatus,
-
+          mintGameToken,
         }
       }}
     >

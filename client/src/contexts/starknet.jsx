@@ -22,6 +22,14 @@ const cartridge = new CartridgeConnector({
   policies: [
     {
       target: game_systems,
+      method: "mint",
+    },
+    {
+      target: game_systems,
+      method: "enter_season",
+    },
+    {
+      target: game_systems,
       method: "start_game",
     },
     {
@@ -51,7 +59,8 @@ const cartridge = new CartridgeConnector({
     },
   ],
   rpc: dojoConfig.rpcUrl,
-  theme: "dark-shuffle",
+  colorMode: "dark",
+  indexerUrl: dojoConfig.toriiRawUrl,
 })
 
 export function StarknetProvider({ children }) {

@@ -1,5 +1,5 @@
 [world]
-seed = "darkshuffle2"
+seed = "darkshuffle4"
 name = "Dark Shuffle"
 description = "Enter the darkness"
 website = "https://darkshuffle.io/"
@@ -18,7 +18,8 @@ default = "darkshuffle"
     "darkshuffle-season_systems",
     "darkshuffle-draft_systems",
     "darkshuffle-map_systems",
+    "darkshuffle-config_systems",
 ]
 
 [env]
-# world_address = "0x03f51728fe54e47fd9b61400c0821254df7401e3a04d99d14919704653c460b8"
+world_address = "0x02aadfd2249c2cb88ad51d5c109119423cddf11d271aa04597b90d5cc1baada5"

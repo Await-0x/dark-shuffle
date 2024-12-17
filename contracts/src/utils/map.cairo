@@ -2,14 +2,14 @@ use dojo::model::ModelStorage;
 use dojo::world::WorldStorage;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
-use darkshuffle::models::battle::{Battle, BattleEffects};
-use darkshuffle::models::game::{Game, GameEffects};
+use darkshuffle::models::config::{GameSettings};
+use darkshuffle::models::battle::{Battle, BattleEffects, Hero, Monster};
+use darkshuffle::models::game::{Game, GameEffects, GameState};
 use darkshuffle::models::draft::{Draft};
 use darkshuffle::models::map::{Map, MonsterNode};
 use darkshuffle::utils::random;
 use darkshuffle::utils::hand::HandUtilsImpl;
-use darkshuffle::utils::cards::CardUtilsImpl;
-use darkshuffle::constants::{STARTING_HAND_SIZE};
+use darkshuffle::utils::config::ConfigUtilsImpl;
 
 #[generate_trait]
 impl MapUtilsImpl of MapUtilsTrait {
@@ -100,7 +100,6 @@ impl MapUtilsImpl of MapUtilsTrait {
         }
 
         let monster_id = random::get_random_number(seed, 75 - monster_range) + monster_range;
-        let card = CardUtilsImpl::get_card(monster_id);
 
         let health = 35 + (map.level * 5);
         let attack = (map.level + 1);
@@ -109,47 +108,48 @@ impl MapUtilsImpl of MapUtilsTrait {
             monster_id,
             attack,
             health,
-            monster_type: card.creature_type
         }
     }
 
     fn start_battle(ref world: WorldStorage, ref game: Game, monster: MonsterNode, seed: u128) {
-        let battle_id = world.dispatcher.uuid();
         let draft: Draft = world.read_model(game.game_id);
         let game_effects: GameEffects = world.read_model(game.game_id);
+        let game_settings: GameSettings = ConfigUtilsImpl::get_game_settings(world, game.game_id);
 
-        game.in_battle = true;
-        game.active_battle_id = battle_id;
+        game.state = GameState::Battle;
 
         let shuffled_deck = random::shuffle_deck(seed, draft.cards, 0);
-        let hand = HandUtilsImpl::get_starting_hand(shuffled_deck, STARTING_HAND_SIZE);
+        let hand = HandUtilsImpl::get_starting_hand(shuffled_deck, game_settings.start_hand_size);
             
         world.write_model(@Battle {
-            battle_id: battle_id,
+            battle_id: game.monsters_slain + 1,
             game_id: game.game_id,
 
             round: 1,
-            hero_health: game.hero_health,
-            hero_energy: 1 + game_effects.start_bonus_energy,
+            hero: Hero {
+                health: game.hero_health,
+                max_health: game_settings.max_health,
+                energy: game_settings.start_energy + game_effects.start_bonus_energy,
+            },
             
-            monster_id: monster.monster_id,
-            monster_attack: monster.attack,
-            monster_health: monster.health,
-            monster_type: monster.monster_type,
+            monster: Monster {
+                monster_id: monster.monster_id,
+                attack: monster.attack,
+                health: monster.health,
+            },
 
             hand: hand,
             deck: shuffled_deck,
-            deck_index: STARTING_HAND_SIZE,
-        });
+            deck_index: game_settings.start_hand_size,
 
-        world.write_model(@BattleEffects {
-            battle_id: battle_id,
-            enemy_marks: 0,
-            hero_dmg_reduction: 0,
-            next_hunter_attack_bonus: 0,
-            next_hunter_health_bonus: 0,
-            next_brute_attack_bonus: 0,
-            next_brute_health_bonus: 0,
+            battle_effects: BattleEffects {
+                enemy_marks: 0,
+                hero_dmg_reduction: 0,
+                next_hunter_attack_bonus: 0,
+                next_hunter_health_bonus: 0,
+                next_brute_attack_bonus: 0,
+                next_brute_health_bonus: 0,
+            }
         });
     }
 }

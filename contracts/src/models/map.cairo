@@ -4,7 +4,7 @@ use darkshuffle::models::battle::{CreatureType};
 #[dojo::model]
 pub struct Map {
     #[key]
-    game_id: usize,
+    game_id: u128,
     #[key]
     level: u8,
     seed: u128
@@ -15,5 +15,4 @@ pub struct MonsterNode {
     monster_id: u8,
     attack: u8,
     health: u8,
-    monster_type: CreatureType
 }

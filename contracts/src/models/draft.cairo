@@ -2,7 +2,7 @@
 #[dojo::model]
 pub struct Draft {
     #[key]
-    game_id: usize,
+    game_id: u128,
     options: Span<u8>,
     cards: Span<u8>,
 }

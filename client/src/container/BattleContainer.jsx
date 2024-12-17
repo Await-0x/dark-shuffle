@@ -14,12 +14,13 @@ import Hand from '../components/battle/hand';
 import RestoringBattleDialog from '../components/dialogs/restoringBattle';
 import { BattleContext } from '../contexts/battleContext';
 import { GameContext } from '../contexts/gameContext';
-import { DECK_SIZE } from '../helpers/constants';
 import { CustomTooltip } from '../helpers/styles';
 import { fadeVariant } from "../helpers/variants";
 
 function BattleContainer() {
   const game = useContext(GameContext)
+  const { gameSettings } = game.getState
+
   const battle = useContext(BattleContext)
 
   const vortex = useLottie({
@@ -124,7 +125,7 @@ function BattleContainer() {
               <Box sx={styles.deck}>
                 <Box sx={styles.cardCount}>
                   <Typography>
-                    {DECK_SIZE - (battle.state.values?.deckIndex || 0)}
+                    {gameSettings.draft_size - (battle.state.values?.deckIndex || 0)}
                   </Typography>
                 </Box>
               </Box>

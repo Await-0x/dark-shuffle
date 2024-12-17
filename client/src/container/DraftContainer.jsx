@@ -9,11 +9,14 @@ import Card from '../components/card';
 import DraftStats from '../components/draft/draftStats';
 import Overview from '../components/draft/overview';
 import { DraftContext } from '../contexts/draftContext';
+import { GameContext } from '../contexts/gameContext';
 import { CardSize } from '../helpers/cards';
-import { DRAFT_SIZE } from '../helpers/constants';
 import { fadeChildrenContainer, fadeChildrenItem } from '../helpers/variants';
 
 function DraftContainer() {
+  const game = useContext(GameContext)
+  const { gameSettings } = game.getState
+
   const draft = useContext(DraftContext)
   const { pendingCard, options, cards } = draft.getState
 
@@ -70,7 +73,7 @@ function DraftContainer() {
 
         <Typography color='primary'>{cards.length}</Typography>
         <Typography color={'primary'}>/</Typography>
-        <Typography color='primary'>{DRAFT_SIZE}</Typography>
+        <Typography color='primary'>{gameSettings.draft_size}</Typography>
       </Box>}
 
       {cardOverview && <Box sx={[styles.mobileOverview, { width: '260px', gap: 0 }]}>

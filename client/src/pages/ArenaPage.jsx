@@ -3,7 +3,7 @@ import { useAccount } from '@starknet-react/core'
 import { useSnackbar } from 'notistack'
 import React, { useContext, useEffect, useState } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { getActiveGame, getGameEffects, getMap } from '../api/indexer'
+import { getActiveGame, getActiveGameIds, getGameEffects, getMap } from '../api/indexer'
 import ReconnectDialog from '../components/dialogs/reconnecting'
 import StartDraft from '../components/landing/startDraft'
 import BattleContainer from '../container/BattleContainer'
@@ -20,7 +20,7 @@ function ArenaPage() {
   const draft = useContext(DraftContext)
   const battle = useContext(BattleContext)
 
-  const { gameId, inDraft, inBattle } = gameState.values
+  const { gameId, state } = gameState.values
 
   const [reconnecting, setReconnecting] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
@@ -31,19 +31,23 @@ function ArenaPage() {
     try {
       await draft.actions.fetchDraft(data.game_id)
 
-      if (!data.in_draft) {
+      if (data.state !== 'Draft') {
         let map = await getMap(data.game_id, data.map_level)
 
         if (map) {
           let computedMap = generateMapNodes(map.level, map.seed)
 
           gameState.setMap(computedMap.map(node => {
-            return { ...node, active: node.parents.includes(data.last_node_id), status: node.nodeId === data.last_node_id ? 1 : 0 }
+            return {
+              ...node,
+              active: node.parents.includes(data.last_node_id),
+              status: node.nodeId === data.last_node_id ? 1 : 0
+            }
           }))
         }
 
-        if (data.in_battle) {
-          await battle.utils.fetchBattleState(data.active_battle_id)
+        if (data.state === 'Battle') {
+          await battle.utils.fetchBattleState(data.monsters_slain + 1, data.game_id)
         }
 
         const effects = await getGameEffects(data.game_id)
@@ -69,14 +73,10 @@ function ArenaPage() {
       }
 
       gameState.setGame({
-        seasonId: data.season_id,
         gameId: data.game_id,
-        player: data.player,
+        seasonId: data.season_id,
         player_name: hexToAscii(data.player_name),
-        active: data.active,
-        inDraft: data.in_draft,
-        inBattle: data.in_battle,
-        activeBattleId: data.active_battle_id,
+        state: data.state,
 
         heroHealth: data.hero_health,
         heroXp: data.hero_xp,
@@ -99,9 +99,11 @@ function ArenaPage() {
   useEffect(() => {
     async function checkActiveGame() {
       if (address) {
-        let data = await getActiveGame(address)
+        let gameIds = await getActiveGameIds(address)
+        let data = await getActiveGame(parseInt(gameIds[0], 16))
 
         if (data) {
+          data.game_id = parseInt(data.game_id, 16)
           fetchGameState(data)
         }
       }
@@ -114,11 +116,11 @@ function ArenaPage() {
     <Scrollbars style={{ ...styles.container }}>
       {gameId === null && <StartDraft />}
 
-      {inDraft && <DraftContainer />}
+      {state === 'Draft' && <DraftContainer />}
 
-      {inBattle && <BattleContainer />}
+      {state === 'Battle' && <BattleContainer />}
 
-      {(gameId !== null && !inDraft && !inBattle) && <StartBattleContainer />}
+      {state === 'Map' && <StartBattleContainer />}
 
       {reconnecting && <ReconnectDialog close={() => setReconnecting(false)} />}
     </Scrollbars>

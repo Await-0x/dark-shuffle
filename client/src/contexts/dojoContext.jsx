@@ -1,8 +1,8 @@
 import { DojoProvider as _dojoProvider, getContractByName } from "@dojoengine/core";
 import { useAccount, useConnect, useContract, useNetwork } from "@starknet-react/core";
 import { useSnackbar } from "notistack";
-import React, { createContext, useEffect, useMemo, useState } from "react";
-import { Account, CallData, RpcProvider } from 'starknet';
+import React, { createContext, useEffect, useState } from "react";
+import { CallData } from 'starknet';
 import { dojoConfig } from "../../dojo.config";
 import EthBalanceFragment from "../abi/EthBalanceFragment.json";
 import Lords from "../abi/Lords.json";
@@ -26,10 +26,6 @@ export const DojoProvider = ({ children }) => {
   const [customName, setCustomName] = useState(localStorage.getItem("customName"))
 
   const dojoprovider = new _dojoProvider(dojoConfig.manifest, dojoConfig.rpcUrl);
-
-  const demoRpcProvider = useMemo(() => new RpcProvider({ nodeUrl: dojoConfig.demoRpcUrl, }), []);
-  const demoDojoProvider = new _dojoProvider(dojoConfig.manifest_dev, dojoConfig.demoRpcUrl);
-  const demoAccount = new Account(demoRpcProvider, dojoConfig.masterAddress, dojoConfig.masterPrivateKey);
 
   let cartridgeConnector = connectors.find(conn => conn.id === "controller")
 
@@ -59,16 +55,13 @@ export const DojoProvider = ({ children }) => {
     controllerName()
   }, [connector])
 
-  const executeTx = async (txs, isDemo, includeVRF) => {
-    let signer = isDemo ? demoAccount : account
-    let provider = isDemo ? demoDojoProvider : dojoprovider
-
-    if (!signer) {
+  const executeTx = async (txs, includeVRF) => {
+    if (!account) {
       connect({ connector: cartridgeConnector })
       return
     }
 
-    if (includeVRF && !isDemo) {
+    if (includeVRF) {
       let contractAddress = getContractByName(dojoConfig.manifest, "darkshuffle", txs[txs.length - 1].contractName)?.address
 
       txs.unshift({
@@ -82,9 +75,9 @@ export const DojoProvider = ({ children }) => {
     }
 
     try {
-      const tx = await provider.execute(signer, txs, 'darkshuffle', { version: "1" });
+      const tx = await dojoprovider.execute(account, txs, 'darkshuffle', { version: "1" });
 
-      const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
+      const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
 
       if (receipt.execution_status === "REVERTED") {
         enqueueSnackbar('Contract error', { variant: 'error', anchorOrigin: { vertical: 'bottom', horizontal: 'right' } })

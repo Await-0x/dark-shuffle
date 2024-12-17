@@ -1,5 +1,7 @@
 export const translateName = (selector) => {
   switch (selector) {
+    case '0x5614b3f0305345b8f6e4cc3b30f027e99113e63e5bd6edfa347a6a3cc3b0f7':
+      return 'WorldConfig'
     case '0x1a3b9b6c5802b83d9a8a21a24d6472b1a47b0529b4b6c805f26f744c22a35a9':
       return 'Game'
     case '0x1c0e9539fbce953b02e41710151458afe69463e676129a87998ab3ad86568da':
@@ -20,19 +22,24 @@ export const translateName = (selector) => {
 }
 
 export const components = {
+  // Config Models
+  'WorldConfig': {
+    configId: Number(),
+    gameTokenAddress: null,
+    gameCount: Number(),
+  },
+
   // Game Models
   'Game': {
     gameId: Number(),
     seasonId: Number(),
-    player: null,
     player_name: String(),
-    active: Boolean(),
-    inDraft: Boolean(),
-    inBattle: Boolean(),
-    activeBattleId: Number(),
+    state: Number(),
+
     heroHealth: Number(),
     heroXp: Number(),
     monstersSlain: Number(),
+
     mapLevel: Number(),
     mapDepth: Number(),
     lastNodeId: Number(),
@@ -69,29 +76,18 @@ export const components = {
     gameId: Number(),
 
     round: Number(),
-    heroHealth: Number(),
-    heroEnergy: Number(),
-
-    monsterId: Number(),
-    monsterAttack: Number(),
-    monsterHealth: Number(),
-    monsterType: Number(),
+    hero: 'Hero',
+    monster: 'Monster',
 
     hand: 'array',
     deck: 'array',
     deckIndex: Number(),
-  },
-  'BattleEffects': {
-    battleId: Number(),
-    enemyMarks: Number(),
-    heroDmgReduction: Number(),
-    nextHunterAttackBonus: Number(),
-    nextHunterHealthBonus: Number(),
-    nextBruteAttackBonus: Number(),
-    nextBruteHealthBonus: Number(),
+
+    battleEffects: 'BattleEffects',
   },
   'Board': {
     battleId: Number(),
+    gameId: Number(),
     creature1: 'Creature',
     creature2: 'Creature',
     creature3: 'Creature',
@@ -111,7 +107,7 @@ export const components = {
   'Leaderboard': {
     seasonId: Number(),
     rank: Number(),
-    player: null,
+    gameId: Number(),
     score: Number(),
   },
 }

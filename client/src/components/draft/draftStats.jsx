@@ -2,12 +2,15 @@ import { Box, Typography } from "@mui/material";
 import { BarChart } from '@mui/x-charts';
 import React, { useContext } from "react";
 import { DraftContext } from "../../contexts/draftContext";
-import { DRAFT_SIZE } from "../../helpers/constants";
 import { useState } from "react";
 import { useEffect } from "react";
 import { types } from "../../helpers/cards";
+import { GameContext } from "../../contexts/gameContext";
 
 function DraftStats() {
+  const game = useContext(GameContext)
+  const { gameSettings } = game.getState
+
   const draft = useContext(DraftContext)
   const { cards } = draft.getState
 
@@ -38,7 +41,7 @@ function DraftStats() {
         Draft
       </Typography>
       <Typography variant="h2" color='primary' mb={1}>
-        {cards.length}/{DRAFT_SIZE}
+        {cards.length}/{gameSettings.draft_size}
       </Typography>
     </Box>
 

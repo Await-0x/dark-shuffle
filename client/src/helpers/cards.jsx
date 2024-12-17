@@ -44,7 +44,6 @@ export const formatBoard = (data) => {
 
     return {
       ...CARD_DETAILS(creature.cardId, i),
-      cost: creature.cost,
       attack: creature.attack,
       health: creature.health
     }

@@ -13,3 +13,6 @@ pub mod map {
 pub mod season {
     pub mod contracts;
 }
+pub mod config {
+    pub mod contracts;
+}
