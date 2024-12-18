@@ -226,7 +226,7 @@ export const BattleProvider = ({ children }) => {
   const endBattle = async () => {
     setTurnEnded(false)
 
-    if (!endState.gameValues.active) {
+    if (endState.gameValues.heroHealth < 1) {
       game.setScore(Math.max(1, endState.gameValues.heroXp))
     } else {
       await delay(1000)
@@ -400,13 +400,6 @@ export const BattleProvider = ({ children }) => {
 
   const getCreaturePosition = (id) => {
     if (id === ADVENTURER_ID) {
-      if (isMobile) {
-        return {
-          x: 100,
-          y: 0 - window.innerHeight * 0.12
-        }
-      }
-
       return {
         x: window.innerWidth / 2,
         y: (window.innerHeight - 56 - 200) * 0.50

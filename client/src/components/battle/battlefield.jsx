@@ -1,14 +1,14 @@
 import { Box } from "@mui/material";
 import React, { useContext } from "react";
+import Scrollbars from "react-custom-scrollbars";
 import { isBrowser, isMobile } from 'react-device-detect';
-import { AnimationContext } from '../../contexts/animationHandler';
+import { GET_MONSTER } from "../../battle/monsterUtils";
 import { BattleContext } from '../../contexts/battleContext';
 import { GameContext } from "../../contexts/gameContext";
 import Adventurer from './adventurer';
 import Creature from "./creature";
 import DeathDialog from './death';
 import Monster from "./monster";
-import { GET_MONSTER } from "../../battle/monsterUtils";
 
 function Battlefield(props) {
   const game = useContext(GameContext)
@@ -21,7 +21,7 @@ function Battlefield(props) {
 
     {game.score && <DeathDialog />}
 
-    <Box sx={styles.enemyContainer} height={isMobile ? '50%' : '40%'}>
+    <Box sx={isMobile ? styles.enemyContainerMobile : styles.enemyContainer} height={isMobile ? '50%' : '40%'}>
 
       <Monster monster={monster} />
 
@@ -61,6 +61,13 @@ const styles = {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  enemyContainerMobile: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'flex-end',
     justifyContent: 'center',
     gap: 4,
   },

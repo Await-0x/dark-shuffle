@@ -126,6 +126,7 @@ function Creature(props) {
     await controls.start({
       x: targetPosition.x - position.x,
       y: position.y - targetPosition.y,
+      zIndex: 1000
     })
 
     animationHandler.animationCompleted({ type: 'creatureAttack', creatureId: creature.id })
@@ -133,7 +134,8 @@ function Creature(props) {
     await controls.start({
       x: 0,
       y: 0,
-      rotate: 0
+      rotate: 0,
+      zIndex: 0
     })
   }
 
@@ -196,7 +198,7 @@ function Creature(props) {
 
     </motion.div>}
 
-    {!creature.dead && displayCard && <Box sx={styles.displayCard}>
+    {!creature.dead && displayCard && <Box sx={isMobile ? styles.displayCardMobile : styles.displayCard}>
       <Card card={displayCard} />
     </Box>}
   </Box>
@@ -250,6 +252,14 @@ const styles = {
     position: 'absolute',
     left: '136px',
     top: 0
+  },
+  displayCardMobile: {
+    height: CardSize.big.height,
+    width: CardSize.big.width,
+    position: 'fixed',
+    left: `${(window.innerWidth - 252) / 2}px`,
+    top: '20px',
+    zIndex: 2000
   },
   targetIcon: {
     width: '35px',

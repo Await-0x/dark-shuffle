@@ -1,4 +1,4 @@
-import CartridgeConnector from "@cartridge/connector";
+import { ControllerConnector } from "@cartridge/connector";
 import { getContractByName } from "@dojoengine/core";
 import { mainnet, sepolia } from "@starknet-react/chains";
 import {
@@ -18,7 +18,7 @@ const draft_systems = getContractByName(dojoConfig.manifest, "darkshuffle", "dra
 const game_systems = getContractByName(dojoConfig.manifest, "darkshuffle", "game_systems")?.address
 const map_systems = getContractByName(dojoConfig.manifest, "darkshuffle", "map_systems")?.address
 
-const cartridge = new CartridgeConnector({
+const cartridge = new ControllerConnector({
   policies: [
     {
       target: game_systems,
@@ -58,6 +58,7 @@ const cartridge = new CartridgeConnector({
       method: "approve",
     },
   ],
+  theme: "dark-shuffle",
   rpc: dojoConfig.rpcUrl,
   colorMode: "dark",
   indexerUrl: dojoConfig.toriiRawUrl,

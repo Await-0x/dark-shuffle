@@ -100,7 +100,7 @@ function ArenaPage() {
     async function checkActiveGame() {
       if (address) {
         let gameIds = await getActiveGameIds(address)
-        let data = await getActiveGame(parseInt(gameIds[0], 16))
+        let data = await getActiveGame(gameIds.map(id => parseInt(id, 16)))
 
         if (data) {
           data.game_id = parseInt(data.game_id, 16)

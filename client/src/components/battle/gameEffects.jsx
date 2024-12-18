@@ -8,12 +8,13 @@ import hero from "../../assets/images/hero.png";
 import { GameContext } from '../../contexts/gameContext';
 import { fetchBeastTypeImage, tags } from '../../helpers/cards';
 import { LargeCustomTooltip } from '../../helpers/styles';
+import { isMobile } from 'react-device-detect';
 
 export default function GameEffects() {
   const game = useContext(GameContext)
   const { gameEffects } = game.getState
 
-  return <Box sx={styles.effectContainer} mb={1}>
+  return <Box sx={isMobile ? styles.effectMobileContainer : styles.effectContainer}>
 
     {(gameEffects.allAttack > 0 || gameEffects.firstCost > 0 || gameEffects.firstAttack > 0 || gameEffects.firstHealth > 0)
       && <LargeCustomTooltip title={
@@ -147,11 +148,20 @@ export default function GameEffects() {
 }
 
 const styles = {
+  effectMobileContainer: {
+    width: '100px',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    gap: 0.5,
+    overflow: 'hidden'
+  },
+
   effectContainer: {
     width: '232px',
     display: 'flex',
     gap: 1,
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    mb: 1
   },
 
   effectCircle: {

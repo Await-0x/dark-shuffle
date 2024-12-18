@@ -19,7 +19,7 @@ const styles = {
     fontWeight: 'bold',
     position: 'absolute',
     fontSize: '0px',
-    zIndex: '100',
+    zIndex: 19,
     transform: 'translateY(100%)',
     fontFamily: 'Concert One, cursive'
   },

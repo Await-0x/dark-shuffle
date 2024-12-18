@@ -69,11 +69,12 @@ export async function getActiveGameIds(address) {
   return res?.darkshuffleGameStartEventModels?.edges.map(edge => edge.node.game_id)
 }
 
-export async function getActiveGame(game_id) {
+export async function getActiveGame(game_ids) {
   const document = gql`
   {
     darkshuffleGameModels (where:{
-      game_id:"${game_id}"
+      game_idIN:[${game_ids}],
+      hero_healthGT:0,
     }) {
       edges {
         node {
@@ -96,7 +97,7 @@ export async function getActiveGame(game_id) {
 
   const res = await request(dojoConfig.toriiUrl, document)
 
-  return res?.darkshuffleGameModels?.edges[0]?.node
+  return res?.darkshuffleGameModels?.edges[0]?.node;
 }
 
 export async function getDraft(game_id) {
@@ -256,7 +257,7 @@ export async function getLeaderboard(seasonId, page) {
   try {
     const document = gql`
     {
-      darkshuffleGameModels (where: {season_id: ${seasonId}}, order:{field:hero_xp, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+      darkshuffleGameModels (where: {season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
         edges {
           node {
             player_name,

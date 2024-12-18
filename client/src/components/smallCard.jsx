@@ -23,7 +23,7 @@ function SmallCard(props) {
       </Typography>
     </Box>
 
-    <Box sx={styles.imageContainer}>
+    <Box sx={showStats ? styles.imageContainer : styles.imageContainerMobile}>
       <img alt='' src={fetch_beast_image(card.name)} height={'100%'} />
     </Box>
 
@@ -80,6 +80,13 @@ const styles = {
     alignItems: 'center',
     width: '100%',
     height: '40%'
+  },
+  imageContainerMobile: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '65%'
   },
   header: {
     display: 'flex',

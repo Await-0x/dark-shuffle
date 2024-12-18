@@ -56,8 +56,8 @@ function MobileHeader(props) {
     <Box />
 
     <Box>
-      <IconButton onClick={() => toggleMenu(true)} size='large'>
-        <MenuIcon />
+      <IconButton onClick={() => toggleMenu(true)} size='large' sx={{ mt: 1 }}>
+        <MenuIcon sx={{ fontSize: '30px' }} />
       </IconButton>
 
       <SwipeableDrawer

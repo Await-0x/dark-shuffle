@@ -10,6 +10,7 @@ import { GET_MONSTER } from '../../battle/monsterUtils';
 import { GameContext } from '../../contexts/gameContext';
 import { CardSize, fetch_beast_image, fetchBeastTypeImage } from '../../helpers/cards';
 import { LargeCustomTooltip } from '../../helpers/styles';
+import { isMobile } from 'react-device-detect';
 
 const INACTIVE_OPACITY = 0.5
 
@@ -24,16 +25,27 @@ function Structure(props) {
   const scrollContainer = () => {
     if (scrollbarRef.current) {
       scrollbarRef.current.view.scrollTo({
-        left: 400,
+        left: (1200 - window.innerWidth + 55) / 2,
         top: scrollbarRef.current.getScrollHeight(),
         behavior: 'smooth'
       });
     }
   };
 
+  const scrollToCenter = () => {
+    if (scrollbarRef.current) {
+      scrollbarRef.current.view.scrollTo({
+        left: (1200 - window.innerWidth + 55) / 2,
+        behavior: 'smooth'
+      });
+    }
+  }
+
   useEffect(() => {
     if (tree.length > 0 && game.values.mapDepth < 3 && scrollbarRef.current) {
       scrollContainer()
+    } else if (isMobile) {
+      scrollToCenter()
     }
   }, [tree])
 
@@ -215,7 +227,7 @@ function Structure(props) {
     let monster = GET_MONSTER(node.monsterId, node.monsterName)
 
     return <Box sx={styles.circleContainer}>
-      <LargeCustomTooltip leaveDelay={(permanentTooltip === node.nodeId && node.active) ? 100000 : 100} position={'top'} title={
+      <LargeCustomTooltip leaveDelay={(permanentTooltip === node.nodeId && node.active) ? 100000 : isMobile ? 500 : 100} position={'top'} title={
         <Box sx={styles.tooltipContainer}>
           {monster.abilities}
 
@@ -226,7 +238,7 @@ function Structure(props) {
           </Box>}
         </Box>
       }>
-        <Box sx={[styles.monsterCircle, nodeStyle(node), (permanentTooltip === node.nodeId && node.active) && { boxShadow: '0 0 5px 1px rgba(255, 255, 255, 0.7)' }]} onClick={() => setPermanentTooltip(prev => { if (prev === node.nodeId) return; return node.nodeId })}>
+        <Box sx={[styles.monsterCircle, nodeStyle(node), (permanentTooltip === node.nodeId && node.active) && { boxShadow: '0 0 5px 1px rgba(255, 255, 255, 0.7)' }]} onClick={() => { }}>
           <Box sx={styles.typeContainer}>
             {fetchBeastTypeImage(monster.monsterType)}
           </Box>
@@ -316,70 +328,72 @@ function Structure(props) {
   }
 
   return (
-    <Scrollbars ref={scrollbarRef} style={{ ...styles.container }}>
-      <Box sx={styles.topNode}>
-        {RenderConnectedNode(map[map.length - 1])}
+    <Scrollbars ref={scrollbarRef}>
+      <Box sx={styles.container}>
+        <Box sx={styles.topNode}>
+          {RenderConnectedNode(map[map.length - 1])}
 
-        <RenderTopLine />
-      </Box>
-
-      <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center' }}>
-        <Box sx={styles.section}>
-          {tree.length > 1 && React.Children.toArray(
-            tree[0].map((row, i) => <>
-              <Box sx={styles.row}>
-                {React.Children.toArray(
-                  row.map(node => RenderNode(node, row, tree[0][i - 1], tree[0][i + 1]))
-                )}
-              </Box>
-            </>)
-          )}
-
-          {tree.length === 2 && RenderConnector(map[0], 'curved', 0, { mb: 0, ml: '50%', height: '50px', borderLeft: '1px solid #FFF', width: '50%' })}
-          {tree.length === 3 && RenderConnector(map[0], 'curved', 0, { mb: '60px', ml: '50%', height: '111px', borderLeft: '1px solid #FFF', width: '50%' })}
+          <RenderTopLine />
         </Box>
 
-        {(tree.length === 1 || tree.length === 3) && <Box sx={styles.section}>
-          {React.Children.toArray(
-            (tree.length === 1 ? tree[0] : tree[1]).map((row, i) => <>
-              <Box sx={styles.row}>
-                {React.Children.toArray(
-                  row.map(node => RenderNode(node, row, (tree.length === 1 ? tree[0] : tree[1])[i - 1], (tree.length === 1 ? tree[0] : tree[1])[i + 1]))
-                )}
-              </Box>
-            </>)
-          )}
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center' }}>
+          <Box sx={styles.section}>
+            {tree.length > 1 && React.Children.toArray(
+              tree[0].map((row, i) => <>
+                <Box sx={styles.row}>
+                  {React.Children.toArray(
+                    row.map(node => RenderNode(node, row, tree[0][i - 1], tree[0][i + 1]))
+                  )}
+                </Box>
+              </>)
+            )}
 
-          {tree.length === 3 && <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-            {RenderConnector(map[0], 'horizontal', 0, { width: '139px', mt: '51px' })}
-            {RenderConnectedNode(map[0])}
-            {RenderConnector(map[0], 'horizontal', 2, { width: '139px', mt: '51px' })}
+            {tree.length === 2 && RenderConnector(map[0], 'curved', 0, { mb: 0, ml: '50%', height: '50px', borderLeft: '1px solid #FFF', width: '50%' })}
+            {tree.length === 3 && RenderConnector(map[0], 'curved', 0, { mb: '60px', ml: '50%', height: '111px', borderLeft: '1px solid #FFF', width: '50%' })}
+          </Box>
+
+          {(tree.length === 1 || tree.length === 3) && <Box sx={styles.section}>
+            {React.Children.toArray(
+              (tree.length === 1 ? tree[0] : tree[1]).map((row, i) => <>
+                <Box sx={styles.row}>
+                  {React.Children.toArray(
+                    row.map(node => RenderNode(node, row, (tree.length === 1 ? tree[0] : tree[1])[i - 1], (tree.length === 1 ? tree[0] : tree[1])[i + 1]))
+                  )}
+                </Box>
+              </>)
+            )}
+
+            {tree.length === 3 && <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+              {RenderConnector(map[0], 'horizontal', 0, { width: '139px', mt: '51px' })}
+              {RenderConnectedNode(map[0])}
+              {RenderConnector(map[0], 'horizontal', 2, { width: '139px', mt: '51px' })}
+            </Box>}
           </Box>}
-        </Box>}
 
-        <Box sx={styles.section}>
-          {tree.length > 1 && React.Children.toArray(
-            (tree.length > 2 ? tree[2] : tree[1]).map((row, i) => <>
-              <Box sx={styles.row}>
-                {React.Children.toArray(
-                  row.map(node => RenderNode(node, row, (tree.length > 2 ? tree[2] : tree[1])[i - 1], (tree.length > 2 ? tree[2] : tree[1])[i + 1]))
-                )}
-              </Box>
-            </>)
-          )}
+          <Box sx={styles.section}>
+            {tree.length > 1 && React.Children.toArray(
+              (tree.length > 2 ? tree[2] : tree[1]).map((row, i) => <>
+                <Box sx={styles.row}>
+                  {React.Children.toArray(
+                    row.map(node => RenderNode(node, row, (tree.length > 2 ? tree[2] : tree[1])[i - 1], (tree.length > 2 ? tree[2] : tree[1])[i + 1]))
+                  )}
+                </Box>
+              </>)
+            )}
 
-          {tree.length === 2 && RenderConnector(map[0], 'curved', 1, { mb: 0, mr: '50%', height: '50px', borderRight: '1px solid #FFF', width: '50%' })}
-          {tree.length === 3 && RenderConnector(map[0], 'curved', 2, { mb: '60px', mr: '50%', height: '111px', borderRight: '1px solid #FFF', width: '50%' })}
+            {tree.length === 2 && RenderConnector(map[0], 'curved', 1, { mb: 0, mr: '50%', height: '50px', borderRight: '1px solid #FFF', width: '50%' })}
+            {tree.length === 3 && RenderConnector(map[0], 'curved', 2, { mb: '60px', mr: '50%', height: '111px', borderRight: '1px solid #FFF', width: '50%' })}
+          </Box>
+
         </Box>
 
-      </Box>
+        <Box sx={styles.topNode}>
+          {tree.length < 3 && <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+            {RenderConnectedNode(map[0])}
+          </Box>}
 
-      <Box sx={styles.topNode}>
-        {tree.length < 3 && <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-          {RenderConnectedNode(map[0])}
-        </Box>}
-
-        <Box sx={{ width: '1px', height: '25px', background: '#FFE97F' }} />
+          <Box sx={{ width: '1px', height: '25px', background: '#FFE97F' }} />
+        </Box>
       </Box>
     </Scrollbars>
   )

@@ -70,7 +70,7 @@ function StartBattleContainer() {
         </BrowserView>
 
         <MobileView>
-          {!cardOverview && <Box sx={styles.mobileOverview} width={'55px'}>
+          {!cardOverview && <Box sx={styles.mobileOverview} width={'55px'} gap={2}>
 
             <IconButton onClick={() => setCardOverview(true)}>
               <WestIcon htmlColor='white' />
@@ -87,9 +87,9 @@ function StartBattleContainer() {
                 <EastIcon htmlColor='white' />
               </IconButton>
 
-              <Overview />
-
               <HeroStats />
+
+              <Overview />
 
             </Scrollbars>
           </Box>}
@@ -122,7 +122,7 @@ const styles = {
     pt: '40px',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
 
   draftContainer: {

@@ -40,7 +40,7 @@ function Monster(props) {
     animationData: skullAnim,
     loop: false,
     autoplay: false,
-    style: { ...(isMobile ? { height: '120px', width: '120px' } : { height: '200px', width: '200px' }), top: 0, position: 'absolute' },
+    style: { ...(isMobile ? { height: '160px', width: '160px' } : { height: '200px', width: '200px' }), top: 0, position: 'absolute' },
     onComplete: () => skull.stop()
   });
 
@@ -48,7 +48,7 @@ function Monster(props) {
     animationData: healAnim,
     loop: false,
     autoplay: false,
-    style: { ...(isMobile ? { height: '120px', width: '120px' } : { height: '200px', width: '200px' }), top: 0, position: 'absolute' },
+    style: { ...(isMobile ? { height: '160px', width: '160px' } : { height: '200px', width: '200px' }), top: 0, position: 'absolute' },
     onComplete: () => heal.stop()
   });
 
@@ -56,7 +56,7 @@ function Monster(props) {
     animationData: attackMinusAnim,
     loop: false,
     autoplay: false,
-    style: { height: '80px', width: '80px', top: '60px', right: '60px', position: 'absolute', opacity: showAttackMinus ? 1 : 0 },
+    style: { height: '80px', width: '80px', top: isMobile ? '40px' : '60px', right: isMobile ? '40px' : '60px', position: 'absolute', opacity: showAttackMinus ? 1 : 0 },
     onComplete: () => setShowAttackMinus(false)
   });
 
@@ -64,7 +64,7 @@ function Monster(props) {
     animationData: attackBonusAnim,
     loop: false,
     autoplay: false,
-    style: { ...(isMobile ? { height: '80px', width: '80px' } : { height: '160px', width: '160px' }), top: '20px', right: '20px', position: 'absolute' },
+    style: { ...(isMobile ? { height: '120px', width: '120px' } : { height: '160px', width: '160px' }), top: '20px', right: '20px', position: 'absolute' },
     onComplete: () => attackPlus.stop()
   });
 
@@ -73,7 +73,7 @@ function Monster(props) {
     loop: false,
     autoplay: false,
     initialSegment: [0, 40],
-    style: { height: '120px', width: '120px', top: '40px', right: '40px', position: 'absolute' },
+    style: { height: '120px', width: '120px', top: isMobile ? '20px' : '40px', right: isMobile ? '20px' : '40px', position: 'absolute' },
     onComplete: () => markEnemy.stop()
   });
 
@@ -169,12 +169,12 @@ function Monster(props) {
       onMouseUp={(event) => mouseUpHandler(event)}
       animate={controls}
       ref={ref}
-      style={isMobile ? { position: 'relative', width: '120px', height: '120px' } : { position: 'relative', width: '200px', height: '200px' }}
+      style={isMobile ? { position: 'relative', width: '160px', height: '160px' } : { position: 'relative', width: '200px', height: '200px' }}
     >
 
       {monster.health > 0 && <DamageAnimation damage={damageTaken} />}
 
-      <motion.div animate={skullControls} style={{ left: isMobile ? 'calc(50% - 60px)' : 'calc(50% - 100px)', top: 0, position: 'absolute', opacity: monster.health > 0 ? 0 : 1 }}>
+      <motion.div animate={skullControls} style={{ left: isMobile ? 'calc(50% - 80px)' : 'calc(50% - 100px)', top: 0, position: 'absolute', opacity: monster.health > 0 ? 0 : 1 }}>
         {skull.View}
       </motion.div>
 
@@ -187,7 +187,7 @@ function Monster(props) {
         </Box>
       </CustomTooltip>}
 
-      {monster.health > 0 && <CustomTooltip position={'right'} title={<Box my={1}>
+      {monster.health > 0 && <CustomTooltip position={isMobile ? 'bottom' : 'right'} title={<Box my={1}>
         {monster.abilities}
       </Box>}>
         <Box sx={styles.container}>

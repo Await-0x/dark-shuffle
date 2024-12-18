@@ -5,7 +5,6 @@ import { BattleContext } from '../../contexts/battleContext'
 import { CardSize, types } from '../../helpers/cards'
 import SmallCard from '../smallCard'
 import { useEffect } from 'react'
-import { useSnackbar } from 'notistack'
 
 function DraggableCard(props) {
   const { values, dragEnd } = props
@@ -14,9 +13,8 @@ function DraggableCard(props) {
   const relX = clientX - rect.left - rect.width / 2
   const relY = clientY - rect.top - rect.height / 2
 
-  const play_threshold = isBrowser ? window.innerHeight - 200 : window.innerHeight * 0.65
+  const play_threshold = isBrowser ? window.innerHeight - 200 : window.innerHeight * 0.7
 
-  const { enqueueSnackbar } = useSnackbar()
   const controls = useAnimationControls()
   const ref = useRef()
 
@@ -32,11 +30,6 @@ function DraggableCard(props) {
     document.removeEventListener('mousemove', mouseMoveHandler);
     document.removeEventListener('mouseup', mouseUpHandler);
     event.preventDefault();
-
-    if (event.pageY > play_threshold && event.pageX > window.innerWidth - 150) {
-      discardCard(event, values.card)
-      return
-    }
 
     if (event.button !== 0 || event.pageY > play_threshold) {
       returnCard(event)
@@ -86,17 +79,6 @@ function DraggableCard(props) {
     })
   }
 
-  const discardCard = (event, card) => {
-    battle.actions.discardCard(card)
-
-    controls.start({
-      x: [`${relX + event.pageX - values.pageX}px`],
-      y: [`${relY + event.pageY - values.pageY}px`],
-      rotate: [0, 180, 360],
-      opacity: [0.5, 0.5, 0],
-    })
-  }
-
   return <>
     <motion.div
       animate={controls}
@@ -110,7 +92,6 @@ function DraggableCard(props) {
         ...styles.draggable
       } : {
         left: style.left,
-        x: clientX - rect.left - rect.width / 2,
         ...styles.mobileDraggable
       }}
       ref={ref}
@@ -134,6 +115,7 @@ export default DraggableCard
 const styles = {
   mobileDraggable: {
     userSelect: 'none',
+    touchAction: 'none',
     transition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     borderRadius: '4px',
     position: 'absolute',
@@ -142,7 +124,7 @@ const styles = {
     width: CardSize.small.width,
     cursor: 'grabbing',
     border: '1px solid yellow',
-    bottom: 10
+    bottom: '60px'
   },
   draggable: {
     userSelect: 'none',

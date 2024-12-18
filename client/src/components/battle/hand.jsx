@@ -66,7 +66,7 @@ function Hand() {
     const cardPosition = hand.findIndex(card => card.id === displayCard?.id)
 
     return <motion.div
-      style={{ ...(isMobile ? styles.displayCardMobile : styles.displayCard), ...styles.cardStyle, left: calculateCardPosition(cardPosition) }}
+      style={{ ...(isMobile ? styles.displayCardMobile : styles.displayCard), ...styles.cardStyle, left: isMobile ? `${(window.innerWidth - 252) / 2}px` : calculateCardPosition(cardPosition) }}
       animate={{ y: '-5px' }}
       transition={{ ease: "linear", duration: 0.3 }}
     >
@@ -97,7 +97,8 @@ function Hand() {
               onHoverStart={() => hoverCard(card)}
               onHoverEnd={() => endHoverCard()}
               onClick={event => selectCard(event, i, card)}
-              onPanStart={event => selectCard(event, i, card)} />
+              onPanStart={event => selectCard(event, i, card)}
+            />
 
             <motion.div
               style={handCardStyles(card)}
@@ -135,7 +136,7 @@ const styles = {
     width: CardSize.small.width,
     position: 'absolute',
     zIndex: 101,
-    userSelect: 'none'
+    userSelect: 'none',
   },
   cardWrapper: {
     height: CardSize.medium.height,
@@ -159,10 +160,10 @@ const styles = {
     left: '77%',
   },
   displayCardMobile: {
-    height: CardSize.large.height,
-    width: CardSize.large.width,
+    height: CardSize.big.height,
+    width: CardSize.big.width,
     bottom: '60px',
-    zIndex: 100
+    zIndex: 100,
   },
   displayCard: {
     height: CardSize.big.height,

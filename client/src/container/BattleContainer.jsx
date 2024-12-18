@@ -7,6 +7,7 @@ import React, { useContext } from 'react';
 import { isMobile } from 'react-device-detect';
 import vortexAnim from "../assets/animations/vortex.json";
 import bolt from "../assets/images/bolt.png";
+import cards from "../assets/images/cards.png";
 import monarch from "../assets/images/monarch.png";
 import Battlefield from '../components/battle/battlefield';
 import GameEffects from '../components/battle/gameEffects';
@@ -35,54 +36,57 @@ function BattleContainer() {
       <Box style={styles.mobileBoard}>
         <Battlefield />
 
-        <Box sx={{ position: 'absolute', right: '20px' }}>
+        {!game.score && <Box sx={{ position: 'absolute', left: '10px', top: '10px', zIndex: 1000 }}>
           <CustomTooltip title={<Box mb={1}>
             <Typography color="primary">End Turn</Typography>
             <Typography mt={0.5}>Your creatures attack. Monster perform its ability and attack. Yoy replenish energy.</Typography>
           </Box>
           }>
-            <LoadingButton variant='outlined' size='medium' sx={{ fontSize: '12px', letterSpacing: '1px' }}
+            <LoadingButton variant='outlined' size='large' sx={{ fontSize: '14px', letterSpacing: '1px' }}
               loading={battle.state.pendingTx}
               onClick={() => battle.actions.endTurn()}
             >
               End Turn
             </LoadingButton>
           </CustomTooltip>
-        </Box>
+        </Box>}
 
       </Box>
-      <Box sx={[styles.playerContainer, { px: 0.5, height: '25%' }]}>
 
-        <Box width={'150px'} height={'100%'} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
-          <img alt='' src={monarch} height={'58%'} />
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', height: '30px', boxSizing: 'border-box', px: 2, mb: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100px' }}>
+          <Typography variant="h5">
+            {gameSettings.draft_size - (battle.state.values?.deckIndex || 0)}
+          </Typography>
 
-          <Box width={'100%'} display={'flex'} gap={0.5} justifyContent={'center'}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant="h5">
-                {battle.state.values.heroEnergy}
-              </Typography>
+          <img alt='' src={cards} height={21} />
+        </Box>
 
-              <img alt='' src={bolt} height={21} />
-            </Box>
+        <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="h5">
+              {battle.state.values.heroEnergy}
+            </Typography>
 
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant="h5">
-                {battle.state.values.heroHealth}
-              </Typography>
-
-              <FavoriteIcon htmlColor="red" fontSize='small' />
-            </Box>
+            <img alt='' src={bolt} height={21} />
           </Box>
 
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="h5">
+              {battle.state.values.heroHealth}
+            </Typography>
+
+            <FavoriteIcon htmlColor="red" fontSize='small' />
+          </Box>
         </Box>
+
+        <GameEffects />
+      </Box>
+
+      <Box sx={[styles.playerContainer, { px: 0.5, height: '25%' }]}>
 
         <Box sx={[styles.hand, { flex: 1 }]}>
-
           <Hand />
-
-        </Box>
-
-        <Box sx={[styles.utContainer, { pr: 0 }]}>
         </Box>
 
       </Box>
@@ -166,7 +170,7 @@ const styles = {
   },
 
   mobileBoard: {
-    height: '75%',
+    height: '70%',
     width: '100%',
     display: 'flex',
     alignItems: 'center',

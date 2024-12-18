@@ -33,7 +33,7 @@ function DamageAnimation(props) {
       : { zIndex: 99, position: 'absolute', left: isMobile ? '15px' : '25px', top: isMobile ? '15px' : '25px' }
 
   let size = mini ? { width: '60px', height: '60px' } : small ? { width: isMobile ? '75px' : '90px', height: isMobile ? '75px' : '90px' }
-    : { width: isMobile ? '90px' : '150px', height: isMobile ? '90px' : '150px' }
+    : { width: isMobile ? '120px' : '150px', height: isMobile ? '120px' : '150px' }
 
   return <motion.div
     style={{ ...position, display: 'none' }}
