@@ -11,9 +11,10 @@ mod battle_systems {
 
     use darkshuffle::constants::{DEFAULT_NS};
     use darkshuffle::models::battle::{Battle, BattleOwnerTrait, Card, Creature, Board, BoardStats, CardType, RoundStats};
-    use darkshuffle::models::game::GameEffects;
+    use darkshuffle::models::game::{Game, GameEffects};
     use darkshuffle::models::config::GameSettings;
     use darkshuffle::utils::{
+        achievements::AchievementsUtilsImpl,
         summon::SummonUtilsImpl,
         cards::CardUtilsImpl,
         board::BoardUtilsImpl,
@@ -25,6 +26,9 @@ mod battle_systems {
         random
     };
 
+    use achievement::store::{Store, StoreTrait};
+    use darkshuffle::utils::tasks::index::{Task, TaskTrait};
+
     #[abi(embed_v0)]
     impl BattleContractImpl of super::IBattleContract<ContractState> {
         fn battle_actions(ref self: ContractState, game_id: u128, battle_id: u16, actions: Span<Span<u8>>) {
@@ -35,6 +39,7 @@ mod battle_systems {
             let mut battle: Battle = world.read_model((battle_id, game_id));
             battle.assert_battle(world);
 
+            let mut game: Game = world.read_model(game_id);
             let game_settings: GameSettings = ConfigUtilsImpl::get_game_settings(world, battle.game_id);
             let mut game_effects: GameEffects = world.read_model(battle.game_id);
             let mut board: Board = world.read_model((battle_id, game_id));
@@ -66,6 +71,9 @@ mod battle_systems {
                                 game_effects
                             );
                             BoardUtilsImpl::add_creature_to_board(creature, ref board, ref board_stats);
+                            if game.season_id != 0 {
+                                AchievementsUtilsImpl::play_creature(ref world, card);
+                            }
                         }
 
                         HandUtilsImpl::remove_hand_card(ref battle, *action.at(1));

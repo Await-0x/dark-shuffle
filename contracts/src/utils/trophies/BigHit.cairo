@@ -1,9 +1,9 @@
 use darkshuffle::utils::trophies::interface::{TrophyTrait, BushidoTask, Task, TaskTrait};
 
-impl Legend of TrophyTrait {
+impl BigHit of TrophyTrait {
     #[inline]
     fn identifier(level: u8) -> felt252 {
-        'LEGEND'
+        'BIG_HIT'
     }
 
     #[inline]
@@ -18,12 +18,12 @@ impl Legend of TrophyTrait {
 
     #[inline]
     fn points(level: u8) -> u16 {
-        150
+        100
     }
 
     #[inline]
     fn group() -> felt252 {
-        'Legend'
+        'Big Hit'
     }
 
     #[inline]
@@ -33,17 +33,17 @@ impl Legend of TrophyTrait {
 
     #[inline]
     fn title(level: u8) -> felt252 {
-        'Legend'
+        'Big Hit'
     }
 
     #[inline]
     fn description(level: u8) -> ByteArray {
-        "Your name etched in history"
+        "Now that's what I call overkill"
     }
 
     #[inline]
     fn tasks(level: u8) -> Span<BushidoTask> {
         let count: u32 = 1;
-        Task::Legend.tasks(count)
+        Task::BigHit.tasks(count)
     }
 }

@@ -34,6 +34,8 @@ mod game_systems {
         draft::DraftUtilsImpl,
         random
     };
+    use achievement::store::{Store, StoreTrait};
+    use darkshuffle::utils::tasks::index::{Task, TaskTrait};
 
     #[abi(embed_v0)]
     impl GameContractImpl of super::IGameContract<ContractState> {
@@ -80,6 +82,13 @@ mod game_systems {
             world.write_model(@season);
 
             game_token.attach_season_pass(game_id.into(), season_id);
+
+            // [Achievement] Play a game
+            let player_id: felt252 = get_caller_address().into();
+            let task_id: felt252 = Task::Seasoned.identifier();
+            let time = starknet::get_block_timestamp();
+            let store = StoreTrait::new(world);
+            store.progress(player_id, task_id, count: 1, time: time);
         }
 
         fn start_game(ref self: ContractState, game_id: u128, name: felt252) {

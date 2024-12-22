@@ -17,6 +17,8 @@ mod map_systems {
         map::MapUtilsImpl
     };
     use darkshuffle::constants::{DEFAULT_NS};
+    use achievement::store::{Store, StoreTrait};
+    use darkshuffle::utils::tasks::index::{Task, TaskTrait};
 
     #[abi(embed_v0)]
     impl MapContractImpl of super::IMapContract<ContractState> {
@@ -41,6 +43,15 @@ mod map_systems {
             });
 
             world.write_model(@game);
+
+            // [Achievement] Complete a map
+            if game.season_id != 0 && game.map_level > 1 {
+                let player_id: felt252 = starknet::get_caller_address().into();
+                let task_id: felt252 = Task::Explorer.identifier();
+                let time = starknet::get_block_timestamp();
+                let store = StoreTrait::new(world);
+                store.progress(player_id, task_id, count: 1, time: time);
+            }
         }
 
         fn select_node(ref self: ContractState, game_id: u128, node_id: u8) {

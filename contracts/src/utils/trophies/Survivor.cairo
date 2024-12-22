@@ -1,6 +1,6 @@
-use s0_eternum::utils::trophies::interface::{TrophyTrait, BushidoTask, Task, TaskTrait};
+use darkshuffle::utils::trophies::interface::{TrophyTrait, BushidoTask, Task, TaskTrait};
 
-impl Squire of TrophyTrait {
+impl Survivor of TrophyTrait {
     #[inline]
     fn identifier(level: u8) -> felt252 {
         'SURVIVOR'
@@ -8,7 +8,7 @@ impl Squire of TrophyTrait {
 
     #[inline]
     fn hidden(level: u8) -> bool {
-        false
+        true
     }
 
     #[inline]

@@ -25,6 +25,8 @@ mod season_systems {
     use darkshuffle::utils::{
         season::SeasonUtilsImpl
     };
+    use achievement::store::{Store, StoreTrait};
+    use darkshuffle::utils::tasks::index::{Task, TaskTrait};
 
     #[abi(embed_v0)]
     impl SeasonContractImpl of super::ISeasonContract<ContractState> {
@@ -71,6 +73,15 @@ mod season_systems {
 
                 let receiever_address = game_token.owner_of(position.game_id.into());
                 payment_dispatcher.transfer_from(season.season_address, receiever_address, reward);
+
+                // [Achievement] Legend
+                if i < 4 {
+                    let player_id: felt252 = receiever_address.into();
+                    let task_id: felt252 = Task::Legend.identifier();
+                    let time = starknet::get_block_timestamp();
+                    let store = StoreTrait::new(world);
+                    store.progress(player_id, task_id, count: 1, time: time);
+                }
 
                 i += 1;
             };

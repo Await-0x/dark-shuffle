@@ -5,6 +5,8 @@ use darkshuffle::utils::{
     board::BoardUtilsImpl,
     cards::CardUtilsImpl
 };
+use achievement::store::{Store, StoreTrait};
+use darkshuffle::utils::tasks::index::{Task, TaskTrait};
 
 #[generate_trait]
 impl SummonUtilsImpl of SummonUtilsTrait {
@@ -21,7 +23,7 @@ impl SummonUtilsImpl of SummonUtilsTrait {
             attack: card.attack,
             health: card.health,
         };
-        let creature_type = CardUtilsImpl::get_card(card.card_id).creature_type;
+        let creature_type = card.creature_type;
 
         if round_stats.creatures_played == 0 {
             creature.attack += game_effects.first_attack;

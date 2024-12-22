@@ -2,6 +2,14 @@
 version = 1
 
 [[package]]
+name = "achievement"
+version = "0.0.0"
+source = "git+https://github.com/cartridge-gg/arcade?tag=v1.0.5#75fbf3f8a9ce46d7f72f15cfd0d0f484034fd41d"
+dependencies = [
+ "dojo",
+]
+
+[[package]]
 name = "cartridge_vrf"
 version = "0.1.0"
 source = "git+https://github.com/cartridge-gg/vrf#3fc02297d2444392b08d1445054fa5be97dac5ac"
@@ -15,6 +23,7 @@ dependencies = [
 name = "darkshuffle"
 version = "1.0.0"
 dependencies = [
+ "achievement",
  "cartridge_vrf",
  "dojo",
  "openzeppelin",

@@ -10,7 +10,8 @@ use darkshuffle::models::season::{Season, SeasonOwnerTrait};
 use darkshuffle::utils::{
     season::SeasonUtilsImpl,
     battle::BattleUtilsImpl,
-    map::MapUtilsImpl
+    map::MapUtilsImpl,
+    achievements::AchievementsUtilsImpl
 };
 
 #[generate_trait]
@@ -48,6 +49,11 @@ impl GameUtilsImpl of GameUtilsTrait {
 
         world.write_model(@game);
         world.write_model(@game_effects);
+
+        // [Achievement] Defeat enemy
+        if game.season_id != 0 {
+            AchievementsUtilsImpl::defeat_enemy(ref world, battle.monster.monster_id);
+        }
     }
     
     fn battle_lost(ref world: WorldStorage, ref battle: Battle, ref game: Game, monster_node: MonsterNode) {

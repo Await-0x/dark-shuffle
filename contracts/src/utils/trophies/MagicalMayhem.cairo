@@ -1,12 +1,12 @@
 use darkshuffle::utils::trophies::interface::{TrophyTrait, BushidoTask, Task, TaskTrait};
 
-impl Battlelord of TrophyTrait {
+impl MagicalMayhem of TrophyTrait {
     #[inline]
     fn identifier(level: u8) -> felt252 {
         match level {
-            0 => 'FIRST_STEPS_I',
-            1 => 'FIRST_STEPS_II',
-            2 => 'FIRST_STEPS_III',
+            0 => 'MAGICAL_MAYHEM_I',
+            1 => 'MAGICAL_MAYHEM_II',
+            2 => 'MAGICAL_MAYHEM_III',
             _ => '',
         }
     }
@@ -24,16 +24,16 @@ impl Battlelord of TrophyTrait {
     #[inline]
     fn points(level: u8) -> u16 {
         match level {
-            0 => 10,
-            1 => 20,
-            2 => 30,
+            0 => 30,
+            1 => 50,
+            2 => 100,
             _ => 0,
         }
     }
 
     #[inline]
     fn group() -> felt252 {
-        'First Steps'
+        'Magical Mayhem'
     }
 
     #[inline]
@@ -44,26 +44,26 @@ impl Battlelord of TrophyTrait {
     #[inline]
     fn title(level: u8) -> felt252 {
         match level {
-            0 => 'First Steps I',
-            1 => 'First Steps II',
-            2 => 'First Steps III',
+            0 => 'Magical Mayhem I',
+            1 => 'Magical Mayhem II',
+            2 => 'Magical Mayhem III',
             _ => '',
         }
     }
 
     #[inline]
     fn description(level: u8) -> ByteArray {
-        "Every journey begins with a single step"
+        "Let the spells fly"
     }
 
     #[inline]
     fn tasks(level: u8) -> Span<BushidoTask> {
         let count: u32 = match level {
-            0 => 1,
-            1 => 5,
-            2 => 10,
+            0 => 10,
+            1 => 50,
+            2 => 100,
             _ => 0,
         };
-        Task::FirstSteps.tasks(count)
+        Task::MagicalMayhem.tasks(count)
     }
 }
