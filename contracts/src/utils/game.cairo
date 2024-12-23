@@ -39,6 +39,19 @@ impl GameUtilsImpl of GameUtilsTrait {
     }
 
     fn battle_won(ref world: WorldStorage, ref battle: Battle, ref game_effects: GameEffects, ref game: Game, monster_node: MonsterNode) {
+        if game.season_id != 0 {
+            // [Achievement] Defeat enemy
+            AchievementsUtilsImpl::defeat_enemy(ref world, battle.monster.monster_id);
+            // [Achievement] Survivor
+            if battle.hero.health == 1 {
+                AchievementsUtilsImpl::survivor(ref world);
+            }
+            // [Achievement] Heroic
+            if battle.hero.health > game.hero_health {
+                AchievementsUtilsImpl::heroic(ref world);
+            }
+        };
+
         Self::add_monster_reward(ref game_effects, ref battle);
 
         game.monsters_slain += 1;
@@ -50,10 +63,6 @@ impl GameUtilsImpl of GameUtilsTrait {
         world.write_model(@game);
         world.write_model(@game_effects);
 
-        // [Achievement] Defeat enemy
-        if game.season_id != 0 {
-            AchievementsUtilsImpl::defeat_enemy(ref world, battle.monster.monster_id);
-        }
     }
     
     fn battle_lost(ref world: WorldStorage, ref battle: Battle, ref game: Game, monster_node: MonsterNode) {

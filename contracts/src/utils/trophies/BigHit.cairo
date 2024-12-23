@@ -28,7 +28,7 @@ impl BigHit of TrophyTrait {
 
     #[inline]
     fn icon(level: u8) -> felt252 {
-        'fa-seedling'
+        'fa-scythe'
     }
 
     #[inline]

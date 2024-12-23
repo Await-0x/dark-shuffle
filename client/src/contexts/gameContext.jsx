@@ -23,6 +23,7 @@ export const GameProvider = ({ children }) => {
   const dojo = useContext(DojoContext)
   const season = useSeason()
 
+  const [minting, setMinting] = useState(false)
   const [values, setValues] = useState({ ...GAME_VALUES })
   const [gameSettings, setGameSettings] = useState({})
   const [gameEffects, setGameEffects] = useState({})
@@ -50,7 +51,9 @@ export const GameProvider = ({ children }) => {
   }
 
   const mintGameToken = async () => {
+    setMinting(true)
     const res = await dojo.executeTx([{ contractName: "game_systems", entrypoint: "mint", calldata: [season.values.settingsId] }])
+    setMinting(false)
 
     if (res) {
       const config = res.find(e => e.componentName === 'WorldConfig')

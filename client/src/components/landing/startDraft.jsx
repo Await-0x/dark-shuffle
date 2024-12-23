@@ -10,13 +10,15 @@ import { _styles } from '../../helpers/styles'
 import { formatTimeUntil } from '../../helpers/utilities'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
+import StartGameDialog from '../dialogs/startGame'
 
 function StartDraft() {
   const season = useSeason()
   const dojo = useContext(DojoContext)
-  const draft = useContext(DraftContext)
 
-  const [loading, setLoading] = useState(false)
+  const draft = useContext(DraftContext)
+  const { status } = draft.getState
+
   const [showWarnings, setShowWarnings] = useState(false)
 
   async function beginDraft(isSeason) {
@@ -24,14 +26,8 @@ function StartDraft() {
       setShowWarnings(true)
     }
 
-    setLoading(true)
-
     await draft.actions.startDraft(isSeason)
-
-    setLoading(false)
   }
-
-
 
   const enoughFunds = dojo.balances.lords >= (season.values?.entryFee ?? 0)
 
@@ -76,11 +72,11 @@ function StartDraft() {
             Season 0: New beginnings
           </Typography>
 
-          <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+          <LoadingButton variant='outlined' loading={status} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
             Play Season
           </LoadingButton>
 
-          <LoadingButton color='secondary' variant='outlined' loading={loading} onClick={() => beginDraft(false)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+          <LoadingButton color='secondary' variant='outlined' loading={status} onClick={() => beginDraft(false)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
             Play Demo
           </LoadingButton>
 
@@ -185,7 +181,7 @@ function StartDraft() {
 
               <Box mt={4} display={'flex'} alignItems={'center'} gap={2}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
-                  <LoadingButton variant='outlined' loading={loading} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                  <LoadingButton variant='outlined' loading={status} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
                     Play Season
                   </LoadingButton>
 
@@ -195,7 +191,7 @@ function StartDraft() {
                 </Box>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
-                  <LoadingButton color='secondary' variant='outlined' loading={loading}
+                  <LoadingButton color='secondary' variant='outlined' loading={status}
                     onClick={() => beginDraft(false)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
                     Play Demo
                   </LoadingButton>
@@ -213,6 +209,8 @@ function StartDraft() {
 
         </Box >
       </BrowserView>
+
+      {status && <StartGameDialog status={status} />}
     </>
   )
 }

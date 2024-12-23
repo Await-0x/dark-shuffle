@@ -38,7 +38,7 @@ impl BruteSquad of TrophyTrait {
 
     #[inline]
     fn icon(level: u8) -> felt252 {
-        'fa-helmet-battle'
+        'fa-hand-fist'
     }
 
     #[inline]

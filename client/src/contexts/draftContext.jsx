@@ -21,16 +21,21 @@ export const DraftProvider = ({ children }) => {
   const [options, setOptions] = useState([])
   const [cards, setCards] = useState([])
 
+  const [status, setStatus] = useState()
+
   const initializeState = () => {
     setPendingCard()
     setOptions([])
     setCards([])
+    setStatus('Minting Game Token')
   }
 
   const startDraft = async (isSeason) => {
     initializeState()
 
     const gameId = await game.actions.mintGameToken()
+
+    setStatus('Shuffling Cards')
 
     const txs = []
     if (isSeason) {
@@ -54,6 +59,7 @@ export const DraftProvider = ({ children }) => {
     })
 
     const res = await dojo.executeTx(txs, true)
+    setStatus()
 
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
@@ -108,6 +114,7 @@ export const DraftProvider = ({ children }) => {
           cards,
           options,
           pendingCard,
+          status
         },
       }}
     >

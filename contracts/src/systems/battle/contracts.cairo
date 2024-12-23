@@ -84,6 +84,10 @@ mod battle_systems {
                         BoardUtilsImpl::attack_monster(ref battle, ref board, board_stats, ref round_stats);
                         BoardUtilsImpl::clean_board(ref battle, ref board, board_stats);
                         board_stats = BoardUtilsImpl::get_board_stats(board, battle.monster.monster_id);
+
+                        if game.season_id != 0 && battle.monster.health + 25 <= round_stats.monster_start_health {
+                            AchievementsUtilsImpl::big_hit(ref world);
+                        }
                     },
 
                     _ => {

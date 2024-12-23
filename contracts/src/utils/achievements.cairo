@@ -54,4 +54,31 @@ impl AchievementsUtilsImpl of AchievementsUtilsTrait {
             _ => {},
         }
     }
+
+    fn survivor(ref world: WorldStorage) {
+        let store = StoreTrait::new(world);
+        let player_id: felt252 = get_caller_address().into();
+        let time = get_block_timestamp();
+
+        let task_id: felt252 = Task::Survivor.identifier();
+        store.progress(player_id, task_id, count: 1, time: time);
+    }
+
+    fn big_hit(ref world: WorldStorage) {
+        let store = StoreTrait::new(world);
+        let player_id: felt252 = get_caller_address().into();
+        let time = get_block_timestamp();
+
+        let task_id: felt252 = Task::BigHit.identifier();
+        store.progress(player_id, task_id, count: 1, time: time);
+    }
+
+    fn heroic(ref world: WorldStorage) {
+        let store = StoreTrait::new(world);
+        let player_id: felt252 = get_caller_address().into();
+        let time = get_block_timestamp();
+
+        let task_id: felt252 = Task::Heroic.identifier();
+        store.progress(player_id, task_id, count: 1, time: time);
+    }
 }

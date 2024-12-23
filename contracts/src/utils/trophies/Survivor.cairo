@@ -28,7 +28,7 @@ impl Survivor of TrophyTrait {
 
     #[inline]
     fn icon(level: u8) -> felt252 {
-        'fa-seedling'
+        'fa-tombstone-blank'
     }
 
     #[inline]

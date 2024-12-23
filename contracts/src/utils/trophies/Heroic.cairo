@@ -28,7 +28,7 @@ impl Heroic of TrophyTrait {
 
     #[inline]
     fn icon(level: u8) -> felt252 {
-        'fa-seedling'
+        'fa-superpowers'
     }
 
     #[inline]

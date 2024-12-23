@@ -38,7 +38,7 @@ impl MagicalAssembly of TrophyTrait {
 
     #[inline]
     fn icon(level: u8) -> felt252 {
-        'fa-helmet-battle'
+        'fa-wand-magic-sparkles'
     }
 
     #[inline]

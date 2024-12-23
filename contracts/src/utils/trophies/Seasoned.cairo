@@ -38,12 +38,7 @@ impl Seasoned of TrophyTrait {
 
     #[inline]
     fn icon(level: u8) -> felt252 {
-        match level {
-            0 => 'fa-mountain',
-            1 => 'fa-mountains',
-            2 => 'fa-mountain-sun',
-            _ => '',
-        }
+        'fa-battle-helmet'
     }
 
     #[inline]
