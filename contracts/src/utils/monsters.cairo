@@ -18,8 +18,10 @@ impl MonsterUtilsImpl of MonsterUtilsTrait {
         seed: u128
     ) {
         if battle.monster.monster_id == 1 {
-            let random_card = random::get_random_number(seed, battle.hand.len().try_into().unwrap()) - 1;
-            HandUtilsImpl::remove_hand_card(ref battle, *battle.hand.at(random_card.into()));
+            if battle.hand.len() > 0 {
+                let random_card = random::get_random_number(seed, battle.hand.len().try_into().unwrap()) - 1;
+                HandUtilsImpl::remove_hand_card(ref battle, *battle.hand.at(random_card.into()));
+            }
         }
 
         else if battle.monster.monster_id == 2 {
