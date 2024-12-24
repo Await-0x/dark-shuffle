@@ -242,10 +242,6 @@ impl BoardUtilsImpl of BoardUtilsTrait {
     fn get_strongest_creature(board: Board) -> Creature {
         let mut strongest_creature = board.creature1;
 
-        if board.creature1.attack > strongest_creature.attack {
-            strongest_creature = board.creature1;
-        }
-
         if board.creature2.attack > strongest_creature.attack {
             strongest_creature = board.creature2;
         }

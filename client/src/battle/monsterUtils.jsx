@@ -107,7 +107,7 @@ const getMonsterAbilities = (monsterId) => {
       })
     case 57:
       return formatAbility({
-        ability: "Deals damage to your strongest beast equal to its attack.",
+        ability: "Berserker gains +2 health if it has less attack than your strongest beast.",
         reward: "The first beast you play each turn gets +2 health."
       })
     case 56:

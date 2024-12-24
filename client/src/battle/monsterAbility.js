@@ -1,5 +1,5 @@
 export const endOfTurnMonsterEffect = ({
-  setValues, values, setHand, setBoard, damageHero, hand, roundStats, damageCreature, board
+  setValues, values, cleanBoard, setBoard, damageHero, hand, roundStats, damageCreature, board
 }) => {
   if (values.monsterId === 2) {
     damageHero(hand.length)
@@ -19,7 +19,10 @@ export const endOfTurnMonsterEffect = ({
 
   else if (values.monsterId === 57 && board.length > 0) {
     const strongestCreature = board.reduce((max, creature) => creature.attack > max.attack ? creature : max, board[0])
-    damageCreature(strongestCreature, strongestCreature.attack)
+
+    if (strongestCreature.attack > values.monsterAttack) {
+      setValues(prev => ({ ...prev, monsterHealth: prev.monsterHealth + 2 }))
+    }
   }
 
   else if (values.monsterId === 58 && board.length > 0) {

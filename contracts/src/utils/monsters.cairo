@@ -42,7 +42,10 @@ impl MonsterUtilsImpl of MonsterUtilsTrait {
 
         else if battle.monster.monster_id == 57 {
             let mut strongest_creature = BoardUtilsImpl::get_strongest_creature(board);
-            BattleUtilsImpl::damage_creature(ref strongest_creature, board_stats, strongest_creature.attack, battle.monster.monster_id);
+
+            if strongest_creature.attack > battle.monster.attack {
+                battle.monster.health += 2;
+            }
         }
 
         else if battle.monster.monster_id == 58 {
