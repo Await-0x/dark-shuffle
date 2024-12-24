@@ -73,9 +73,9 @@ export async function getActiveGame(game_ids) {
   const document = gql`
   {
     darkshuffleGameModels (where:{
-      game_idIN:[${game_ids}],
+      game_idIN:[${game_ids.map(game_id => `"${game_id}"`)}],
       hero_healthGT:0,
-    }) {
+    }, limit: 1000) {
       edges {
         node {
           game_id,
@@ -257,7 +257,7 @@ export async function getLeaderboard(seasonId, page) {
   try {
     const document = gql`
     {
-      darkshuffleGameModels (where: {season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+      darkshuffleGameModels (where: {hero_health: 0, season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
         edges {
           node {
             player_name,

@@ -380,7 +380,7 @@ export const CARD_DETAILS = (cardId, id) => {
         cost: 3,
         attack: 4,
         health: 2,
-        text: "On Attack: Gains +1 attack if the enemy is Magical and deals 1 extra damage if another Hunter ally is in play"
+        text: "On Attack: Gains +1 attack if the enemy is Magical. Deals 1 extra damage if another Hunter ally is in play"
       };
 
     case 24:
@@ -856,7 +856,7 @@ export const CARD_DETAILS = (cardId, id) => {
         cost: 2,
         attack: 3,
         health: 2,
-        text: "On Attack: Deals 1 extra damage to the enemy if the enemy is a Hunter"
+        text: "On Attack: Deals 1 extra damage if the enemy is a Hunter"
       };
 
     case 58:

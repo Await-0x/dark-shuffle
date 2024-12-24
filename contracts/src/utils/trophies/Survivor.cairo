@@ -18,7 +18,7 @@ impl Survivor of TrophyTrait {
 
     #[inline]
     fn points(level: u8) -> u16 {
-        30
+        50
     }
 
     #[inline]

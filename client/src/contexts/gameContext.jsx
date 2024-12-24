@@ -23,7 +23,6 @@ export const GameProvider = ({ children }) => {
   const dojo = useContext(DojoContext)
   const season = useSeason()
 
-  const [minting, setMinting] = useState(false)
   const [values, setValues] = useState({ ...GAME_VALUES })
   const [gameSettings, setGameSettings] = useState({})
   const [gameEffects, setGameEffects] = useState({})
@@ -45,15 +44,13 @@ export const GameProvider = ({ children }) => {
 
   const endGame = () => {
     setValues({ ...GAME_VALUES })
-    setGameSettings({})
+    setGameEffects({})
     setMap(null)
     setScore()
   }
 
   const mintGameToken = async () => {
-    setMinting(true)
     const res = await dojo.executeTx([{ contractName: "game_systems", entrypoint: "mint", calldata: [season.values.settingsId] }])
-    setMinting(false)
 
     if (res) {
       const config = res.find(e => e.componentName === 'WorldConfig')
@@ -63,10 +60,6 @@ export const GameProvider = ({ children }) => {
 
   const updateMapStatus = (nodeId) => {
     setMap(prev => prev.map(node => {
-      if (node.active && node.status !== 1 && node.nodeId !== nodeId) {
-        return { ...node, active: false }
-      }
-
       if (node.nodeId === nodeId) {
         return { ...node, status: 1, active: false }
       }
@@ -75,6 +68,9 @@ export const GameProvider = ({ children }) => {
         return { ...node, active: true }
       }
 
+      if (node.active && node.status !== 1) {
+        return { ...node, active: false }
+      }
       return node
     }))
   }

@@ -18,7 +18,7 @@ impl Heroic of TrophyTrait {
 
     #[inline]
     fn points(level: u8) -> u16 {
-        100
+        90
     }
 
     #[inline]
@@ -28,7 +28,7 @@ impl Heroic of TrophyTrait {
 
     #[inline]
     fn icon(level: u8) -> felt252 {
-        'fa-superpowers'
+        'fa-khanda'
     }
 
     #[inline]

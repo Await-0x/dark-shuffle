@@ -38,7 +38,7 @@ impl Seasoned of TrophyTrait {
 
     #[inline]
     fn icon(level: u8) -> felt252 {
-        'fa-battle-helmet'
+        'fa-helmet-battle'
     }
 
     #[inline]

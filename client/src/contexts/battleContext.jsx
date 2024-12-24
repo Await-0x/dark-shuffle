@@ -213,7 +213,7 @@ export const BattleProvider = ({ children }) => {
       deckIndex: updatedValues.deckIndex,
       ...updatedValues.hero,
       ...updatedValues.monster,
-      monsterType: GET_MONSTER(updatedValues.monsterId).monsterType
+      monsterType: GET_MONSTER(updatedValues.monster.monsterId).monsterType
     })
     setHand(updatedValues.hand.map((card, i) => CARD_DETAILS(card, i + 1)))
     setBoard(prev => prev.map(creature => ({ ...creature, attacked: false })))

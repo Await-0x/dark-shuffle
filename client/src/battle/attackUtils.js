@@ -59,8 +59,11 @@ export const attackEffect = ({
   }
 
   else if (creature.cardId === 23) {
-    if (hunterCount > 1) {
+    if (values.monsterType === tags.MAGICAL) {
       creature.attack += 1;
+    }
+
+    if (hunterCount > 1) {
       extraDamage += 1;
     }
   }

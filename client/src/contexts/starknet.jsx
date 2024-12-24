@@ -58,10 +58,15 @@ const cartridge = new ControllerConnector({
       method: "approve",
     },
   ],
+  namespace: "darkshuffle",
   theme: "dark-shuffle",
   rpc: dojoConfig.rpcUrl,
   colorMode: "dark",
   indexerUrl: dojoConfig.toriiRawUrl,
+  slot: "darkshuffle-sepolia",
+  tokens: {
+    erc20: [dojoConfig.lordsAddress],
+  },
 })
 
 export function StarknetProvider({ children }) {

@@ -8,6 +8,6 @@ impl Legend of TaskTrait {
 
     #[inline]
     fn description(count: u32) -> ByteArray {
-        format!("Finish a season as top {}", count)
+        "Finish a season in the top 3"
     }
 }

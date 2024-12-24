@@ -9,7 +9,7 @@ function SmallCard(props) {
   const { card, showStats, cost, onHand, energy } = props
   const playable = onHand && cost <= energy
 
-  return <Box sx={[styles.container]} gap={isMobile ? 0.5 : 2}>
+  return <Box sx={[styles.container]} gap={isMobile ? 0.5 : 1}>
 
     <Box sx={styles.header}>
       <Box sx={[styles.circle, { opacity: playable ? 1 : 0.5 }]} border={'1px solid #FFE97F'}>
@@ -23,7 +23,7 @@ function SmallCard(props) {
       </Typography>
     </Box>
 
-    <Box sx={showStats ? styles.imageContainer : styles.imageContainerMobile}>
+    <Box sx={isBrowser ? styles.imageContainer : styles.imageContainerMobile}>
       <img alt='' src={fetch_beast_image(card.name)} height={'100%'} />
     </Box>
 
@@ -79,7 +79,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: '40%'
+    height: '50%'
   },
   imageContainerMobile: {
     display: 'flex',

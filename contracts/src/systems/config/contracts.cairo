@@ -27,6 +27,51 @@ mod config_systems {
     use darkshuffle::models::config::{GameSettings, WorldConfig};
     use darkshuffle::constants::{DEFAULT_NS, WORLD_CONFIG_ID};
 
+    use achievement::components::achievable::AchievableComponent;
+    use darkshuffle::utils::trophies::index::{Trophy, TrophyTrait, TROPHY_COUNT};
+
+    component!(path: AchievableComponent, storage: achievable, event: AchievableEvent);
+    impl AchievableInternalImpl = AchievableComponent::InternalImpl<ContractState>;
+
+    #[storage]
+    struct Storage {
+        #[substorage(v0)]
+        achievable: AchievableComponent::Storage,
+    }
+
+    #[event]
+    #[derive(Drop, starknet::Event)]
+    enum Event {
+        #[flat]
+        AchievableEvent: AchievableComponent::Event,
+    }
+
+    fn dojo_init(self: @ContractState) {
+        let mut world: WorldStorage = self.world(DEFAULT_NS());
+        let mut trophy_id: u8 = TROPHY_COUNT;
+    
+        while trophy_id > 0 {
+            let trophy: Trophy = trophy_id.into();
+            self.achievable.create(
+                world,
+                id: trophy.identifier(),
+                hidden: trophy.hidden(),
+                index: trophy.index(),
+                points: trophy.points(),
+                start: 0,
+                end: 0,
+                group: trophy.group(),
+                icon: trophy.icon(),
+                title: trophy.title(),
+                description: trophy.description(),
+                tasks: trophy.tasks(),
+                data: trophy.data(),
+            );
+
+            trophy_id -= 1;
+        }
+    }
+
     #[abi(embed_v0)]
     impl ConfigContractImpl of super::IConfigContract<ContractState> {
         fn create_game_settings(

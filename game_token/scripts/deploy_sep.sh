@@ -2,7 +2,7 @@ export STARKNET_RPC="https://starknet-sepolia.g.alchemy.com/starknet/version/rpc
 export STARKNET_KEYSTORE=~/.starkli-wallets/deployer/keystore.json
 export STARKNET_ACCOUNT=~/.starkli-wallets/deployer/account.json
 
-ds_address=0x275c0647b77edd839550f47a199d3460de338e464ff588d441e99aae28e1582
+ds_address=0x77c40514d31a722a10961a141d7bbbd479c26c7ba6facab6ae3c11925720465
 
 class_hash=0x050b275a94c329c957156bdcd2073b696e6a4cfc0ac604be526c849148a5c649
 

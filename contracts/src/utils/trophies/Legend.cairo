@@ -18,7 +18,7 @@ impl Legend of TrophyTrait {
 
     #[inline]
     fn points(level: u8) -> u16 {
-        150
+        90
     }
 
     #[inline]

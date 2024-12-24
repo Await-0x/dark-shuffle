@@ -1,8 +1,8 @@
 {
   "world": {
     "class_hash": "0x45575a88cc5cef1e444c77ce60b7b4c9e73a01cbbe20926d5a4c72a94011410",
-    "address": "0x2aadfd2249c2cb88ad51d5c109119423cddf11d271aa04597b90d5cc1baada5",
-    "seed": "darkshuffle4",
+    "address": "0x581f5394a8d43cebd38eda3d8e4e4f9bfb566c04485ba28cb47393bb0a82fe4",
+    "seed": "darkshuffle5",
     "name": "Dark Shuffle",
     "entrypoints": [
       "uuid",
@@ -1252,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0xdde473e24757643cf60e174459b03d7b746a1b44184f05977d563ab7ede7a1",
-      "class_hash": "0x73df0c4228f605a3035b0142d02185df829dfb91878fddb5002ad1697784043",
+      "address": "0x38e69b6b8b4a2ae28c06145d0872bc4095d9b3c4e6d557609538be4cf053ca5",
+      "class_hash": "0x62174775e6d5f8b2ac3862e8e7fe1f0be77bb0e6657cb5ad70e39f673e3f5a1",
       "abi": [
         {
           "type": "impl",
@@ -1480,8 +1480,8 @@
       ]
     },
     {
-      "address": "0x573f7326c45bc6ef69a75de5b9b009cef6a6a093255e034a18aaec9469c0839",
-      "class_hash": "0x65163fd7e9bb3a4ba84c125aacc2d497211d8a89ac85d1c751ffba1b66f92fe",
+      "address": "0x279aa861a7a7614364a20d189608de86e3f51665f9fb97b15d8f0598073819c",
+      "class_hash": "0x3eec9085e4b70d0fe394b74a934071711821a97998970676e95d4a656d6e521",
       "abi": [
         {
           "type": "impl",
@@ -1532,6 +1532,13 @@
               "state_mutability": "view"
             }
           ]
+        },
+        {
+          "type": "function",
+          "name": "dojo_init",
+          "inputs": [],
+          "outputs": [],
+          "state_mutability": "view"
         },
         {
           "type": "impl",
@@ -1602,13 +1609,6 @@
               "state_mutability": "view"
             }
           ]
-        },
-        {
-          "type": "function",
-          "name": "dojo_init",
-          "inputs": [],
-          "outputs": [],
-          "state_mutability": "view"
         },
         {
           "type": "impl",
@@ -1702,6 +1702,12 @@
         },
         {
           "type": "event",
+          "name": "achievement::components::achievable::AchievableComponent::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
           "name": "darkshuffle::systems::config::contracts::config_systems::Event",
           "kind": "enum",
           "variants": [
@@ -1714,6 +1720,11 @@
               "name": "WorldProviderEvent",
               "type": "dojo::contract::components::world_provider::world_provider_cpt::Event",
               "kind": "nested"
+            },
+            {
+              "name": "AchievableEvent",
+              "type": "achievement::components::achievable::AchievableComponent::Event",
+              "kind": "flat"
             }
           ]
         }
@@ -1728,7 +1739,7 @@
       ]
     },
     {
-      "address": "0x40d3ab8065706bd2a2acc1768615bd91f9624acf41d4c7cf3be6b7aed46a752",
+      "address": "0x6b163a1a3d4b790feb11055923d1dbf6fd0eea036bdc06b20226231d274f5ed",
       "class_hash": "0x45b7fa1c97fbf23f288c632183d33b78aaa8728f873144a7d9b40b4744edbda",
       "abi": [
         {
@@ -1932,8 +1943,8 @@
       ]
     },
     {
-      "address": "0x275c0647b77edd839550f47a199d3460de338e464ff588d441e99aae28e1582",
-      "class_hash": "0x66715c08627a604a37fb48273537f207fdabb296efd6ce526b04be668613fb4",
+      "address": "0x77c40514d31a722a10961a141d7bbbd479c26c7ba6facab6ae3c11925720465",
+      "class_hash": "0x5b2e7bbb45eb66d490d8362e5466706364b82bf8d2186d29a47cfdeb481b5f0",
       "abi": [
         {
           "type": "impl",
@@ -2279,8 +2290,8 @@
       ]
     },
     {
-      "address": "0x691e126521419eee6cb7f4422aab5ed801509f203a35b48b0cca06ecc9517d9",
-      "class_hash": "0x2b5c8fc5a11c547005b70fb49def744f1e4b284cf155f92df4b7b18954bb0d3",
+      "address": "0x71f0eea6300a371346cb0e229f7e8874f86fb8ff0f926dd9be950eed23cbf9",
+      "class_hash": "0x3742a7af535b9e55f315b4aaa32067628f4512cc2d09fc1aebdebd4071e90f2",
       "abi": [
         {
           "type": "impl",
@@ -2496,8 +2507,8 @@
       ]
     },
     {
-      "address": "0x5516892b0461a182360e9ee956a0ac2b5ecc23c18607957e4302914cbb4de96",
-      "class_hash": "0x3a1c072f1497e0ff8e843619d4d99097176c31486cc0c4f661aefd9da1be3d2",
+      "address": "0x236cdd20453e498280f667a1961f7588e0f45b12b2ee8ebe68846aa68478c3b",
+      "class_hash": "0x40e82eeedd52ba829204fc6fc176f7157d8318450711171d875d29d1251c71c",
       "abi": [
         {
           "type": "impl",
@@ -2840,6 +2851,18 @@
       "class_hash": "0x79ca95d81ad3ccadbb410e411f35150ab86ade5d64923adc2511c4822485773",
       "tag": "darkshuffle-GameStartEvent",
       "selector": "0x3ebc44821229495560ec2b531f66906c481a645e6015c12d7d1caf7a080ae0a"
+    },
+    {
+      "members": [],
+      "class_hash": "0x6b38999d987627835d4c20e7e571c73d32ddc856786d9790a131bdb3372a246",
+      "tag": "darkshuffle-TrophyCreation",
+      "selector": "0x797553ddedf6c064065fdd0e3753bb3166564d0b94a7d6995812d90569200ea"
+    },
+    {
+      "members": [],
+      "class_hash": "0xf05f290a704ad2671544b391f0c33d50d6d43d468d52791282852a833a00c7",
+      "tag": "darkshuffle-TrophyProgression",
+      "selector": "0x6dbfa6496a8679db6f9855831fa80145939540d2f7136a6d6eb10644a4e1f13"
     }
   ]
 }

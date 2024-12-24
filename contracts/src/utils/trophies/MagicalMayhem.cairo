@@ -26,7 +26,7 @@ impl MagicalMayhem of TrophyTrait {
         match level {
             0 => 30,
             1 => 50,
-            2 => 100,
+            2 => 90,
             _ => 0,
         }
     }

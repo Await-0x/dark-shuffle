@@ -1,32 +1,22 @@
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import PersonIcon from '@mui/icons-material/Person';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
 import XIcon from '@mui/icons-material/X';
 import { Box, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
-import { useAccount, useDisconnect } from '@starknet-react/core';
-import { useSnackbar } from 'notistack';
+import { useDisconnect } from '@starknet-react/core';
 import React, { useContext } from 'react';
 import { DojoContext } from '../../contexts/dojoContext';
 import { GameContext } from '../../contexts/gameContext';
-import { ellipseAddress, formatNumber } from '../../helpers/utilities';
+import { formatNumber } from '../../helpers/utilities';
 
 function ProfileMenu(props) {
   const { handleClose, anchorEl, openNameDialog } = props
-  const { address } = useAccount()
   const { disconnect } = useDisconnect()
-  const { enqueueSnackbar } = useSnackbar()
 
   const dojo = useContext(DojoContext)
   const game = useContext(GameContext)
-
-  const copyAddress = async () => {
-    await navigator.clipboard.writeText(address)
-    enqueueSnackbar('Address copied', { variant: 'info', autoHideDuration: 2000 })
-  }
 
   const abandonGame = async () => {
     await dojo.executeTx([{
@@ -41,7 +31,7 @@ function ProfileMenu(props) {
   return (
     <>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} sx={styles.menu}>
-        <Box width={260} mt={1} display={'flex'} flexDirection={'column'} gap={0.5}>
+        <Box width={260} mt={0.5} display={'flex'} flexDirection={'column'} gap={0.5}>
 
           <Box px={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'} mb={0.5}>
             <Typography color='primary' variant='h6'>
@@ -68,20 +58,6 @@ function ProfileMenu(props) {
 
             <IconButton onClick={() => { openNameDialog(true); handleClose() }}>
               <EditIcon fontSize='small' />
-            </IconButton>
-          </Box>
-
-          <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} px={2}>
-            <Box display={'flex'} alignItems={'center'} gap={2}>
-              <AccountBalanceWalletIcon fontSize="small" />
-
-              <Typography sx={{ fontSize: '12px' }}>
-                {dojo.address && ellipseAddress(dojo.address, 4, 8)}
-              </Typography>
-            </Box>
-
-            <IconButton onClick={copyAddress} size='small'>
-              <ContentCopyIcon fontSize="small" />
             </IconButton>
           </Box>
         </Box>

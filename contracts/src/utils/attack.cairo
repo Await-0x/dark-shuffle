@@ -65,8 +65,11 @@ impl AttackUtilsImpl of AttackUtilsTrait {
         }
 
         else if creature.card_id == 23 {
-            if board_stats.hunter_count > 1 {
+            if board_stats.monster_type == CreatureType::Magical {
                 creature.attack += 1;
+            }
+
+            if board_stats.hunter_count > 1 {
                 extra_damage += 1;
             }
         }

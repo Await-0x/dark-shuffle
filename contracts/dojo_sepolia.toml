@@ -1,5 +1,5 @@
 [world]
-seed = "darkshuffle4"
+seed = "darkshuffle5"
 name = "Dark Shuffle"
 description = "Enter the darkness"
 website = "https://darkshuffle.io/"
@@ -22,4 +22,4 @@ default = "darkshuffle"
 ]
 
 [env]
-world_address = "0x02aadfd2249c2cb88ad51d5c109119423cddf11d271aa04597b90d5cc1baada5"
+# world_address = "0x02aadfd2249c2cb88ad51d5c109119423cddf11d271aa04597b90d5cc1baada5"

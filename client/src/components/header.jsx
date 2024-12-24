@@ -1,7 +1,8 @@
 import InfoIcon from '@mui/icons-material/Info';
+import SettingsIcon from '@mui/icons-material/Settings';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { LoadingButton } from '@mui/lab';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import { useConnect } from "@starknet-react/core";
 import React, { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
@@ -27,7 +28,7 @@ const menuItems = [
 ]
 
 function Header(props) {
-  const { connect, connectors } = useConnect();
+  const { connect, connector, connectors } = useConnect();
   let cartridgeConnector = connectors.find(conn => conn.id === "controller")
 
   const dojo = useContext(DojoContext)
@@ -63,13 +64,11 @@ function Header(props) {
             </Box>
           </Link>
         })}
-
-        {/* <Button onClick={() => { openTutorial(true) }}>Tutorial</Button> */}
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         {dojo.address
-          ? <Button onClick={handleClick} startIcon={<SportsEsportsIcon />} size='large'>
+          ? <Button onClick={() => connector.controller.openProfile()} startIcon={<SportsEsportsIcon />} size='medium' variant='outlined'>
             {dojo.userName
               ? <Typography color='primary' sx={{ fontSize: '12px' }}>
                 {dojo.userName.toUpperCase()}
@@ -85,6 +84,10 @@ function Header(props) {
             </Typography>
           </LoadingButton>
         }
+
+        <IconButton onClick={handleClick} size='medium'>
+          <SettingsIcon color='primary' />
+        </IconButton>
       </Box>
 
       <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openNameDialog={openNameDialog} />
@@ -105,7 +108,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    px: 2,
+    pr: 1,
     pl: 3,
     boxSizing: 'border-box',
     gap: 4
