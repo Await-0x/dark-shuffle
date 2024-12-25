@@ -1,4 +1,3 @@
-import CloseIcon from '@mui/icons-material/Close';
 import { Box, Dialog, Typography } from '@mui/material';
 
 function StartGameDialog(props) {
@@ -13,7 +12,9 @@ function StartGameDialog(props) {
     >
 
       <Box sx={styles.container}>
-        <Typography variant='h3' color={'primary'}>Entering Season</Typography>
+        <Typography variant='h3' color={'primary'}>
+          {props.isSeason ? 'Entering Season' : 'Preparing Game'}
+        </Typography>
 
         <Box display={'flex'} alignItems={'baseline'}>
           <Typography variant='h6' color={'primary'}>{props.status}</Typography>

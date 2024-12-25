@@ -210,7 +210,7 @@ function StartDraft() {
         </Box >
       </BrowserView>
 
-      {status && <StartGameDialog status={status} />}
+      {status && <StartGameDialog status={status} isSeason={showWarnings} />}
     </>
   )
 }
