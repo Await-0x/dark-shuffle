@@ -3,16 +3,16 @@ seed = ""
 name = "Dark Shuffle"
 
 [namespace]
-default = "darkshuffle"
+default = "darkshuffle_s0"
 
 [writers]
-"darkshuffle" = [
-    "darkshuffle-game_systems",
-    "darkshuffle-battle_systems",
-    "darkshuffle-season_systems",
-    "darkshuffle-draft_systems",
-    "darkshuffle-map_systems",
-    "darkshuffle-config_systems",
+"darkshuffle_s0" = [
+    "darkshuffle_s0-game_systems",
+    "darkshuffle_s0-battle_systems",
+    "darkshuffle_s0-season_systems",
+    "darkshuffle_s0-draft_systems",
+    "darkshuffle_s0-map_systems",
+    "darkshuffle_s0-config_systems",
 ]
 
 [env]

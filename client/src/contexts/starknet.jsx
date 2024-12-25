@@ -13,10 +13,10 @@ import React from "react";
 import { dojoConfig } from "../../dojo.config";
 import { VRF_PROVIDER_ADDRESS } from "../helpers/constants";
 
-const battle_systems = getContractByName(dojoConfig.manifest, "darkshuffle", "battle_systems")?.address
-const draft_systems = getContractByName(dojoConfig.manifest, "darkshuffle", "draft_systems")?.address
-const game_systems = getContractByName(dojoConfig.manifest, "darkshuffle", "game_systems")?.address
-const map_systems = getContractByName(dojoConfig.manifest, "darkshuffle", "map_systems")?.address
+const battle_systems = getContractByName(dojoConfig.manifest, dojoConfig.namespace, "battle_systems")?.address
+const draft_systems = getContractByName(dojoConfig.manifest, dojoConfig.namespace, "draft_systems")?.address
+const game_systems = getContractByName(dojoConfig.manifest, dojoConfig.namespace, "game_systems")?.address
+const map_systems = getContractByName(dojoConfig.manifest, dojoConfig.namespace, "map_systems")?.address
 
 const cartridge = new ControllerConnector({
   policies: [
@@ -58,12 +58,12 @@ const cartridge = new ControllerConnector({
       method: "approve",
     },
   ],
-  namespace: "darkshuffle",
+  namespace: dojoConfig.namespace,
+  slot: "realms-world-04",
   theme: "dark-shuffle",
   rpc: dojoConfig.rpcUrl,
   colorMode: "dark",
   indexerUrl: dojoConfig.toriiRawUrl,
-  slot: "darkshuffle-sepolia",
   tokens: {
     erc20: [dojoConfig.lordsAddress],
   },

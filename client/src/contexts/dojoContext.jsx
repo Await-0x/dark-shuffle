@@ -62,7 +62,7 @@ export const DojoProvider = ({ children }) => {
     }
 
     if (includeVRF) {
-      let contractAddress = getContractByName(dojoConfig.manifest, "darkshuffle", txs[txs.length - 1].contractName)?.address
+      let contractAddress = getContractByName(dojoConfig.manifest, dojoConfig.namespace, txs[txs.length - 1].contractName)?.address
 
       txs.unshift({
         contractAddress: VRF_PROVIDER_ADDRESS,
@@ -75,7 +75,7 @@ export const DojoProvider = ({ children }) => {
     }
 
     try {
-      const tx = await dojoprovider.execute(account, txs, 'darkshuffle', { version: "1" });
+      const tx = await dojoprovider.execute(account, txs, dojoConfig.namespace, { version: "1" });
 
       const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
 

@@ -5,7 +5,7 @@ import { dojoConfig } from '../../dojo.config';
 export async function getSeason(season_id) {
   const document = gql`
   {
-    darkshuffleSeasonModels(where:{season_id:${season_id}}) {
+    darkshuffleS0SeasonModels(where:{season_id:${season_id}}) {
       edges {
         node {
           season_id,
@@ -22,13 +22,13 @@ export async function getSeason(season_id) {
 
   const res = await request(dojoConfig.toriiUrl, document)
 
-  return res?.darkshuffleSeasonModels?.edges[0]?.node
+  return res?.darkshuffleS0SeasonModels?.edges[0]?.node
 }
 
 export async function getSettings(settings_id) {
   const document = gql`
   {
-    darkshuffleGameSettingsModels(where:{settings_id:${settings_id}}) {
+    darkshuffleS0GameSettingsModels(where:{settings_id:${settings_id}}) {
       edges {
         node {
           settings_id,
@@ -46,13 +46,13 @@ export async function getSettings(settings_id) {
 
   const res = await request(dojoConfig.toriiUrl, document)
 
-  return res?.darkshuffleGameSettingsModels?.edges[0]?.node
+  return res?.darkshuffleS0GameSettingsModels?.edges[0]?.node
 }
 
 export async function getActiveGameIds(address) {
   const document = gql`
   {
-    darkshuffleGameStartEventModels (where:{
+    darkshuffleS0GameStartEventModels (where:{
       player_address:"${address}",
       season_idIN:[${dojoConfig.seasonId},0]
     }) {
@@ -66,13 +66,13 @@ export async function getActiveGameIds(address) {
 
   const res = await request(dojoConfig.toriiUrl, document)
 
-  return res?.darkshuffleGameStartEventModels?.edges.map(edge => edge.node.game_id)
+  return res?.darkshuffleS0GameStartEventModels?.edges.map(edge => edge.node.game_id)
 }
 
 export async function getActiveGame(game_ids) {
   const document = gql`
   {
-    darkshuffleGameModels (where:{
+    darkshuffleS0GameModels (where:{
       game_idIN:[${game_ids.map(game_id => `"${game_id}"`)}],
       hero_healthGT:0,
     }, limit: 1000) {
@@ -97,7 +97,7 @@ export async function getActiveGame(game_ids) {
 
   const res = await request(dojoConfig.toriiUrl, document)
 
-  return res?.darkshuffleGameModels?.edges[0]?.node;
+  return res?.darkshuffleS0GameModels?.edges[0]?.node;
 }
 
 export async function getDraft(game_id) {
@@ -105,7 +105,7 @@ export async function getDraft(game_id) {
     {
     entity (id:"${getEntityIdFromKeys([BigInt(game_id)])}") {
       models {
-        ... on darkshuffle_Draft {
+        ... on darkshuffleS0_Draft {
           game_id,
           options,
           cards
@@ -122,7 +122,7 @@ export async function getDraft(game_id) {
 export async function getGameEffects(game_id) {
   const document = gql`
   {
-    darkshuffleGameEffectsModels(where:{game_id:"${game_id}"}) {
+    darkshuffleS0GameEffectsModels(where:{game_id:"${game_id}"}) {
       edges {
         node {
           game_id,
@@ -148,13 +148,13 @@ export async function getGameEffects(game_id) {
 
   const res = await request(dojoConfig.toriiUrl, document);
 
-  return res?.darkshuffleGameEffectsModels?.edges[0]?.node;
+  return res?.darkshuffleS0GameEffectsModels?.edges[0]?.node;
 }
 
 export async function getMap(game_id, level) {
   const document = gql`
   {
-    darkshuffleMapModels(where:{game_id:"${game_id}", level:${level}}) {
+    darkshuffleS0MapModels(where:{game_id:"${game_id}", level:${level}}) {
       edges {
         node {
           game_id,
@@ -167,7 +167,7 @@ export async function getMap(game_id, level) {
 
   const res = await request(dojoConfig.toriiUrl, document);
 
-  return res?.darkshuffleMapModels?.edges[0]?.node;
+  return res?.darkshuffleS0MapModels?.edges[0]?.node;
 }
 
 export async function getBattleState(battle_id, game_id) {
@@ -175,7 +175,7 @@ export async function getBattleState(battle_id, game_id) {
   {
     entity (id:"${getEntityIdFromKeys([BigInt(battle_id), BigInt(game_id)])}") {
       models {
-        ... on darkshuffle_Battle {
+        ... on darkshuffleS0_Battle {
           battle_id
           game_id
           round
@@ -205,7 +205,7 @@ export async function getBattleState(battle_id, game_id) {
             next_brute_health_bonus
           }
         }
-        ... on darkshuffle_Board {
+        ... on darkshuffleS0_Board {
           creature1 {
             card_id,
             attack,
@@ -257,7 +257,7 @@ export async function getLeaderboard(seasonId, page) {
   try {
     const document = gql`
     {
-      darkshuffleGameModels (where: {hero_health: 0, season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+      darkshuffleS0GameModels (where: {hero_health: 0, season_id: ${seasonId}}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
         edges {
           node {
             player_name,
@@ -269,7 +269,7 @@ export async function getLeaderboard(seasonId, page) {
   `
     const res = await request(dojoConfig.toriiUrl, document);
 
-    return res?.darkshuffleGameModels?.edges.map(edge => edge.node);
+    return res?.darkshuffleS0GameModels?.edges.map(edge => edge.node);
   } catch (ex) {
     console.log(ex)
   }
@@ -280,7 +280,7 @@ export async function getDonations(seasonId, page) {
 
   const document = gql`
   {
-    darkshuffleDonationModels(where:{season_id:${seasonId}}, order:{field:AMOUNT, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+    darkshuffleS0DonationModels(where:{season_id:${seasonId}}, order:{field:AMOUNT, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
       edges {
         node {
           address
@@ -295,5 +295,5 @@ export async function getDonations(seasonId, page) {
 
   const res = await request(dojoConfig.toriiUrl, document);
 
-  return res?.darkshuffleDonationModels?.edges.map(edge => edge.node) || [];
+  return res?.darkshuffleS0DonationModels?.edges.map(edge => edge.node) || [];
 }

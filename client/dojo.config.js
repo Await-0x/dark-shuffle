@@ -1,4 +1,4 @@
-import manifest from "./manifest_sepolia.json";
+import manifest from "./manifest_mainnet.json";
 
 const {
   VITE_PUBLIC_NODE_URL,
@@ -10,12 +10,13 @@ const {
   VITE_PUBLIC_FEE_TOKEN_ADDRESS,
   VITE_PUBLIC_ETH_ADDRESS,
   VITE_PUBLIC_LORDS_ADDRESS,
+  VITE_PUBLIC_NAMESPACE,
 } = import.meta.env;
 
 export const dojoConfig = {
-  seasonId: 2,
-  defaultSettingsId: 0,
+  seasonId: 414117,
   version: "0.4.6",
+  namespace: VITE_PUBLIC_NAMESPACE,
   rpcUrl: VITE_PUBLIC_NODE_URL,
   toriiUrl: VITE_PUBLIC_TORII,
   toriiRawUrl: VITE_PUBLIC_TORII_RAW,

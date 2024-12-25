@@ -2,10 +2,10 @@ export STARKNET_RPC="https://starknet-mainnet.g.alchemy.com/starknet/version/rpc
 export STARKNET_KEYSTORE=~/.starkli-wallets/deployer/keystore.json
 export STARKNET_ACCOUNT=~/.starkli-wallets/deployer/account.json
 
-ds_address=0x73f78369455ad73aa8d118b048f6071e27ebb7b043163cedca8c649edf69f9d
+ds_address=0x5f754a2cbe45c039fd55c5ddc3f7ae7fa30ea525d29326e5571ed00d4abdd4d
 
-class_hash=0x0577c3980906c4ed5b48e9a3e957e38137e19926d2327599174097859f9c734a
+class_hash=0x050b275a94c329c957156bdcd2073b696e6a4cfc0ac604be526c849148a5c649
 
 scarb build
 # starkli declare target/dev/dsgt_DarkShuffleGameToken.contract_class.json
-# starkli deploy $class_hash $ds_address
+starkli deploy $class_hash $ds_address

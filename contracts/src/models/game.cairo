@@ -1,3 +1,4 @@
+use dojo::event::EventStorage;
 use dojo::model::ModelStorage;
 use dojo::world::WorldStorage;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
@@ -77,18 +78,8 @@ impl GameOwnerImpl of GameOwnerTrait {
 }
 
 #[derive(Copy, Drop, Serde)]
-#[dojo::event]
-struct GameStartData {
-    #[key]
-    game_id: u128,
-    season_id: u32,
-    player_name: felt252,
-    timestamp: u64,
-}
-
-#[derive(Copy, Drop, Serde)]
-#[dojo::event]
-struct GameStartEvent {
+#[dojo::event(historical: true)]
+pub struct GameStartEvent {
     #[key]
     game_id: u128,
     season_id: u32,

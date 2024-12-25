@@ -42,7 +42,7 @@ export const DraftProvider = ({ children }) => {
       txs.push({
         contractAddress: dojoConfig.lordsAddress,
         entrypoint: "approve",
-        calldata: [getContractByName(dojoConfig.manifest, "darkshuffle", "game_systems")?.address, season.values.entryFee, "0"]
+        calldata: [getContractByName(dojoConfig.manifest, dojoConfig.namespace, "game_systems")?.address, season.values.entryFee, "0"]
       })
 
       txs.push({
