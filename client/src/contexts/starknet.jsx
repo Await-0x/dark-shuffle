@@ -59,7 +59,7 @@ const cartridge = new ControllerConnector({
     },
   ],
   namespace: dojoConfig.namespace,
-  slot: "realms-world-04",
+  slot: "darkshuffle-mainnet",
   theme: "dark-shuffle",
   rpc: dojoConfig.rpcUrl,
   colorMode: "dark",

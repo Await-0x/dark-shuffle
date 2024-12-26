@@ -1,11 +1,7 @@
-# db_dir = "./torii-db"
-
 [indexing]
-world_block = 940000
+world_block = 1014817
 contracts = [
-      "erc721:0x057675b9c0bd62b096a2e15502a37b290fa766ead21c33eda42993e48a714b80",
-      "erc721:0x07ae27a31bb6526e3de9cf02f081f6ce0615ac12a6d7b85ee58b8ad7947a2809",
-      "erc20:0x0124aeb495b947201f5fac96fd1138e326ad86195b98df6dec9009158a533b49",
+      "erc721:0x0780792fb3b17c9c393d38abaee425bebaf0cbca11d80f4207e889302359994c",
 ]
 
 [events]

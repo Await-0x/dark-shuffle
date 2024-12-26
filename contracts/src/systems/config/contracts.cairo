@@ -107,7 +107,7 @@ mod config_systems {
         fn set_game_token_address(ref self: ContractState, game_token_address: ContractAddress) {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
             assert(
-                world.dispatcher.is_owner(selector_from_tag!("darkshuffle-game_systems"), get_caller_address()),
+                world.dispatcher.is_owner(selector_from_tag!("darkshuffle_s0-game_systems"), get_caller_address()),
                 'Not Owner'
             );
 
