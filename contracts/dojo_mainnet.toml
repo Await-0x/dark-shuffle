@@ -16,5 +16,5 @@ default = "darkshuffle_s0"
 ]
 
 [env]
-world_address = "0x06a9e4c6f0799160ea8ddc43ff982a5f83d7f633e9732ce42701de1288ff705f"
-world_block = 948010
+world_address = "0x044c4ffdf401b1fe8c4b75eb8c8076d28dd91940ea31de93814dc82e1410b86e"
+world_block = 1014817

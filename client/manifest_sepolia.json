@@ -1253,7 +1253,7 @@
   "contracts": [
     {
       "address": "0x38e69b6b8b4a2ae28c06145d0872bc4095d9b3c4e6d557609538be4cf053ca5",
-      "class_hash": "0x3c248e7d0ba6918c1aa1bf6a852d08b0ce83293fbcedaa55ce3aad6c4959dfd",
+      "class_hash": "0x40cf56834aa62a52db7e842d6fdf850c42565bf4988c1e33eac23e16e296acf",
       "abi": [
         {
           "type": "impl",
@@ -1481,7 +1481,7 @@
     },
     {
       "address": "0x279aa861a7a7614364a20d189608de86e3f51665f9fb97b15d8f0598073819c",
-      "class_hash": "0xeca2ef78a194f38553c4eab3b844771c2fe9658cfd761fed855d0cf6cbf35a",
+      "class_hash": "0x741edc5375647766ec67a394e4adb64d5b1d172b1259852708398eecf7c8fb7",
       "abi": [
         {
           "type": "impl",
@@ -1740,7 +1740,7 @@
     },
     {
       "address": "0x6b163a1a3d4b790feb11055923d1dbf6fd0eea036bdc06b20226231d274f5ed",
-      "class_hash": "0x45b7fa1c97fbf23f288c632183d33b78aaa8728f873144a7d9b40b4744edbda",
+      "class_hash": "0x53c1920c48349fcb0a6643ea6f3771c7187df27219523347b93a96e51e5778c",
       "abi": [
         {
           "type": "impl",
@@ -1944,7 +1944,7 @@
     },
     {
       "address": "0x77c40514d31a722a10961a141d7bbbd479c26c7ba6facab6ae3c11925720465",
-      "class_hash": "0x5b2e7bbb45eb66d490d8362e5466706364b82bf8d2186d29a47cfdeb481b5f0",
+      "class_hash": "0x2ab308667397978a612446779e48f647605b3ee7f33d616aae83ee099320ac4",
       "abi": [
         {
           "type": "impl",
@@ -2291,7 +2291,7 @@
     },
     {
       "address": "0x71f0eea6300a371346cb0e229f7e8874f86fb8ff0f926dd9be950eed23cbf9",
-      "class_hash": "0x3742a7af535b9e55f315b4aaa32067628f4512cc2d09fc1aebdebd4071e90f2",
+      "class_hash": "0x2469312ba62766bec89c007c6b8b4a09eb5738155d87c7e9205cb3f7640a0dd",
       "abi": [
         {
           "type": "impl",
@@ -2508,7 +2508,7 @@
     },
     {
       "address": "0x236cdd20453e498280f667a1961f7588e0f45b12b2ee8ebe68846aa68478c3b",
-      "class_hash": "0x40e82eeedd52ba829204fc6fc176f7157d8318450711171d875d29d1251c71c",
+      "class_hash": "0x27444a9ba9c81fbc3b6e00b6ff3debbc460a1b7e869bf34eda7acc97865d0a9",
       "abi": [
         {
           "type": "impl",
@@ -2840,12 +2840,6 @@
     }
   ],
   "events": [
-    {
-      "members": [],
-      "class_hash": "0x749be6c8d14f40742a11c052c7aec4fa06a6c433ee5625ede15f3d269e6a692",
-      "tag": "darkshuffle-GameStartData",
-      "selector": "0x68c6339faff377a6e3b5f8a145278969c9ced05bbd88a2747e5c65986901276"
-    },
     {
       "members": [],
       "class_hash": "0x79ca95d81ad3ccadbb410e411f35150ab86ade5d64923adc2511c4822485773",

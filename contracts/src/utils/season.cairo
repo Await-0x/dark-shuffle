@@ -89,9 +89,9 @@ impl SeasonUtilsImpl of SeasonUtilsTrait {
 
     fn get_velords_address(chain_id: felt252) -> ContractAddress {
         if chain_id == SEPOLIA_CHAIN_ID {
-            contract_address_const::<0x0418ed348930686c844fda4556173457d3f71ae547262406d271de534af6b35e>()
+            contract_address_const::<0x01492BB8B748c4a503F3232ba3D9308571bAAbf0F17b48AB17d5D105d61223C9>()
         } else if chain_id == MAINNET_CHAIN_ID {
-            contract_address_const::<0x02CD97240DB3f679De98A729aE91EB996cAb9Fd92a9A578Df11a72F49bE1c356>()
+            contract_address_const::<0x045c587318c9ebcf2fbe21febf288ee2e3597a21cd48676005a5770a50d433c5>()
         } else {
             panic_with_felt252('Chain not supported')
         }
@@ -101,7 +101,7 @@ impl SeasonUtilsImpl of SeasonUtilsTrait {
         if chain_id == SEPOLIA_CHAIN_ID {
             contract_address_const::<0x0418ed348930686c844fda4556173457d3f71ae547262406d271de534af6b35e>()
         } else if chain_id == MAINNET_CHAIN_ID {
-            contract_address_const::<0x02CD97240DB3f679De98A729aE91EB996cAb9Fd92a9A578Df11a72F49bE1c356>()
+            contract_address_const::<0x000B39b235b44c53a2E9F0c5D35939D9C8E8dAFDd0a2ba2E695b501Fc1e9fd2f>()
         } else {
             panic_with_felt252('Chain not supported')
         }
