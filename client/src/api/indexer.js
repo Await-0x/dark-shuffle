@@ -105,7 +105,7 @@ export async function getDraft(game_id) {
     {
     entity (id:"${getEntityIdFromKeys([BigInt(game_id)])}") {
       models {
-        ... on darkshuffleS0_Draft {
+        ... on darkshuffle_s0_Draft {
           game_id,
           options,
           cards
@@ -175,7 +175,7 @@ export async function getBattleState(battle_id, game_id) {
   {
     entity (id:"${getEntityIdFromKeys([BigInt(battle_id), BigInt(game_id)])}") {
       models {
-        ... on darkshuffleS0_Battle {
+        ... on darkshuffle_s0_Battle {
           battle_id
           game_id
           round
@@ -205,7 +205,7 @@ export async function getBattleState(battle_id, game_id) {
             next_brute_health_bonus
           }
         }
-        ... on darkshuffleS0_Board {
+        ... on darkshuffle_s0_Board {
           creature1 {
             card_id,
             attack,

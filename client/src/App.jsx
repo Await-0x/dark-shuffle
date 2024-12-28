@@ -1,8 +1,8 @@
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { lazy, Suspense, useEffect, useState } from 'react';
-import BlockRevealAnimation from './components/animations/blockRevealAnimation.jsx';
 import Box from '@mui/material/Box';
-import background from "./assets/images/background.png"
+import { lazy, Suspense, useState } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import background from "./assets/images/background.png";
+import BlockRevealAnimation from './components/animations/blockRevealAnimation.jsx';
 
 const Main = lazy(() => import('./Main.jsx'));
 
