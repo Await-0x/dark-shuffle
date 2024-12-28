@@ -1,8 +1,5 @@
 [indexing]
 world_block = 1014817
-contracts = [
-      "erc721:0x0780792fb3b17c9c393d38abaee425bebaf0cbca11d80f4207e889302359994c",
-]
 
 [events]
 raw = true

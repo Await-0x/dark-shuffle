@@ -12,6 +12,7 @@ import {
 import React from "react";
 import { dojoConfig } from "../../dojo.config";
 import { VRF_PROVIDER_ADDRESS } from "../helpers/constants";
+import { useCallback } from "react";
 
 const battle_systems = getContractByName(dojoConfig.manifest, dojoConfig.namespace, "battle_systems")?.address
 const draft_systems = getContractByName(dojoConfig.manifest, dojoConfig.namespace, "draft_systems")?.address
@@ -78,10 +79,14 @@ export function StarknetProvider({ children }) {
     includeRecommended: "onlyIfNoConnectors",
   });
 
+  const rpc = useCallback(() => {
+    return { nodeUrl: dojoConfig.rpcUrl };
+  }, []);
+
   return (
     <StarknetConfig
       chains={[mainnet, sepolia]}
-      provider={jsonRpcProvider({ rpc: () => ({ nodeUrl: dojoConfig.rpcUrl }) })}
+      provider={jsonRpcProvider({ rpc })}
       connectors={[...connectors, cartridge]}
       explorer={voyager}
       autoConnect
