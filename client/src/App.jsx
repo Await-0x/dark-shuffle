@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import { lazy, Suspense, useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import background from "./assets/images/background.png";

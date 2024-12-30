@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { motion } from "framer-motion";
 import React, { useContext, useState } from "react";
-import { isMobile } from 'react-device-detect';
+import { isBrowser, isMobile } from 'react-device-detect';
 import { BattleContext } from "../../contexts/battleContext";
 import { CardSize } from "../../helpers/cards";
 import Card from "../card";
@@ -97,7 +97,7 @@ function Hand() {
               onHoverStart={() => hoverCard(card)}
               onHoverEnd={() => endHoverCard()}
               onClick={event => selectCard(event, i, card)}
-              onPanStart={event => selectCard(event, i, card)}
+              onPanStart={event => { if (isBrowser) selectCard(event, i, card); }}
             />
 
             <motion.div
