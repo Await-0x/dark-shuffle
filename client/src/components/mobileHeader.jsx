@@ -28,7 +28,7 @@ function MobileHeader(props) {
   const dojo = useContext(DojoContext)
   const game = useContext(GameContext)
 
-  const { connect, connectors } = useConnect();
+  const { connect, connector, connectors } = useConnect();
   const { address } = useAccount()
   const { disconnect } = useDisconnect()
   const { enqueueSnackbar } = useSnackbar()
@@ -91,7 +91,7 @@ function MobileHeader(props) {
         }
 
         {dojo.address && <>
-          <Box px={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'} my={2}>
+          <Box px={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'} mt={2} onClick={() => connector.controller.openProfile()}>
             <Box display={'flex'} alignItems={'center'} gap={1}>
               <SportsEsportsIcon fontSize="small" color='primary' />
 
@@ -106,20 +106,6 @@ function MobileHeader(props) {
                 {formatNumber(parseInt(dojo.balances.lords.toString()) / 10 ** 18)}
               </Typography>
             </Box>
-          </Box>
-
-          <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} boxSizing={'borderBox'} px={2}>
-            <Box display={'flex'} alignItems={'center'} gap={1}>
-              <AccountBalanceWalletIcon fontSize="small" />
-
-              <Typography sx={{ fontSize: '13px' }}>
-                {dojo.address && ellipseAddress(dojo.address, 4, 8)}
-              </Typography>
-            </Box>
-
-            <IconButton onClick={copyAddress} size='small'>
-              <ContentCopyIcon fontSize="small" />
-            </IconButton>
           </Box>
 
           <Divider sx={{ my: 2 }} />

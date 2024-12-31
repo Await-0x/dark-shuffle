@@ -1,6 +1,6 @@
-import { Box, Button, Link, Typography } from "@mui/material";
-import { BattleContext } from "../../contexts/battleContext";
+import { Box, Typography } from "@mui/material";
 import React, { useContext } from "react";
+import { BattleContext } from "../../contexts/battleContext";
 
 function Actions(props) {
 

@@ -32,11 +32,11 @@ export function ellipseAddress(address, start, end) {
 
 export function formatNumber(num) {
   if (Math.abs(num) >= 1000000) {
-    return parseFloat((num / 1000000).toFixed(2)) + "m";
+    return parseFloat((num / 1000000).toFixed(1)) + "m";
   } else if (Math.abs(num) >= 1000) {
-    return parseFloat((num / 1000).toFixed(2)) + "k";
+    return parseFloat((num / 1000).toFixed(1)) + "k";
   } else {
-    return num.toFixed(2);
+    return Math.floor(num);
   }
 }
 
@@ -77,3 +77,4 @@ export function formatTimeUntil(timestamp) {
 
   return `${days}d ${hours}h ${minutes}m`;
 }
+

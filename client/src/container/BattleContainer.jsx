@@ -2,13 +2,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { LoadingButton } from '@mui/lab';
 import { Box, Typography } from '@mui/material';
 import { motion } from "framer-motion";
-import { useLottie } from 'lottie-react';
 import React, { useContext } from 'react';
 import { isMobile } from 'react-device-detect';
-import vortexAnim from "../assets/animations/vortex.json";
 import bolt from "../assets/images/bolt.png";
 import cards from "../assets/images/cards.png";
-import monarch from "../assets/images/monarch.png";
 import Battlefield from '../components/battle/battlefield';
 import GameEffects from '../components/battle/gameEffects';
 import Hand from '../components/battle/hand';
@@ -24,33 +21,12 @@ function BattleContainer() {
 
   const battle = useContext(BattleContext)
 
-  const vortex = useLottie({
-    animationData: vortexAnim,
-    loop: true
-  });
-
   const anyActionsLeft = battle.state.hand.find(card => battle.utils.getCardCost(card) <= battle.state.values.heroEnergy)
 
   if (isMobile) {
     return <Box style={styles.mobileContainer}>
       <Box style={styles.mobileBoard}>
         <Battlefield />
-
-        {!game.score && <Box sx={{ position: 'absolute', left: '10px', top: '10px', zIndex: 1000 }}>
-          <CustomTooltip title={<Box mb={1}>
-            <Typography color="primary">End Turn</Typography>
-            <Typography mt={0.5}>Your creatures attack. Monster perform its ability and attack. Yoy replenish energy.</Typography>
-          </Box>
-          }>
-            <LoadingButton variant='outlined' size='large' sx={{ fontSize: '14px', letterSpacing: '1px' }}
-              loading={battle.state.pendingTx}
-              onClick={() => battle.actions.endTurn()}
-            >
-              End Turn
-            </LoadingButton>
-          </CustomTooltip>
-        </Box>}
-
       </Box>
 
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', height: '30px', boxSizing: 'border-box', px: 2, mb: 2 }}>
@@ -83,7 +59,7 @@ function BattleContainer() {
         <GameEffects />
       </Box>
 
-      <Box sx={[styles.playerContainer, { px: 0.5, height: '25%' }]}>
+      <Box sx={[styles.playerContainer, { px: 0.5, height: isMobile ? '20%' : '25%' }]}>
 
         <Box sx={[styles.hand, { flex: 1 }]}>
           <Hand />

@@ -1,9 +1,7 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { generateMapNodes } from "../helpers/map";
 import { DojoContext } from "./dojoContext";
 import { useSeason } from "./seasonContext";
-import { useEffect } from "react";
-import { dojoConfig } from "../../dojo.config";
 
 export const GameContext = createContext()
 

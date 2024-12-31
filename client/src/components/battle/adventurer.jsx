@@ -2,23 +2,21 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Typography } from "@mui/material";
 import { useLottie } from 'lottie-react';
 import React, { useContext, useEffect, useState } from "react";
+import healAnim from "../../assets/animations/heal.json";
 import shieldAnim from "../../assets/animations/shield.json";
 import bolt from "../../assets/images/bolt.png";
 import monarch from "../../assets/images/monarch.png";
 import shield from "../../assets/images/shield.png";
-import { AnimationContext } from '../../contexts/animationHandler';
 import { BattleContext } from '../../contexts/battleContext';
 import { GameContext } from '../../contexts/gameContext';
 import { CustomTooltip, EnergyBar, HealthBar } from '../../helpers/styles';
 import { normalise } from '../../helpers/utilities';
 import DamageAnimation from '../animations/damageAnimation';
-import healAnim from "../../assets/animations/heal.json";
 
 export default function Adventurer(props) {
   const game = useContext(GameContext)
   const { gameSettings } = game.getState
 
-  const animationHandler = useContext(AnimationContext)
   const battle = useContext(BattleContext)
 
   const [armor, setArmor] = useState(battle.state.battleEffects.heroDmgReduction ?? 0 + game.getState.gameEffects.heroDmgReduction ?? 0)

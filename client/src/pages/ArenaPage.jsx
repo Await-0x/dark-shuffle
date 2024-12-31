@@ -40,7 +40,7 @@ function ArenaPage() {
           gameState.setMap(computedMap.map(node => {
             return {
               ...node,
-              active: node.parents.includes(data.last_node_id),
+              active: node.parents.includes(data.last_node_id) || (node.nodeId === 1 && data.map_depth === 1),
               status: node.nodeId === data.last_node_id ? 1 : 0
             }
           }))

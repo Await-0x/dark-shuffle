@@ -1,7 +1,7 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
 import { LoadingButton } from '@mui/lab';
-import { Box, Typography } from '@mui/material';
+import { Box, Menu, Typography } from '@mui/material';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 import skull from "../../assets/images/skull.png";
@@ -20,7 +20,21 @@ function Structure(props) {
   const { map } = game.getState
   const [tree, buildTree] = useState([])
   const scrollbarRef = useRef(null);
-  const [permanentTooltip, setPermanentTooltip] = useState(false)
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedNode, setSelectedNode] = useState(null);
+
+  const handleClick = (event, node) => {
+    if (node.active) {
+      setAnchorEl(event.currentTarget);
+      setSelectedNode(node);
+    }
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setSelectedNode(null);
+  };
 
   const scrollContainer = () => {
     if (scrollbarRef.current) {
@@ -65,6 +79,38 @@ function Structure(props) {
       return generatedSection.reverse()
     }))
   }, [map])
+
+  function RenderBattleMenu() {
+    let monster = GET_MONSTER(selectedNode?.monsterId, selectedNode?.monsterName)
+
+    return <Menu
+      anchorEl={anchorEl}
+      open={Boolean(anchorEl)}
+      onClose={handleClose}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      sx={{ zIndex: 100000 }}
+    >
+
+      <Box sx={styles.battleMenu}>
+
+        <Box sx={styles.tooltipContainer}>
+          {monster.abilities}
+
+          <Box sx={{ mt: 2 }}>
+            <LoadingButton loading={props.selectingNode} fullWidth variant='outlined'
+              onClick={() => props.selectNode(selectedNode?.nodeId, 'battle')}
+              sx={{ fontSize: '14px', letterSpacing: '1px', textTransform: 'none' }}
+            >
+              Battle
+            </LoadingButton>
+          </Box>
+        </Box>
+
+      </Box>
+
+    </Menu>
+  }
 
   function nodeStyle(node) {
     if (node.active || node.status !== 0) {
@@ -227,18 +273,22 @@ function Structure(props) {
     let monster = GET_MONSTER(node.monsterId, node.monsterName)
 
     return <Box sx={styles.circleContainer}>
-      <LargeCustomTooltip leaveDelay={(permanentTooltip === node.nodeId && node.active) ? 100000 : isMobile ? 500 : 100} position={'top'} title={
+      <LargeCustomTooltip leaveDelay={200} position={'top'} title={
         <Box sx={styles.tooltipContainer}>
           {monster.abilities}
 
           {node.active && <Box sx={{ mt: 2 }}>
-            <LoadingButton loading={props.selectingNode} fullWidth variant='outlined' onClick={() => { setPermanentTooltip(node.nodeId); props.selectNode(node.nodeId, 'battle') }} sx={{ fontSize: '14px', letterSpacing: '1px', textTransform: 'none' }}>
+            <LoadingButton loading={props.selectingNode} fullWidth variant='outlined'
+              onClick={(event) => { props.selectNode(node.nodeId, 'battle'); handleClick(event, node); }}
+              sx={{ fontSize: '14px', letterSpacing: '1px', textTransform: 'none' }}
+            >
               Battle
             </LoadingButton>
           </Box>}
         </Box>
       }>
-        <Box sx={[styles.monsterCircle, nodeStyle(node), (permanentTooltip === node.nodeId && node.active) && { boxShadow: '0 0 5px 1px rgba(255, 255, 255, 0.7)' }]} onClick={() => { }}>
+        <Box sx={[styles.monsterCircle, nodeStyle(node), (selectedNode?.nodeId === node.nodeId && node.active) && { boxShadow: '0 0 5px 1px rgba(255, 255, 255, 0.7)' }]}
+          onClick={(event) => handleClick(event, node)}>
           <Box sx={styles.typeContainer}>
             {fetchBeastTypeImage(monster.monsterType)}
           </Box>
@@ -328,74 +378,79 @@ function Structure(props) {
   }
 
   return (
-    <Scrollbars ref={scrollbarRef}>
-      <Box sx={styles.container}>
-        <Box sx={styles.topNode}>
-          {RenderConnectedNode(map[map.length - 1])}
+    <>
+      <Scrollbars ref={scrollbarRef}>
+        <Box sx={styles.container}>
+          <Box sx={styles.topNode}>
+            {RenderConnectedNode(map[map.length - 1])}
 
-          <RenderTopLine />
-        </Box>
-
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center' }}>
-          <Box sx={styles.section}>
-            {tree.length > 1 && React.Children.toArray(
-              tree[0].map((row, i) => <>
-                <Box sx={styles.row}>
-                  {React.Children.toArray(
-                    row.map(node => RenderNode(node, row, tree[0][i - 1], tree[0][i + 1]))
-                  )}
-                </Box>
-              </>)
-            )}
-
-            {tree.length === 2 && RenderConnector(map[0], 'curved', 0, { mb: 0, ml: '50%', height: '50px', borderLeft: '1px solid #FFF', width: '50%' })}
-            {tree.length === 3 && RenderConnector(map[0], 'curved', 0, { mb: '60px', ml: '50%', height: '111px', borderLeft: '1px solid #FFF', width: '50%' })}
+            <RenderTopLine />
           </Box>
 
-          {(tree.length === 1 || tree.length === 3) && <Box sx={styles.section}>
-            {React.Children.toArray(
-              (tree.length === 1 ? tree[0] : tree[1]).map((row, i) => <>
-                <Box sx={styles.row}>
-                  {React.Children.toArray(
-                    row.map(node => RenderNode(node, row, (tree.length === 1 ? tree[0] : tree[1])[i - 1], (tree.length === 1 ? tree[0] : tree[1])[i + 1]))
-                  )}
-                </Box>
-              </>)
-            )}
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center' }}>
+            <Box sx={styles.section}>
+              {tree.length > 1 && React.Children.toArray(
+                tree[0].map((row, i) => <>
+                  <Box sx={styles.row}>
+                    {React.Children.toArray(
+                      row.map(node => RenderNode(node, row, tree[0][i - 1], tree[0][i + 1]))
+                    )}
+                  </Box>
+                </>)
+              )}
 
-            {tree.length === 3 && <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-              {RenderConnector(map[0], 'horizontal', 0, { width: '139px', mt: '51px' })}
-              {RenderConnectedNode(map[0])}
-              {RenderConnector(map[0], 'horizontal', 2, { width: '139px', mt: '51px' })}
+              {tree.length === 2 && RenderConnector(map[0], 'curved', 0, { mb: 0, ml: '50%', height: '50px', borderLeft: '1px solid #FFF', width: '50%' })}
+              {tree.length === 3 && RenderConnector(map[0], 'curved', 0, { mb: '60px', ml: '50%', height: '111px', borderLeft: '1px solid #FFF', width: '50%' })}
+            </Box>
+
+            {(tree.length === 1 || tree.length === 3) && <Box sx={styles.section}>
+              {React.Children.toArray(
+                (tree.length === 1 ? tree[0] : tree[1]).map((row, i) => <>
+                  <Box sx={styles.row}>
+                    {React.Children.toArray(
+                      row.map(node => RenderNode(node, row, (tree.length === 1 ? tree[0] : tree[1])[i - 1], (tree.length === 1 ? tree[0] : tree[1])[i + 1]))
+                    )}
+                  </Box>
+                </>)
+              )}
+
+              {tree.length === 3 && <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                {RenderConnector(map[0], 'horizontal', 0, { width: '139px', mt: '51px' })}
+                {RenderConnectedNode(map[0])}
+                {RenderConnector(map[0], 'horizontal', 2, { width: '139px', mt: '51px' })}
+              </Box>}
             </Box>}
-          </Box>}
 
-          <Box sx={styles.section}>
-            {tree.length > 1 && React.Children.toArray(
-              (tree.length > 2 ? tree[2] : tree[1]).map((row, i) => <>
-                <Box sx={styles.row}>
-                  {React.Children.toArray(
-                    row.map(node => RenderNode(node, row, (tree.length > 2 ? tree[2] : tree[1])[i - 1], (tree.length > 2 ? tree[2] : tree[1])[i + 1]))
-                  )}
-                </Box>
-              </>)
-            )}
+            <Box sx={styles.section}>
+              {tree.length > 1 && React.Children.toArray(
+                (tree.length > 2 ? tree[2] : tree[1]).map((row, i) => <>
+                  <Box sx={styles.row}>
+                    {React.Children.toArray(
+                      row.map(node => RenderNode(node, row, (tree.length > 2 ? tree[2] : tree[1])[i - 1], (tree.length > 2 ? tree[2] : tree[1])[i + 1]))
+                    )}
+                  </Box>
+                </>)
+              )}
 
-            {tree.length === 2 && RenderConnector(map[0], 'curved', 1, { mb: 0, mr: '50%', height: '50px', borderRight: '1px solid #FFF', width: '50%' })}
-            {tree.length === 3 && RenderConnector(map[0], 'curved', 2, { mb: '60px', mr: '50%', height: '111px', borderRight: '1px solid #FFF', width: '50%' })}
+              {tree.length === 2 && RenderConnector(map[0], 'curved', 1, { mb: 0, mr: '50%', height: '50px', borderRight: '1px solid #FFF', width: '50%' })}
+              {tree.length === 3 && RenderConnector(map[0], 'curved', 2, { mb: '60px', mr: '50%', height: '111px', borderRight: '1px solid #FFF', width: '50%' })}
+            </Box>
+
           </Box>
 
+          <Box sx={styles.topNode}>
+            {tree.length < 3 && <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+              {RenderConnectedNode(map[0])}
+            </Box>}
+
+            <Box sx={{ width: '1px', height: '25px', background: '#FFE97F' }} />
+          </Box>
         </Box>
 
-        <Box sx={styles.topNode}>
-          {tree.length < 3 && <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-            {RenderConnectedNode(map[0])}
-          </Box>}
+      </Scrollbars>
 
-          <Box sx={{ width: '1px', height: '25px', background: '#FFE97F' }} />
-        </Box>
-      </Box>
-    </Scrollbars>
+      <RenderBattleMenu />
+    </>
   )
 }
 
@@ -506,5 +561,11 @@ const styles = {
     position: 'absolute',
     top: '5px',
     right: '5px',
+  },
+  battleMenu: {
+    textAlign: 'left',
+    p: 0.5,
+    border: '1px solid rgba(255, 255, 255, 0.6)',
+    background: '#141920',
   }
 }

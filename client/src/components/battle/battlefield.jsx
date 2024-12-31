@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import Scrollbars from "react-custom-scrollbars";
 import { isBrowser, isMobile } from 'react-device-detect';
@@ -9,6 +9,8 @@ import Adventurer from './adventurer';
 import Creature from "./creature";
 import DeathDialog from './death';
 import Monster from "./monster";
+import { CustomTooltip } from "../../helpers/styles";
+import { LoadingButton } from "@mui/lab";
 
 function Battlefield(props) {
   const game = useContext(GameContext)
@@ -21,13 +23,43 @@ function Battlefield(props) {
 
     {game.score && <DeathDialog />}
 
-    <Box sx={isMobile ? styles.enemyContainerMobile : styles.enemyContainer} height={isMobile ? '50%' : '40%'}>
+    <Box sx={isMobile ? styles.enemyContainerMobile : styles.enemyContainer} height={isMobile ? '45%' : '40%'}>
 
       <Monster monster={monster} />
 
     </Box>
 
-    <Box sx={styles.myContainer} height={isMobile ? '45%' : '35%'}>
+    {isMobile && <Box sx={{ m: 2, display: 'flex', justifyContent: 'flex-end' }}>
+      <CustomTooltip title={<Box mb={1}>
+        <Typography color="primary">End Turn</Typography>
+        <Typography mt={0.5}>Your creatures attack. Monster perform its ability and attack. Yoy replenish energy.</Typography>
+      </Box>
+      }>
+        <LoadingButton variant='outlined' size='large' sx={{ fontSize: '14px', letterSpacing: '1px' }}
+          loading={battle.state.pendingTx}
+          onClick={() => battle.actions.endTurn()}
+        >
+          End Turn
+        </LoadingButton>
+      </CustomTooltip>
+    </Box>}
+
+    {isMobile && <Scrollbars>
+      <Box sx={styles.myContainerMobile} height={'30%'}>
+
+        {React.Children.toArray(
+          battle.state.board.map((creature, i) => {
+            return <Creature
+              pos={i}
+              creature={creature}
+            />
+          })
+        )}
+
+      </Box>
+    </Scrollbars>}
+
+    {isBrowser && <Box sx={styles.myContainer} height={'35%'}>
 
       {React.Children.toArray(
         battle.state.board.map((creature, i) => {
@@ -38,7 +70,7 @@ function Battlefield(props) {
         })
       )}
 
-    </Box>
+    </Box>}
 
     {isBrowser && <Box sx={styles.kingContainer}>
 
@@ -70,8 +102,16 @@ const styles = {
     alignItems: 'flex-end',
     justifyContent: 'center',
     gap: 4,
+    pb: 2
   },
   myContainer: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 2,
+  },
+  myContainerMobile: {
     width: '100%',
     display: 'flex',
     alignItems: 'center',

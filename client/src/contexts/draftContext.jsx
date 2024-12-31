@@ -34,6 +34,10 @@ export const DraftProvider = ({ children }) => {
     initializeState()
 
     const gameId = await game.actions.mintGameToken()
+    if (!gameId) {
+      setStatus()
+      return
+    }
 
     setStatus('Shuffling Cards')
 

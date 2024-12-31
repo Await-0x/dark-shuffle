@@ -6,8 +6,11 @@ import { hexToAscii } from '@dojoengine/utils';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { dojoConfig } from '../../../dojo.config';
 import { isMobile } from 'react-device-detect';
+import { formatNumber } from '../../helpers/utilities';
+import { useSeason } from "../../contexts/seasonContext";
 
 function Leaderboard() {
+  const season = useSeason()
   const [leaderboard, setLeaderboard] = useState([]);
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
@@ -37,7 +40,8 @@ function Leaderboard() {
     fetchLeaderboard()
   }, [page, tab])
 
-
+  const seasonPool = Math.floor(season.values.rewardPool / 1e18)
+  const prizeDistribution = [0.35, 0.20, 0.15, 0.10, 0.08, 0.02, 0.02, 0.02, 0.02, 0.02]
 
   return (
     <Box sx={styles.container}>
@@ -65,6 +69,7 @@ function Leaderboard() {
         <Box width='80px' textAlign={'center'}>
           <Typography>Score</Typography>
         </Box>
+        <Box width='55px' textAlign={'center'}></Box>
       </Box>
 
       {loading && <Box />}
@@ -72,18 +77,29 @@ function Leaderboard() {
       <Scrollbars style={{ width: '100%', paddingBottom: '20px', height: '220px' }}>
         {!loading && React.Children.toArray(
           leaderboard.map((player, i) => {
+            let rank = (page - 1) * 10 + i + 1
+            let prize = prizeDistribution[i]
             return <>
               <Box sx={styles.row}>
                 <Box width='50px' textAlign={'center'}>
-                  <Typography>{(page - 1) * 10 + i + 1}</Typography>
+                  <Typography>{rank}</Typography>
                 </Box>
 
-                <Box width='250px'>
+                <Box width={isMobile ? '150px' : '250px'}>
                   <Typography>{hexToAscii(player.player_name)}</Typography>
                 </Box>
 
-                <Box width='100px' textAlign={'center'}>
+                <Box width='80px' textAlign={'center'}>
                   <Typography>{player.hero_xp}</Typography>
+                </Box>
+
+                <Box width='55px' display={'flex'} gap={0.5} alignItems={'center'}>
+                  {rank < 11 && <>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFE97F" height={12}><path d="M0 12v2h1v2h6V4h2v12h6v-2h1v-2h-2v2h-3V4h2V0h-2v2H9V0H7v2H5V0H3v4h2v10H2v-2z"></path></svg>
+                    <Typography color={'primary'} sx={{ fontSize: '12px' }}>
+                      {formatNumber(seasonPool * prizeDistribution[i])}
+                    </Typography>
+                  </>}
                 </Box>
               </Box>
             </>
