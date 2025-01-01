@@ -44,8 +44,24 @@ function Battlefield(props) {
       </CustomTooltip>
     </Box>}
 
-    {isMobile && <Scrollbars>
-      <Box sx={styles.myContainerMobile} height={'30%'}>
+    {isMobile && <Box sx={styles.myContainerMobile} height={'30%'} justifyContent={battle.state.board.length > 3 ? 'flex-start' : 'center'}>
+
+      {
+        React.Children.toArray(
+          battle.state.board.map((creature, i) => {
+            return <Creature
+              pos={i}
+              creature={creature}
+            />
+          })
+        )
+      }
+
+    </Box>
+    }
+
+    {
+      isBrowser && <Box sx={[styles.myContainer]} height={'35%'}>
 
         {React.Children.toArray(
           battle.state.board.map((creature, i) => {
@@ -57,26 +73,15 @@ function Battlefield(props) {
         )}
 
       </Box>
-    </Scrollbars>}
+    }
 
-    {isBrowser && <Box sx={styles.myContainer} height={'35%'}>
+    {
+      isBrowser && <Box sx={styles.kingContainer}>
 
-      {React.Children.toArray(
-        battle.state.board.map((creature, i) => {
-          return <Creature
-            pos={i}
-            creature={creature}
-          />
-        })
-      )}
+        <Adventurer />
 
-    </Box>}
-
-    {isBrowser && <Box sx={styles.kingContainer}>
-
-      <Adventurer />
-
-    </Box >}
+      </Box >
+    }
   </Box >
 }
 
@@ -115,8 +120,10 @@ const styles = {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
     gap: 2,
+    overflowX: 'auto',
+    boxSizing: 'border-box',
+    px: 1
   },
   targetIcon: {
     width: '35px',
