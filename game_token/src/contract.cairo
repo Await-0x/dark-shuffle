@@ -9,15 +9,25 @@ trait IDarkShuffleGameToken<TState> {
     fn settings_id(self: @TState, token_id: u256) -> u32;
 }
 
+#[starknet::interface]
+trait IGame<TState> {
+    fn get_game_data(self: @TState, token_id: u128) -> (felt252, u8, u16, u32, u8, Span<felt252>);
+}
+
 #[starknet::contract]
 mod DarkShuffleGameToken {
+    use super::{IGame, IGameDispatcher, IGameDispatcherTrait};
+    use dsgt::utils::create_metadata;
     use starknet::ContractAddress;
     use starknet::storage::{StoragePointerReadAccess, StoragePointerWriteAccess, StoragePathEntry, Map};
     use openzeppelin::access::ownable::OwnableComponent;
     use openzeppelin::introspection::src5::SRC5Component;
     use openzeppelin::token::erc721::ERC721Component;
     use openzeppelin::token::erc721::extensions::ERC721EnumerableComponent;
-    use openzeppelin::token::erc721::interface::{IERC721Dispatcher, IERC721DispatcherTrait};
+    use openzeppelin::token::erc721::interface::{
+        IERC721Metadata, IERC721MetadataDispatcher, IERC721MetadataDispatcherTrait, IERC721Dispatcher,
+        IERC721DispatcherTrait, IERC721MetadataCamelOnly,
+    };
 
     component!(path: ERC721Component, storage: erc721, event: ERC721Event);
     component!(path: ERC721EnumerableComponent, storage: erc721_enumerable, event: ERC721EnumerableEvent);
@@ -73,6 +83,34 @@ mod DarkShuffleGameToken {
         self.erc721.initializer("Dark Shuffle Game Token", "DSGT", "");
         self.ownable.initializer(owner);
         self.erc721_enumerable.initializer();
+    }
+
+    #[abi(embed_v0)]
+    impl ERC721Metadata of IERC721Metadata<ContractState> {
+        /// Returns the NFT name.
+        fn name(self: @ContractState) -> ByteArray {
+            self.erc721.ERC721_name.read()
+        }
+
+        /// Returns the NFT symbol.
+        fn symbol(self: @ContractState) -> ByteArray {
+            self.erc721.ERC721_symbol.read()
+        }
+
+        /// Returns the Uniform Resource Identifier (URI) for the `token_id` token.
+        /// If the URI is not set, the return value will be an empty ByteArray.
+        ///
+        /// Requirements:
+        ///
+        /// - `token_id` exists.
+        fn token_uri(self: @ContractState, token_id: u256) -> ByteArray {
+            self.erc721._require_owned(token_id);
+            let (hero_name, hero_health, hero_xp, season_id, state, cards) = IGameDispatcher {
+                contract_address: self.ownable.Ownable_owner.read()
+            }.get_game_data(token_id.try_into().unwrap());
+
+            create_metadata(token_id, hero_name, hero_health, hero_xp, season_id, state, cards)
+        }
     }
 
     impl ERC721HooksImpl of ERC721Component::ERC721HooksTrait<ContractState> {

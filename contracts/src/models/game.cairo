@@ -75,6 +75,10 @@ impl GameOwnerImpl of GameOwnerTrait {
     fn assert_select_node(self: Game) {
         assert(self.state == GameState::Map, 'Not Map');
     }
+
+    fn exists(self: Game) -> bool {
+        self.hero_xp.is_non_zero()
+    }
 }
 
 #[derive(Copy, Drop, Serde)]

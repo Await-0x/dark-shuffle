@@ -10,6 +10,7 @@ trait IGameContract<T> {
     fn score(self: @T, game_id: u128) -> u16;
     fn get_settings(self: @T, settings_id: u32) -> GameSettings;
     fn settings_exists(self: @T, settings_id: u32) -> bool;
+    fn get_game_data(self: @T, token_id: u256) -> (felt252, felt252, felt252);
 }
 
 #[dojo::contract]
@@ -65,6 +66,8 @@ mod game_systems {
             let settings_id = game_token.settings_id(game_id.into());
             assert(settings_id == season.settings_id, 'Invalid settings');
 
+            let mut game: Game = world.read_model(game_id);
+            assert(!game.exists(), 'Game already started');
 
             let fee_distribution = season.entry_amount / 100 * 5;
             let season_distribution = season.entry_amount / 100 * 90;
@@ -166,6 +169,23 @@ mod game_systems {
             let world: WorldStorage = self.world(DEFAULT_NS());
             let settings: GameSettings = world.read_model(settings_id);
             settings.exists()
+        }
+
+        fn get_game_data(self: @ContractState, game_id: u128) -> (u8, u16, u32, u8, Span<felt252>) {
+            let world: WorldStorage = self.world(DEFAULT_NS());
+
+            let game: Game = world.read_model(game_id);
+            let draft: Draft = world.read_model(game_id);
+            let mut cards: array<felt252> = array![];
+
+            let mut i = 0;
+            while i < draft.cards.len() {
+                let card: Card = CardUtilsImpl::get_card(*draft.cards.at(i));
+                cards.push(card.name);
+                i += 1;
+            }
+            
+            (game.hero_name, game.hero_health, game.hero_xp, game.season_id, game.state, cards.span())
         }
     }
 }

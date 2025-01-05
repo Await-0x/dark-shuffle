@@ -75,13 +75,11 @@ function Battlefield(props) {
       </Box>
     }
 
-    {
-      isBrowser && <Box sx={styles.kingContainer}>
+    {isBrowser && <Box sx={styles.kingContainer}>
 
-        <Adventurer />
+      <Adventurer />
 
-      </Box >
-    }
+    </Box >}
   </Box >
 }
 

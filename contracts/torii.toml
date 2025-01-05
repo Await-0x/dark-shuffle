@@ -3,4 +3,4 @@ world_block = 1014817
 
 [events]
 raw = true
-historical = ["s0_eternum-TrophyCreation", "s0_eternum-TrophyProgression"]
+historical = ["darkshuffle_s0-TrophyCreation", "darkshuffle_s0-TrophyProgression"]
