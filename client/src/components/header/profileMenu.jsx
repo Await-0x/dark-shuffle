@@ -1,3 +1,4 @@
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -12,7 +13,7 @@ import { GameContext } from '../../contexts/gameContext';
 import { formatNumber } from '../../helpers/utilities';
 
 function ProfileMenu(props) {
-  const { handleClose, anchorEl, openNameDialog } = props
+  const { handleClose, anchorEl, openNameDialog, openGamesDialog } = props
   const { disconnect } = useDisconnect()
 
   const dojo = useContext(DojoContext)
@@ -60,6 +61,17 @@ function ProfileMenu(props) {
               <EditIcon fontSize='small' />
             </IconButton>
           </Box>
+
+          <MenuItem onClick={() => { openGamesDialog(true); handleClose() }}>
+            <ListItemIcon>
+              <SportsEsportsIcon fontSize="small" htmlColor='#f59100' />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography sx={{ color: '#f59100' }}>
+                My Games
+              </Typography>
+            </ListItemText>
+          </MenuItem>
         </Box>
 
         <Divider sx={{ my: 1 }} />
