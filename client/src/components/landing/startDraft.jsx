@@ -1,25 +1,38 @@
+import { hexToAscii } from '@dojoengine/utils'
 import { LoadingButton, Skeleton } from '@mui/lab'
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
+import { useAccount } from '@starknet-react/core'
+import { useSnackbar } from 'notistack'
 import React, { useContext, useState } from 'react'
 import { BrowserView, MobileView } from 'react-device-detect'
+import { getActiveGame, getGameEffects, getMap } from '../../api/indexer'
 import logo from '../../assets/images/logo.svg'
-import { DojoContext } from '../../contexts/dojoContext'
+import { BattleContext } from '../../contexts/battleContext'
 import { DraftContext } from '../../contexts/draftContext'
+import { GameContext } from '../../contexts/gameContext'
 import { useSeason } from '../../contexts/seasonContext'
+import { generateMapNodes } from '../../helpers/map'
 import { _styles } from '../../helpers/styles'
 import { formatTimeUntil } from '../../helpers/utilities'
+import GameTokens from '../dialogs/gameTokens'
+import ReconnectDialog from '../dialogs/reconnecting'
 import StartGameDialog from '../dialogs/startGame'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
 
 function StartDraft() {
   const season = useSeason()
-  const dojo = useContext(DojoContext)
+  const { address } = useAccount()
+  const { enqueueSnackbar } = useSnackbar()
 
+  const gameState = useContext(GameContext)
+  const battle = useContext(BattleContext)
   const draft = useContext(DraftContext)
   const { status } = draft.getState
 
   const [showWarnings, setShowWarnings] = useState(false)
+  const [gamesDialog, openGamesDialog] = useState(false)
+  const [reconnecting, setReconnecting] = useState(false)
 
   async function beginDraft(isSeason) {
     if (isSeason) {
@@ -29,7 +42,80 @@ function StartDraft() {
     await draft.actions.startDraft(isSeason)
   }
 
-  const enoughFunds = dojo.balances.lords >= (season.values?.entryFee ?? 0)
+  const startGame = async (isSeason, gameId) => {
+    await draft.actions.startDraft(isSeason, gameId)
+  }
+
+  const resumeGame = async (game_id) => {
+    setReconnecting(true)
+
+    try {
+      let data = await getActiveGame(game_id)
+      await draft.actions.fetchDraft(data.game_id)
+
+      if (data.state !== 'Draft') {
+        let map = await getMap(data.game_id, data.map_level)
+
+        if (map) {
+          let computedMap = generateMapNodes(map.level, map.seed)
+
+          gameState.setMap(computedMap.map(node => {
+            return {
+              ...node,
+              active: node.parents.includes(data.last_node_id) || (node.nodeId === 1 && data.map_depth === 1),
+              status: node.nodeId === data.last_node_id ? 1 : 0
+            }
+          }))
+        }
+
+        if (data.state === 'Battle') {
+          await battle.utils.fetchBattleState(data.monsters_slain + 1, data.game_id)
+        }
+
+        const effects = await getGameEffects(data.game_id)
+        if (effects) {
+          gameState.setGameEffects({
+            firstAttack: effects.first_attack,
+            firstHealth: effects.first_health,
+            firstCost: effects.first_cost,
+            allAttack: effects.all_attack,
+            hunterAttack: effects.hunter_attack,
+            hunterHealth: effects.hunter_health,
+            magicalAttack: effects.magical_attack,
+            magicalHealth: effects.magical_health,
+            bruteAttack: effects.brute_attack,
+            bruteHealth: effects.brute_health,
+            heroDmgReduction: effects.hero_dmg_reduction,
+            heroCardHeal: effects.hero_card_heal,
+            cardDraw: effects.card_draw,
+            playCreatureHeal: effects.play_creature_heal,
+            startBonusEnergy: effects.start_bonus_energy
+          })
+        }
+      }
+
+      gameState.setGame({
+        gameId: data.game_id,
+        seasonId: data.season_id,
+        player_name: hexToAscii(data.player_name),
+        state: data.state,
+
+        heroHealth: data.hero_health,
+        heroXp: data.hero_xp,
+        monstersSlain: data.monsters_slain,
+
+        mapLevel: data.map_level,
+        mapDepth: data.map_depth,
+        lastNodeId: data.last_node_id,
+      })
+
+      setReconnecting(false)
+    } catch (ex) {
+      console.log(ex)
+      setReconnecting(false)
+      enqueueSnackbar('Failed To Reconnect', { variant: 'warning' })
+    }
+  }
 
   return (
     <>
@@ -79,6 +165,10 @@ function StartDraft() {
           <LoadingButton color='secondary' variant='outlined' loading={status} onClick={() => beginDraft(false)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
             Play Demo
           </LoadingButton>
+
+          <Button disabled={!address} color='secondary' variant='outlined' onClick={() => openGamesDialog(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+            My Games
+          </Button>
 
           <Box width={'100%'} sx={_styles.customBox} mt={1}>
 
@@ -180,22 +270,18 @@ function StartDraft() {
               </ul>
 
               <Box mt={4} display={'flex'} alignItems={'center'} gap={2}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
-                  <LoadingButton variant='outlined' loading={status || !season.values.entryFee} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
-                    Play Season
-                  </LoadingButton>
+                <LoadingButton variant='outlined' loading={status || !season.values.entryFee} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                  Play Season
+                </LoadingButton>
 
-                  {(dojo.address && !enoughFunds && showWarnings) && <Typography textAlign={'center'} sx={{ fontSize: '14px', color: 'red', mb: '-21px' }}>
-                    Not Enough LORDS!
-                  </Typography>}
-                </Box>
+                <Button disabled={!address} variant='outlined' onClick={() => openGamesDialog(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                  My Games
+                </Button>
 
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, textAlign: 'center' }}>
-                  <LoadingButton color='secondary' variant='outlined' loading={status}
-                    onClick={() => beginDraft(false)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
-                    Play Demo
-                  </LoadingButton>
-                </Box>
+                <LoadingButton color='secondary' variant='outlined' loading={status}
+                  onClick={() => beginDraft(false)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                  Play Demo
+                </LoadingButton>
               </Box>
             </Box>
 
@@ -211,6 +297,8 @@ function StartDraft() {
       </BrowserView>
 
       {status && <StartGameDialog status={status} isSeason={showWarnings} />}
+      {gamesDialog && <GameTokens open={gamesDialog} close={openGamesDialog} address={address} resumeGame={resumeGame} startGame={startGame} />}
+      {reconnecting && <ReconnectDialog close={() => setReconnecting(false)} />}
     </>
   )
 }

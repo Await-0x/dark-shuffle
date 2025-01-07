@@ -167,7 +167,6 @@ impl GameUtilsImpl of GameUtilsTrait {
         
         else if battle.monster.monster_id == 61 || battle.monster.monster_id == 66 || battle.monster.monster_id == 71 {
             BattleUtilsImpl::heal_hero(ref battle, 5);
-        }
-        
+        }     
     }
 }

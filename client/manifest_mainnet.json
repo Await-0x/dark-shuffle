@@ -1944,7 +1944,7 @@
     },
     {
       "address": "0x6caab3213a31495f8d83850b1795a2521f8155f54bfd93214dec2753ead39b5",
-      "class_hash": "0x15e5c6ca69c38ad24f49da8593051c0ec359d7946f68fb246f4c2d511e09892",
+      "class_hash": "0x10d2c91696a1a8a166fdacb81c5af16135e795a1660c0187b9491299ccc9bee",
       "abi": [
         {
           "type": "impl",
@@ -2054,6 +2054,108 @@
           ]
         },
         {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::integer::u256",
+          "members": [
+            {
+              "name": "low",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "high",
+              "type": "core::integer::u128"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "darkshuffle::models::game::GameState",
+          "variants": [
+            {
+              "name": "Draft",
+              "type": "()"
+            },
+            {
+              "name": "Battle",
+              "type": "()"
+            },
+            {
+              "name": "Map",
+              "type": "()"
+            },
+            {
+              "name": "Over",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "darkshuffle::models::game::Game",
+          "members": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "season_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "player_name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "state",
+              "type": "darkshuffle::models::game::GameState"
+            },
+            {
+              "name": "hero_health",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "hero_xp",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "monsters_slain",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "map_level",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "map_depth",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "last_node_id",
+              "type": "core::integer::u8"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<darkshuffle::models::game::Game>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<darkshuffle::models::game::Game>"
+            }
+          ]
+        },
+        {
           "type": "interface",
           "name": "darkshuffle::systems::game::contracts::IGameContract",
           "items": [
@@ -2157,6 +2259,50 @@
               "outputs": [
                 {
                   "type": "core::bool"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "get_game_data",
+              "inputs": [
+                {
+                  "name": "token_id",
+                  "type": "core::integer::u128"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "(core::felt252, core::integer::u8, core::integer::u16, core::integer::u32, core::integer::u8, core::array::Span::<core::felt252>)"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "get_player_games",
+              "inputs": [
+                {
+                  "name": "player_address",
+                  "type": "core::starknet::contract_address::ContractAddress"
+                },
+                {
+                  "name": "limit",
+                  "type": "core::integer::u256"
+                },
+                {
+                  "name": "page",
+                  "type": "core::integer::u256"
+                },
+                {
+                  "name": "active",
+                  "type": "core::bool"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "core::array::Span::<darkshuffle::models::game::Game>"
                 }
               ],
               "state_mutability": "view"
@@ -2840,12 +2986,6 @@
     }
   ],
   "events": [
-    {
-      "members": [],
-      "class_hash": "0x79ca95d81ad3ccadbb410e411f35150ab86ade5d64923adc2511c4822485773",
-      "tag": "darkshuffle_s0-GameStartEvent",
-      "selector": "0x32ff355056a503f7e8c926a44893f0cbe79f70a431854ee9bdfb4ea03f640a4"
-    },
     {
       "members": [],
       "class_hash": "0x6b38999d987627835d4c20e7e571c73d32ddc856786d9790a131bdb3372a246",

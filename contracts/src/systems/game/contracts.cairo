@@ -1,4 +1,6 @@
 use darkshuffle::models::config::{GameSettings};
+use darkshuffle::models::game::{Game};
+use starknet::ContractAddress;
 
 #[starknet::interface]
 trait IGameContract<T> {
@@ -10,7 +12,8 @@ trait IGameContract<T> {
     fn score(self: @T, game_id: u128) -> u16;
     fn get_settings(self: @T, settings_id: u32) -> GameSettings;
     fn settings_exists(self: @T, settings_id: u32) -> bool;
-    fn get_game_data(self: @T, token_id: u256) -> (felt252, felt252, felt252);
+    fn get_game_data(self: @T, token_id: u128) -> (felt252, u8, u16, u32, u8, Span<felt252>);
+    fn get_player_games(self: @T, player_address: ContractAddress, limit: u256, page: u256, active: bool) -> Span<Game>;
 }
 
 #[dojo::contract]
@@ -23,16 +26,18 @@ mod game_systems {
     use openzeppelin::token::erc721::interface::{IERC721Dispatcher, IERC721DispatcherTrait};
     use openzeppelin::token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
     use darkshuffle::interface::{IGameTokenDispatcher, IGameTokenDispatcherTrait};
-    use starknet::{get_caller_address, get_tx_info};
+    use starknet::{get_caller_address, get_tx_info, ContractAddress};
 
     use darkshuffle::constants::{WORLD_CONFIG_ID, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID, DEFAULT_NS, LAST_NODE_DEPTH};
-    use darkshuffle::models::game::{Game, GameState, GameOwnerTrait, GameStartEvent};
+    use darkshuffle::models::game::{Game, GameState, GameOwnerTrait};
+    use darkshuffle::models::battle::{Card};
     use darkshuffle::models::draft::{Draft};
     use darkshuffle::models::config::{WorldConfig, GameSettings, GameSettingsTrait};
     use darkshuffle::models::season::{Season, SeasonOwnerTrait};
     use darkshuffle::utils::{
         season::SeasonUtilsImpl,
         draft::DraftUtilsImpl,
+        cards::CardUtilsImpl,
         random
     };
     use achievement::store::{Store, StoreTrait};
@@ -126,14 +131,6 @@ mod game_systems {
                 options,
                 cards: array![].span()
             });
-
-            world.emit_event(@GameStartEvent {
-                game_id,
-                season_id,
-                player_address: get_caller_address(),
-                player_name: name,
-                timestamp: starknet::get_block_timestamp(),
-            });
         }
 
         fn abandon_game(ref self: ContractState, game_id: u128) {
@@ -171,21 +168,52 @@ mod game_systems {
             settings.exists()
         }
 
-        fn get_game_data(self: @ContractState, game_id: u128) -> (u8, u16, u32, u8, Span<felt252>) {
+        fn get_game_data(self: @ContractState, token_id: u128) -> (felt252, u8, u16, u32, u8, Span<felt252>) {
             let world: WorldStorage = self.world(DEFAULT_NS());
 
-            let game: Game = world.read_model(game_id);
-            let draft: Draft = world.read_model(game_id);
-            let mut cards: array<felt252> = array![];
+            let game: Game = world.read_model(token_id);
+            let draft: Draft = world.read_model(game.game_id);
+            let mut cards = array![];
 
             let mut i = 0;
             while i < draft.cards.len() {
                 let card: Card = CardUtilsImpl::get_card(*draft.cards.at(i));
-                cards.push(card.name);
+                cards.append(card.name);
                 i += 1;
-            }
+            };
             
-            (game.hero_name, game.hero_health, game.hero_xp, game.season_id, game.state, cards.span())
+            (game.player_name, game.hero_health, game.hero_xp, game.season_id, game.state.into(), cards.span())
+        }
+
+        fn get_player_games(self: @ContractState, player_address: ContractAddress, limit: u256, page: u256, active: bool) -> Span<Game> {
+            let world: WorldStorage = self.world(DEFAULT_NS());
+            let world_config: WorldConfig = world.read_model(WORLD_CONFIG_ID);
+
+            let game_token = IGameTokenDispatcher { contract_address: world_config.game_token_address };
+            let game_token_dispatcher = IERC721Dispatcher { contract_address: world_config.game_token_address };
+            
+            let mut balance = game_token_dispatcher.balance_of(player_address);
+            let mut last_index = balance - (page * limit);
+
+            let mut games = array![];
+            let mut i = last_index;
+            let mut game_count = 0;
+
+            while i > 0 && game_count < limit {
+                i -= 1;
+
+                let token_id: u128 = game_token.get_token_of_owner_by_index(player_address, i).try_into().unwrap();
+                let game: Game = world.read_model(token_id);
+
+                if (active && game.state == GameState::Over) || (!active && game.state != GameState::Over) {
+                    continue;
+                }
+
+                games.append(game);
+                game_count += 1;
+            };
+
+            games.span()
         }
     }
 }

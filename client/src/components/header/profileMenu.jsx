@@ -61,35 +61,9 @@ function ProfileMenu(props) {
               <EditIcon fontSize='small' />
             </IconButton>
           </Box>
-
-          <MenuItem onClick={() => { openGamesDialog(true); handleClose() }}>
-            <ListItemIcon>
-              <SportsEsportsIcon fontSize="small" htmlColor='#f59100' />
-            </ListItemIcon>
-            <ListItemText>
-              <Typography sx={{ color: '#f59100' }}>
-                My Games
-              </Typography>
-            </ListItemText>
-          </MenuItem>
         </Box>
 
         <Divider sx={{ my: 1 }} />
-
-        {game?.values?.gameId && <>
-          <MenuItem onClick={abandonGame}>
-            <ListItemIcon>
-              <DeleteForeverIcon fontSize="small" htmlColor='#fb3a3a' />
-            </ListItemIcon>
-            <ListItemText>
-              <Typography sx={{ color: '#fb3a3a' }}>
-                Abandon Game
-              </Typography>
-            </ListItemText>
-          </MenuItem>
-
-          <Divider sx={{ my: 2 }} />
-        </>}
 
         <MenuItem onClick={() => { window.open("https://github.com/Await-0x/dark-shuffle", "_blank"); handleClose; }}>
           <ListItemIcon>
@@ -110,6 +84,18 @@ function ProfileMenu(props) {
         </MenuItem>
 
         <Divider sx={{ my: 2 }} />
+
+        {game?.values?.gameId && <>
+          <MenuItem onClick={abandonGame}>
+            <ListItemIcon>
+              <DeleteForeverIcon fontSize="small" htmlColor='#fb3a3a' />
+            </ListItemIcon>
+            <ListItemText>
+              Abandon Game
+            </ListItemText>
+          </MenuItem>
+          <Divider sx={{ my: 2 }} />
+        </>}
 
         <MenuItem onClick={() => { disconnect(); handleClose(); }}>
           <ListItemIcon>

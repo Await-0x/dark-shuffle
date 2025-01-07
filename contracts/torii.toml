@@ -1,5 +1,8 @@
 [indexing]
 world_block = 1014817
+contracts = [
+    "erc721:0x033faad68bac7f856a01eeb4f80f6e98e2cfca9dfc0c8774aee42d68406510cd"
+]
 
 [events]
 raw = true

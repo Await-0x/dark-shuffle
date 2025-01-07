@@ -49,33 +49,12 @@ export async function getSettings(settings_id) {
   return res?.darkshuffleS0GameSettingsModels?.edges[0]?.node
 }
 
-export async function getActiveGameIds(address) {
-  const document = gql`
-  {
-    darkshuffleS0GameStartEventModels (where:{
-      player_address:"${address}",
-      season_idIN:[${dojoConfig.seasonId},0]
-    }) {
-      edges {
-        node {
-          game_id
-        }
-      }
-    }
-  }`
-
-  const res = await request(dojoConfig.toriiUrl, document)
-
-  return res?.darkshuffleS0GameStartEventModels?.edges.map(edge => edge.node.game_id)
-}
-
-export async function getActiveGame(game_ids) {
+export async function getActiveGame(game_id) {
   const document = gql`
   {
     darkshuffleS0GameModels (where:{
-      game_idIN:[${game_ids.map(game_id => `"${game_id}"`)}],
-      hero_healthGT:0,
-    }, limit: 1000) {
+      game_id:"${game_id}"
+    }) {
       edges {
         node {
           game_id,

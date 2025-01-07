@@ -4,7 +4,7 @@ export STARKNET_ACCOUNT=~/.starkli-wallets/deployer/account.json
 
 ds_address=0x06caab3213a31495f8d83850b1795a2521f8155f54bfd93214dec2753ead39b5
 
-class_hash=0x050b275a94c329c957156bdcd2073b696e6a4cfc0ac604be526c849148a5c649
+class_hash=0x0051cb810171a1afe6ce10ef7f77277c1ffdfe01a8ff1f6ab6b7152d536676cc
 
 scarb build
 # starkli declare target/dev/dsgt_DarkShuffleGameToken.contract_class.json

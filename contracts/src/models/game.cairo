@@ -55,6 +55,17 @@ pub enum GameState {
     Over,
 }
 
+impl GameStateIntoU8 of Into<GameState, u8> {
+    fn into(self: GameState) -> u8 {
+        match self {
+            GameState::Draft => 0,
+            GameState::Battle => 1,
+            GameState::Map => 2,
+            GameState::Over => 3,
+        }
+    }
+}
+
 #[generate_trait]
 impl GameOwnerImpl of GameOwnerTrait {
     fn assert_owner(self: Game, world: WorldStorage) {
@@ -79,15 +90,4 @@ impl GameOwnerImpl of GameOwnerTrait {
     fn exists(self: Game) -> bool {
         self.hero_xp.is_non_zero()
     }
-}
-
-#[derive(Copy, Drop, Serde)]
-#[dojo::event(historical: true)]
-pub struct GameStartEvent {
-    #[key]
-    game_id: u128,
-    season_id: u32,
-    player_address: ContractAddress,
-    player_name: felt252,
-    timestamp: u64,
 }

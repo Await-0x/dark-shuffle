@@ -1,71 +1,64 @@
-import { Box, Button, Dialog, Typography, Pagination } from '@mui/material';
+import { Box, Button, Dialog, Typography, Pagination, CircularProgress } from '@mui/material';
 import { motion } from "framer-motion";
 import { fadeVariant } from "../../helpers/variants";
 import logo from '../../assets/images/logo.svg';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import React, { useState } from 'react';
+import { fetchDarkShuffleGameTokens } from '../../api/starknet';
+import { useEffect } from 'react';
 
 function GameTokens(props) {
-  const { open, close } = props
+  const { open, close, address, resumeGame, startGame } = props
+
+  const [games, setGames] = useState([])
   const [selectedGames, setSelectedGames] = useState([])
+
   const [page, setPage] = useState(1)
   const [active, showActive] = useState(true)
-  const [loading, setLoading] = useState()
+  const [loading, setLoading] = useState(true)
 
   const handleChange = (event, newValue) => {
     setLoading(true)
     setPage(newValue);
   };
 
-  const test_games = [
-    {
-      id: 1,
-      name: 'Await',
-      xp: 1,
-      hp: 50,
-      season: true,
-    },
-    {
-      id: 2,
-      name: 'Await',
-      xp: 1,
-      hp: 50,
-      season: true,
-    },
-    {
-      id: 3,
-      name: 'Await',
-      xp: 1,
-      hp: 50,
-      season: true,
-    },
-    {
-      id: 4,
-      name: 'Await',
-      xp: 1,
-      hp: 50,
-      season: true,
-    },
-    {
-      id: 5,
-      name: 'Await',
-      xp: 1,
-      hp: 50,
-      season: true,
-    },
-  ]
+  useEffect(() => {
+    async function fetchGames() {
+      setLoading(true)
+
+      const data = await fetchDarkShuffleGameTokens(address, 5, page - 1, Number(active))
+
+      setSelectedGames([])
+      setGames(data ?? [])
+      setLoading(false)
+    }
+
+    fetchGames()
+  }, [page, address, active])
+
+  useEffect(() => {
+    setPage(1)
+  }, [active])
 
   const selectGame = (id) => {
-    if (selectedGames.includes(id)) {
-      setSelectedGames(prev => prev.filter(_id => _id !== id))
+    setSelectedGames([id])
+  }
+
+  const handleResumeGame = (game_id) => {
+    let game = games.find(game => game.id === game_id)
+
+    if (game.xp) {
+      resumeGame(game_id)
     } else {
-      setSelectedGames(prev => [...prev, id])
+      startGame(game.season, game_id)
     }
+
+    close(false)
   }
 
   function renderGame(game) {
-    return <Box sx={[styles.gameContainer, { opacity: selectedGames.includes(game.id) ? 1 : 0.9 }]}
-      border={selectedGames.includes(game.id) ? '1px solid #f59100' : '1px solid rgba(255, 255, 255, 0.4)'}
+    return <Box sx={[styles.gameContainer, { opacity: selectedGames.includes(game.id) ? 1 : 0.8 }]}
+      border={selectedGames.includes(game.id) ? '1px solid #f59100' : '1px solid rgba(255, 255, 255, 0.3)'}
       onClick={() => selectGame(game.id)}
     >
 
@@ -125,10 +118,9 @@ function GameTokens(props) {
         <motion.div variants={fadeVariant} exit='exit' animate='enter'>
           <Box sx={styles.container}>
 
-            <Typography color='white' variant='h3'>
+            <Typography color='primary' variant='h3' textAlign={'center'}>
               Game Tokens
             </Typography>
-
 
             <Box sx={styles.gamesContainer}>
               <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}>
@@ -142,20 +134,23 @@ function GameTokens(props) {
                   </Button>
                 </Box>
 
-                <Pagination count={3} shape="rounded" color='primary' size='small' page={page} onChange={handleChange} />
+                <Pagination count={1000} siblingCount={0} boundaryCount={0} hideNextButton={games.length < 5} shape="rounded" color='primary' size='small' page={page} onChange={handleChange} />
               </Box>
 
-              {React.Children.toArray(
-                test_games.map(game => renderGame(game))
+              {loading && <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '150px' }}>
+                <CircularProgress />
+              </Box>}
+
+              {!loading && React.Children.toArray(
+                games.map(game => renderGame(game))
               )}
             </Box>
 
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between' }}>
-              <Button variant='outlined' size='large' color='secondary' disabled={selectedGames.length < 1}>
-                Transfer
-              </Button>
-
-              <Button variant='outlined' size='large' disabled={selectedGames.length !== 1}>
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+              <Button variant='outlined' size='large'
+                disabled={selectedGames.length !== 1 || games.find(game => game.id === selectedGames[0])?.state === 3}
+                onClick={() => handleResumeGame(selectedGames[0])}
+              >
                 Start Game
               </Button>
             </Box>
@@ -175,7 +170,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     boxSizing: 'border-box',
-    padding: 2,
+    py: 2,
+    px: 3,
     width: '100%',
     maxWidth: '500px',
     overflow: 'hidden'
@@ -188,8 +184,7 @@ const styles = {
     gap: 1.5
   },
   gameContainer: {
-    width: '360px',
-    maxWidth: '98vw',
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -197,13 +192,16 @@ const styles = {
     py: '6px',
     pr: 1,
     gap: 1,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    boxSizing: 'border-box'
   },
   gamesContainer: {
-    width: '100%',
+    width: '360px',
+    maxWidth: '98vw',
+    minHeight: '200px',
     display: 'flex',
     flexDirection: 'column',
-    gap: 0.5,
-    mt: 0.5
+    gap: 1,
+    mt: 1
   },
 }

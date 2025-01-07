@@ -104,7 +104,7 @@ export const DojoProvider = ({ children }) => {
         balances,
         executeTx,
         getBalances,
-        setCustomName
+        setCustomName,
       }}
     >
       {children}

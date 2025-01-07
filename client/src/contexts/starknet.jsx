@@ -66,7 +66,7 @@ const cartridge = new ControllerConnector({
   colorMode: "dark",
   indexerUrl: dojoConfig.toriiRawUrl,
   tokens: {
-    erc20: [dojoConfig.lordsAddress],
+    erc20: [dojoConfig.lordsAddress]
   },
 })
 

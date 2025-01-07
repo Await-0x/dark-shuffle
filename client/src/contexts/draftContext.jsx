@@ -30,13 +30,11 @@ export const DraftProvider = ({ children }) => {
     setStatus('Minting Game Token')
   }
 
-  const startDraft = async (isSeason) => {
+  const startDraft = async (isSeason, gameId) => {
     initializeState()
 
-    const gameId = await game.actions.mintGameToken()
     if (!gameId) {
-      setStatus()
-      return
+      gameId = await game.actions.mintGameToken()
     }
 
     setStatus('Shuffling Cards')

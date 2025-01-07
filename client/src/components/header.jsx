@@ -80,7 +80,7 @@ function Header(props) {
               </Typography>}
           </Button>
 
-          : <LoadingButton loading={dojo.connecting} variant='outlined' onClick={() => connect({ connector: cartridgeConnector })} size='large' startIcon={<SportsEsportsIcon />}>
+          : <LoadingButton loading={dojo.connecting} variant='outlined' onClick={() => connect({ connector: cartridgeConnector })} size='medium' startIcon={<SportsEsportsIcon />}>
             <Typography color='primary'>
               Connect
             </Typography>
