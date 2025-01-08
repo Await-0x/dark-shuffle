@@ -19,12 +19,14 @@ import ReconnectDialog from '../dialogs/reconnecting'
 import StartGameDialog from '../dialogs/startGame'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
+import { DojoContext } from '../../contexts/dojoContext'
 
 function StartDraft() {
   const season = useSeason()
   const { address } = useAccount()
   const { enqueueSnackbar } = useSnackbar()
 
+  const dojo = useContext(DojoContext)
   const gameState = useContext(GameContext)
   const battle = useContext(BattleContext)
   const draft = useContext(DraftContext)
@@ -36,6 +38,11 @@ function StartDraft() {
 
   async function beginDraft(isSeason) {
     if (isSeason) {
+      if (dojo.balances.lords < season.values.entryFee) {
+        enqueueSnackbar('You do not have enough $LORDS to enter the season', { variant: 'warning' })
+        return
+      }
+
       setShowWarnings(true)
     }
 
