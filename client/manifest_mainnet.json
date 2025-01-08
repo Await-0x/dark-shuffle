@@ -2654,7 +2654,7 @@
     },
     {
       "address": "0x1ef28fcec82bcbda5478097c1a195d201686976ea1baaf06a410a83093540c4",
-      "class_hash": "0x27444a9ba9c81fbc3b6e00b6ff3debbc460a1b7e869bf34eda7acc97865d0a9",
+      "class_hash": "0x10d53b2ee6cad7abc60e3da8dfb4ac0c9f7b0664c4b6148c6f20b21b4667940",
       "abi": [
         {
           "type": "impl",
@@ -2775,7 +2775,7 @@
                 },
                 {
                   "name": "amount",
-                  "type": "core::integer::u256"
+                  "type": "core::integer::u32"
                 },
                 {
                   "name": "name",

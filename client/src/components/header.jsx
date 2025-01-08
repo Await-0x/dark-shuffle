@@ -9,11 +9,10 @@ import { Link } from "react-router-dom";
 import logo from '../assets/images/logo.svg';
 import { DojoContext } from '../contexts/dojoContext';
 import { ellipseAddress } from '../helpers/utilities';
+import ChooseName from './dialogs/chooseName';
 import ConnectWallet from './dialogs/connectWallet';
 import TutorialDialog from './dialogs/tutorial';
 import ProfileMenu from './header/profileMenu';
-import ChooseName from './dialogs/chooseName';
-import GameTokens from './dialogs/gameTokens';
 
 const menuItems = [
   {
@@ -37,7 +36,6 @@ function Header(props) {
   const [connectWallet, openConnectWallet] = useState(false)
   const [tutorial, openTutorial] = useState(false)
   const [nameDialog, openNameDialog] = useState(false)
-  const [gamesDialog, openGamesDialog] = useState(false)
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -92,9 +90,8 @@ function Header(props) {
         </IconButton>
       </Box>
 
-      <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openNameDialog={openNameDialog} openGamesDialog={openGamesDialog} />
+      <ProfileMenu handleClose={handleClose} anchorEl={anchorEl} openNameDialog={openNameDialog} />
       <ChooseName open={nameDialog} close={openNameDialog} />
-      <GameTokens open={gamesDialog} close={openGamesDialog} />
       <TutorialDialog open={tutorial} close={openTutorial} />
       <ConnectWallet open={connectWallet} close={openConnectWallet} />
     </Box>

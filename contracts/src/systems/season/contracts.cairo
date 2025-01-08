@@ -2,7 +2,7 @@
 trait ISeasonContract<T> {
     fn start_season(ref self: T, start_time: u64, duration: u64, entry_amount: u256, settings_id: u32);
     fn end_season(ref self: T, season_id: usize);
-    fn donate_season(ref self: T, season_id: usize, amount: u256, name: felt252, social: felt252);
+    fn donate_season(ref self: T, season_id: usize, amount: u32, name: felt252, social: felt252);
 }
 
 #[dojo::contract]
@@ -91,26 +91,27 @@ mod season_systems {
             world.write_model(@season);
         }
 
-        fn donate_season(ref self: ContractState, season_id: usize, amount: u256, name: felt252, social: felt252) {
+        fn donate_season(ref self: ContractState, season_id: usize, amount: u32, name: felt252, social: felt252) {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 
             let mut season: Season = world.read_model(season_id);
-            season.assert_donation(amount);
+            season.assert_donation(amount.into());
 
             let chain_id = get_tx_info().unbox().chain_id;
             let address = get_caller_address();
 
             let payment_dispatcher = IERC20Dispatcher { contract_address: SeasonUtilsImpl::get_lords_address(chain_id) };
-            payment_dispatcher.transfer_from(address, season.season_address, amount);
-            season.reward_pool += amount;
+            let amount_with_decimals: u256 = amount.into() * 1000000000000000000;
+            payment_dispatcher.transfer_from(get_caller_address(), season.season_address, amount_with_decimals);
+            season.reward_pool += amount_with_decimals;
 
             let mut donation: Donation = world.read_model((season_id, address));
             donation.name = name;
             donation.social = social;
-            donation.amount += amount;
+            donation.amount += amount_with_decimals;
+            world.write_model(@donation);
 
             world.write_model(@season);
-            world.write_model(@donation);
         }
     }
 }

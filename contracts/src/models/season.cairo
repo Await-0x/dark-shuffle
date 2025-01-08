@@ -52,6 +52,6 @@ impl SeasonOwnerImpl of SeasonOwnerTrait {
 
     fn assert_donation(self: Season, amount: u256) {
         assert(!self.finalized, 'Season has been finalized');
-        assert(amount >= 10000000000000000000, 'Minimum donation is 10 $LORDS');
+        assert(amount >= 10, 'Minimum donation is 10 $LORDS');
     }
 }

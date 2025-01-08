@@ -6,44 +6,24 @@ import { dojoConfig } from '../../dojo.config';
 import { useEffect } from 'react';
 import { getDonations } from '../api/indexer';
 import { useState } from 'react';
-
-
-let DEMO_DONATIONS = [{
-  address: '0x123',
-  name: 'John Doe',
-  social: 'https://x.com/john_doe',
-  amount: 25000
-}, {
-  address: '0x456',
-  name: 'Jane Doe',
-  social: 'https://x.com/jane_doe',
-  amount: 200
-}, {
-  address: '0x789',
-  name: 'John Smith',
-  social: 'https://x.com/john_smith',
-  amount: 300
-}, {
-  address: '0x101',
-  name: '',
-  social: 'https://x.com/jane_smith',
-  amount: 400
-}]
+import AddDonation from '../components/dialogs/addDonation';
+import { hexToAscii } from '@dojoengine/utils';
 
 function DonationPage() {
-  const [donations, setDonations] = useState(DEMO_DONATIONS);
+  const [donations, setDonations] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  async function fetchDonations() {
+    setLoading(true);
+    const donations = await getDonations(dojoConfig.seasonId, page);
+    setDonations(donations);
+    setLoading(false);
+  }
 
   useEffect(() => {
-    async function fetchDonations() {
-      setLoading(true);
-      const donations = await getDonations(dojoConfig.seasonId, page);
-      setDonations(donations);
-      setLoading(false);
-    }
-
-    // fetchDonations();
+    fetchDonations();
   }, []);
 
   return (
@@ -53,7 +33,7 @@ function DonationPage() {
           Donate to the Season Pool
         </Typography>
 
-        <Button variant='outlined' sx={{ fontSize: '14px', letterSpacing: '0.5px', textTransform: 'none' }}>
+        <Button variant='outlined' sx={{ fontSize: '14px', letterSpacing: '0.5px', textTransform: 'none' }} onClick={() => setOpen(true)}>
           + Add Donation
         </Button>
       </Box>
@@ -88,21 +68,25 @@ function DonationPage() {
                 </Box>
 
                 <Box width='250px'>
-                  <Typography>{donation.name || 'Anonymous'}</Typography>
+                  <Typography>{hexToAscii(donation.name) || 'Anonymous'}</Typography>
                 </Box>
 
                 <Box width='250px'>
-                  <Typography>{donation.social}</Typography>
+                  {donation.social !== '0x30' && <Typography>
+                    <a style={{ color: '#fff' }} href={`https://x.com/${hexToAscii(donation.social)}`} target="_blank">https://x.com/{hexToAscii(donation.social)}</a>
+                  </Typography>}
                 </Box>
 
                 <Box width='100px' textAlign={'center'}>
-                  <Typography>{donation.amount.toLocaleString()}</Typography>
+                  <Typography>{(donation.amount / 1e18).toLocaleString()}</Typography>
                 </Box>
               </Box>
             </>
           })
         )}
       </Scrollbars>
+
+      <AddDonation open={open} close={() => setOpen(false)} refresh={() => fetchDonations()} />
     </Box>
   )
 }

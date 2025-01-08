@@ -13,7 +13,7 @@ import { GameContext } from '../../contexts/gameContext';
 import { formatNumber } from '../../helpers/utilities';
 
 function ProfileMenu(props) {
-  const { handleClose, anchorEl, openNameDialog, openGamesDialog } = props
+  const { handleClose, anchorEl, openNameDialog } = props
   const { disconnect } = useDisconnect()
 
   const dojo = useContext(DojoContext)

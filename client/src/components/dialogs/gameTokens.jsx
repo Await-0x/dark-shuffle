@@ -197,7 +197,7 @@ const styles = {
   },
   gamesContainer: {
     width: '360px',
-    maxWidth: '98vw',
+    maxWidth: '100%',
     minHeight: '200px',
     display: 'flex',
     flexDirection: 'column',

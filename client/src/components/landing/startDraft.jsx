@@ -117,6 +117,8 @@ function StartDraft() {
     }
   }
 
+  let currentTime = Date.now() / 1000
+
   return (
     <>
       <MobileView>
@@ -147,10 +149,10 @@ function StartDraft() {
 
           <Box sx={[styles.kpi, { width: '100%', height: '90px', mb: 1 }]}>
             <Typography>
-              {season.values.end > (Date.now() / 1000) ? `Season 0 ${season.values.start > (Date.now() / 1000) ? 'begins in' : 'ends in'}` : 'Season 0'}
+              {season.values.end > currentTime ? `Season 0 ${season.values.start > currentTime ? 'begins in' : 'ends in'}` : 'Season 0'}
             </Typography>
             <Typography variant='h5' color='primary'>
-              {season.values.start > (Date.now() / 1000) ? `${formatTimeUntil(season.values.start)}` : (season.values.end > (Date.now() / 1000) ? `${formatTimeUntil(season.values.end)}` : 'Finished')}
+              {season.values.start > currentTime ? `${formatTimeUntil(season.values.start)}` : (season.values.end > currentTime ? `${formatTimeUntil(season.values.end)}` : 'Finished')}
             </Typography>
           </Box>
 
@@ -158,17 +160,22 @@ function StartDraft() {
             Season 0: New beginnings
           </Typography>
 
-          <LoadingButton variant='outlined' loading={status || !season.values.entryFee} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+          <LoadingButton variant='outlined'
+            loading={status || !season.values.entryFee}
+            onClick={() => beginDraft(true)}
+            sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}
+            disabled={season.values.start > currentTime || season.values.end < currentTime}
+          >
             Play Season
           </LoadingButton>
+
+          <Button disabled={!address} variant='outlined' onClick={() => openGamesDialog(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+            My Games
+          </Button>
 
           <LoadingButton color='secondary' variant='outlined' loading={status} onClick={() => beginDraft(false)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
             Play Demo
           </LoadingButton>
-
-          <Button disabled={!address} color='secondary' variant='outlined' onClick={() => openGamesDialog(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
-            My Games
-          </Button>
 
           <Box width={'100%'} sx={_styles.customBox} mt={1}>
 
@@ -205,10 +212,10 @@ function StartDraft() {
             <Box display='flex' gap={2}>
               <Box sx={[styles.kpi]}>
                 <Typography>
-                  {season.values.end > (Date.now() / 1000) ? `Season 0 ${season.values.start > (Date.now() / 1000) ? 'begins in' : 'ends in'}` : 'Season 0'}
+                  {season.values.end > currentTime ? `Season 0 ${season.values.start > currentTime ? 'begins in' : 'ends in'}` : 'Season 0'}
                 </Typography>
                 {season.values.start ? <Typography variant='h5' color='primary'>
-                  {season.values.start > (Date.now() / 1000) ? `${formatTimeUntil(season.values.start)}` : (season.values.end > (Date.now() / 1000) ? `${formatTimeUntil(season.values.end)}` : 'Finished')}
+                  {season.values.start > currentTime ? `${formatTimeUntil(season.values.start)}` : (season.values.end > currentTime ? `${formatTimeUntil(season.values.end)}` : 'Finished')}
                 </Typography> : <Skeleton variant='text' width={'80%'} height={32} />}
               </Box>
 
@@ -270,7 +277,12 @@ function StartDraft() {
               </ul>
 
               <Box mt={4} display={'flex'} alignItems={'center'} gap={2}>
-                <LoadingButton variant='outlined' loading={status || !season.values.entryFee} onClick={() => beginDraft(true)} sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}>
+                <LoadingButton variant='outlined'
+                  loading={status || !season.values.entryFee}
+                  onClick={() => beginDraft(true)}
+                  sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}
+                  disabled={season.values.start > currentTime || season.values.end < currentTime}
+                >
                   Play Season
                 </LoadingButton>
 
