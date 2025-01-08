@@ -49,7 +49,7 @@ mod game_systems {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 
             let settings: GameSettings = world.read_model(settings_id);
-            assert(settings.start_health != 0, 'Invalid settings');
+            assert(settings.exists(), 'Invalid settings');
 
             let mut world_config: WorldConfig = world.read_model(WORLD_CONFIG_ID);
             world_config.game_count += 1;
