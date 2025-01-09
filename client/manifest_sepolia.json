@@ -1,8 +1,8 @@
 {
   "world": {
     "class_hash": "0x45575a88cc5cef1e444c77ce60b7b4c9e73a01cbbe20926d5a4c72a94011410",
-    "address": "0x581f5394a8d43cebd38eda3d8e4e4f9bfb566c04485ba28cb47393bb0a82fe4",
-    "seed": "darkshuffle5",
+    "address": "0x588a5813d656bea731d3728c117574706a0111aaeba84c43971cc5287850c86",
+    "seed": "darkshuffle6",
     "name": "Dark Shuffle",
     "entrypoints": [
       "uuid",
@@ -1252,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0x38e69b6b8b4a2ae28c06145d0872bc4095d9b3c4e6d557609538be4cf053ca5",
-      "class_hash": "0x40cf56834aa62a52db7e842d6fdf850c42565bf4988c1e33eac23e16e296acf",
+      "address": "0x4da6a81e75994702b42724bd3ca20cefad229ab1ac10df2ac2e187caa073284",
+      "class_hash": "0x62036262e86ff79df1a5d199f81e716b8e7f8b7c368f51c78775559659debed",
       "abi": [
         {
           "type": "impl",
@@ -1472,16 +1472,16 @@
         }
       ],
       "init_calldata": [],
-      "tag": "darkshuffle-battle_systems",
-      "selector": "0x75f1a1576f2aad0c034746529f1bd4657acb549d3cf0e8efe0567d4f440c108",
+      "tag": "darkshuffle_s0-battle_systems",
+      "selector": "0x36ec7b287e52c8113be388f562d5de5f001d5b072f31dbb9ec54b47e459dba",
       "systems": [
         "battle_actions",
         "upgrade"
       ]
     },
     {
-      "address": "0x279aa861a7a7614364a20d189608de86e3f51665f9fb97b15d8f0598073819c",
-      "class_hash": "0x741edc5375647766ec67a394e4adb64d5b1d172b1259852708398eecf7c8fb7",
+      "address": "0x8b9a373942288e661677ca0f5690f92cc2a5ed2fbe107341712f20591ac1d4",
+      "class_hash": "0x427834640981126a1b71d447d760692b48c11bc5f965e34dee11b34df51cdf5",
       "abi": [
         {
           "type": "impl",
@@ -1730,8 +1730,8 @@
         }
       ],
       "init_calldata": [],
-      "tag": "darkshuffle-config_systems",
-      "selector": "0x17b160998cec5832a1a98c4a6eedb648a852a847d4b05952611b6c6cf5fa6fe",
+      "tag": "darkshuffle_s0-config_systems",
+      "selector": "0x7b252dba28ce7976adf52a353f0e7224eecbc2387dfc5ad61039378be025236",
       "systems": [
         "create_game_settings",
         "set_game_token_address",
@@ -1739,8 +1739,8 @@
       ]
     },
     {
-      "address": "0x6b163a1a3d4b790feb11055923d1dbf6fd0eea036bdc06b20226231d274f5ed",
-      "class_hash": "0x53c1920c48349fcb0a6643ea6f3771c7187df27219523347b93a96e51e5778c",
+      "address": "0x496abd395a5172d396fb1e540d8f0cf10871b8ed8c9060cdb72b11fd6628e8c",
+      "class_hash": "0x22332b78034245d3434fa3b7b14d68740e012449044417652edd9faad3c3362",
       "abi": [
         {
           "type": "impl",
@@ -1935,16 +1935,16 @@
         }
       ],
       "init_calldata": [],
-      "tag": "darkshuffle-draft_systems",
-      "selector": "0x22c64f2ab3e4e550d92fed2bd5f2b60c590b5b49a6d9aded921ddd5c22a091b",
+      "tag": "darkshuffle_s0-draft_systems",
+      "selector": "0x40005899756073e33299c53398902f22e35bf490e3d31f9cb6f40684ed8a540",
       "systems": [
         "pick_card",
         "upgrade"
       ]
     },
     {
-      "address": "0x77c40514d31a722a10961a141d7bbbd479c26c7ba6facab6ae3c11925720465",
-      "class_hash": "0x2ab308667397978a612446779e48f647605b3ee7f33d616aae83ee099320ac4",
+      "address": "0x6ffe42441b3d296ccbea39ac2511d2ad5fae48f262590d7cb1a082e15cf88e0",
+      "class_hash": "0x173f18d58cb19e4d694fc039260fe27dd65395b417922cbd007825fa5b985a0",
       "abi": [
         {
           "type": "impl",
@@ -2054,6 +2054,108 @@
           ]
         },
         {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::integer::u256",
+          "members": [
+            {
+              "name": "low",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "high",
+              "type": "core::integer::u128"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "darkshuffle::models::game::GameState",
+          "variants": [
+            {
+              "name": "Draft",
+              "type": "()"
+            },
+            {
+              "name": "Battle",
+              "type": "()"
+            },
+            {
+              "name": "Map",
+              "type": "()"
+            },
+            {
+              "name": "Over",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "darkshuffle::models::game::Game",
+          "members": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "season_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "player_name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "state",
+              "type": "darkshuffle::models::game::GameState"
+            },
+            {
+              "name": "hero_health",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "hero_xp",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "monsters_slain",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "map_level",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "map_depth",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "last_node_id",
+              "type": "core::integer::u8"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<darkshuffle::models::game::Game>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<darkshuffle::models::game::Game>"
+            }
+          ]
+        },
+        {
           "type": "interface",
           "name": "darkshuffle::systems::game::contracts::IGameContract",
           "items": [
@@ -2157,6 +2259,50 @@
               "outputs": [
                 {
                   "type": "core::bool"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "get_game_data",
+              "inputs": [
+                {
+                  "name": "token_id",
+                  "type": "core::integer::u128"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "(core::felt252, core::integer::u8, core::integer::u16, core::integer::u32, core::integer::u8, core::array::Span::<core::felt252>)"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "get_player_games",
+              "inputs": [
+                {
+                  "name": "player_address",
+                  "type": "core::starknet::contract_address::ContractAddress"
+                },
+                {
+                  "name": "limit",
+                  "type": "core::integer::u256"
+                },
+                {
+                  "name": "page",
+                  "type": "core::integer::u256"
+                },
+                {
+                  "name": "active",
+                  "type": "core::bool"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "core::array::Span::<darkshuffle::models::game::Game>"
                 }
               ],
               "state_mutability": "view"
@@ -2279,8 +2425,8 @@
         }
       ],
       "init_calldata": [],
-      "tag": "darkshuffle-game_systems",
-      "selector": "0x289f5c0676054e419cd1994b6d88498da5add073e09ec4a1016d59bc74b988e",
+      "tag": "darkshuffle_s0-game_systems",
+      "selector": "0x1a77b9e09c653e0a73161661bb5347687e4458f8084f4fe6ed897d4b0881dea",
       "systems": [
         "mint",
         "enter_season",
@@ -2290,8 +2436,8 @@
       ]
     },
     {
-      "address": "0x71f0eea6300a371346cb0e229f7e8874f86fb8ff0f926dd9be950eed23cbf9",
-      "class_hash": "0x2469312ba62766bec89c007c6b8b4a09eb5738155d87c7e9205cb3f7640a0dd",
+      "address": "0x13667eda0e1c2ed2f850695bac44a519e7995defefe1d005a3a11e730fd4963",
+      "class_hash": "0x625006a7bd508d9defac802092e12a3c372fbea6f9ff81d851124201aab9ef8",
       "abi": [
         {
           "type": "impl",
@@ -2498,8 +2644,8 @@
         }
       ],
       "init_calldata": [],
-      "tag": "darkshuffle-map_systems",
-      "selector": "0x42ce15e9786cc3f4b414b85949c185515724df602038b40b7114fde29273d30",
+      "tag": "darkshuffle_s0-map_systems",
+      "selector": "0x2c137e0c6ddd00449f492e07b4588b812669ec70d84835a0256f6796feae24c",
       "systems": [
         "generate_tree",
         "select_node",
@@ -2507,8 +2653,8 @@
       ]
     },
     {
-      "address": "0x236cdd20453e498280f667a1961f7588e0f45b12b2ee8ebe68846aa68478c3b",
-      "class_hash": "0x27444a9ba9c81fbc3b6e00b6ff3debbc460a1b7e869bf34eda7acc97865d0a9",
+      "address": "0x23a4be660ef6c099189be2ba2af81da5ac1a51fcb74a038502ed3431ba9e068",
+      "class_hash": "0x10d53b2ee6cad7abc60e3da8dfb4ac0c9f7b0664c4b6148c6f20b21b4667940",
       "abi": [
         {
           "type": "impl",
@@ -2629,7 +2775,7 @@
                 },
                 {
                   "name": "amount",
-                  "type": "core::integer::u256"
+                  "type": "core::integer::u32"
                 },
                 {
                   "name": "name",
@@ -2761,8 +2907,8 @@
         }
       ],
       "init_calldata": [],
-      "tag": "darkshuffle-season_systems",
-      "selector": "0x22c760ac7dee58d9d6a84cd0f9e4606c8239d445a1d9619611813323bd78a47",
+      "tag": "darkshuffle_s0-season_systems",
+      "selector": "0x464b0fd10a93213489ba77a7c658fe3e014fac9c6209a5e70ab36498de032e9",
       "systems": [
         "start_season",
         "end_season",
@@ -2775,88 +2921,82 @@
     {
       "members": [],
       "class_hash": "0x8f75686dd35cef67800f2ad857be327719dbb9d035a0f3e34da4f02a0be592",
-      "tag": "darkshuffle-Battle",
-      "selector": "0x6adbb0ba14306ee0120e0aafaa59e98f44bf1b897edbfa1af89386d5ca26fe1"
+      "tag": "darkshuffle_s0-Battle",
+      "selector": "0x10cb45beda7269a244b32796909d9a706a2d77b02cd11beb5a2b1213fdd8b52"
     },
     {
       "members": [],
       "class_hash": "0x657074738ef37b1593f3cdc4ec1ec5f02b9c8a81097e4513bb674d745a211f1",
-      "tag": "darkshuffle-Board",
-      "selector": "0x359638a3b7e5908f2efe696ef928787916140c8bb3ce20b956a1fb37ddc0957"
+      "tag": "darkshuffle_s0-Board",
+      "selector": "0x6947dbbdea156abd55ef96d5e0bf481b252e962ccf2e865f34813ffea244c2"
     },
     {
       "members": [],
       "class_hash": "0x7aea14df7168edcc7b30bc18df761ec642b32602529cc3b0d23c2f14570421f",
-      "tag": "darkshuffle-Donation",
-      "selector": "0x3b354b9250e73d0cf4ede2ec5b16371a24e373a01ff1d52b2594cda528010dd"
+      "tag": "darkshuffle_s0-Donation",
+      "selector": "0x6c2e05aa49e15fb476ee4380ea9de2310547548aed8c6c0aa5fa4a1c2ef4ee2"
     },
     {
       "members": [],
       "class_hash": "0x399dfb33472fd39e36b2f7b60eb7cb199b969d8f1f7e3b4365b162aace8e207",
-      "tag": "darkshuffle-Draft",
-      "selector": "0x2febb181a7f6e5196432f8079e21fb0fdacc61b9a78805402d318c49133b66e"
+      "tag": "darkshuffle_s0-Draft",
+      "selector": "0x770912d6a6bffb95b582d75847f838ca4310a78275b8826154e739cd34add31"
     },
     {
       "members": [],
       "class_hash": "0x1cca2f66524922db9c09fd523202d4ad1321812d732e1b0a7fccf5a840d08e3",
-      "tag": "darkshuffle-Game",
-      "selector": "0x1a3b9b6c5802b83d9a8a21a24d6472b1a47b0529b4b6c805f26f744c22a35a9"
+      "tag": "darkshuffle_s0-Game",
+      "selector": "0x3ab7bb3976da62ba9aa828bb64fb1f0fe2f7009c40aa54a504c07e9f49b9636"
     },
     {
       "members": [],
       "class_hash": "0xe476a96bd592cb28389eae29b9a75c5a4ba6c7d2d782a571673c53d9149429",
-      "tag": "darkshuffle-GameEffects",
-      "selector": "0x1c0e9539fbce953b02e41710151458afe69463e676129a87998ab3ad86568da"
+      "tag": "darkshuffle_s0-GameEffects",
+      "selector": "0x2f2be3d266e214c64d48769d90ea982070b29f270f48f4bd25d1997ce16562e"
     },
     {
       "members": [],
       "class_hash": "0x240e2fbb4909e3c5ad871504734f22e14a051bd40bce9fcf8cd888f0488a68c",
-      "tag": "darkshuffle-GameSettings",
-      "selector": "0x205a63fc9217f11980c57e0ff385aec5679b772ef7bb5f361cc5645b2fa6d2c"
+      "tag": "darkshuffle_s0-GameSettings",
+      "selector": "0x1876f1040b33843987ee0bcc1275d20fa8efc01ff5e55d5ed0c4a142f08360"
     },
     {
       "members": [],
       "class_hash": "0x1d47067e8bbe8669955710f39fd8f5f1f0c9720e2f270b808e7dc806cbb709b",
-      "tag": "darkshuffle-Leaderboard",
-      "selector": "0xdbeecd6ebdc49d0c7692b3576e074dfa43fcd48c6b060ca8f7379b672e390e"
+      "tag": "darkshuffle_s0-Leaderboard",
+      "selector": "0x3f9a80280d5c1b9f65cb12beb39cfe8e1ab443ce93deb094a739a967fd2af39"
     },
     {
       "members": [],
       "class_hash": "0x5b714980f7fd65b81ca2d696e55ba74c34b7b5503611b11898228f47986b5ee",
-      "tag": "darkshuffle-Map",
-      "selector": "0x744824e25bd8d5b415e9c6ced8c275711f104d630199321aa62931e9519c61f"
+      "tag": "darkshuffle_s0-Map",
+      "selector": "0x360f701df745ddf6d2537f33d3056e7c85aaba16e03f4b3e1f3bb2db76a4d2a"
     },
     {
       "members": [],
       "class_hash": "0x31ece662f05778ddeedf55b1ff9744282f050f2bf134e39c1242cffd405c35f",
-      "tag": "darkshuffle-Season",
-      "selector": "0x28c4cd34d5c7b81b84b329dbd437cb86ed946217214a2f6c67f49506b4c26e"
+      "tag": "darkshuffle_s0-Season",
+      "selector": "0x2738f2cda6ed5dfe18f09113568187d30bcfe62e652655c5b093bf9f3f861a1"
     },
     {
       "members": [],
       "class_hash": "0x4d3f1fb5f7447c51ca354980a54e00253cc5a34c4e9964d89c098fc5d0b1a3e",
-      "tag": "darkshuffle-WorldConfig",
-      "selector": "0x5614b3f0305345b8f6e4cc3b30f027e99113e63e5bd6edfa347a6a3cc3b0f7"
+      "tag": "darkshuffle_s0-WorldConfig",
+      "selector": "0x23b9d02ef49e051885de2f7b77c8cab7e062285b69bc623a189413be27bf1c3"
     }
   ],
   "events": [
     {
       "members": [],
-      "class_hash": "0x79ca95d81ad3ccadbb410e411f35150ab86ade5d64923adc2511c4822485773",
-      "tag": "darkshuffle-GameStartEvent",
-      "selector": "0x3ebc44821229495560ec2b531f66906c481a645e6015c12d7d1caf7a080ae0a"
-    },
-    {
-      "members": [],
       "class_hash": "0x6b38999d987627835d4c20e7e571c73d32ddc856786d9790a131bdb3372a246",
-      "tag": "darkshuffle-TrophyCreation",
-      "selector": "0x797553ddedf6c064065fdd0e3753bb3166564d0b94a7d6995812d90569200ea"
+      "tag": "darkshuffle_s0-TrophyCreation",
+      "selector": "0x4dad0cc116800ca38589df42f7817fff3183c89d6db464d798c0f909a160372"
     },
     {
       "members": [],
       "class_hash": "0xf05f290a704ad2671544b391f0c33d50d6d43d468d52791282852a833a00c7",
-      "tag": "darkshuffle-TrophyProgression",
-      "selector": "0x6dbfa6496a8679db6f9855831fa80145939540d2f7136a6d6eb10644a4e1f13"
+      "tag": "darkshuffle_s0-TrophyProgression",
+      "selector": "0x542d8a36883192f5307c75438e0666d0936c89812d49ae184aeac6e826ca6a4"
     }
   ]
 }

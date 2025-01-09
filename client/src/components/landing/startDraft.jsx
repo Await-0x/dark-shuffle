@@ -20,6 +20,7 @@ import StartGameDialog from '../dialogs/startGame'
 import Leaderboard from './leaderboard'
 import Monsters from './monsters'
 import { DojoContext } from '../../contexts/dojoContext'
+import StartSeason from '../dialogs/startSeason'
 
 function StartDraft() {
   const season = useSeason()
@@ -35,6 +36,8 @@ function StartDraft() {
   const [showWarnings, setShowWarnings] = useState(false)
   const [gamesDialog, openGamesDialog] = useState(false)
   const [reconnecting, setReconnecting] = useState(false)
+
+  const [startSeasonDialog, openStartSeasonDialog] = useState(false)
 
   async function beginDraft(isSeason) {
     if (isSeason) {
@@ -169,7 +172,7 @@ function StartDraft() {
 
           <LoadingButton variant='outlined'
             loading={status || !season.values.entryFee}
-            onClick={() => beginDraft(true)}
+            onClick={() => openStartSeasonDialog(true)}
             sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}
             disabled={season.values.start > currentTime || season.values.end < currentTime}
           >
@@ -286,7 +289,7 @@ function StartDraft() {
               <Box mt={4} display={'flex'} alignItems={'center'} gap={2}>
                 <LoadingButton variant='outlined'
                   loading={status || !season.values.entryFee}
-                  onClick={() => beginDraft(true)}
+                  onClick={() => openStartSeasonDialog(true)}
                   sx={{ fontSize: '20px', letterSpacing: '2px', textTransform: 'none' }}
                   disabled={season.values.start > currentTime || season.values.end < currentTime}
                 >
@@ -315,6 +318,7 @@ function StartDraft() {
         </Box >
       </BrowserView>
 
+      {startSeasonDialog && <StartSeason open={startSeasonDialog} close={openStartSeasonDialog} start={() => beginDraft(true)} />}
       {status && <StartGameDialog status={status} isSeason={showWarnings} />}
       {gamesDialog && <GameTokens open={gamesDialog} close={openGamesDialog} address={address} resumeGame={resumeGame} startGame={startGame} />}
       {reconnecting && <ReconnectDialog close={() => setReconnecting(false)} />}
