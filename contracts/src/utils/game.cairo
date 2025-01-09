@@ -157,11 +157,20 @@ impl GameUtilsImpl of GameUtilsTrait {
             BattleUtilsImpl::heal_hero(ref battle, 20);
         }
 
-        else if battle.monster.monster_id == 31 || battle.monster.monster_id == 36 || battle.monster.monster_id == 41 {
+        else if battle.monster.monster_id == 31 || battle.monster.monster_id == 32 || battle.monster.monster_id == 33 ||
+                battle.monster.monster_id == 34 || battle.monster.monster_id == 35 || battle.monster.monster_id == 36 ||
+                battle.monster.monster_id == 37 || battle.monster.monster_id == 38 || battle.monster.monster_id == 39 ||
+                battle.monster.monster_id == 40 || battle.monster.monster_id == 41 || battle.monster.monster_id == 42 ||
+                battle.monster.monster_id == 43 || battle.monster.monster_id == 44 || battle.monster.monster_id == 45
+        {
             BattleUtilsImpl::heal_hero(ref battle, 15);
         }
         
-        else if battle.monster.monster_id == 46 || battle.monster.monster_id == 51 || battle.monster.monster_id == 56 {
+        else if battle.monster.monster_id == 46 || battle.monster.monster_id == 47 || battle.monster.monster_id == 48 ||
+                battle.monster.monster_id == 49 || battle.monster.monster_id == 50 || battle.monster.monster_id == 51 ||
+                battle.monster.monster_id == 52 || battle.monster.monster_id == 53 || battle.monster.monster_id == 54 ||
+                battle.monster.monster_id == 56
+        {
             BattleUtilsImpl::heal_hero(ref battle, 10);
         }
         
