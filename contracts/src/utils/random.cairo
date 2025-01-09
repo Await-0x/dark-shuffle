@@ -1,4 +1,4 @@
-use starknet::{get_block_timestamp, get_tx_info, ContractAddress, contract_address_const, get_contract_address};
+use starknet::{get_block_timestamp, get_tx_info, ContractAddress, contract_address_const, get_caller_address};
 use cartridge_vrf::{IVrfProviderDispatcher, IVrfProviderDispatcherTrait, Source};
 
 use core::{
@@ -15,7 +15,7 @@ fn get_random_hash() -> felt252 {
     let chain_id = get_tx_info().unbox().chain_id;
     if chain_id == MAINNET_CHAIN_ID || chain_id == SEPOLIA_CHAIN_ID {
         let vrf_provider = IVrfProviderDispatcher { contract_address: get_vrf_address() };
-        return vrf_provider.consume_random(Source::Nonce(get_contract_address()));
+        return vrf_provider.consume_random(Source::Nonce(get_caller_address()));
     }
 
     let current_timestamp = get_block_timestamp();

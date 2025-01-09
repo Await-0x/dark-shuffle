@@ -69,7 +69,7 @@ export const DojoProvider = ({ children }) => {
         entrypoint: 'request_random',
         calldata: CallData.compile({
           caller: contractAddress,
-          source: { type: 0, address: contractAddress }
+          source: { type: 0, address: account.address }
         })
       })
     }
