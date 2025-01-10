@@ -254,7 +254,7 @@ export const CARD_DETAILS = (cardId, id) => {
         cost: 2,
         attack: 5,
         health: 3,
-        text: "When Played: Gains +2 health if another Brute ally is in play. Deals an additional 3 damage to Hunters when it attacks"
+        text: "When Played: Gains +2 health if another Brute ally is in play."
       };
 
     case 15:
