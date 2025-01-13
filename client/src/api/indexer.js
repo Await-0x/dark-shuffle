@@ -276,3 +276,4 @@ export async function getDonations(seasonId, page) {
 
   return res?.darkshuffleS0DonationModels?.edges.map(edge => edge.node) || [];
 }
+

@@ -112,6 +112,11 @@ export const DraftProvider = ({ children }) => {
           fetchDraft
         },
 
+        update: {
+          setOptions,
+          setCards
+        },
+
         getState: {
           cards,
           options,

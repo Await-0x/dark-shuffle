@@ -15,6 +15,7 @@ export const GAME_STATES = {
 const GAME_VALUES = {
   gameId: null,
   state: GAME_STATES[3],
+  replay: false
 }
 
 export const GameProvider = ({ children }) => {
