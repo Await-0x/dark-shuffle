@@ -60,7 +60,7 @@ const cartridge = new ControllerConnector({
     },
   ],
   namespace: dojoConfig.namespace,
-  slot: "darkshuffle-mainnet",
+  slot: "darkshuffle-mainnet-2",
   theme: "dark-shuffle",
   rpc: dojoConfig.rpcUrl,
   colorMode: "dark",
