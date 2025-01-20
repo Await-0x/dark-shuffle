@@ -114,7 +114,7 @@ function Hand() {
                 onHand={true}
                 energy={values.heroEnergy}
                 cost={battle.utils.getCardCost(card)}
-                played={replay.getPlayedCards().includes(card.cardId)}
+                played={replay.getPlayedCards()?.includes(card.cardId)}
               />
 
             </motion.div>

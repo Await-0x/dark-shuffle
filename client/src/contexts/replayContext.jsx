@@ -81,6 +81,8 @@ export const ReplayProvider = ({ children }) => {
   }
 
   const nextStep = async () => {
+    if (!translatedEvents[step + 1]) return;
+
     if (step < txHashes.length - 1) {
       setStep(prev => prev + 1)
     } else {
@@ -100,6 +102,10 @@ export const ReplayProvider = ({ children }) => {
     const gameValues = events.find(e => e.componentName === 'Game')
     if (gameValues) {
       game.setGame({ ...gameValues, replay: true })
+
+      if (gameValues.heroHealth < 1) {
+        game.setScore(Math.max(1, gameValues.heroXp))
+      }
     }
 
     const draftValues = events.find(e => e.componentName === 'Draft')

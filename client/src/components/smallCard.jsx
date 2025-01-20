@@ -6,10 +6,10 @@ import sword from '../assets/images/sword.png';
 import { fetch_beast_image, types } from "../helpers/cards";
 
 function SmallCard(props) {
-  const { card, showStats, cost, onHand, energy } = props
+  const { card, showStats, cost, onHand, energy, played } = props
   const playable = onHand && cost <= energy
 
-  return <Box sx={[styles.container]} gap={isMobile ? 0.5 : 1}>
+  return <Box sx={[styles.container, played && { border: '2px solid green' }]} gap={isMobile ? 0.5 : 1}>
 
     <Box sx={styles.header}>
       <Box sx={[styles.circle, { opacity: playable ? 1 : 0.5 }]} border={'1px solid #FFE97F'}>

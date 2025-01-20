@@ -1,3 +1,4 @@
+import TheatersIcon from '@mui/icons-material/Theaters';
 import MovieIcon from '@mui/icons-material/Movie';
 import { Box, Tab, Tabs, Typography, Pagination, Button } from '@mui/material'
 import React, { useState } from 'react'
@@ -90,7 +91,7 @@ function Leaderboard() {
               <Box sx={styles.row}>
                 <Box width='30px' textAlign={'center'}>
                   <Button onClick={() => replay.startReplay(player.game_id)}>
-                    <MovieIcon />
+                    <TheatersIcon fontSize='small' />
                   </Button>
                 </Box>
 

@@ -10,11 +10,11 @@ import { tierColors } from '../helpers/constants';
 
 function Card(props) {
   const { card, pendingCard, draftIndex, replaySelection } = props
-
+  
   return <Box sx={[
     styles.container,
     { opacity: (pendingCard >= 0 && pendingCard !== draftIndex) ? 0.3 : 1 },
-    replaySelection === draftIndex && { border: '1px solid #FFE97F' }
+    (replaySelection !== undefined && replaySelection === draftIndex) && { border: '1px solid #FFE97F' }
   ]} p={isMobile ? 1 : 1.5} pt={isMobile ? 0.5 : 1.5}>
 
     <Box sx={styles.header}>
