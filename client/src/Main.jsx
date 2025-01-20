@@ -19,6 +19,7 @@ import MobileHeader from './components/mobileHeader';
 import { AnimationHandler } from "./contexts/animationHandler";
 import { StarknetProvider } from "./contexts/starknet";
 import { ReplayProvider } from './contexts/replayContext';
+import ReplayOverlay from './components/replayOverlay';
 
 function Main() {
   const [connectWallet, showConnectWallet] = useState(false)
@@ -39,9 +40,10 @@ function Main() {
                         <GameProvider>
                           <DraftProvider>
                             <BattleProvider>
-                              <ReplayProvider>
+                              <ReplayProvider showConnectWallet={showConnectWallet}>
 
                                 <Box className='main'>
+                                  <ReplayOverlay />
                                   {isBrowser && <Header connectWallet={connectWallet} showConnectWallet={showConnectWallet} />}
                                   {isMobile && <MobileHeader connectWallet={connectWallet} showConnectWallet={showConnectWallet} />}
 

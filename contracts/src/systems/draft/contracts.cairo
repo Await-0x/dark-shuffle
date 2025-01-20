@@ -5,11 +5,12 @@ trait IDraftContract<T> {
 
 #[dojo::contract]
 mod draft_systems {
+    use dojo::event::EventStorage;
     use dojo::model::ModelStorage;
     use dojo::world::WorldStorage;
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
-    use darkshuffle::models::game::{Game, GameOwnerTrait, GameState};
+    use darkshuffle::models::game::{Game, GameOwnerTrait, GameState, GameActionEvent};
     use darkshuffle::models::draft::{Draft, DraftOwnerTrait};
     use darkshuffle::models::config::{GameSettings};
     use darkshuffle::utils::{
@@ -32,9 +33,11 @@ mod draft_systems {
             draft.add_card(*draft.options.at(option_id.into()));
 
             let game_settings: GameSettings = ConfigUtilsImpl::get_game_settings(world, game_id);
+            let current_draft_size = draft.cards.len();
 
-            if draft.cards.len() == game_settings.draft_size.into() {
+            if current_draft_size == game_settings.draft_size.into() {
                 game.state = GameState::Map;
+                game.action_count = current_draft_size.try_into().unwrap();
                 world.write_model(@game);
             } else {
                 let random_hash = random::get_random_hash();
@@ -43,6 +46,7 @@ mod draft_systems {
             }
 
             world.write_model(@draft);
+            world.emit_event(@GameActionEvent {game_id, tx_hash: starknet::get_tx_info().unbox().transaction_hash, count: current_draft_size.try_into().unwrap()});
         }
     }
 }

@@ -11,10 +11,12 @@ import { GameContext } from '../../contexts/gameContext';
 import { CardSize, fetch_beast_image, fetchBeastTypeImage } from '../../helpers/cards';
 import { LargeCustomTooltip } from '../../helpers/styles';
 import { isMobile } from 'react-device-detect';
+import { useReplay } from '../../contexts/replayContext';
 
 const INACTIVE_OPACITY = 0.5
 
 function Structure(props) {
+  const replay = useReplay()
   const game = useContext(GameContext)
 
   const { map } = game.getState
@@ -113,6 +115,10 @@ function Structure(props) {
   }
 
   function nodeStyle(node) {
+    if (game.values.replay && node.nodeId === replay.getMapSelection()) {
+      return { opacity: 1, borderColor: 'green' }
+    }
+
     if (node.active || node.status !== 0) {
       return { opacity: 1, borderColor: '#FFE97F' }
     }

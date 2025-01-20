@@ -1,4 +1,5 @@
-import { Box, Tab, Tabs, Typography, Pagination } from '@mui/material'
+import MovieIcon from '@mui/icons-material/Movie';
+import { Box, Tab, Tabs, Typography, Pagination, Button } from '@mui/material'
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { getLeaderboard } from '../../api/indexer';
@@ -8,9 +9,12 @@ import { dojoConfig } from '../../../dojo.config';
 import { isMobile } from 'react-device-detect';
 import { formatNumber } from '../../helpers/utilities';
 import { useSeason } from "../../contexts/seasonContext";
+import { useReplay } from '../../contexts/replayContext';
 
 function Leaderboard() {
   const season = useSeason()
+  const replay = useReplay()
+
   const [leaderboard, setLeaderboard] = useState([]);
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
@@ -58,6 +62,9 @@ function Leaderboard() {
       </Tabs>
 
       <Box sx={styles.header}>
+        <Box width='30px' textAlign={'center'}>
+        </Box>
+
         <Box width='50px' textAlign={'center'}>
           <Typography>Rank</Typography>
         </Box>
@@ -78,9 +85,15 @@ function Leaderboard() {
         {!loading && React.Children.toArray(
           leaderboard.map((player, i) => {
             let rank = (page - 1) * 10 + i + 1
-            let prize = prizeDistribution[i]
+
             return <>
               <Box sx={styles.row}>
+                <Box width='30px' textAlign={'center'}>
+                  <Button onClick={() => replay.startReplay(player.game_id)}>
+                    <MovieIcon />
+                  </Button>
+                </Box>
+
                 <Box width='50px' textAlign={'center'}>
                   <Typography>{rank}</Typography>
                 </Box>
@@ -127,6 +140,7 @@ const styles = {
   row: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
     p: 1,
     opacity: 0.9
   }

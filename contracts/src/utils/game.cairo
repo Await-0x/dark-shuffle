@@ -29,6 +29,8 @@ impl GameUtilsImpl of GameUtilsTrait {
         let map: Map = world.read_model((game.game_id, game.map_level));
         let monster_node: MonsterNode = MapUtilsImpl::get_monster_node(map, game.last_node_id);
 
+        game.action_count += battle.round.into();
+
         if battle.hero.health == 0 {
             Self::battle_lost(ref world, ref battle, ref game, monster_node);
         } else if battle.monster.health == 0 {

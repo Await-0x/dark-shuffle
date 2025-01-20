@@ -29,7 +29,7 @@ mod game_systems {
     use starknet::{get_caller_address, get_tx_info, ContractAddress};
 
     use darkshuffle::constants::{WORLD_CONFIG_ID, MAINNET_CHAIN_ID, SEPOLIA_CHAIN_ID, DEFAULT_NS, LAST_NODE_DEPTH};
-    use darkshuffle::models::game::{Game, GameState, GameOwnerTrait};
+    use darkshuffle::models::game::{Game, GameState, GameOwnerTrait, GameActionEvent};
     use darkshuffle::models::battle::{Card};
     use darkshuffle::models::draft::{Draft};
     use darkshuffle::models::config::{WorldConfig, GameSettings, GameSettingsTrait};
@@ -110,6 +110,7 @@ mod game_systems {
             let seed: u128 = random::get_entropy(random_hash);
             let options = DraftUtilsImpl::get_draft_options(seed); 
             let season_id = game_token.season_pass(game_id.into());
+            let action_count = 0;
 
             world.write_model(@Game {
                 game_id,
@@ -124,6 +125,8 @@ mod game_systems {
                 map_level: 0,
                 map_depth: LAST_NODE_DEPTH,
                 last_node_id: 0,
+
+                action_count,
             });
 
             world.write_model(@Draft {
@@ -131,6 +134,8 @@ mod game_systems {
                 options,
                 cards: array![].span()
             });
+
+            world.emit_event(@GameActionEvent {game_id, tx_hash: starknet::get_tx_info().unbox().transaction_hash, count: action_count});
         }
 
         fn abandon_game(ref self: ContractState, game_id: u128) {
@@ -141,6 +146,7 @@ mod game_systems {
 
             game.state = GameState::Over;
             game.hero_health = 0;
+            game.action_count += 1;
 
             let mut season: Season = world.read_model(game.season_id);
             if season.season_id != 0 && season.is_active() {
@@ -148,6 +154,7 @@ mod game_systems {
             }
 
             world.write_model(@game);
+            world.emit_event(@GameActionEvent {game_id, tx_hash: starknet::get_tx_info().unbox().transaction_hash, count: game.action_count});
         }
 
         fn score(self: @ContractState, game_id: u128) -> u16 {

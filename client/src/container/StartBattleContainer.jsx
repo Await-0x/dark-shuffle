@@ -14,18 +14,24 @@ import { GameContext } from '../contexts/gameContext';
 import { LAST_NODE_LEVEL } from '../helpers/constants';
 import { fadeVariant } from "../helpers/variants";
 import { DojoContext } from '../contexts/dojoContext';
+import { useReplay } from '../contexts/replayContext';
 
 function StartBattleContainer() {
   const dojo = useContext(DojoContext)
   const game = useContext(GameContext)
   const battle = useContext(BattleContext)
+  const replay = useReplay();
 
   const [cardOverview, setCardOverview] = useState(false)
   const [selectingNode, setSelectingNode] = useState(false)
 
   useEffect(() => {
     if (game.values.mapDepth === LAST_NODE_LEVEL) {
-      game.actions.generateMap()
+      if (game.values.replay) {
+        replay.nextStep();
+      } else {
+        game.actions.generateMap()
+      }
     }
   }, [game.values.mapDepth])
 
