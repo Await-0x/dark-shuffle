@@ -148,7 +148,7 @@ impl GameUtilsImpl of GameUtilsTrait {
         }
 
         // Heal rewards
-        else if battle.monster.monster_id < 30
+        else if battle.monster.monster_id > 3 && battle.monster.monster_id < 30
         {
             BattleUtilsImpl::heal_hero(ref battle, 20);
         }
