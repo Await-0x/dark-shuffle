@@ -73,6 +73,10 @@ export const DraftProvider = ({ children }) => {
   }
 
   const selectCard = async (optionId) => {
+    if (game.values.replay) {
+      return
+    }
+
     setPendingCard(optionId)
 
     if (game.values.isDemo) {

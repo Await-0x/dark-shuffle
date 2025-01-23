@@ -26,16 +26,16 @@ function StartBattleContainer() {
   const [selectingNode, setSelectingNode] = useState(false)
 
   useEffect(() => {
-    if (game.values.mapDepth === LAST_NODE_LEVEL) {
-      if (game.values.replay) {
-        replay.nextStep();
-      } else {
-        game.actions.generateMap()
-      }
+    if (game.values.mapDepth === LAST_NODE_LEVEL && !game.values.replay) {
+      game.actions.generateMap()
     }
   }, [game.values.mapDepth])
 
   const selectNode = async (nodeId) => {
+    if (game.values.replay) {
+      return
+    }
+
     setSelectingNode(true)
     const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "select_node", calldata: [game.values.gameId, nodeId] }], true)
 

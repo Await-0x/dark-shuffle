@@ -1,9 +1,9 @@
 import TheatersIcon from '@mui/icons-material/Theaters';
-import MovieIcon from '@mui/icons-material/Movie';
-import { Box, Tab, Tabs, Typography, Pagination, Button } from '@mui/material'
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Box, Tab, Tabs, Typography, Pagination, Button, IconButton } from '@mui/material'
 import React, { useState } from 'react'
 import { useEffect } from 'react';
-import { getLeaderboard } from '../../api/indexer';
+import { getActiveLeaderboard, getLeaderboard } from '../../api/indexer';
 import { hexToAscii } from '@dojoengine/utils';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { dojoConfig } from '../../../dojo.config';
@@ -36,7 +36,12 @@ function Leaderboard() {
     async function fetchLeaderboard() {
       setLoading(true)
 
-      const data = await getLeaderboard(dojoConfig.seasonId, page - 1)
+      let data = []
+      if (tab === 'one') {
+        data = await getLeaderboard(dojoConfig.seasonId, page - 1)
+      } else {
+        data = await getActiveLeaderboard(dojoConfig.seasonId, page - 1)
+      }
 
       setLeaderboard(data ?? [])
       setLoading(false)
@@ -56,6 +61,7 @@ function Leaderboard() {
         onChange={changeLeaderboard}
       >
         <Tab value={'one'} label="Season" />
+        <Tab value={'two'} label="Active" />
 
         <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'flex-end' }}>
           <Pagination count={10} shape="rounded" color='primary' size='small' page={page} onChange={handleChange} />
@@ -75,7 +81,9 @@ function Leaderboard() {
         </Box>
 
         <Box width='80px' textAlign={'center'}>
-          <Typography>Score</Typography>
+          <Typography>
+            {tab === 'one' ? 'Score' : 'XP'}
+          </Typography>
         </Box>
         <Box width='55px' textAlign={'center'}></Box>
       </Box>
@@ -89,10 +97,14 @@ function Leaderboard() {
 
             return <>
               <Box sx={styles.row}>
-                <Box width='30px' textAlign={'center'}>
-                  <Button onClick={() => replay.startReplay(player.game_id)}>
-                    <TheatersIcon fontSize='small' />
-                  </Button>
+                <Box width='25px' textAlign={'center'}>
+                  {tab === 'one' && <IconButton onClick={() => replay.startReplay(player.game_id)}>
+                    <TheatersIcon fontSize='small' color='primary' />
+                  </IconButton>}
+
+                  {tab === 'two' && <IconButton onClick={() => replay.spectateGame(player.game_id)}>
+                    <VisibilityIcon fontSize='small' color='primary' />
+                  </IconButton>}
                 </Box>
 
                 <Box width='50px' textAlign={'center'}>
@@ -108,7 +120,7 @@ function Leaderboard() {
                 </Box>
 
                 <Box width='55px' display={'flex'} gap={0.5} alignItems={'center'}>
-                  {rank < 11 && <>
+                  {tab === 'one' && rank < 11 && <>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFE97F" height={12}><path d="M0 12v2h1v2h6V4h2v12h6v-2h1v-2h-2v2h-3V4h2V0h-2v2H9V0H7v2H5V0H3v4h2v10H2v-2z"></path></svg>
                     <Typography color={'primary'} sx={{ fontSize: '12px' }}>
                       {formatNumber(seasonPool * prizeDistribution[i])}

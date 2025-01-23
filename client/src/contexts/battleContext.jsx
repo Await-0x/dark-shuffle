@@ -115,6 +115,10 @@ export const BattleProvider = ({ children }) => {
   }
 
   const submitBattleActions = async () => {
+    if (game.values.replay) {
+      return
+    }
+
     setPendingTx(true)
 
     const res = await dojo.executeTx([{ contractName: "battle_systems", entrypoint: "battle_actions", calldata: [game.values.gameId, values.battleId, [...actions, [1]]] }], true)

@@ -87,8 +87,6 @@ function Hand() {
     return style
   }
 
-  console.log(replay.getPlayedCards(), hand)
-
   return (
     <Box sx={styles.hand}>
 

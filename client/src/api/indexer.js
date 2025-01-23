@@ -255,6 +255,31 @@ export async function getLeaderboard(seasonId, page) {
   }
 }
 
+export async function getActiveLeaderboard(seasonId, page) {
+  let pageSize = 10;
+
+  try {
+    const document = gql`
+    {
+      darkshuffleS0GameModels (where: {hero_healthGT: 0}, order:{field:HERO_XP, direction:DESC}, limit:${pageSize}, offset:${pageSize * page}) {
+        edges {
+          node {
+            game_id,
+            player_name,
+            hero_xp
+          }
+        }
+      }
+    }
+  `
+    const res = await request(dojoConfig.toriiUrl, document);
+
+    return res?.darkshuffleS0GameModels?.edges.map(edge => edge.node);
+  } catch (ex) {
+    console.log(ex)
+  }
+}
+
 export async function getDonations(seasonId, page) {
   let pageSize = 100;
 

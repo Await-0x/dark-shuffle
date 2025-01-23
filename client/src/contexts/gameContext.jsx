@@ -75,6 +75,10 @@ export const GameProvider = ({ children }) => {
   }
 
   const generateMap = async () => {
+    if (values.replay) {
+      return
+    }
+
     const res = await dojo.executeTx([{ contractName: "map_systems", entrypoint: "generate_tree", calldata: [values.gameId] }], true);
 
     if (res) {
