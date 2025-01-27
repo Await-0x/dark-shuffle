@@ -38,10 +38,27 @@ fn LCG(seed: u128) -> u128 {
     (a * seed + c) % m
 }
 
-fn get_random_card_id(seed: u128) -> u8 {
-    let card_number = (seed % 225 + 1).try_into().unwrap();
+fn get_random_card_id(seed: u128, include_spells: bool) -> u8 {
+    let range = if include_spells 270 else 225;
+    let card_number = (seed % range + 1).try_into().unwrap();
     
-    if card_number > 150 {
+    // Spells
+    if card_number > 225 {
+        if card_number > 255 {
+            (270 - card_number) / 5 + 88
+        } else if card_number > 243 {
+            (255 - card_number) / 4 + 85
+        } else if card_number > 234 {
+            (243 - card_number) / 3 + 82
+        } else if card_number > 228 {
+            (234 - card_number) / 2 + 79
+        } else {
+            (228 - card_number) + 76
+        }
+    }
+
+    // Creatures
+    else if card_number > 150 {
         (225 - card_number) / 5 + 61
     } else if card_number > 90 {
         (150 - card_number) / 4 + 46

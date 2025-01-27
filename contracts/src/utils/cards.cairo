@@ -978,6 +978,19 @@ impl CardUtilsImpl of CardUtilsTrait {
             };
         }
 
+        else if id == 76 {
+            return Card {
+                card_id: 76,
+                name: 'Dragon',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Spell,
+                cost: 5,
+                attack: 0,
+                health: 0,
+            };
+        }
+
         Card {
             card_id: 0,
             name: 'None',
