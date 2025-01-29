@@ -98,7 +98,7 @@ function GameTokens(props) {
         </Typography>
 
         <Typography color='primary' sx={{ color: '#f59100' }}>
-          {game.season ? 'Season' : ''}
+          {(game.season || !game.xp) ? 'Season' : ''}
         </Typography>
       </Box>
     </Box >
