@@ -11,6 +11,7 @@ trait IConfigContract<T> {
         max_health: u8,
         max_energy: u8,
         max_hand_size: u8,
+        include_spells: bool,
     );
 
     fn set_game_token_address(ref self: T, game_token_address: ContractAddress);
@@ -83,6 +84,7 @@ mod config_systems {
             max_health: u8,
             max_energy: u8,
             max_hand_size: u8,
+            include_spells: bool,
         ) {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
             
@@ -101,6 +103,7 @@ mod config_systems {
                 max_health,
                 max_energy,
                 max_hand_size,
+                include_spells,
             });
         }
 

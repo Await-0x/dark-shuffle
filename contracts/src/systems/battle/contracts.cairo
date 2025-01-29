@@ -16,6 +16,7 @@ mod battle_systems {
     use darkshuffle::utils::{
         achievements::AchievementsUtilsImpl,
         summon::SummonUtilsImpl,
+        spell::SpellUtilsImpl,
         cards::CardUtilsImpl,
         board::BoardUtilsImpl,
         battle::BattleUtilsImpl,
@@ -61,18 +62,29 @@ mod battle_systems {
                         let card: Card = CardUtilsImpl::get_card(*action.at(1));
                         BattleUtilsImpl::energy_cost(ref battle, round_stats, game_effects, card);
 
-                        if card.card_type == CardType::Creature {
-                            let creature: Creature = SummonUtilsImpl::summon_creature(
-                                card,
-                                ref battle,
-                                ref board,
-                                ref board_stats,
-                                ref round_stats,
-                                game_effects
-                            );
-                            BoardUtilsImpl::add_creature_to_board(creature, ref board, ref board_stats);
-                            if game.season_id != 0 {
-                                AchievementsUtilsImpl::play_creature(ref world, card);
+                        match card.card_type {
+                            CardType::Creature => {
+                                let creature: Creature = SummonUtilsImpl::summon_creature(
+                                    card,
+                                    ref battle,
+                                    ref board,
+                                    ref board_stats,
+                                    ref round_stats,
+                                    game_effects
+                                );
+                                BoardUtilsImpl::add_creature_to_board(creature, ref board, ref board_stats);
+                                if game.season_id != 0 {
+                                    AchievementsUtilsImpl::play_creature(ref world, card);
+                                }
+                            },
+                            
+                            CardType::Spell => {
+                                SpellUtilsImpl::cast_spell(
+                                    card,
+                                    ref battle,
+                                    ref board,
+                                    ref board_stats,
+                                );
                             }
                         }
 

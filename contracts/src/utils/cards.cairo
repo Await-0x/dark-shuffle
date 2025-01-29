@@ -981,11 +981,193 @@ impl CardUtilsImpl of CardUtilsTrait {
         else if id == 76 {
             return Card {
                 card_id: 76,
-                name: 'Dragon',
+                name: 'Warlocks Pact',
                 card_type: CardType::Spell,
                 card_tier: CardTier::T1,
                 creature_type: CreatureType::Spell,
+                cost: 1,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 77 {
+            return Card {
+                card_id: 77,
+                name: 'Dragons Breath',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Spell,
+                cost: 1,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 78 {
+            return Card {
+                card_id: 78,
+                name: 'Jiangshis Curse',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T1,
+                creature_type: CreatureType::Spell,
+                cost: 2,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 79 {
+            return Card {
+                card_id: 79,
+                name: 'Gorgons Gaze',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Spell,
+                cost: 2,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 80 {
+            return Card {
+                card_id: 80,
+                name: 'Titans Call',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Spell,
+                cost: 1,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 81 {
+            return Card {
+                card_id: 81,
+                name: 'Wendigos Frenzy',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T2,
+                creature_type: CreatureType::Spell,
+                cost: 2,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 82 {
+            return Card {
+                card_id: 82,
+                name: 'Giant Shoulders',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Spell,
+                cost: 2,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 83 {
+            return Card {
+                card_id: 83,
+                name: 'Werewolves Howl',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Spell,
+                cost: 4,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 84 {
+            return Card {
+                card_id: 84,
+                name: 'Vampires Bite',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T3,
+                creature_type: CreatureType::Spell,
                 cost: 5,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 85 {
+            return Card {
+                card_id: 85,
+                name: 'Wraiths Shadow',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Spell,
+                cost: 1,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 86 {
+            return Card {
+                card_id: 86,
+                name: 'Sprites Favor',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Spell,
+                cost: 5,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 87 {
+            return Card {
+                card_id: 87,
+                name: 'Kappas Gift',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T4,
+                creature_type: CreatureType::Spell,
+                cost: 2,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 88 {
+            return Card {
+                card_id: 88,
+                name: 'Ogres Strength',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Spell,
+                cost: 1,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 89 {
+            return Card {
+                card_id: 89,
+                name: 'Pixies Blessing',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Spell,
+                cost: 1,
+                attack: 0,
+                health: 0,
+            };
+        }
+
+        else if id == 90 {
+            return Card {
+                card_id: 90,
+                name: 'Bears Foot',
+                card_type: CardType::Spell,
+                card_tier: CardTier::T5,
+                creature_type: CreatureType::Spell,
+                cost: 1,
                 attack: 0,
                 health: 0,
             };

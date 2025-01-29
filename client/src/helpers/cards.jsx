@@ -1,8 +1,8 @@
 import { BruteIcon, HunterIcon, MagicalIcon } from "../assets/images/types/Icons";
 
-export const fetch_beast_image = (name) => {
+export const fetch_card_image = (name) => {
   try {
-    return new URL(`../assets/images/beasts/${name.toLowerCase()}.png`, import.meta.url).href
+    return new URL(`../assets/images/cards/${name.replace(" ", "_").toLowerCase()}.png`, import.meta.url).href
   } catch (ex) {
     return ""
   }
@@ -23,7 +23,8 @@ export const tags = {
   MAGICAL: 'Magical',
   HUNTER: 'Hunter',
   BRUTE: 'Brute',
-  ALL: 'All'
+  ALL: 'All',
+  SPELL: 'Spell'
 }
 
 export const fetchBoardCreatures = (data) => {
@@ -1110,6 +1111,216 @@ export const CARD_DETAILS = (cardId, id) => {
         health: 3,
         text: "On Attack: Deals 1 extra damage if there is another Brute ally in play"
       };
+
+    case 76:
+      return {
+        id,
+        cardId: 76,
+        name: "Warlock Pact",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 1,
+        cost: 1,
+        attack: 0,
+        health: 0,
+        text: "You gain 3 energy"
+      }
+
+    case 77:
+      return {
+        id,
+        cardId: 77,
+        name: "Dragon Breath",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 1,
+        cost: 1,
+        attack: 0,
+        health: 0,
+        text: "Deal 4 damage to the enemy. Double this damage if the enemy is a magical"
+      }
+
+    case 78:
+      return {
+        id,
+        cardId: 78,
+        name: "Jiangshi Curse",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 1,
+        cost: 2,
+        attack: 0,
+        health: 0,
+        text: "Marks the enemy to take 2 additional damage."
+      }
+
+    case 79:
+      return {
+        id,
+        cardId: 79,
+        name: "Gorgon Gaze",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 2,
+        cost: 2,
+        attack: 0,
+        health: 0,
+        text: "Reduce the enemy's attack by 1"
+      }
+
+    case 80:
+      return {
+        id,
+        cardId: 80,
+        name: "Titan Call",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 2,
+        cost: 1,
+        attack: 0,
+        health: 0,
+        text: "Your brutes gain +2 attack"
+      }
+
+    case 81:
+      return {
+        id,
+        cardId: 81,
+        name: "Wendigo Frenzy",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 2,
+        cost: 2,
+        attack: 0,
+        health: 0,
+        text: "Your creatures gain +2 attack"
+      }
+
+    case 82:
+      return {
+        id,
+        cardId: 82,
+        name: "Giant Shoulders",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 3,
+        cost: 2,
+        attack: 0,
+        health: 0,
+        text: "Heal your hero 1 for each Brute ally in play"
+      }
+
+    case 83:
+      return {
+        id,
+        cardId: 83,
+        name: "Werewolf Howl",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 3,
+        cost: 4,
+        attack: 0,
+        health: 0,
+        text: "Your Hunter creatures gain +3 attack and +3 health"
+      }
+
+    case 84:
+      return {
+        id,
+        cardId: 84,
+        name: "Vampire Bite",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 3,
+        cost: 5,
+        attack: 0,
+        health: 0,
+        text: "Deal 4 damage to the enemy and heal your hero for 4"
+      }
+
+    case 85:
+      return {
+        id,
+        cardId: 85,
+        name: "Wraith Shadow",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 4,
+        cost: 1,
+        attack: 0,
+        health: 0,
+        text: "Deal 4 damage to the enemy"
+      }
+
+    case 86:
+      return {
+        id,
+        cardId: 86,
+        name: "Sprite Favor",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 4,
+        cost: 5,
+        attack: 0,
+        health: 0,
+        text: "Restore 5 health to your hero"
+      }
+
+    case 87:
+      return {
+        id,
+        cardId: 87,
+        name: "Kappa Gift",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 4,
+        cost: 2,
+        attack: 0,
+        health: 0,
+        text: "Your creatures gain +2 health"
+      }
+
+    case 88:
+      return {
+        id,
+        cardId: 88,
+        name: "Orgre Strength",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 5,
+        cost: 1,
+        attack: 0,
+        health: 0,
+        text: "Your brutes gain +1 attack and +1 health"
+      }
+
+    case 89:
+      return {
+        id,
+        cardId: 89,
+        name: "Kitsune Blessing",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 5,
+        cost: 1,
+        attack: 0,
+        health: 0,
+        text: "Your magical creatures gain +1 attack and +1 health"
+      }
+
+    case 90:
+      return {
+        id,
+        cardId: 90,
+        name: "Bear Foot",
+        cardType: types.SPELL,
+        creatureType: tags.SPELL,
+        cardTier: 5,
+        cost: 1,
+        attack: 0,
+        health: 0,
+        text: "Your hunters gain +1 attack and +1 health"
+      }
 
     default:
       return {

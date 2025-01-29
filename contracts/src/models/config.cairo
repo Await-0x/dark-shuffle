@@ -21,6 +21,7 @@ pub struct GameSettings {
     max_health: u8,
     max_energy: u8,
     max_hand_size: u8,
+    include_spells: bool,
 }
 
 #[generate_trait]

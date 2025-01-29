@@ -19,12 +19,12 @@ impl BattleUtilsImpl of BattleUtilsTrait {
     fn energy_cost(ref battle: Battle, round_stats: RoundStats, game_effects: GameEffects, card: Card) {
         let mut cost = card.cost;
 
-        if round_stats.creatures_played == 0 && game_effects.first_cost > 0 {
-            if game_effects.first_cost >= cost {
+        if card.card_type == CardType::Creature && round_stats.creatures_played == 0 && game_effects.first_creature_cost > 0 {
+            if game_effects.first_creature_cost >= cost {
                 return;
             }
 
-            cost -= game_effects.first_cost;
+            cost -= game_effects.first_creature_cost;
         }
 
         assert(battle.hero.energy >= cost, 'Not enough energy');

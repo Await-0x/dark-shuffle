@@ -108,7 +108,7 @@ mod game_systems {
 
             let random_hash = random::get_random_hash();
             let seed: u128 = random::get_entropy(random_hash);
-            let options = DraftUtilsImpl::get_draft_options(seed); 
+            let options = DraftUtilsImpl::get_draft_options(seed, game_settings.include_spells); 
             let season_id = game_token.season_pass(game_id.into());
 
             world.write_model(@Game {

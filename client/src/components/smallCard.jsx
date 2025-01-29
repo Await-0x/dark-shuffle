@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import { isBrowser, isMobile } from 'react-device-detect';
 import sword from '../assets/images/sword.png';
-import { fetch_beast_image, types } from "../helpers/cards";
+import { fetch_card_image, types } from "../helpers/cards";
 
 function SmallCard(props) {
   const { card, showStats, cost, onHand, energy } = props
@@ -24,7 +24,7 @@ function SmallCard(props) {
     </Box>
 
     <Box sx={isBrowser ? styles.imageContainer : styles.imageContainerMobile}>
-      <img alt='' src={fetch_beast_image(card.name)} height={'100%'} />
+      <img alt='' src={fetch_card_image(card.name)} height={'100%'} />
     </Box>
 
     <Box sx={styles.bottomContainer}>

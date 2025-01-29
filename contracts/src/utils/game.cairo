@@ -104,7 +104,7 @@ impl GameUtilsImpl of GameUtilsTrait {
         }
 
         else if battle.monster.monster_id == 30 {
-            game_effects.first_cost += 1;
+            game_effects.first_creature_cost += 1;
         }
 
         else if battle.monster.monster_id == 55 {

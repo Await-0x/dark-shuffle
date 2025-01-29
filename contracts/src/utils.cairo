@@ -15,3 +15,4 @@ pub mod config;
 pub mod trophies;
 pub mod tasks;
 pub mod achievements;
+pub mod spell;

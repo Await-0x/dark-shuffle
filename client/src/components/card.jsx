@@ -5,7 +5,7 @@ import React from "react";
 import { isMobile } from 'react-device-detect';
 import bolt from "../assets/images/bolt.png";
 import sword from '../assets/images/sword.png';
-import { fetch_beast_image, types } from "../helpers/cards";
+import { fetch_card_image, types } from "../helpers/cards";
 import { tierColors } from '../helpers/constants';
 
 function Card(props) {
@@ -32,7 +32,7 @@ function Card(props) {
     </Box>
 
     <Box sx={styles.imageContainer}>
-      <img alt='' src={fetch_beast_image(card.name)} height={'100%'} />
+      <img alt='' src={fetch_card_image(card.name)} height={'100%'} />
     </Box>
 
     <Box sx={styles.textContainer} p={isMobile ? '2px' : '4px'}>

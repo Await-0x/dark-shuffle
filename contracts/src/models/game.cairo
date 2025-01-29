@@ -32,7 +32,7 @@ pub struct GameEffects {
     game_id: u128,
     first_attack: u8,
     first_health: u8,
-    first_cost: u8,
+    first_creature_cost: u8,
     all_attack: u8,
     hunter_attack: u8,
     hunter_health: u8,
