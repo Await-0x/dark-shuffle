@@ -13,8 +13,6 @@ pub struct Game {
     #[key]
     game_id: u128,
     season_id: u32,
-    player_name: felt252,
-    state: GameState,
 
     hero_health: u8,
     hero_xp: u16,
@@ -25,6 +23,8 @@ pub struct Game {
     last_node_id: u8,
 
     action_count: u16
+    state: GameState,
+    player_name: felt252,
 }
 
 #[derive(Copy, Drop, Serde)]

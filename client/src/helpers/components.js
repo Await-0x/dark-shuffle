@@ -17,16 +17,18 @@ export const components = {
   'Game': {
     gameId: Number(),
     seasonId: Number(),
-    player_name: String(),
-    state: Number(),
-
+    
     heroHealth: Number(),
     heroXp: Number(),
     monstersSlain: Number(),
-
+    
     mapLevel: Number(),
     mapDepth: Number(),
     lastNodeId: Number(),
+
+    actionCount: Number(),
+    state: Number(),
+    player_name: String(),
   },
   'GameEffects': {
     gameId: Number(),
