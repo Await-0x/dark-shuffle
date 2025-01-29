@@ -6,11 +6,12 @@ trait IMapContract<T> {
 
 #[dojo::contract]
 mod map_systems {
+    use dojo::event::EventStorage;
     use dojo::model::ModelStorage;
     use dojo::world::WorldStorage;
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
-    use darkshuffle::models::game::{Game, GameOwnerTrait};
+    use darkshuffle::models::game::{Game, GameOwnerTrait, GameActionEvent};
     use darkshuffle::models::map::{Map, MonsterNode};
     use darkshuffle::utils::{
         random,
@@ -35,6 +36,7 @@ mod map_systems {
             game.map_level += 1;
             game.map_depth = 1;
             game.last_node_id = 0;
+            game.action_count += 1;
 
             world.write_model(@Map {
                 game_id,
@@ -43,6 +45,7 @@ mod map_systems {
             });
 
             world.write_model(@game);
+            world.emit_event(@GameActionEvent {game_id, tx_hash: starknet::get_tx_info().unbox().transaction_hash, count: game.action_count});
 
             // [Achievement] Complete a map
             if game.season_id != 0 && game.map_level > 1 {
@@ -72,7 +75,10 @@ mod map_systems {
 
             MapUtilsImpl::start_battle(ref world, ref game, monster_node, seed);
 
+            game.action_count += 1;
+
             world.write_model(@game);
+            world.emit_event(@GameActionEvent {game_id, tx_hash: starknet::get_tx_info().unbox().transaction_hash, count: game.action_count});
         }
     }
 }

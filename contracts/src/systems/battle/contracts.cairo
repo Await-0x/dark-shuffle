@@ -5,13 +5,14 @@ trait IBattleContract<T> {
 
 #[dojo::contract]
 mod battle_systems {
+    use dojo::event::EventStorage;
     use dojo::model::ModelStorage;
     use dojo::world::WorldStorage;
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use darkshuffle::constants::{DEFAULT_NS};
     use darkshuffle::models::battle::{Battle, BattleOwnerTrait, Card, Creature, Board, BoardStats, CardType, RoundStats};
-    use darkshuffle::models::game::{Game, GameEffects};
+    use darkshuffle::models::game::{Game, GameEffects, GameActionEvent};
     use darkshuffle::models::config::GameSettings;
     use darkshuffle::utils::{
         achievements::AchievementsUtilsImpl,
@@ -114,6 +115,8 @@ mod battle_systems {
                 action_index += 1;
             };
 
+            world.emit_event(@GameActionEvent {game_id, tx_hash: starknet::get_tx_info().unbox().transaction_hash, count: game.action_count + battle.round.into()});
+        
             let random_hash = random::get_random_hash();
             let seed: u128 = random::get_entropy(random_hash);
 

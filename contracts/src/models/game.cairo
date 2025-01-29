@@ -23,6 +23,8 @@ pub struct Game {
     map_level: u8,
     map_depth: u8,
     last_node_id: u8,
+
+    action_count: u16
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -90,4 +92,13 @@ impl GameOwnerImpl of GameOwnerTrait {
     fn exists(self: Game) -> bool {
         self.hero_xp.is_non_zero()
     }
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event(historical: true)]
+pub struct GameActionEvent {
+    #[key]
+    tx_hash: felt252,
+    game_id: u128,
+    count: u16
 }

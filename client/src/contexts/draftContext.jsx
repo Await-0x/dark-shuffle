@@ -73,6 +73,10 @@ export const DraftProvider = ({ children }) => {
   }
 
   const selectCard = async (optionId) => {
+    if (game.values.replay) {
+      return
+    }
+
     setPendingCard(optionId)
 
     if (game.values.isDemo) {
@@ -99,8 +103,8 @@ export const DraftProvider = ({ children }) => {
   const fetchDraft = async (gameId) => {
     let data = await getDraft(gameId);
 
-    setCards(data.cards.map(card => CARD_DETAILS(card)))
-    setOptions(data.options.map(option => CARD_DETAILS(option)))
+    setCards(data.cards.map(card => CARD_DETAILS(card)));
+    setOptions(data.options.map(option => CARD_DETAILS(option)));
   }
 
   return (
@@ -110,6 +114,11 @@ export const DraftProvider = ({ children }) => {
           startDraft,
           selectCard,
           fetchDraft
+        },
+
+        update: {
+          setOptions,
+          setCards
         },
 
         getState: {

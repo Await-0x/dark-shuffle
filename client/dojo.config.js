@@ -1,4 +1,4 @@
-import manifest from "./manifest_mainnet.json";
+import manifest from "./manifest_sepolia.json";
 
 const {
   VITE_PUBLIC_NODE_URL,
@@ -15,7 +15,7 @@ const {
 } = import.meta.env;
 
 export const dojoConfig = {
-  seasonId: 7,
+  seasonId: 3,
   version: "0.4.6",
   namespace: VITE_PUBLIC_NAMESPACE,
   rpcUrl: VITE_PUBLIC_NODE_URL,

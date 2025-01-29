@@ -21,9 +21,14 @@ import Leaderboard from './leaderboard'
 import Monsters from './monsters'
 import { DojoContext } from '../../contexts/dojoContext'
 import StartSeason from '../dialogs/startSeason'
+import { useReplay } from '../../contexts/replayContext'
+import { useEffect } from 'react'
+import LoadingReplayDialog from '../dialogs/loadingReplay'
 
 function StartDraft() {
   const season = useSeason()
+  const replay = useReplay()
+
   const { address } = useAccount()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -117,6 +122,8 @@ function StartDraft() {
         mapLevel: data.map_level,
         mapDepth: data.map_depth,
         lastNodeId: data.last_node_id,
+
+        replay: Boolean(replay.spectatingGameId)
       })
 
       setReconnecting(false)
@@ -128,6 +135,12 @@ function StartDraft() {
   }
 
   let currentTime = Date.now() / 1000
+
+  useEffect(() => {
+    if (replay.spectatingGameId) {
+      resumeGame(replay.spectatingGameId)
+    }
+  }, [replay.spectatingGameId])
 
   return (
     <>
@@ -322,6 +335,7 @@ function StartDraft() {
       {status && <StartGameDialog status={status} isSeason={showWarnings} />}
       {gamesDialog && <GameTokens open={gamesDialog} close={openGamesDialog} address={address} resumeGame={resumeGame} startGame={startGame} />}
       {reconnecting && <ReconnectDialog close={() => setReconnecting(false)} />}
+      {(replay.loadingReplay && !replay.translatedEvents[0]) && <LoadingReplayDialog close={() => replay.endReplay()} />}
     </>
   )
 }

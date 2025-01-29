@@ -20,6 +20,10 @@ function ProfileMenu(props) {
   const game = useContext(GameContext)
 
   const abandonGame = async () => {
+    if (game.values.replay) {
+      return
+    }
+
     await dojo.executeTx([{
       contractName: "game_systems",
       entrypoint: "abandon_game",
