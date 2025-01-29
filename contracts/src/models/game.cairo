@@ -22,7 +22,7 @@ pub struct Game {
     map_depth: u8,
     last_node_id: u8,
 
-    action_count: u16
+    action_count: u16,
     state: GameState,
     player_name: felt252,
 }

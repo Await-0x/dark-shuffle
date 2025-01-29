@@ -172,7 +172,7 @@ function StartDraft() {
 
           <Box sx={[styles.kpi, { width: '100%', height: '90px', mb: 1 }]}>
             <Typography>
-              {season.values.end > currentTime ? `Season 0 ${season.values.start > currentTime ? 'begins in' : 'ends in'}` : 'Season 0'}
+              {season.values.end > currentTime ? `Season 1 ${season.values.start > currentTime ? 'begins in' : 'ends in'}` : 'Season 1'}
             </Typography>
             <Typography variant='h5' color='primary'>
               {season.values.start > currentTime ? `${formatTimeUntil(season.values.start)}` : (season.values.end > currentTime ? `${formatTimeUntil(season.values.end)}` : 'Finished')}
@@ -180,7 +180,7 @@ function StartDraft() {
           </Box>
 
           <Typography variant='h3' textAlign={'center'}>
-            Season 0: New beginnings
+            Season 1: New beginnings
           </Typography>
 
           <LoadingButton variant='outlined'
@@ -235,7 +235,7 @@ function StartDraft() {
             <Box display='flex' gap={2}>
               <Box sx={[styles.kpi]}>
                 <Typography>
-                  {season.values.end > currentTime ? `Season 0 ${season.values.start > currentTime ? 'begins in' : 'ends in'}` : 'Season 0'}
+                  {season.values.end > currentTime ? `Season 1 ${season.values.start > currentTime ? 'begins in' : 'ends in'}` : 'Season 1'}
                 </Typography>
                 {season.values.start ? <Typography variant='h5' color='primary'>
                   {season.values.start > currentTime ? `${formatTimeUntil(season.values.start)}` : (season.values.end > currentTime ? `${formatTimeUntil(season.values.end)}` : 'Finished')}
@@ -270,7 +270,7 @@ function StartDraft() {
 
             <Box sx={{ maxWidth: '800px' }}>
               <Typography variant='h3'>
-                Season 0: New beginnings
+                Season 1: Spellbound
               </Typography>
 
               <ul style={{ paddingLeft: '16px', color: '#FFE97F' }}>

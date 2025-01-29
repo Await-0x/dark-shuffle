@@ -15,8 +15,8 @@ const {
 } = import.meta.env;
 
 export const dojoConfig = {
-  seasonId: 3,
-  version: "0.4.6",
+  seasonId: 5,
+  version: "1.1",
   namespace: VITE_PUBLIC_NAMESPACE,
   rpcUrl: VITE_PUBLIC_NODE_URL,
   toriiUrl: VITE_PUBLIC_TORII,
