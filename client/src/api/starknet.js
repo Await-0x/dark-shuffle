@@ -52,15 +52,47 @@ export const fetchDarkShuffleGameTokens = async (player_address, limit, page, ac
       games.push({
         id: parseInt(game[0], 16),
         season: parseInt(game[1], 16),
-        player_name: hexToAscii(game[2]),
-        state: parseInt(game[3], 16),
-        hp: parseInt(game[4], 16),
-        xp: parseInt(game[5], 16),
+        hp: parseInt(game[2], 16),
+        xp: parseInt(game[3], 16),
+        state: parseInt(game[9], 16),
+        player_name: "test",
       });
     }
 
     console.log('games', games)
     return games
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchGameSettings = async (game_id) => {
+  try {
+    const settings_response = await fetch(dojoConfig.rpcUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        method: "starknet_call",
+        params: [
+          {
+            contract_address: getContractByName(dojoConfig.manifest, dojoConfig.namespace, "game_systems")?.address,
+            entry_point_selector: "0x13237784c922d0ad2a5c12f4c37d461e65eacc9e208fe81986b1fef6cb916a",
+            calldata: [game_id],
+          },
+          "pending",
+        ],
+        id: 0,
+      }),
+    });
+
+    const data = await settings_response.json();
+
+    console.log('data', data)
+
+    return data
   } catch (error) {
     console.log(error);
   }

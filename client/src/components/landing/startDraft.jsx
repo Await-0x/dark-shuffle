@@ -24,6 +24,7 @@ import StartSeason from '../dialogs/startSeason'
 import { useReplay } from '../../contexts/replayContext'
 import { useEffect } from 'react'
 import LoadingReplayDialog from '../dialogs/loadingReplay'
+import { fetchGameSettings } from '../../api/starknet'
 
 function StartDraft() {
   const season = useSeason()
@@ -66,6 +67,10 @@ function StartDraft() {
 
     try {
       let data = await getActiveGame(game_id)
+      let settings = await fetchGameSettings(game_id)
+
+      gameState.setGameSettings(settings)
+
       await draft.actions.fetchDraft(data.game_id)
 
       if (data.state !== 'Draft') {

@@ -7,6 +7,7 @@ import { DojoContext } from "./dojoContext";
 import { GameContext } from "./gameContext";
 import { useSeason } from "./seasonContext";
 import { delay } from "../helpers/utilities";
+import { fetchGameSettings } from "../api/starknet";
 
 export const DraftContext = createContext()
 
@@ -66,6 +67,13 @@ export const DraftProvider = ({ children }) => {
     if (res) {
       const gameValues = res.find(e => e.componentName === 'Game')
       const draftValues = res.find(e => e.componentName === 'Draft')
+
+      if (isSeason) {
+        game.setGameSettings(season.settings)
+      } else {
+        let settings = await fetchGameSettings(gameId)
+        game.setGameSettings(settings)
+      }
 
       game.setGame(gameValues)
       setOptions(draftValues.options.map(option => CARD_DETAILS(option)))

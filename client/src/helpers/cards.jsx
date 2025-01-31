@@ -34,7 +34,7 @@ export const fetchBoardCreatures = (data) => {
 }
 
 export const fetchCardList = () => {
-  return Array(74).fill(0).map((_, i) => {
+  return Array(89).fill(0).map((_, i) => {
     return CARD_DETAILS(i + 1, i + 1)
   })
 }

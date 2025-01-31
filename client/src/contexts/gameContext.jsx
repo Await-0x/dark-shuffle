@@ -29,10 +29,6 @@ export const GameProvider = ({ children }) => {
   const [map, setMap] = useState(null)
   const [score, setScore] = useState()
 
-  useEffect(() => {
-    setGameSettings(season.settings)
-  }, [season.settings])
-
   const setGame = (values) => {
     if (!isNaN(values.state || 0)) {
       values.state = GAME_STATES[values.state]
@@ -44,6 +40,7 @@ export const GameProvider = ({ children }) => {
   const endGame = () => {
     setValues({ ...GAME_VALUES })
     setGameEffects({})
+    setGameSettings({})
     setMap(null)
     setScore()
   }

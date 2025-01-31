@@ -10,7 +10,7 @@ import { tierColors } from '../helpers/constants';
 
 function Card(props) {
   const { card, pendingCard, draftIndex, replaySelection } = props
-  
+
   return <Box sx={[
     styles.container,
     { opacity: (pendingCard >= 0 && pendingCard !== draftIndex) ? 0.3 : 1 },
@@ -40,10 +40,14 @@ function Card(props) {
     </Box>
 
     <Box sx={styles.textContainer} p={isMobile ? '2px' : '4px'}>
-      <Typography sx={{ opacity: 1 }} textAlign={'center'} fontSize={isMobile ? '12px' : '13px'}>
+      {card.cardType === types.CREATURE && <Typography sx={{ opacity: 1, width: '100%' }} textAlign={'center'} fontSize={isMobile ? '12px' : '13px'}>
         <span>{card.text.split(':')[0]}:</span>
         <span style={{ opacity: 0.7, fontSize: '13px' }}>{card.text.split(':')[1]}</span>
-      </Typography>
+      </Typography>}
+
+      {card.cardType === types.SPELL && <Typography sx={{ opacity: 1, width: '100%' }} textAlign={'center'} fontSize={isMobile ? '12px' : '13px'}>
+        {card.text}
+      </Typography>}
     </Box>
 
     {card.cardType === types.CREATURE && <Box sx={styles.bottomContainer}>
@@ -73,7 +77,10 @@ function Card(props) {
       </Box>
     </Box>}
 
-    {card.cardType === types.SPELL && <Box sx={styles.bottomContainer}>
+    {card.cardType === types.SPELL && <Box sx={[styles.bottomContainer, { justifyContent: 'center' }]}>
+      <Typography variant="subtitle1" fontSize={isMobile ? '13px' : '15px'}>
+        Spell
+      </Typography>
     </Box>}
 
   </Box >

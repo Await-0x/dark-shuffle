@@ -1962,7 +1962,7 @@
     },
     {
       "address": "0x6f6fc8da71f29d0a016bb96ce48a83d7d102a2cfed38a549af653e31f5ec4ee",
-      "class_hash": "0x2f8c10bf02cb0b82a156d96499720228f46d894e30a2a86f9c46b032865511",
+      "class_hash": "0x34339ae370c032e3e165fbc7fef5fa50aca5051f7ddeb979089d7b04f784ad",
       "abi": [
         {
           "type": "impl",
@@ -2285,6 +2285,22 @@
               "outputs": [
                 {
                   "type": "core::bool"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "get_game_settings",
+              "inputs": [
+                {
+                  "name": "game_id",
+                  "type": "core::integer::u128"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "darkshuffle::models::config::GameSettings"
                 }
               ],
               "state_mutability": "view"

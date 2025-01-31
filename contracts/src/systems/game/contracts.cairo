@@ -12,6 +12,7 @@ trait IGameContract<T> {
     fn score(self: @T, game_id: u128) -> u16;
     fn get_settings(self: @T, settings_id: u32) -> GameSettings;
     fn settings_exists(self: @T, settings_id: u32) -> bool;
+    fn get_game_settings(self: @T, game_id: u128) -> GameSettings;
     fn get_game_data(self: @T, token_id: u128) -> (felt252, u8, u16, u32, u8, Span<felt252>);
     fn get_player_games(self: @T, player_address: ContractAddress, limit: u256, page: u256, active: bool) -> Span<Game>;
 }
@@ -173,6 +174,16 @@ mod game_systems {
             let world: WorldStorage = self.world(DEFAULT_NS());
             let settings: GameSettings = world.read_model(settings_id);
             settings.exists()
+        }
+
+        fn get_game_settings(self: @ContractState, game_id: u128) -> GameSettings {
+            let world: WorldStorage = self.world(DEFAULT_NS());
+
+            let world_config: WorldConfig = world.read_model(WORLD_CONFIG_ID);
+            let game_token = IGameTokenDispatcher { contract_address: world_config.game_token_address };
+            let game_settings: GameSettings = world.read_model(game_token.settings_id(game_id.into()));
+
+            game_settings
         }
 
         fn get_game_data(self: @ContractState, token_id: u128) -> (felt252, u8, u16, u32, u8, Span<felt252>) {
