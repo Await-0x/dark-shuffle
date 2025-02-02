@@ -24,3 +24,7 @@ const LCG_PRIME: u128 = 281474976710656;
 fn DEFAULT_NS() -> @ByteArray {
     @"darkshuffle_s1"
 }
+
+fn DEFAULT_NS_STR() -> ByteArray {
+    "darkshuffle_s1"
+}

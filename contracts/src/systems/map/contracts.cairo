@@ -1,5 +1,5 @@
 #[starknet::interface]
-trait IMapContract<T> {
+trait IMapSystems<T> {
     fn generate_tree(ref self: T, game_id: u128);
     fn select_node(ref self: T, game_id: u128, node_id: u8);
 }
@@ -22,7 +22,7 @@ mod map_systems {
     use darkshuffle::utils::tasks::index::{Task, TaskTrait};
 
     #[abi(embed_v0)]
-    impl MapContractImpl of super::IMapContract<ContractState> {
+    impl MapSystemsImpl of super::IMapSystems<ContractState> {
         fn generate_tree(ref self: ContractState, game_id: u128) {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 

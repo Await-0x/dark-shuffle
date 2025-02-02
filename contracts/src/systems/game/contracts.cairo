@@ -3,7 +3,7 @@ use darkshuffle::models::game::{Game};
 use starknet::ContractAddress;
 
 #[starknet::interface]
-trait IGameContract<T> {
+trait IGameSystems<T> {
     fn mint(ref self: T, settings_id: u32);
     fn enter_season(ref self: T, game_id: u128, season_id: u32);
     fn start_game(ref self: T, game_id: u128, name: felt252);
@@ -45,7 +45,7 @@ mod game_systems {
     use darkshuffle::utils::tasks::index::{Task, TaskTrait};
 
     #[abi(embed_v0)]
-    impl GameContractImpl of super::IGameContract<ContractState> {
+    impl GameSystemsImpl of super::IGameSystems<ContractState> {
         fn mint(ref self: ContractState, settings_id: u32) {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 

@@ -1,5 +1,5 @@
 #[starknet::interface]
-trait ISeasonContract<T> {
+trait ISeasonSystems<T> {
     fn start_season(ref self: T, start_time: u64, duration: u64, entry_amount: u256, settings_id: u32);
     fn end_season(ref self: T, season_id: usize);
     fn donate_season(ref self: T, season_id: usize, amount: u32, name: felt252, social: felt252);
@@ -29,7 +29,7 @@ mod season_systems {
     use darkshuffle::utils::tasks::index::{Task, TaskTrait};
 
     #[abi(embed_v0)]
-    impl SeasonContractImpl of super::ISeasonContract<ContractState> {
+    impl SeasonSystemsImpl of super::ISeasonSystems<ContractState> {
         fn start_season(ref self: ContractState, start_time: u64, duration: u64, entry_amount: u256, settings_id: u32) {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 

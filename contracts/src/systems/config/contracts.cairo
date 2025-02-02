@@ -1,7 +1,7 @@
 use starknet::ContractAddress;
 
 #[starknet::interface]
-trait IConfigContract<T> {
+trait IConfigSystems<T> {
     fn create_game_settings(
         ref self: T, 
         start_health: u8,
@@ -74,7 +74,7 @@ mod config_systems {
     }
 
     #[abi(embed_v0)]
-    impl ConfigContractImpl of super::IConfigContract<ContractState> {
+    impl ConfigSystemsImpl of super::IConfigSystems<ContractState> {
         fn create_game_settings(
             ref self: ContractState, 
             start_health: u8,

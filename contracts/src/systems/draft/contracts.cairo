@@ -1,5 +1,5 @@
 #[starknet::interface]
-trait IDraftContract<T> {
+trait IDraftSystems<T> {
     fn pick_card(ref self: T, game_id: u128, option_id: u8);
 }
 
@@ -21,7 +21,7 @@ mod draft_systems {
     use darkshuffle::constants::{DEFAULT_NS};
 
     #[abi(embed_v0)]
-    impl DraftContractImpl of super::IDraftContract<ContractState> {
+    impl DraftSystemsImpl of super::IDraftSystems<ContractState> {
         fn pick_card(ref self: ContractState, game_id: u128, option_id: u8) {
             let mut world: WorldStorage = self.world(DEFAULT_NS());
 

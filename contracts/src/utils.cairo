@@ -16,3 +16,5 @@ pub mod trophies;
 pub mod tasks;
 pub mod achievements;
 pub mod spell;
+#[cfg(test)]
+pub mod testing;

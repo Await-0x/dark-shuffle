@@ -1,5 +1,5 @@
 #[starknet::interface]
-trait IBattleContract<T> {
+trait IBattleSystems<T> {
     fn battle_actions(ref self: T, game_id: u128, battle_id: u16, actions: Span<Span<u8>>);
 }
 
@@ -32,7 +32,7 @@ mod battle_systems {
     use darkshuffle::utils::tasks::index::{Task, TaskTrait};
 
     #[abi(embed_v0)]
-    impl BattleContractImpl of super::IBattleContract<ContractState> {
+    impl BattleSystemsImpl of super::IBattleSystems<ContractState> {
         fn battle_actions(ref self: ContractState, game_id: u128, battle_id: u16, actions: Span<Span<u8>>) {
             assert(*(*actions.at(actions.len() - 1)).at(0) == 1, 'Must end turn');
 

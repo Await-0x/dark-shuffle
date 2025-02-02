@@ -9,6 +9,8 @@ pub mod battle {
 }
 pub mod map {
     pub mod contracts;
+    #[cfg(test)]
+    pub mod tests;
 }
 pub mod season {
     pub mod contracts;
